@@ -63,7 +63,7 @@ def save_test_file(src_dir, tests_dir, original_path: Path, test_code: str):
     test_path = Path(tests_dir) / relative_path
     test_path = test_path.with_name(f"test_{test_path.name}")
     test_path.parent.mkdir(parents=True, exist_ok=True)
-    # test_path.write_text(test_code, encoding="utf-8")
+    test_path.write_text(test_code, encoding="utf-8")
     print(f"✅ Generated test: {test_path}")
 
 def clean_test_code(code: str) -> str:
