@@ -55,7 +55,8 @@ def generate_unit_tests(model, code: str, file_path: str) -> str:
         messages=[{"role": "user", "content": prompt}],
         temperature=0.2,
     )
-    return response.choices[0].message.content.strip()
+    # return response.choices[0].message.content.strip()
+    return "Hello world"
 
 def save_test_file(src_dir, tests_dir, original_path: Path, test_code: str):
     relative_path = original_path.relative_to(src_dir)
