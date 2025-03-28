@@ -55,9 +55,8 @@ def generate_unit_tests(model, code: str, file_path: str) -> str:
         messages=[{"role": "user", "content": prompt}],
         temperature=0.2,
     )
-    # return response.choices[0].message.content.strip()
-    utf8_bytes = response.choices[0].message.content.strip().encode("utf-8")
-    return utf8_bytes
+    
+    return response.choices[0].message.content.strip().encode("utf-8")
 
 def save_test_file(src_dir, tests_dir, original_path: Path, test_code: str):
     relative_path = original_path.relative_to(src_dir)
@@ -93,12 +92,15 @@ def main():
             continue
         logging.info(f"🧠 Generating tests for {file_path}...")
         try:
+            logging.info("Hello World 0")
             test_code = generate_unit_tests(
                 model=env_vars["model"], 
                 code=code, 
                 file_path=str(file_path)
             )
+            logging.info("Hello World 1")
             save_test_file(env_vars['src_dir'], env_vars['tests_dir'], file_path, test_code)
+            print("Hello World 2")
         except Exception as e:
             logging.error(f"❌ Failed to generate test for {file_path}: {e}")
 

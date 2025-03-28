@@ -13,3 +13,4 @@ pre-commit install
 uv run generate_tests.py
 PYTHONPATH=. uv run pytest -v tests/test_ConvertFtToMeters.py
 
+ uv run pre-commit run generate-tests --all-files
