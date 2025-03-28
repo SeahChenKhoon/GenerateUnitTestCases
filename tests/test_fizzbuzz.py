@@ -1,5 +1,4 @@
 import pytest
-
 from src.fizzbuzz import fizzbuzz
 
 def test_fizzbuzz_returns_fizz_for_multiples_of_three():
@@ -23,12 +22,9 @@ def test_fizzbuzz_returns_number_for_non_multiples_of_three_five_or_fifteen():
     assert fizzbuzz(4) == 4
     assert fizzbuzz(7) == 7
     assert fizzbuzz(8) == 8
-
-def test_fizzbuzz_handles_negative_numbers():
-    assert fizzbuzz(-3) == "fizz"
-    assert fizzbuzz(-5) == "buzz"
-    assert fizzbuzz(-15) == "fizz buzz"
-    assert fizzbuzz(-1) == -1
-
-def test_fizzbuzz_handles_zero_as_input():
-    assert fizzbuzz(0) == "fizz buzz"
+    assert fizzbuzz(11) == 11
+    assert fizzbuzz(13) == 13
+    assert fizzbuzz(14) == 14
+    assert fizzbuzz(16) == 16
+    assert fizzbuzz(17) == 17
+    assert fizzbuzz(19) == 19

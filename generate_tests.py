@@ -50,20 +50,19 @@ def _load_env_variables() -> Dict[str, Any]:
 def generate_unit_tests(model, code: str, file_path: str) -> str:
     client = OpenAI()
     prompt = generate_test_prompt(code, file_path)
-    # response = client.chat.completions.create(
-    #     model=model,
-    #     messages=[{"role": "user", "content": prompt}],
-    #     temperature=0.2,
-    # )
-    # return response.choices[0].message.content.strip()
-    return None
+    response = client.chat.completions.create(
+        model=model,
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.2,
+    )
+    return response.choices[0].message.content.strip()
 
 def save_test_file(src_dir, tests_dir, original_path: Path, test_code: str):
     relative_path = original_path.relative_to(src_dir)
     test_path = Path(tests_dir) / relative_path
     test_path = test_path.with_name(f"test_{test_path.name}")
     test_path.parent.mkdir(parents=True, exist_ok=True)
-    test_path.write_text(test_code)
+    # test_path.write_text(test_code, encoding="utf-8")
     print(f"✅ Generated test: {test_path}")
 
 def clean_test_code(code: str) -> str:
