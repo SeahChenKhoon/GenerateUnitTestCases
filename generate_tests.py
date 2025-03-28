@@ -97,7 +97,7 @@ def main():
                 code=code, 
                 file_path=str(file_path)
             )
-            # save_test_file(env_vars['src_dir'], env_vars['tests_dir'], file_path, test_code)
+            save_test_file(env_vars['src_dir'], env_vars['tests_dir'], file_path, test_code)
         except Exception as e:
             logging.error(f"❌ Failed to generate test for {file_path}: {e}")
 
