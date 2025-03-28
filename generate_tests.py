@@ -56,7 +56,8 @@ def generate_unit_tests(model, code: str, file_path: str) -> str:
         temperature=0.2,
     )
     # return response.choices[0].message.content.strip()
-    return "Hello world"
+    utf8_bytes = response.choices[0].message.content.strip().encode("utf-8")
+    return utf8_bytes
 
 def save_test_file(src_dir, tests_dir, original_path: Path, test_code: str):
     relative_path = original_path.relative_to(src_dir)
