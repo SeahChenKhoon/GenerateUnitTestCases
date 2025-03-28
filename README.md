@@ -7,6 +7,7 @@ C:/Users/User/AppData/Local/Programs/Python/Python313/python.exe -m venv .venv
 source .\\.venv\\Scripts\\activate
 uv pip install -r requirements.txt
 uv run ./src/rag_document_retrieval.py
+pre-commit install
 ```
 
 uv run generate_tests.py
