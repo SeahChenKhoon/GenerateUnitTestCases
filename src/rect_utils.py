@@ -1,11 +1,9 @@
 def rect_area(length: float, width: float) -> float:
     """
     Calculates the area of a rectangle.
-
     Args:
         length (float): The length of the rectangle.
         width (float): The width of the rectangle.
-
     Returns:
         float: The area of the rectangle.
     """
