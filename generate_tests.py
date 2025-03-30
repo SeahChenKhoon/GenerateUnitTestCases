@@ -98,7 +98,7 @@ def generate_unit_tests(model_name: str, code: str, file_path: str) -> str:
     Returns:
         str: The generated test code as a UTF-8 string.
     """
-    # client = OpenAI()
+    client = OpenAI()
     prompt = generate_test_prompt(code, file_path)
     response = client.chat.completions.create(
         model=model_name,
