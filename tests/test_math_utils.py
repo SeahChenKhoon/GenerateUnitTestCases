@@ -1,8 +1,6 @@
 # No imports found in original file
 from src.math_utils import factorial, is_prime
 
-import pytest
-
 def test_factorial_of_zero():
     assert factorial(0) == 1
 
@@ -13,6 +11,7 @@ def test_factorial_of_positive_integer():
     assert factorial(5) == 120
 
 def test_factorial_raises_value_error_on_negative_input():
+    import pytest
     with pytest.raises(ValueError):
         factorial(-1)
 
