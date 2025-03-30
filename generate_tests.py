@@ -52,20 +52,16 @@ def generate_test_prompt(file_content: str, file_path: str) -> str:
         - Use mock objects when needed.
         - Use meaningful test function names.
         - Do not include any explanations.
-        - Include the import statement: `{import_hint}`
+        - Include the import statement: `{import_section}` and `{import_hint}`
         - Exclude any ```python code fences```.
 
         Source file: {file_path}
-
-        These are the original import statements:
-        {import_section}
 
         Python code:
         \"\"\"
         {file_content}
         \"\"\"
         """
-    print(f"Prompt: {prompt}")
     return prompt
 
 def _load_env_variables() -> Dict[str, Any]:
@@ -105,26 +101,27 @@ def generate_unit_tests(model_name: str, code: str, file_path: str) -> str:
         messages=[{"role": "user", "content": prompt}],
         temperature=0.2,
     )
-    return response.choices[0].message.content.strip().encode("utf-8")
+    return response.choices[0].message.content.strip()
 
 
-def save_test_file(src_dir: Path, tests_dir: Path, original_path: Path, test_code: str) -> None:
+def save_test_file(src_dir: Path, test_dir: Path, original_path: Path, test_code: str) -> None:
     """
     Saves the generated test code to the appropriate location in the tests directory.
 
     Args:
         src_dir (Path): The root source directory.
-        tests_dir (Path): The root tests directory where test files are saved.
+        test_dir (Path): The root tests directory where test files are saved.
         original_path (Path): The path to the original source file.
         test_code (str): The generated test code as a string.
     """
-    relative_path = original_path.relative_to(src_dir)
-    test_path = tests_dir / relative_path
-    test_path = test_path.with_name(f"test_{test_path.name}")
-    test_path.parent.mkdir(parents=True, exist_ok=True)
-    test_path.write_text(test_code, encoding="utf-8")
-    print(f"✅ Generated test: {test_path}")
-
+    try:
+        relative_path = original_path.relative_to(src_dir)
+        test_path = test_dir / relative_path
+        test_path = test_path.with_name(f"test_{test_path.name}")
+        test_path.parent.mkdir(parents=True, exist_ok=True)
+        test_path.write_text(test_code, encoding="utf-8")
+    except Exception as e:
+        print(f"❌ Failed to save test for {original_path}: {e}")
 
 def clean_test_code(code: str) -> str:
     """
@@ -170,23 +167,18 @@ def main() -> NoReturn:
             continue
 
         logger.info(f"🧠 Generating tests for {file_path}...")
-        try:
-            print(f"Generating Hello World 1")
-            test_code = generate_unit_tests(
-                model_name=env_vars["model_name"],
-                code=code,
-                file_path=str(file_path)
-            )
-            print(f"Generating Hello World 2")
-            save_test_file(
-                Path(env_vars["src_dir"]),
-                Path(env_vars["tests_dir"]),
-                file_path,
-                test_code
-            )
-            print(f"Generating Hello World 3")
-        except Exception as e:
-            logger.error(f"❌ Failed to generate test for {file_path}: {e}")
+
+        test_code = generate_unit_tests(
+            model_name=env_vars["model_name"],
+            code=code,
+            file_path=str(file_path)
+        )
+        save_test_file(
+            Path(env_vars["src_dir"]),
+            Path(env_vars["tests_dir"]),
+            file_path,
+            test_code
+        )
 
 
 if __name__ == "__main__":
