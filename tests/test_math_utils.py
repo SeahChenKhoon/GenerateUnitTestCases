@@ -1,5 +1,6 @@
 # No imports found in original file
 from src.math_utils import factorial, is_prime
+
 import pytest
 
 def test_factorial_of_zero():
