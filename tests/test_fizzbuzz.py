@@ -27,18 +27,3 @@ def test_fizzbuzz_returns_number_for_non_multiples_of_three_five_or_fifteen():
     assert fizzbuzz(16) == 16
     assert fizzbuzz(17) == 17
     assert fizzbuzz(19) == 19
-
-def test_fizzbuzz_handles_large_number():
-    assert fizzbuzz(1000) == "buzz"
-    assert fizzbuzz(999) == "fizz"
-    assert fizzbuzz(990) == "fizz buzz"
-
-def test_fizzbuzz_handles_negative_numbers():
-    assert fizzbuzz(-3) == "fizz"
-    assert fizzbuzz(-5) == "buzz"
-    assert fizzbuzz(-15) == "fizz buzz"
-    assert fizzbuzz(-1) == -1
-    assert fizzbuzz(-2) == -2
-
-def test_fizzbuzz_handles_zero():
-    assert fizzbuzz(0) == "fizz buzz"

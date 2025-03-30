@@ -4,7 +4,7 @@ import os
 import re
 from openai import OpenAI
 from pathlib import Path
-from typing import Dict, Any
+from typing import Dict, Any, List, NoReturn
 
 # Third-party packages
 from dotenv import load_dotenv
@@ -16,93 +16,166 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-def get_python_files(directory: str) -> list[Path]:
+def get_python_files(directory: str) -> List[Path]:
+    """
+    Recursively retrieves all Python (.py) files within the given directory.
+
+    Args:
+        directory (str): The root directory to search for Python files.
+
+    Returns:
+        List[Path]: A list of Path objects representing all found .py files.
+    """
     return list(Path(directory).rglob("*.py"))
 
+
 def generate_test_prompt(file_content: str, file_path: str) -> str:
+    """
+    Creates a prompt for an LLM to generate pytest-style unit tests 
+    for the provided Python source code.
+
+    Args:
+        file_content (str): The contents of the Python source file.
+        file_path (str): The relative or full path to the source file.
+
+    Returns:
+        str: A formatted prompt string to send to the LLM.
+    """
     return f"""
-You're an expert Python developer. Read the following Python code and generate comprehensive pytest-style unit tests for it.
+        You're an expert Python developer. Read the following Python code and generate comprehensive pytest-style unit tests for it.
 
-Make sure:
-- All public functions and classes are tested.
-- Use mock objects when needed.
-- Use meaningful test function names.
-- Do not include any explanations.
-- Exclude any ```python code fences```.
-Source file: {file_path}
+        Make sure:
+        - All public functions and classes are tested.
+        - Use mock objects when needed.
+        - Use meaningful test function names.
+        - Do not include any explanations.
+        - Exclude any ```python code fences```.
 
-Python code:
-\"\"\"
-{file_content}
-\"\"\"
-"""
+        Source file: {file_path}
+
+        Python code:
+        \"\"\"
+        {file_content}
+        \"\"\"
+        """
 
 def _load_env_variables() -> Dict[str, Any]:
+    """
+    Loads required environment variables from a .env file and returns them
+    as a dictionary.
+
+    Returns:
+        Dict[str, Optional[str]]: A dictionary containing environment variable
+        values for OpenAI API key, source directory, tests directory, and model name.
+    """
     load_dotenv()  # Load environment variables from .env file
 
     return {
-        "openai_api_key": os.getenv("openai_api_key"),
-        "src_dir": os.getenv("src_dir"),
-        "tests_dir": os.getenv("tests_dir"),
-        "model": os.getenv("model"),
+        "openai_api_key": os.getenv("OPENAI_API_KEY"),
+        "src_dir": os.getenv("SRC_DIR"),
+        "tests_dir": os.getenv("TESTS_DIR"),
+        "model_name": os.getenv("MODEL_NAME"),
     }
 
-def generate_unit_tests(model, code: str, file_path: str) -> str:
+def generate_unit_tests(model_name: str, code: str, file_path: str) -> str:
+    """
+    Generates pytest-style unit tests for a given Python source file using an LLM.
+
+    Args:
+        model_name (str): The OpenAI model to use (e.g., "gpt-4-turbo").
+        code (str): The Python source code to generate tests for.
+        file_path (str): The path to the source file (for prompt context only).
+
+    Returns:
+        str: The generated test code as a UTF-8 string.
+    """
     client = OpenAI()
     prompt = generate_test_prompt(code, file_path)
     response = client.chat.completions.create(
-        model=model,
+        model=model_name,
         messages=[{"role": "user", "content": prompt}],
         temperature=0.2,
     )
-    
     return response.choices[0].message.content.strip().encode("utf-8")
 
-def save_test_file(src_dir, tests_dir, original_path: Path, test_code: str):
+
+def save_test_file(src_dir: Path, tests_dir: Path, original_path: Path, test_code: str) -> None:
+    """
+    Saves the generated test code to the appropriate location in the tests directory.
+
+    Args:
+        src_dir (Path): The root source directory.
+        tests_dir (Path): The root tests directory where test files are saved.
+        original_path (Path): The path to the original source file.
+        test_code (str): The generated test code as a string.
+    """
     relative_path = original_path.relative_to(src_dir)
-    test_path = Path(tests_dir) / relative_path
+    test_path = tests_dir / relative_path
     test_path = test_path.with_name(f"test_{test_path.name}")
     test_path.parent.mkdir(parents=True, exist_ok=True)
-    test_path.write_text(test_code)
+    test_path.write_text(test_code, encoding="utf-8")
     print(f"✅ Generated test: {test_path}")
 
+
 def clean_test_code(code: str) -> str:
-    # Remove markdown-style code fences
+    """
+    Cleans LLM-generated test code by:
+    - Removing code block fences (e.g., ```python)
+    - Trimming to the last meaningful line (function, decorator, import, or class)
+    - Normalizing line endings
+
+    Args:
+        code (str): The raw test code as generated by the LLM.
+
+    Returns:
+        str: The cleaned, ready-to-save test code.
+    """
     lines = code.strip().splitlines()
     lines = [line for line in lines if not line.strip().startswith("```")]
 
-    # Remove non-code summary/comment block at the end
-    # We'll look for the last function or import and trim anything after
     pattern = re.compile(r"^(def |@pytest|@patch|import |from |class )")
     last_code_index = max(
-        (i for i, line in enumerate(lines) if pattern.match(line.strip())), default=len(lines) - 1
+        (i for i, line in enumerate(lines) if pattern.match(line.strip())),
+        default=len(lines) - 1
     )
-    cleaned_lines = lines[: last_code_index + 1]
 
+    cleaned_lines = lines[:last_code_index + 1]
     return "\n".join(cleaned_lines).replace("\r", "")
 
-def main():
+
+def main() -> NoReturn:
+    """
+    Entry point for generating unit tests for all Python files in the source directory.
+
+    Loads environment variables, scans for Python source files,
+    generates tests using an LLM, and saves the output to the test directory.
+    """
     logger.info("Loading environment variables...")
     env_vars = _load_env_variables()
 
     python_files = get_python_files(env_vars["src_dir"])
+    
     for file_path in python_files:
         code = file_path.read_text(encoding="utf-8")
         if not code.strip():
             continue
-        logging.info(f"🧠 Generating tests for {file_path}...")
+
+        logger.info(f"🧠 Generating tests for {file_path}...")
         try:
-            logging.info("Hello World 0")
             test_code = generate_unit_tests(
-                model=env_vars["model"], 
-                code=code, 
+                model_name=env_vars["model_name"],
+                code=code,
                 file_path=str(file_path)
             )
-            logging.info("Hello World 1")
-            save_test_file(env_vars['src_dir'], env_vars['tests_dir'], file_path, test_code)
-            print("Hello World 2")
+            save_test_file(
+                Path(env_vars["src_dir"]),
+                Path(env_vars["tests_dir"]),
+                file_path,
+                test_code
+            )
         except Exception as e:
-            logging.error(f"❌ Failed to generate test for {file_path}: {e}")
+            logger.error(f"❌ Failed to generate test for {file_path}: {e}")
+
 
 if __name__ == "__main__":
     main()
