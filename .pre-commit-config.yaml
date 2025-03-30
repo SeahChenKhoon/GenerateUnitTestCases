@@ -11,6 +11,7 @@ repos:
 
       - id: run-tests
         name: Run All Pytest Tests
-        entry: bash -c "echo '🧪 Running all tests...' && PYTHONPATH=. uv run pytest tests/"
+        entry: bash -c "echo '🧪 Running all tests...' && PYTHONPATH=. uv run pytest -v 
+          --tb=short tests/"
         language: system
         pass_filenames: false
