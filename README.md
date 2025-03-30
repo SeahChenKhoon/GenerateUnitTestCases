@@ -14,3 +14,5 @@ uv run generate_tests.py
 PYTHONPATH=. uv run pytest -v tests/test_ConvertFtToMeters.py
 
  pre-commit run generate-tests --all-files --verbose
+
+pytest tests/test_math_utils.py -v

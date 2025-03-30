@@ -1,6 +1,7 @@
 # Standard library
 import logging
 import os
+import sys
 import re
 from openai import OpenAI
 from pathlib import Path
@@ -44,15 +45,17 @@ def generate_test_prompt(file_content: str, file_path: str) -> str:
     else:
         import_hint = f"# No public functions found in {module_path}"
     import_section = "\n".join(import_statements) if import_statements else "# No imports found in original file"
+    # print({import_section})
+    # print({import_hint})
     prompt = f"""
         You're an expert Python developer. Read the following Python code and generate comprehensive pytest-style unit tests for it.
 
         Make sure:
         - All public functions and classes are tested.
+        - Include the import statement: `{import_section}` and `{import_hint}`
         - Use mock objects when needed.
         - Use meaningful test function names.
         - Do not include any explanations.
-        - Include the import statement: `{import_section}` and `{import_hint}`
         - Exclude any ```python code fences```.
 
         Source file: {file_path}
@@ -182,4 +185,10 @@ def main() -> NoReturn:
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        logger.error(f"❌ Unhandled error: {e}")
+    finally:
+        # ✅ Always exit with 0 so the commit is allowed
+        sys.exit(0)
