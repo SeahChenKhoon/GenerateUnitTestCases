@@ -8,5 +8,5 @@ repos:
         types: [python]
         pass_filenames: false
         files: ^src/
-        always_run: true
+
 

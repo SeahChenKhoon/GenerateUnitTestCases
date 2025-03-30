@@ -1,5 +1,6 @@
 # No imports found in original file
 from src.rect_utils import rect_area, rect_perimeter
+import pytest
 
 def test_rect_area_with_positive_numbers():
     assert rect_area(5, 3) == 15

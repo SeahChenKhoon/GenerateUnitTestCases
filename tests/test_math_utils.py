@@ -38,3 +38,9 @@ def test_is_prime_with_large_prime_number():
 
 def test_is_prime_with_large_non_prime_number():
     assert not is_prime(35)
+
+def test_is_prime_with_very_large_prime():
+    assert is_prime(7919)
+
+def test_is_prime_with_very_large_non_prime():
+    assert not is_prime(7920)
