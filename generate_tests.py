@@ -189,6 +189,3 @@ if __name__ == "__main__":
         main()
     except Exception as e:
         logger.error(f"❌ Unhandled error: {e}")
-    finally:
-        # ✅ Always exit with 0 so the commit is allowed
-        sys.exit(0)
