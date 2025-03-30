@@ -17,7 +17,7 @@ def test_rect_area_with_negative_width():
     assert rect_area(5, -3) == -15
 
 def test_rect_area_with_negative_length_and_width():
-    assert rect_area(-4, -6) == 24
+    assert rect_area(-5, -3) == 15
 
 def test_rect_perimeter_with_positive_numbers():
     assert rect_perimeter(5, 3) == 16
@@ -35,4 +35,4 @@ def test_rect_perimeter_with_negative_width():
     assert rect_perimeter(5, -3) == 4
 
 def test_rect_perimeter_with_negative_length_and_width():
-    assert rect_perimeter(-4, -6) == -20
+    assert rect_perimeter(-5, -3) == -16

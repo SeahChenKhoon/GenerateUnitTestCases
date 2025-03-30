@@ -203,6 +203,9 @@ def main() -> NoReturn:
             file_path,
             test_code
         )
+            # ✅ Automatically stage the test file after saving
+        relative_test_path = Path(env_vars["tests_dir"]).relative_to(Path.cwd())
+        os.system(f'git add "{relative_test_path}"')
 
 
 if __name__ == "__main__":
@@ -210,3 +213,5 @@ if __name__ == "__main__":
         main()
     except Exception as e:
         logger.error(f"❌ Unhandled error: {e}")
+    finally:
+        sys.exit(0)        
