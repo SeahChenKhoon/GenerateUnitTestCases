@@ -28,17 +28,22 @@ def get_python_files(directory: str) -> List[Path]:
     """
     return list(Path(directory).rglob("*.py"))
 
-def extract_first_function_name(code: str) -> str:
-    match = re.search(r'^def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE)
-    return match.group(1) if match else "your_function"
+def extract_function_names(code: str) -> List[str]:
+    return re.findall(r'^def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE)
+
+def extract_import_statements(code: str) -> list[str]:
+    return re.findall(r'^(?:from\s+\S+\s+import\s+\S+|import\s+\S+)', code, re.MULTILINE)
 
 
-def generate_test_prompt(prompt: str, file_content: str, file_path: str) -> str:
-    function_name = extract_first_function_name(file_content)
-    print(f"Function name: {function_name}")
-    module_path = file_path.replace("/", ".").replace(".py", "")
-    print(f"Module path: {module_path}")
-    import_hint = f"from {module_path} import {function_name}" 
+def generate_test_prompt(file_content: str, file_path: str) -> str:
+    function_names = extract_function_names(file_content)
+    import_statements = extract_import_statements(file_content)
+    module_path = file_path.replace("\\", "/").replace("/", ".").replace(".py", "")
+    if function_names:
+        import_hint = f"from {module_path} import {', '.join(function_names)}"
+    else:
+        import_hint = f"# No public functions found in {module_path}"
+    import_section = "\n".join(import_statements) if import_statements else "# No imports found in original file"
     prompt = f"""
         You're an expert Python developer. Read the following Python code and generate comprehensive pytest-style unit tests for it.
 
@@ -47,9 +52,13 @@ def generate_test_prompt(prompt: str, file_content: str, file_path: str) -> str:
         - Use mock objects when needed.
         - Use meaningful test function names.
         - Do not include any explanations.
+        - Include the import statement: `{import_hint}`
         - Exclude any ```python code fences```.
 
         Source file: {file_path}
+
+        These are the original import statements:
+        {import_section}
 
         Python code:
         \"\"\"
@@ -91,12 +100,12 @@ def generate_unit_tests(model_name: str, code: str, file_path: str) -> str:
     """
     # client = OpenAI()
     prompt = generate_test_prompt(code, file_path)
-    # response = client.chat.completions.create(
-    #     model=model_name,
-    #     messages=[{"role": "user", "content": prompt}],
-    #     temperature=0.2,
-    # )
-    return "Hello World"  # response.choices[0].message.content.strip().encode("utf-8")
+    response = client.chat.completions.create(
+        model=model_name,
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.2,
+    )
+    return response.choices[0].message.content.strip().encode("utf-8")
 
 
 def save_test_file(src_dir: Path, tests_dir: Path, original_path: Path, test_code: str) -> None:
@@ -167,12 +176,12 @@ def main() -> NoReturn:
                 code=code,
                 file_path=str(file_path)
             )
-            # save_test_file(
-            #     Path(env_vars["src_dir"]),
-            #     Path(env_vars["tests_dir"]),
-            #     file_path,
-            #     test_code
-            # )
+            save_test_file(
+                Path(env_vars["src_dir"]),
+                Path(env_vars["tests_dir"]),
+                file_path,
+                test_code
+            )
         except Exception as e:
             logger.error(f"❌ Failed to generate test for {file_path}: {e}")
 
