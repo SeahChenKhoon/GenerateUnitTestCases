@@ -1,21 +1,53 @@
-import math
 import pytest
+import math
 from src.circle_utils import area_circle, perimeter_circle
 
 def test_area_circle_with_positive_radius():
-    assert math.isclose(area_circle(5), 78.53981633974483, rel_tol=1e-9)
+    radius = 5
+    expected_area = math.pi * radius ** 2
+    assert area_circle(radius) == expected_area
 
 def test_area_circle_with_zero_radius():
-    assert area_circle(0) == 0
+    radius = 0
+    expected_area = 0
+    assert area_circle(radius) == expected_area
 
 def test_area_circle_with_negative_radius():
-    assert math.isclose(area_circle(-3), 28.274333882308138, rel_tol=1e-9)
+    radius = -5
+    expected_area = math.pi * radius ** 2
+    assert area_circle(radius) == expected_area
 
 def test_perimeter_circle_with_positive_radius():
-    assert math.isclose(perimeter_circle(7), 43.982297150257104, rel_tol=1e-9)
+    radius = 5
+    expected_perimeter = 2 * math.pi * radius
+    assert perimeter_circle(radius) == expected_perimeter
 
 def test_perimeter_circle_with_zero_radius():
-    assert perimeter_circle(0) == 0
+    radius = 0
+    expected_perimeter = 0
+    assert perimeter_circle(radius) == expected_perimeter
 
 def test_perimeter_circle_with_negative_radius():
-    assert math.isclose(perimeter_circle(-4), 25.132741228718345, rel_tol=1e-9)
+    radius = -5
+    expected_perimeter = 2 * math.pi * radius
+    assert perimeter_circle(radius) == expected_perimeter
+
+def test_area_circle_with_large_radius():
+    radius = 1e6
+    expected_area = math.pi * radius ** 2
+    assert area_circle(radius) == expected_area
+
+def test_perimeter_circle_with_large_radius():
+    radius = 1e6
+    expected_perimeter = 2 * math.pi * radius
+    assert perimeter_circle(radius) == expected_perimeter
+
+def test_area_circle_with_very_small_radius():
+    radius = 1e-6
+    expected_area = math.pi * radius ** 2
+    assert area_circle(radius) == expected_area
+
+def test_perimeter_circle_with_very_small_radius():
+    radius = 1e-6
+    expected_perimeter = 2 * math.pi * radius
+    assert perimeter_circle(radius) == expected_perimeter
