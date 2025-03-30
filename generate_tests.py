@@ -3,6 +3,7 @@ import logging
 import os
 import sys
 import re
+import subprocess
 from openai import OpenAI
 from pathlib import Path
 from typing import Dict, Any, List, NoReturn
@@ -203,9 +204,12 @@ def main() -> NoReturn:
             file_path,
             test_code
         )
-            # ✅ Automatically stage the test file after saving
-        relative_test_path = Path(env_vars["tests_dir"]).relative_to(Path.cwd())
-        os.system(f'git add "{relative_test_path}"')
+        
+        try:
+            subprocess.run(["git", "add", env_vars["tests_dir"]], check=True)
+            logger.info(f"✅ Staged test directory: {env_vars['tests_dir']}")
+        except subprocess.CalledProcessError as e:
+            logger.error(f"❌ Failed to stage tests directory: {e}")
 
 
 if __name__ == "__main__":
