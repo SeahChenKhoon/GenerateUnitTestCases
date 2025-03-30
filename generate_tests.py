@@ -28,20 +28,18 @@ def get_python_files(directory: str) -> List[Path]:
     """
     return list(Path(directory).rglob("*.py"))
 
+def extract_first_function_name(code: str) -> str:
+    match = re.search(r'^def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE)
+    return match.group(1) if match else "your_function"
 
-def generate_test_prompt(file_content: str, file_path: str) -> str:
-    """
-    Creates a prompt for an LLM to generate pytest-style unit tests 
-    for the provided Python source code.
 
-    Args:
-        file_content (str): The contents of the Python source file.
-        file_path (str): The relative or full path to the source file.
-
-    Returns:
-        str: A formatted prompt string to send to the LLM.
-    """
-    return f"""
+def generate_test_prompt(prompt: str, file_content: str, file_path: str) -> str:
+    function_name = extract_first_function_name(file_content)
+    print(f"Function name: {function_name}")
+    module_path = file_path.replace("/", ".").replace(".py", "")
+    print(f"Module path: {module_path}")
+    import_hint = f"from {module_path} import {function_name}" 
+    prompt = f"""
         You're an expert Python developer. Read the following Python code and generate comprehensive pytest-style unit tests for it.
 
         Make sure:
@@ -58,6 +56,8 @@ def generate_test_prompt(file_content: str, file_path: str) -> str:
         {file_content}
         \"\"\"
         """
+    print(f"Prompt: {prompt}")
+    return prompt
 
 def _load_env_variables() -> Dict[str, Any]:
     """
@@ -89,14 +89,14 @@ def generate_unit_tests(model_name: str, code: str, file_path: str) -> str:
     Returns:
         str: The generated test code as a UTF-8 string.
     """
-    client = OpenAI()
+    # client = OpenAI()
     prompt = generate_test_prompt(code, file_path)
-    response = client.chat.completions.create(
-        model=model_name,
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0.2,
-    )
-    return response.choices[0].message.content.strip().encode("utf-8")
+    # response = client.chat.completions.create(
+    #     model=model_name,
+    #     messages=[{"role": "user", "content": prompt}],
+    #     temperature=0.2,
+    # )
+    return "Hello World"  # response.choices[0].message.content.strip().encode("utf-8")
 
 
 def save_test_file(src_dir: Path, tests_dir: Path, original_path: Path, test_code: str) -> None:
@@ -167,12 +167,12 @@ def main() -> NoReturn:
                 code=code,
                 file_path=str(file_path)
             )
-            save_test_file(
-                Path(env_vars["src_dir"]),
-                Path(env_vars["tests_dir"]),
-                file_path,
-                test_code
-            )
+            # save_test_file(
+            #     Path(env_vars["src_dir"]),
+            #     Path(env_vars["tests_dir"]),
+            #     file_path,
+            #     test_code
+            # )
         except Exception as e:
             logger.error(f"❌ Failed to generate test for {file_path}: {e}")
 
