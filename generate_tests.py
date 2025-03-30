@@ -171,17 +171,20 @@ def main() -> NoReturn:
 
         logger.info(f"🧠 Generating tests for {file_path}...")
         try:
+            print(f"Generating Hello World 1")
             test_code = generate_unit_tests(
                 model_name=env_vars["model_name"],
                 code=code,
                 file_path=str(file_path)
             )
+            print(f"Generating Hello World 2")
             save_test_file(
                 Path(env_vars["src_dir"]),
                 Path(env_vars["tests_dir"]),
                 file_path,
                 test_code
             )
+            print(f"Generating Hello World 3")
         except Exception as e:
             logger.error(f"❌ Failed to generate test for {file_path}: {e}")
 
