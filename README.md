@@ -19,3 +19,7 @@ pytest tests/test_math_utils.py -v
 
 Uninstall pre-commit
 - uv pip uninstall pre-commit
+
+pre-commit install
+pip install pre-commit
+pre-commit install
