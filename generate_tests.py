@@ -175,10 +175,22 @@ def clean_test_code(code: str) -> str:
 
 def main() -> NoReturn:
     """
-    Entry point for generating unit tests for all Python files in the source directory.
+    Main entry point for generating unit tests for Python files.
 
-    Loads environment variables, scans for Python source files,
-    generates tests using an LLM, and saves the output to the test directory.
+    This function:
+    - Loads environment variables.
+    - Identifies Python files to process:
+        * If filenames are passed as command-line arguments (e.g., by pre-commit),
+          only those files are processed.
+        * Otherwise, all `.py` files in the configured `src_dir` are processed.
+    - For each file:
+        * Reads its content.
+        * Generates pytest-style unit tests using an LLM.
+        * Saves the generated tests to the corresponding location in `tests_dir`.
+        * Stages the test files using `git add`.
+
+    Raises:
+        Logs an error if `git add` fails.
     """
     logger.info("Loading environment variables...")
     env_vars = _load_env_variables()
