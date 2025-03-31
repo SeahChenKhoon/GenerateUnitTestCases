@@ -183,8 +183,13 @@ def main() -> NoReturn:
     logger.info("Loading environment variables...")
     env_vars = _load_env_variables()
 
-    python_files = get_python_files(env_vars["src_dir"])
     
+    
+    if len(sys.argv) > 1:
+        python_files = [Path(file) for file in sys.argv[1:] if file.endswith(file, ".py")]
+    else:
+        python_files = get_python_files(env_vars["src_dir"])
+
     for file_path in python_files:
         code = file_path.read_text(encoding="utf-8")
         if not code.strip():
