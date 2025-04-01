@@ -5,6 +5,9 @@ import pytest
 def test_factorial_of_zero():
     assert factorial(0) == 1
 
+def test_factorial_of_one():
+    assert factorial(1) == 1
+
 def test_factorial_of_positive_integer():
     assert factorial(5) == 120
 
@@ -12,29 +15,32 @@ def test_factorial_raises_value_error_on_negative_input():
     with pytest.raises(ValueError):
         factorial(-1)
 
-def test_is_prime_with_prime_number():
-    assert is_prime(29) == True
-
-def test_is_prime_with_non_prime_number():
-    assert is_prime(10) == False
-
 def test_is_prime_with_negative_number():
-    assert is_prime(-5) == False
+    assert not is_prime(-1)
 
 def test_is_prime_with_zero():
-    assert is_prime(0) == False
+    assert not is_prime(0)
 
 def test_is_prime_with_one():
-    assert is_prime(1) == False
+    assert not is_prime(1)
+
+def test_is_prime_with_two():
+    assert is_prime(2)
+
+def test_is_prime_with_three():
+    assert is_prime(3)
+
+def test_is_prime_with_large_non_prime():
+    assert not is_prime(100)
+
+def test_is_prime_with_large_prime():
+    assert is_prime(97)
 
 def test_is_odd_with_odd_number():
-    assert is_odd(3) == True
+    assert is_odd(3)
 
 def test_is_odd_with_even_number():
-    assert is_odd(4) == False
+    assert not is_odd(4)
 
-def test_is_odd_with_negative_odd_number():
-    assert is_odd(-5) == True
-
-def test_is_odd_with_negative_even_number():
-    assert is_odd(-6) == False
+def test_is_odd_with_zero():
+    assert not is_odd(0)
