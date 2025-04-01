@@ -6,7 +6,7 @@ repos:
         entry: python generate_tests.py
         language: system
         types: [python]
-        pass_filenames: true
+        pass_filenames: false
         files: ^src/
 
       - id: run-tests

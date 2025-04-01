@@ -15,5 +15,4 @@ def triangle_perimeter(a: float, b: float, c: float) -> float:
     """
     if a <= 0 or b <= 0 or c <= 0:
         raise ValueError("All side lengths must be greater than zero.")
-    
     return a + b + c
