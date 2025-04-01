@@ -17,3 +17,21 @@ def triangle_perimeter(a: float, b: float, c: float) -> float:
         raise ValueError("All side lengths must be greater than zero.")
     
     return a + b + c
+
+def triangle_area(base: float, height: float) -> float:
+    """
+    Calculate the area of a triangle.
+
+    Args:
+        base (float): The base length of the triangle.
+        height (float): The height of the triangle.
+
+    Returns:
+        float: The area of the triangle.
+
+    Raises:
+        ValueError: If base or height is not positive.
+    """
+    if base <= 0 or height <= 0:
+        raise ValueError("Base and height must be greater than zero.")
+    return 0.5 * base * height
