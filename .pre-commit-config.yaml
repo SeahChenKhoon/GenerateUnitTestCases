@@ -18,6 +18,7 @@ repos:
         pass_filenames: false
         files: ^src/
         verbose: true
+        always_run: true
 
       - id: run-tests
         name: Run All Pytest Tests
