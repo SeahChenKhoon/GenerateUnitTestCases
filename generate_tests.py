@@ -217,6 +217,7 @@ def main() -> NoReturn:
             file_path,
             test_code
         )
+        subprocess.run(["git", "add", env_vars["tests_dir"]], check=True)
         
         try:
             subprocess.run(["git", "add", env_vars["tests_dir"]], check=True)

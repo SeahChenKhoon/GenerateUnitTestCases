@@ -7,6 +7,7 @@ repos:
         language: system
         types: [python]
         pass_filenames: false
+        always_run: true
 
       - id: generate-tests
         name: Generate Tests
