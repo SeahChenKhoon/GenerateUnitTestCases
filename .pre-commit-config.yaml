@@ -4,14 +4,14 @@ repos:
       - id: generate-tests
         name: Generate Tests
         entry: python generate_tests.py
-        language: python
+        language: system
         types: [python]
         pass_filenames: true
         files: ^src/
 
       - id: run-tests
         name: Run All Pytest Tests
-        entry: bash -c "echo '🧪 Running all tests...' && PYTHONPATH=. uv run pytest"
+        entry: bash -c "echo 'Running all tests...' && PYTHONPATH=. uv run pytest"
         pass_filenames: false
         language: python
         types: [python]

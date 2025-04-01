@@ -8,7 +8,7 @@ def test_rect_area_with_zero_length():
     assert rect_area(0, 5) == 0
 
 def test_rect_area_with_zero_width():
-    assert rect_area(5, 0) == 0
+    assert rect_area(10, 0) == 0
 
 def test_rect_area_with_negative_length():
     assert rect_area(-5, 3) == -15
@@ -26,7 +26,7 @@ def test_rect_perimeter_with_zero_length():
     assert rect_perimeter(0, 5) == 10
 
 def test_rect_perimeter_with_zero_width():
-    assert rect_perimeter(5, 0) == 10
+    assert rect_perimeter(10, 0) == 20
 
 def test_rect_perimeter_with_negative_length():
     assert rect_perimeter(-5, 3) == -4
