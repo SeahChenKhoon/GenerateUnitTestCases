@@ -22,3 +22,4 @@ def rect_perimeter(length: float, width: float) -> float:
         float: The perimeter of the rectangle.
     """
     return 2 * (length + width)
+
