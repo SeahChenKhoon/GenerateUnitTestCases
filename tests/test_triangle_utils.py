@@ -11,7 +11,7 @@ def test_triangle_perimeter_with_zero_side():
 
 def test_triangle_perimeter_with_negative_side():
     with pytest.raises(ValueError):
-        triangle_perimeter(3, -4, 5)
+        triangle_perimeter(-1, 4, 5)
 
 def test_triangle_perimeter_with_all_zero_sides():
     with pytest.raises(ValueError):
