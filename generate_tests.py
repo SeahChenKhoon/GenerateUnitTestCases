@@ -89,7 +89,8 @@ def generate_test_prompt(prompt: str, file_content: str, file_path: str) -> str:
     import_section = (
         "\n".join(import_statements) if import_statements else "# No imports found in original file"
     )
-    print(f{import_section})
+    logger.info(f"import_hint : {import_hint}")
+    logger.info(f"import_section : {import_section}")
     return prompt.format(
         file_content=file_content,
         file_path=file_path,
@@ -145,7 +146,7 @@ def save_test_file(src_dir: Path, test_dir: Path, original_path: Path, test_code
         test_path.parent.mkdir(parents=True, exist_ok=True)
         test_path.write_text(test_code, encoding="utf-8")
     except Exception as e:
-        print(f"❌ Failed to save test for {original_path}: {e}")
+        logger.error(f"❌ Failed to save test for {original_path}: {e}")
 
 def clean_test_code(code: str) -> str:
     """
