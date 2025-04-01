@@ -14,7 +14,7 @@ def factorial(n: int) -> int:
     result = 1
     for i in range(2, n + 1):
         result *= i
-        
+
     return result
 
 def is_prime(n: int) -> bool:
@@ -41,3 +41,7 @@ def is_prime(n: int) -> bool:
         i += 6
 
     return True
+
+def is_odd(number: int) -> bool:
+    """Return True if the number is odd, else False."""
+    return number % 2 != 0
