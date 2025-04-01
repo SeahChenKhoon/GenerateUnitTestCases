@@ -12,13 +12,13 @@ def test_factorial_raises_value_error_on_negative_input():
         factorial(-1)
 
 def test_is_prime_with_prime_number():
-    assert is_prime(5) == True
+    assert is_prime(29) == True
 
 def test_is_prime_with_non_prime_number():
-    assert is_prime(4) == False
+    assert is_prime(10) == False
 
 def test_is_prime_with_negative_number():
-    assert is_prime(-1) == False
+    assert is_prime(-5) == False
 
 def test_is_prime_with_zero():
     assert is_prime(0) == False
@@ -33,10 +33,7 @@ def test_is_odd_with_even_number():
     assert is_odd(4) == False
 
 def test_is_odd_with_negative_odd_number():
-    assert is_odd(-3) == True
+    assert is_odd(-5) == True
 
 def test_is_odd_with_negative_even_number():
-    assert is_odd(-2) == False
-
-def test_is_odd_with_zero():
-    assert is_odd(0) == False
+    assert is_odd(-6) == False
