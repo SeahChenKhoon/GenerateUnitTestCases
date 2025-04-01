@@ -1,9 +1,10 @@
 repos:
   - repo: local
     hooks:
+    
       - id: clean-tests
-        name: Remove all test files before generating new ones
-        entry: python -c "import glob, os; [os.remove(f) for f in glob.glob('tests/test_*.py')]"
+        name: Remove and recreate tests folder before generating new ones
+        entry: python -c "import shutil, os; shutil.rmtree('tests', ignore_errors=True); os.makedirs('tests', exist_ok=True)"
         language: system
         types: [python]
         pass_filenames: false
