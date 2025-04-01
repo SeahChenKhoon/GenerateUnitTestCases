@@ -129,7 +129,7 @@ def generate_unit_tests(model_name: str, prompt: str, code: str, file_path: str)
     return response.choices[0].message.content.strip()
 
 
-def save_test_file(src_dir: Path, test_dir: Path, original_path: Path, test_code: str) -> None:
+def save_test_file(src_dir: Path, test_dir: Path, original_path: Path, test_code: str) -> Path:
     """
     Saves the generated test code to the appropriate location in the tests directory.
 
@@ -138,15 +138,17 @@ def save_test_file(src_dir: Path, test_dir: Path, original_path: Path, test_code
         test_dir (Path): The root tests directory where test files are saved.
         original_path (Path): The path to the original source file.
         test_code (str): The generated test code as a string.
+
+    Returns:
+        Path: The path to the saved test file.
     """
-    try:
-        relative_path = original_path.relative_to(src_dir)
-        test_path = test_dir / relative_path
-        test_path = test_path.with_name(f"test_{test_path.name}")
-        test_path.parent.mkdir(parents=True, exist_ok=True)
-        test_path.write_text(test_code, encoding="utf-8")
-    except Exception as e:
-        logger.error(f"❌ Failed to save test for {original_path}: {e}")
+    relative_path = original_path.relative_to(src_dir)
+    test_path = test_dir / relative_path
+    test_path = test_path.with_name(f"test_{test_path.name}")
+    test_path.parent.mkdir(parents=True, exist_ok=True)
+    test_path.write_text(test_code, encoding="utf-8")
+    return test_path
+
 
 def clean_test_code(code: str) -> str:
     """
