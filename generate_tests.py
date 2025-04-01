@@ -89,7 +89,7 @@ def generate_test_prompt(prompt: str, file_content: str, file_path: str) -> str:
     import_section = (
         "\n".join(import_statements) if import_statements else "# No imports found in original file"
     )
-
+    print(f{import_section})
     return prompt.format(
         file_content=file_content,
         file_path=file_path,
