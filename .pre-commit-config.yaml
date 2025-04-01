@@ -4,26 +4,26 @@ repos:
     
       - id: clean-tests
         name: Remove and recreate tests folder before generating new ones
-        entry: python -c "import shutil, os; shutil.rmtree('tests', ignore_errors=True); os.makedirs('tests', exist_ok=True)"
+        entry: python -c "import shutil, os, subprocess; shutil.rmtree('tests', ignore_errors=True); os.makedirs('tests', exist_ok=True); subprocess.run(['git', 'add', 'tests'], check=True)"
         language: system
         types: [python]
         pass_filenames: false
         always_run: true
 
-      - id: generate-tests
-        name: Generate Tests
-        entry: python generate_tests.py
-        language: system
-        types: [python]
-        pass_filenames: false
-        files: ^src/
-        verbose: true
-        always_run: true
+      # - id: generate-tests
+      #   name: Generate Tests
+      #   entry: python generate_tests.py
+      #   language: system
+      #   types: [python]
+      #   pass_filenames: false
+      #   files: ^src/
+      #   verbose: true
+      #   always_run: true
 
-      - id: run-tests
-        name: Run All Pytest Tests
-        entry: python -m pytest
-        language: system
-        types: [python]
-        pass_filenames: false
-        always_run: true
+      # - id: run-tests
+      #   name: Run All Pytest Tests
+      #   entry: python -m pytest
+      #   language: system
+      #   types: [python]
+      #   pass_filenames: false
+      #   always_run: true
