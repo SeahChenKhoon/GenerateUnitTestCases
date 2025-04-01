@@ -1,4 +1,4 @@
-# No imports found in original file
+import pytest
 from src.rect_utils import rect_area, rect_perimeter
 
 def test_rect_area_with_positive_numbers():
@@ -16,7 +16,7 @@ def test_rect_area_with_negative_length():
 def test_rect_area_with_negative_width():
     assert rect_area(5, -3) == -15
 
-def test_rect_area_with_negative_length_and_width():
+def test_rect_area_with_negative_values():
     assert rect_area(-5, -3) == 15
 
 def test_rect_perimeter_with_positive_numbers():
@@ -34,5 +34,5 @@ def test_rect_perimeter_with_negative_length():
 def test_rect_perimeter_with_negative_width():
     assert rect_perimeter(5, -3) == 4
 
-def test_rect_perimeter_with_negative_length_and_width():
+def test_rect_perimeter_with_negative_values():
     assert rect_perimeter(-5, -3) == -16
