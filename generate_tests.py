@@ -3,6 +3,7 @@ import logging
 import os
 import sys
 import re
+import ast
 import subprocess
 from openai import OpenAI
 from pathlib import Path
@@ -47,19 +48,18 @@ def extract_function_names(code: str) -> List[str]:
     return re.findall(r'^def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE)
 
 def extract_import_statements(code: str) -> List[str]:
-    """
-    Extracts all top-level import statements from the given Python source code.
-
-    Matches both 'import module' and 'from module import name' statements
-    that appear at the beginning of a line.
-
-    Args:
-        code (str): The Python source code to scan.
-
-    Returns:
-        List[str]: A list of import statements found in the code.
-    """
-    return re.findall(r'^(?:from\s+\S+\s+import\s+\S+|import\s+\S+)', code, re.MULTILINE)
+    try:
+        tree = ast.parse(code)
+    except SyntaxError:
+        return []  # or handle parsing errors if needed
+    imports = []
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.Import, ast.ImportFrom)):
+            # Get the exact source text for the import node
+            stmt = ast.get_source_segment(code, node)
+            if stmt is not None:
+                imports.append(stmt)
+    return imports
 
 
 def _load_env_variables() -> Dict[str, Any]:
