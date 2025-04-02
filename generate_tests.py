@@ -78,12 +78,27 @@ def _load_env_variables() -> Dict[str, Any]:
         "src_dir": os.getenv("SRC_DIR"),
         "tests_dir": os.getenv("TESTS_DIR"),
         "model_name": os.getenv("MODEL_NAME"),
-        "common_imports": os.getenv("COMMON_IMPORTS"),
         "llm_test_prompt_template": os.getenv("LLM_TEST_PROMPT_TEMPLATE"),
     }
 
 
-def generate_test_prompt(prompt: str, file_content: str, common_imports: str, file_path: str) -> tuple[str, str, str]:
+def generate_test_prompt(prompt: str, file_content: str, file_path: str) -> tuple[str, str, str]:
+    """
+    Formats a test generation prompt by injecting extracted import statements,
+    function names, and metadata into a provided prompt template.
+
+    Args:
+        prompt (str): The prompt template with placeholders like {file_content}, {file_path},
+                      {import_section}, and {import_hint}.
+        file_content (str): The source code of the Python file.
+        file_path (str): The path to the source file, used to construct import statements.
+
+    Returns:
+        tuple[str, str, str]: A tuple containing:
+            - The fully formatted prompt string
+            - The import section string (including pytest)
+            - The import hint string
+    """
     # Extract function names and import lines from the file content
     function_names = extract_function_names(file_content)
     import_statements = extract_import_statements(file_content)
@@ -97,10 +112,10 @@ def generate_test_prompt(prompt: str, file_content: str, common_imports: str, fi
         if function_names else f"# No public functions found in {module_path}"
     )
 
-    # Prepend common_imports to the original file's imports
+    # Prepend "import pytest" to the original file's imports
     import_section = (
-        common_imports + "\n".join(import_statements)
-        if import_statements else f"{common_imports}\n# No imports found in original file"
+        "import pytest\n" + "\n".join(import_statements)
+        if import_statements else "import pytest\n# No imports found in original file"
     )
 
     # Log for debugging
@@ -117,24 +132,24 @@ def generate_test_prompt(prompt: str, file_content: str, common_imports: str, fi
 
     return formatted_prompt, import_section, import_hint
 
-def extract_usage_hint(import_stmt: str) -> str:
-    if " as " in import_stmt:
-        # e.g., "import pandas as pd" → "pd."
-        return import_stmt.split(" as ")[-1].strip() + "."
-    elif import_stmt.startswith("import "):
-        # e.g., "import math" → "math."
-        return import_stmt.split()[-1].strip() + "."
-    elif import_stmt.startswith("from "):
-        # Optional: support from-imports like "from math import sqrt"
-        return import_stmt.split()[1].strip() + "."
-    return ""
 
+def generate_unit_tests(model_name: str, prompt: str, code: str, file_path: str) -> str:
+    """
+    Generates unit tests for a given Python source file using an LLM.
 
-def generate_unit_tests(model_name: str, prompt: str, common_imports: str, code: str, file_path: str) -> str:
+    Args:
+        model_name (str): The name of the OpenAI model to use.
+        prompt (str): The prompt template containing placeholders.
+        code (str): The source code of the file to generate tests for.
+        file_path (str): The file path used to construct import statements.
+
+    Returns:
+        str: The generated unit test code as a string.
+    """
     client = OpenAI()
 
     # Prepare the full prompt and reuse import metadata
-    formatted_prompt, import_section, import_hint = generate_test_prompt(prompt, code, common_imports, file_path)
+    formatted_prompt, import_section, import_hint = generate_test_prompt(prompt, code, file_path)
 
     # Generate test code from LLM
     response = client.chat.completions.create(
@@ -145,17 +160,10 @@ def generate_unit_tests(model_name: str, prompt: str, common_imports: str, code:
 
     generated_test_code = response.choices[0].message.content.strip()
 
-    common_import_map = {
-        import_stmt.strip(): extract_usage_hint(import_stmt.strip())
-        for import_stmt in common_imports.strip().split(";")
-        if import_stmt.strip()
-    }
-    
     # Ensure import_hint is present in output
-    for import_stmt, usage_hint in common_import_map.items():
-        if usage_hint in generated_test_code and import_stmt not in generated_test_code:
-            logger.info(f"Injecting missing import: {import_stmt}")
-            generated_test_code = f"{import_stmt}\n{generated_test_code}"
+    if import_hint not in generated_test_code:
+        logger.warning("Import_hint missing from generated output. Injecting it manually.")
+        generated_test_code = f"{import_section}\n{import_hint}\n\n{generated_test_code}"
 
     return generated_test_code
 
@@ -249,7 +257,6 @@ def main() -> NoReturn:
         test_code = generate_unit_tests(
             model_name=env_vars["model_name"],
             prompt=env_vars["llm_test_prompt_template"],
-            common_imports=env_vars["common_imports"],
             code=code,
             file_path=str(file_path)
         )
@@ -277,6 +284,6 @@ if __name__ == "__main__":
     try:
         main()
     except Exception as e:
-        logger.error(f"Unhandled error: {e}")
+        logger.error(f"❌ Unhandled error: {e}")
     finally:
         sys.exit(0)        
