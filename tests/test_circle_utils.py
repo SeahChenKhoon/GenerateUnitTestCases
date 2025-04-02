@@ -3,25 +3,23 @@ import math
 from src.circle_utils import circle_area, circle_circumference
 
 def test_circle_area_with_positive_radius():
-    radius = 5
-    expected_area = math.pi * radius ** 2
-    assert circle_area(radius) == pytest.approx(expected_area)
+    assert pytest.approx(circle_area(5), 0.01) == math.pi * 25
 
 def test_circle_area_with_zero_radius():
     assert circle_area(0) == 0
 
-def test_circle_area_with_negative_radius_raises_value_error():
-    with pytest.raises(ValueError):
+def test_circle_area_with_negative_radius_raises_exception():
+    with pytest.raises(ValueError) as excinfo:
         circle_area(-1)
+    assert str(excinfo.value) == "Radius cannot be negative."
 
 def test_circle_circumference_with_positive_radius():
-    radius = 5
-    expected_circumference = 2 * math.pi * radius
-    assert circle_circumference(radius) == pytest.approx(expected_circumference)
+    assert pytest.approx(circle_circumference(5), 0.01) == 2 * math.pi * 5
 
 def test_circle_circumference_with_zero_radius():
     assert circle_circumference(0) == 0
 
-def test_circle_circumference_with_negative_radius_raises_value_error():
-    with pytest.raises(ValueError):
+def test_circle_circumference_with_negative_radius_raises_exception():
+    with pytest.raises(ValueError) as excinfo:
         circle_circumference(-1)
+    assert str(excinfo.value) == "Radius cannot be negative."

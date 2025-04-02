@@ -269,9 +269,6 @@ def main() -> NoReturn:
             test_code
         )
 
-        # Stage the newly generated test file for git commit
-        subprocess.run(["git", "add", str(test_path)], check=True)
-
         try:
             # Optionally stage the tests directory (in case it's newly created)
             subprocess.run(["git", "add", env_vars["tests_dir"]], check=True)
