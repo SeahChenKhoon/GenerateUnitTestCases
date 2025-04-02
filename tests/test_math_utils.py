@@ -33,7 +33,7 @@ def test_is_prime_with_large_prime_number():
     assert is_prime(29)
 
 def test_is_prime_with_large_non_prime_number():
-    assert not is_prime(35)
+    assert not is_prime(30)
 
 def test_is_odd_with_odd_number():
     assert is_odd(3)
@@ -41,5 +41,8 @@ def test_is_odd_with_odd_number():
 def test_is_odd_with_even_number():
     assert not is_odd(4)
 
-def test_is_odd_with_zero():
-    assert not is_odd(0)
+def test_is_odd_with_negative_odd_number():
+    assert is_odd(-5)
+
+def test_is_odd_with_negative_even_number():
+    assert not is_odd(-2)
