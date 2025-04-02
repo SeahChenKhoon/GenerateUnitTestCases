@@ -8,6 +8,7 @@ dependencies = [
     "datasets>=3.5.0",
     "document>=1.0",
     "dotenv>=0.9.9",
+    "fastapi>=0.115.12",
     "langchain-experimental>=0.3.4",
     "openai>=1.69.0",
     "pandas>=2.2.3",
