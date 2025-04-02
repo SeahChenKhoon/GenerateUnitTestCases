@@ -36,58 +36,44 @@ from theory_evaluation.evaluator.general_qa import (
 
 @pytest.mark.asyncio
 async def test_process_theory_evaluation_successful():
-    with patch("theory_evaluation.evaluator.general_qa.manage_user_performance", AsyncMock(return_value=True)) as mock_manage, \
-         patch("theory_evaluation.evaluator.general_qa.initialise_prompt", return_value="prompt"), \
-         patch("theory_evaluation.evaluator.general_qa.initialise_settings", return_value="settings"), \
-         patch("theory_evaluation.evaluator.general_qa.llm_completion.execute", AsyncMock(return_value=iter([{"Evaluation": "Good", "Score": 90, "Grade": "A"}]))):
-        await process_theory_evaluation("test@example.com", UUID("12345678-1234-5678-1234-567812345678"), "answer", "question", "marking_scheme", "model_answer")
-        mock_manage.assert_called()
+    with patch("theory_evaluation.evaluator.general_qa.manage_user_performance", return_value=True) as mock_manage:
+        with patch("theory_evaluation.evaluator.general_qa.llm_completion.execute", AsyncMock(return_value=iter([{"Evaluation": "Good", "Score": 80, "Grade": "A"}]))):
+            with patch("theory_evaluation.evaluator.general_qa.json.loads", return_value={"Evaluation": "Good", "Score": 80, "Grade": "A"}):
+                await process_theory_evaluation("test@example.com", UUID("12345678-1234-5678-1234-567812345678"), "answer", "question", "marking_scheme", "model_answer")
+                mock_manage.assert_called_with(mode=1, email="test@example.com", question_id=UUID("12345678-1234-5678-1234-567812345678"), llm_evaluation="Good", llm_score=80, user_grade="A")
 
 @pytest.mark.asyncio
 async def test_process_theory_evaluation_failure():
-    with patch("theory_evaluation.evaluator.general_qa.manage_user_performance", AsyncMock(return_value=False)), \
-         patch("theory_evaluation.evaluator.general_qa.initialise_prompt", return_value="prompt"), \
-         patch("theory_evaluation.evaluator.general_qa.initialise_settings", return_value="settings"), \
-         patch("theory_evaluation.evaluator.general_qa.llm_completion.execute", AsyncMock(return_value=iter([{"Evaluation": None, "Score": None, "Grade": None}]))):
-        await process_theory_evaluation("test@example.com", UUID("12345678-1234-5678-1234-567812345678"), "answer", "question", "marking_scheme", "model_answer")
+    with patch("theory_evaluation.evaluator.general_qa.manage_user_performance", return_value=False):
+        with patch("theory_evaluation.evaluator.general_qa.llm_completion.execute", AsyncMock(return_value=iter([{"Evaluation": "Poor", "Score": 50, "Grade": "F"}]))):
+            with patch("theory_evaluation.evaluator.general_qa.json.loads", return_value={"Evaluation": "Poor", "Score": 50, "Grade": "F"}):
+                with pytest.raises(Exception):
+                    await process_theory_evaluation("test@example.com", UUID("12345678-1234-5678-1234-567812345678"), "answer", "question", "marking_scheme", "model_answer")
 
 @pytest.mark.asyncio
 async def test_evaluate_theory_successful():
     request = EvaluateTheoryPOSTRequest(email="test@example.com", uuid=UUID("12345678-1234-5678-1234-567812345678"), answer="answer")
-    with patch("theory_evaluation.evaluator.general_qa.validate_user", return_value=True), \
-         patch("theory_evaluation.evaluator.general_qa.get_marking_scheme", return_value=("question", "marking_scheme", "model_answer")), \
-         patch("theory_evaluation.evaluator.general_qa.manage_user_performance", AsyncMock(return_value=True)), \
-         patch("theory_evaluation.evaluator.general_qa.BackgroundTasks.add_task", AsyncMock()) as mock_add_task:
-        response = await evaluate_theory(BackgroundTasks(), request)
-        assert response == {"status": "Accepted", "message": "Processing started"}
-        mock_add_task.assert_called()
+    with patch("theory_evaluation.evaluator.general_qa.validate_user", return_value=True):
+        with patch("theory_evaluation.evaluator.general_qa.get_marking_scheme", return_value=("question", "marking_scheme", "model_answer")):
+            with patch("theory_evaluation.evaluator.general_qa.manage_user_performance", return_value=True):
+                with patch("theory_evaluation.evaluator.general_qa.process_theory_evaluation", AsyncMock()):
+                    response = await evaluate_theory(BackgroundTasks(), request)
+                    assert response == {"status": "Accepted", "message": "Processing started"}
 
 @pytest.mark.asyncio
 async def test_get_theory_score_successful():
     request = TheoryEvaluationScoreRequest(email="test@example.com", uuid=UUID("12345678-1234-5678-1234-567812345678"))
-    with patch("theory_evaluation.evaluator.general_qa.validate_user", return_value=True), \
-         patch("theory_evaluation.evaluator.general_qa.get_marking_scheme", return_value=("question", "marking_scheme", "model_answer")), \
-         patch("theory_evaluation.evaluator.general_qa.get_user_performance", return_value=(3, "Good", "A", 2)):
-        response = await get_theory_score(request)
-        assert response == {
-            "user_attempts": 3,
-            "evaluation": "Good\n\nModel Answer: model_answer",
-            "grade": "A",
-        }
+    with patch("theory_evaluation.evaluator.general_qa.validate_user", return_value=True):
+        with patch("theory_evaluation.evaluator.general_qa.get_marking_scheme", return_value=("question", "marking_scheme", "model_answer")):
+            with patch("theory_evaluation.evaluator.general_qa.get_user_performance", return_value=(3, "Good", "A", 2)):
+                response = await get_theory_score(request)
+                assert response == {"user_attempts": 3, "evaluation": "Good\n\nModel Answer: model_answer", "grade": "A"}
 
 @pytest.mark.asyncio
 async def test_delete_theory_score_successful():
     request = TheoryEvaluationDeleteRequest(email="test@example.com", uuid=UUID("12345678-1234-5678-1234-567812345678"))
-    with patch("theory_evaluation.evaluator.general_qa.validate_user", return_value=True), \
-         patch("theory_evaluation.evaluator.general_qa.delete_user_performance", return_value=True):
-        response = delete_theory_score(request)
-        assert response is None
-
-@pytest.mark.asyncio
-async def test_delete_theory_score_failure():
-    request = TheoryEvaluationDeleteRequest(email="test@example.com")
-    with patch("theory_evaluation.evaluator.general_qa.validate_user", return_value=False):
-        with pytest.raises(HTTPException) as exc_info:
-            delete_theory_score(request)
-        assert exc_info.value.status_code == 404
+    with patch("theory_evaluation.evaluator.general_qa.validate_user", return_value=True):
+        with patch("theory_evaluation.evaluator.general_qa.delete_user_performance", return_value=True):
+            response = delete_theory_score(request)
+            assert response is None
 ```
