@@ -240,10 +240,12 @@ def main() -> NoReturn:
     env_vars = _load_env_variables()
 
     # Collect all Python source files from the configured source directory
+    logger.info(f"env file: {env_vars["src_dir"]}")
     python_files = get_python_files(env_vars["src_dir"])
 
     # Iterate through each Python file and generate corresponding test cases
     for file_path in python_files:
+        logger.info(f"Processing file: {file_path}")
         # Read the source code content from the file
         code = file_path.read_text(encoding="utf-8")
 

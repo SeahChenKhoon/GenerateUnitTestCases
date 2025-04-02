@@ -3,3 +3,4 @@ tests/__pycache__/*.pyc
 src/__pycache__/*.pyc
 .python-version
 generate_tests.py
+theory_evaluation - Copy/*
