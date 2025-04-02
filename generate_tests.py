@@ -217,36 +217,49 @@ def main() -> NoReturn:
         Logs an error if `git add` fails.
     """
     logger.info("Loading environment variables...")
+
+    # Load required variables from .env or environment
     env_vars = _load_env_variables()
 
+    # Collect all Python source files from the configured source directory
     python_files = get_python_files(env_vars["src_dir"])
 
+    # Iterate through each Python file and generate corresponding test cases
     for file_path in python_files:
+        # Read the source code content from the file
         code = file_path.read_text(encoding="utf-8")
+
+        # Skip files that are empty or contain only whitespace
         if not code.strip():
             continue
 
-        logger.info(f"🧠 Generating tests for {file_path}...")
+        logger.info(f"Generating tests for {file_path}...")
 
+        # Use LLM to generate test code based on the file's content and path
         test_code = generate_unit_tests(
             model_name=env_vars["model_name"],
             prompt=env_vars["llm_test_prompt_template"],
             code=code,
             file_path=str(file_path)
         )
+
+        # Save the generated test to the tests directory
         test_path = save_test_file(
             Path(env_vars["src_dir"]),
             Path(env_vars["tests_dir"]),
             file_path,
             test_code
         )
+
+        # Stage the newly generated test file for git commit
         subprocess.run(["git", "add", str(test_path)], check=True)
-        
+
         try:
+            # Optionally stage the tests directory (in case it's newly created)
             subprocess.run(["git", "add", env_vars["tests_dir"]], check=True)
-            logger.info(f"✅ Staged test directory: {env_vars['tests_dir']}")
+            logger.info(f"Staged test directory: {env_vars['tests_dir']}")
         except subprocess.CalledProcessError as e:
-            logger.error(f"❌ Failed to stage tests directory: {e}")
+            logger.error(f"Failed to stage tests directory: {e}")
 
 
 if __name__ == "__main__":
