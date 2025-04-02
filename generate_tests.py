@@ -236,9 +236,9 @@ def main() -> NoReturn:
                 prompt=env_vars["llm_test_prompt_template"],
                 code=code,
                 file_path=str(file_path),
-                function_names = extract_function_names(code)
+                function_names=function_names
             )
-            
+
             # Save the generated test to the tests directory
             test_path = save_test_file(
                 Path(env_vars["src_dir"]),
