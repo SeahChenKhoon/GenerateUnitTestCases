@@ -42,3 +42,54 @@ This project automates the generation of pytest-style unit tests for Python file
   TESTS_DIR=./tests
   MODEL_NAME=gpt-4-turbo
   LLM_TEST_PROMPT_TEMPLATE=...
+
+
+  0. ✅ Only write tests if the file contains executable logic, such as:
+Functions or class definitions
+
+Code blocks with behavior
+
+❌ Do NOT generate tests for files that only contain import statements (e.g., __init__.py)
+
+1. ✅ At the top of the test file, include all required imports:
+{import_section} for original file imports
+
+{import_hint} to import the functions or classes under test
+
+Always include import pytest if it is used in the test code
+
+2. ✅ Write tests for all public functions and classes in the source file
+3. ✅ Use pytest-style assertions throughout
+For float comparisons, use: pytest.approx(expected)
+
+4. ✅ Use unittest.mock (or pytest-mock) for mocking external dependencies such as:
+File I/O
+
+API calls
+
+Database access
+
+Network requests
+
+5. ✅ Write clear and descriptive test function names using snake_case
+6. ✅ For return values from mocks, prefer behavior checks like:
+hasattr()
+
+Method calls
+
+❌ Avoid isinstance() for these checks
+
+7. ❌ Do NOT include any of the following:
+Explanations
+
+Docstrings
+
+Comments
+
+Markdown formatting (no triple backticks)
+
+📄 Input file path: {file_path}
+📦 Python source code to test:
+{file_content}
+🧪 Output:
+Generate a single test file that is complete and executable with pytest.

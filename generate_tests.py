@@ -71,7 +71,7 @@ def _load_env_variables() -> Dict[str, Any]:
         Dict[str, Optional[str]]: A dictionary containing environment variable
         values for OpenAI API key, source directory, tests directory, and model name.
     """
-    load_dotenv()  # Load environment variables from .env file
+    load_dotenv(override=True)  # Load environment variables from .env file
 
     return {
         "openai_api_key": os.getenv("OPENAI_API_KEY"),
@@ -82,25 +82,7 @@ def _load_env_variables() -> Dict[str, Any]:
     }
 
 
-def generate_test_prompt(prompt: str, file_content: str, file_path: str) -> tuple[str, str, str]:
-    """
-    Formats a test generation prompt by injecting extracted import statements,
-    function names, and metadata into a provided prompt template.
-
-    Args:
-        prompt (str): The prompt template with placeholders like {file_content}, {file_path},
-                      {import_section}, and {import_hint}.
-        file_content (str): The source code of the Python file.
-        file_path (str): The path to the source file, used to construct import statements.
-
-    Returns:
-        tuple[str, str, str]: A tuple containing:
-            - The fully formatted prompt string
-            - The import section string (including pytest)
-            - The import hint string
-    """
-    # Extract function names and import lines from the file content
-    function_names = extract_function_names(file_content)
+def generate_test_prompt(prompt: str, file_content: str, file_path: str, function_names:List[str]) -> tuple[str, str, str]:
     import_statements = extract_import_statements(file_content)
 
     # Convert file path to module path (dot-separated)
@@ -133,20 +115,9 @@ def generate_test_prompt(prompt: str, file_content: str, file_path: str) -> tupl
     return formatted_prompt, import_section, import_hint
 
 
-def generate_unit_tests(model_name: str, prompt: str, code: str, file_path: str) -> str:
-    """
-    Generates unit tests for a given Python source file using an LLM.
-
-    Args:
-        model_name (str): The name of the OpenAI model to use.
-        prompt (str): The prompt template containing placeholders.
-        code (str): The source code of the file to generate tests for.
-        file_path (str): The file path used to construct import statements.
-
-    Returns:
-        str: The generated unit test code as a string.
-    """
+def generate_unit_tests(model_name: str, prompt: str, code: str, file_path: str, function_names:List[str]) -> str:
     client = OpenAI()
+
 
     # Prepare the full prompt and reuse import metadata
     formatted_prompt, import_section, import_hint = generate_test_prompt(prompt, code, file_path)
@@ -255,21 +226,30 @@ def main() -> NoReturn:
 
         logger.info(f"Generating tests for {file_path}...")
 
-        # Use LLM to generate test code based on the file's content and path
-        test_code = generate_unit_tests(
-            model_name=env_vars["model_name"],
-            prompt=env_vars["llm_test_prompt_template"],
-            code=code,
-            file_path=str(file_path)
-        )
+        # Extract function names and import lines from the file content
+        function_names = extract_function_names(code)
+        print(f"function_names : {function_names}")
+        if function_names:
+            # Use LLM to generate test code based on the file's content and path
+            test_code = generate_unit_tests(
+                model_name=env_vars["model_name"],
+                prompt=env_vars["llm_test_prompt_template"],
+                code=code,
+                file_path=str(file_path),
+                function_names = extract_function_names(code)
+            )
+            
+            # Save the generated test to the tests directory
+            test_path = save_test_file(
+                Path(env_vars["src_dir"]),
+                Path(env_vars["tests_dir"]),
+                file_path,
+                test_code
+            )
 
-        # Save the generated test to the tests directory
-        test_path = save_test_file(
-            Path(env_vars["src_dir"]),
-            Path(env_vars["tests_dir"]),
-            file_path,
-            test_code
-        )
+        else:
+            logger.warning(f"No public functions found in {file_path}. Skipping test generation.")
+
 
         try:
             # Optionally stage the tests directory (in case it's newly created)
