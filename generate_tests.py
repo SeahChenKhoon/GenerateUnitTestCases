@@ -62,47 +62,6 @@ def extract_import_statements(code: str) -> List[str]:
     return re.findall(r'^(?:from\s+\S+\s+import\s+\S+|import\s+\S+)', code, re.MULTILINE)
 
 
-# def generate_test_prompt(prompt: str, file_content: str, file_path: str) -> str:
-#     """
-#     Formats a test generation prompt by injecting extracted import statements,
-#     function names, and metadata into a provided prompt template.
-
-#     Args:
-#         prompt (str): The prompt template with placeholders like {file_content}, {file_path},
-#                       {import_section}, and {import_hint}.
-#         file_content (str): The source code of the Python file.
-#         file_path (str): The path to the source file, used to construct import statements.
-
-#     Returns:
-#         str: A fully formatted prompt ready for use with an LLM.
-#     """
-#     function_names = extract_function_names(file_content)
-#     import_statements = extract_import_statements(file_content)
-
-#     module_path = file_path.replace("\\", "/").replace("/", ".").replace(".py", "")
-    
-#     import_hint = (
-#         f"from {module_path} import {', '.join(function_names)}"
-#         if function_names else f"# No public functions found in {module_path}"
-#     )
-
-#     # Prepend "import pytest" to the import section
-#     import_section = (
-#         "import pytest\n" + "\n".join(import_statements)
-#         if import_statements else "import pytest\n# No imports found in original file"
-#     )
-
-#     logger.info(f"import_hint : {import_hint}")
-#     logger.info(f"import_section : {import_section}")
-
-#     return prompt.format(
-#         file_content=file_content,
-#         file_path=file_path,
-#         import_section=import_section,
-#         import_hint=import_hint,
-#     )
-
-
 def _load_env_variables() -> Dict[str, Any]:
     """
     Loads required environment variables from a .env file and returns them
@@ -122,32 +81,6 @@ def _load_env_variables() -> Dict[str, Any]:
         "llm_test_prompt_template": os.getenv("LLM_TEST_PROMPT_TEMPLATE"),
     }
 
-
-# def generate_unit_tests(model_name: str, prompt: str, code: str, file_path: str) -> str:
-#     """
-#     Generates unit tests for a given Python source file using an LLM.
-
-#     This function constructs a prompt based on the provided template, source code, 
-#     and file path, then uses OpenAI's chat completion API to generate test cases.
-
-#     Args:
-#         model_name (str): The name of the OpenAI model to use (e.g., "gpt-4", "gpt-4-turbo").
-#         prompt (str): The prompt template containing placeholders for file content,
-#                       import hints, and file path.
-#         code (str): The full source code of the file to generate tests for.
-#         file_path (str): The file path used to construct the module import path.
-
-#     Returns:
-#         str: The generated unit test code as a string.
-#     """    
-#     client = OpenAI()
-#     prompt = generate_test_prompt(prompt, code, file_path)
-#     response = client.chat.completions.create(
-#         model=model_name,
-#         messages=[{"role": "user", "content": prompt}],
-#         temperature=0.2,
-#     )
-#     return response.choices[0].message.content.strip()
 
 def generate_test_prompt(prompt: str, file_content: str, file_path: str) -> tuple[str, str, str]:
     """
