@@ -120,7 +120,7 @@ def generate_unit_tests(model_name: str, prompt: str, code: str, file_path: str,
 
 
     # Prepare the full prompt and reuse import metadata
-    formatted_prompt, import_section, import_hint = generate_test_prompt(prompt, code, file_path)
+    formatted_prompt, import_section, import_hint = generate_test_prompt(prompt, code, file_path, function_names=function_names)
 
     # Generate test code from LLM
     response = client.chat.completions.create(
