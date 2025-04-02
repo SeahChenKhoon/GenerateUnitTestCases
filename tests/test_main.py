@@ -9,8 +9,8 @@ from theory_evaluation.main import health_check
 
 ```python
 import pytest
-from fastapi.testclient import TestClient
 from unittest.mock import patch
+from fastapi.testclient import TestClient
 from theory_evaluation.main import APP, health_check, startup_event, shutdown_event
 
 @pytest.fixture
@@ -25,11 +25,11 @@ def test_health_check(client):
 
 @patch('theory_evaluation.main.logger')
 def test_startup_event(mock_logger):
-    pytest.raises(RuntimeError, startup_event)
+    APP.router.startup()
     mock_logger.info.assert_called_once_with("Starting up the FastAPI application")
 
 @patch('theory_evaluation.main.logger')
 def test_shutdown_event(mock_logger):
-    pytest.raises(RuntimeError, shutdown_event)
+    APP.router.shutdown()
     mock_logger.info.assert_called_once_with("Shutting down the FastAPI application")
 ```
