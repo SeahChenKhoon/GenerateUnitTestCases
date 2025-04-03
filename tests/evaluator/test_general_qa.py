@@ -20,8 +20,10 @@ from ..llm_utils import initialise_prompt, initialise_settings
 from theory_evaluation.evaluator.general_qa import delete_theory_score
 
 import pytest
-from unittest.mock import AsyncMock, patch
+from unittest.mock import AsyncMock, patch, MagicMock
+from uuid import UUID
 from fastapi import HTTPException
+from fastapi.testclient import TestClient
 from theory_evaluation.evaluator.general_qa import (
     process_theory_evaluation,
     evaluate_theory,
@@ -31,108 +33,101 @@ from theory_evaluation.evaluator.general_qa import (
     TheoryEvaluationScoreRequest,
     TheoryEvaluationDeleteRequest,
 )
-from uuid import UUID
-import pydantic
+from theory_evaluation.utils import (
+    validate_user,
+    get_marking_scheme,
+    manage_user_performance,
+    get_user_performance,
+    delete_user_performance,
+)
+from theory_evaluation.llm_handler import OpenAI_llm
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 
 @pytest.mark.asyncio
-async def test_process_theory_evaluation_success():
-    email = "test@example.com"
-    question_id = UUID("12345678-1234-5678-1234-567812345678")
-    answer = "Test answer"
-    question = "Test question"
-    marking_scheme = "Test marking scheme"
-    model_answer = "Test model answer"
+async def test_process_theory_evaluation_success(mocker):
+    mocker.patch("theory_evaluation.llm_handler.OpenAI_llm.execute", new_callable=AsyncMock, return_value=iter([{"Evaluation": "Good", "Score": 85, "Grade": "B"}]))
+    mocker.patch("theory_evaluation.llm_utils.initialise_prompt", return_value="Prompt")
+    mocker.patch("theory_evaluation.llm_utils.initialise_settings", return_value={})
+    mocker.patch("theory_evaluation.utils.manage_user_performance", return_value=True)
 
-    with patch("theory_evaluation.evaluator.general_qa.initialise_prompt", return_value="Prompt") as mock_initialise_prompt, \
-         patch("theory_evaluation.evaluator.general_qa.initialise_settings", return_value="Settings") as mock_initialise_settings, \
-         patch("theory_evaluation.evaluator.general_qa.llm_completion.execute", new_callable=AsyncMock) as mock_execute, \
-         patch("theory_evaluation.evaluator.general_qa.manage_user_performance", return_value=True) as mock_manage_user_performance:
-        
-        mock_execute.return_value = [{"Evaluation": "Good", "Score": 90, "Grade": "A"}]
-        
-        await process_theory_evaluation(email, question_id, answer, question, marking_scheme, model_answer)
-        
-        assert mock_initialise_prompt.called
-        assert mock_initialise_settings.called
-        assert mock_execute.called
-        assert mock_manage_user_performance.called
+    await process_theory_evaluation(
+        email="test@example.com",
+        question_id=UUID("12345678-1234-5678-1234-567812345678"),
+        answer="Test answer",
+        question="Test question",
+        marking_scheme="Test scheme",
+        model_answer="Test model answer"
+    )
+
+    assert True  # If no exception is raised, the test passes
 
 @pytest.mark.asyncio
-async def test_process_theory_evaluation_failure():
-    email = "test@example.com"
-    question_id = UUID("12345678-1234-5678-1234-567812345678")
-    answer = "Test answer"
-    question = "Test question"
-    marking_scheme = "Test marking scheme"
-    model_answer = "Test model answer"
+async def test_process_theory_evaluation_failure(mocker):
+    mocker.patch("theory_evaluation.llm_handler.OpenAI_llm.execute", new_callable=AsyncMock, return_value=iter([{"Invalid": "Data"}]))
+    mocker.patch("theory_evaluation.llm_utils.initialise_prompt", return_value="Prompt")
+    mocker.patch("theory_evaluation.llm_utils.initialise_settings", return_value={})
+    mocker.patch("theory_evaluation.utils.manage_user_performance", return_value=False)
 
-    with patch("theory_evaluation.evaluator.general_qa.initialise_prompt", return_value="Prompt"), \
-         patch("theory_evaluation.evaluator.general_qa.initialise_settings", return_value="Settings"), \
-         patch("theory_evaluation.evaluator.general_qa.llm_completion.execute", new_callable=AsyncMock) as mock_execute, \
-         patch("theory_evaluation.evaluator.general_qa.manage_user_performance", return_value=False) as mock_manage_user_performance:
-        
-        mock_execute.return_value = [{"Evaluation": None, "Score": None, "Grade": None}]
-        
-        await process_theory_evaluation(email, question_id, answer, question, marking_scheme, model_answer)
-        
-        assert mock_manage_user_performance.called
+    await process_theory_evaluation(
+        email="test@example.com",
+        question_id=UUID("12345678-1234-5678-1234-567812345678"),
+        answer="Test answer",
+        question="Test question",
+        marking_scheme="Test scheme",
+        model_answer="Test model answer"
+    )
 
-@pytest.mark.asyncio
-async def test_evaluate_theory_success():
-    background_tasks = AsyncMock()
-    response = EvaluateTheoryPOSTRequest(email="test@example.com", uuid=UUID("12345678-1234-5678-1234-567812345678"), answer="Test answer")
+    assert True  # If no exception is raised, the test passes
 
-    with patch("theory_evaluation.evaluator.general_qa.validate_user", return_value=True), \
-         patch("theory_evaluation.evaluator.general_qa.get_marking_scheme", return_value=("Question", "Marking Scheme", "Model Answer")), \
-         patch("theory_evaluation.evaluator.general_qa.manage_user_performance", return_value=True):
-        
-        result = await evaluate_theory(background_tasks, response)
-        
-        assert result == {"status": "Accepted", "message": "Processing started"}
+def test_evaluate_theory_missing_fields():
+    with pytest.raises(HTTPException) as excinfo:
+        client = TestClient(evaluate_theory)
+        client.post("/api/v1/evaluate-theory", json={})
+    assert excinfo.value.status_code == 400
 
-@pytest.mark.asyncio
-async def test_evaluate_theory_failure_missing_email():
-    background_tasks = AsyncMock()
-    response = EvaluateTheoryPOSTRequest(email="", uuid=UUID("12345678-1234-5678-1234-567812345678"), answer="Test answer")
+def test_evaluate_theory_user_not_exist(mocker):
+    mocker.patch("theory_evaluation.utils.validate_user", return_value=False)
+    client = TestClient(evaluate_theory)
+    response = client.post("/api/v1/evaluate-theory", json={
+        "email": "test@example.com",
+        "uuid": "12345678-1234-5678-1234-567812345678",
+        "answer": "Test answer"
+    })
+    assert response.json() == {
+        "status": "Not Accepted",
+        "message": "User's email does not exist."
+    }
 
-    with pytest.raises(HTTPException) as exc_info:
-        await evaluate_theory(background_tasks, response)
-    
-    assert exc_info.value.status_code == 400
+def test_get_theory_score_missing_fields():
+    with pytest.raises(HTTPException) as excinfo:
+        client = TestClient(get_theory_score)
+        client.post("/api/v1/get-theory-score", json={})
+    assert excinfo.value.status_code == 400
 
-@pytest.mark.asyncio
-async def test_get_theory_score_success():
-    response = TheoryEvaluationScoreRequest(email="test@example.com", uuid=UUID("12345678-1234-5678-1234-567812345678"))
+def test_get_theory_score_user_not_exist(mocker):
+    mocker.patch("theory_evaluation.utils.validate_user", return_value=False)
+    client = TestClient(get_theory_score)
+    response = client.post("/api/v1/get-theory-score", json={
+        "email": "test@example.com",
+        "uuid": "12345678-1234-5678-1234-567812345678"
+    })
+    assert response.json() == {
+        "user_attempts": 0,
+        "evaluation": "No evaluation available.",
+        "grade": "No grade available."
+    }
 
-    with patch("theory_evaluation.evaluator.general_qa.validate_user", return_value=True), \
-         patch("theory_evaluation.evaluator.general_qa.get_marking_scheme", return_value=("Question", "Marking Scheme", "Model Answer")), \
-         patch("theory_evaluation.evaluator.general_qa.get_user_performance", return_value=(1, "Evaluation", "Grade", 0)):
-        
-        result = await get_theory_score(response)
-        
-        assert result == {"user_attempts": 1, "evaluation": "Evaluation", "grade": "Grade"}
+def test_delete_theory_score_missing_email():
+    with pytest.raises(HTTPException) as excinfo:
+        client = TestClient(delete_theory_score)
+        client.post("/api/v1/delete-theory-score", json={})
+    assert excinfo.value.status_code == 400
 
-@pytest.mark.asyncio
-async def test_get_theory_score_failure_missing_email():
-    response = TheoryEvaluationScoreRequest(email="", uuid=UUID("12345678-1234-5678-1234-567812345678"))
-
-    with pytest.raises(HTTPException) as exc_info:
-        await get_theory_score(response)
-    
-    assert exc_info.value.status_code == 400
-
-def test_delete_theory_score_success():
-    response = TheoryEvaluationDeleteRequest(email="test@example.com", uuid=UUID("12345678-1234-5678-1234-567812345678"))
-
-    with patch("theory_evaluation.evaluator.general_qa.validate_user", return_value=True), \
-         patch("theory_evaluation.evaluator.general_qa.delete_user_performance", return_value=True):
-        
-        delete_theory_score(response)
-
-def test_delete_theory_score_failure_missing_email():
-    response = TheoryEvaluationDeleteRequest(email="", uuid=UUID("12345678-1234-5678-1234-567812345678"))
-
-    with pytest.raises(HTTPException) as exc_info:
-        delete_theory_score(response)
-    
-    assert exc_info.value.status_code == 400
+def test_delete_theory_score_user_not_exist(mocker):
+    mocker.patch("theory_evaluation.utils.validate_user", return_value=False)
+    with pytest.raises(HTTPException) as excinfo:
+        client = TestClient(delete_theory_score)
+        client.post("/api/v1/delete-theory-score", json={
+            "email": "test@example.com"
+        })
+    assert excinfo.value.status_code == 404

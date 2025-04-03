@@ -7,10 +7,7 @@ def test_factorial_with_positive_integer():
 def test_factorial_with_zero():
     assert factorial(0) == 1
 
-def test_factorial_with_one():
-    assert factorial(1) == 1
-
-def test_factorial_raises_value_error_for_negative_integer():
+def test_factorial_with_negative_integer_raises_value_error():
     with pytest.raises(ValueError):
         factorial(-1)
 

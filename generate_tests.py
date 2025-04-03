@@ -191,6 +191,8 @@ def generate_unit_tests(
     formatted_prompt, import_section, import_hint = generate_test_prompt(
         prompt=prompt, file_content=code, file_path=file_path, function_names=function_names
     )
+    logger.info(f"import_section : {import_section}")
+    logger.info(f"import_hint : {import_hint}")
 
     response = provider.chat.completions.create(
         model=model_arg,
