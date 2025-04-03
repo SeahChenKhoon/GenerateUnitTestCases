@@ -1,4 +1,4 @@
-from ..utils import (
+from theory_evaluation.utils import (
     validate_user,
     get_marking_scheme,
     manage_user_performance,
@@ -18,8 +18,8 @@ from fastapi.responses import StreamingResponse
 
 # Intrinsic packages
 import asyncio
-from ..llm_handler import OpenAI_llm
-from ..llm_utils import initialise_prompt, initialise_settings
+from theory_evaluation.llm_handler import OpenAI_llm
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 
 
 router = APIRouter()
