@@ -131,12 +131,28 @@ def _get_model_arguments(provider: str, model_name: str = "", deployment_id: str
 def strip_markdown_fences(text: str) -> str:
     """
     Removes Markdown-style triple backtick fences from LLM output.
+    Logs a warning if any stripping was performed.
+
+    Args:
+        text (str): The raw LLM output string.
+
+    Returns:
+        str: The cleaned string without Markdown-style code fences.
     """
     lines = text.strip().splitlines()
-    if lines[0].strip().startswith("```"):
+    modified = False
+
+    if lines and lines[0].strip().startswith("```"):
         lines = lines[1:]
+        modified = True
+
     if lines and lines[-1].strip().startswith("```"):
         lines = lines[:-1]
+        modified = True
+
+    if modified:
+        logger.warning("Stripped Markdown-style triple backtick fences from LLM output.")
+
     return "\n".join(lines)
 
 
