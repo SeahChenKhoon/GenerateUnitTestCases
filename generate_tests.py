@@ -333,7 +333,7 @@ def main() -> NoReturn:
 
     # Iterate through each Python file and generate corresponding test cases
     for file_path in python_files:
-        logger.info(f"{BOLD}Processing file: {file_path}{RESET}")
+        logger.info(f"{BOLD}Start Processing file: {file_path}{RESET}")
 
         # Read the source code content from the file
         code = file_path.read_text(encoding="utf-8")
@@ -374,14 +374,13 @@ def main() -> NoReturn:
         else:
             logger.warning(f"No public functions found in {file_path}. Skipping test generation.")
 
-        logger.info(f"{BOLD}End Processing file: {file_path}{RESET}\n")
         try:
             # Optionally stage the tests directory (in case it's newly created)
             subprocess.run(["git", "add", env_vars["tests_dir"]], check=True)
             logger.info(f"Staged test directory: {env_vars['tests_dir']}")
         except subprocess.CalledProcessError as e:
             logger.error(f"Failed to stage tests directory: {e}")
-
+        logger.info(f"{BOLD}End Processing file: {file_path}{RESET}\n")
 
 if __name__ == "__main__":
     try:
