@@ -34,37 +34,18 @@ def get_python_files(directory: str) -> List[Path]:
 
 def extract_function_names(code: str) -> List[str]:
     """
-    Extracts all top-level function names and public class method names
-    from the given Python source code.
+    Extracts all top-level function names from the given Python source code.
 
-    This function finds:
-      - Top-level functions (e.g., def func_name(...))
-      - Public methods in classes (e.g., class X:\n    def method_name(...))
-
-    Private/internal methods (starting with '_') are excluded.
+    This function uses a regular expression to find function definitions
+    that start with `def` at the beginning of a line.
 
     Args:
         code (str): The Python source code to analyze.
 
     Returns:
-        List[str]: A list of public function and method names defined in the code.
+        List[str]: A list of function names defined in the code.
     """
-    function_names = set()
-
-    # Extract top-level functions
-    top_level_funcs = re.findall(r'^def\s+([a-zA-Z][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE)
-    function_names.update(top_level_funcs)
-
-    # Extract class methods (public ones only)
-    class_method_pattern = re.compile(
-        r'^\s*class\s+\w+\s*:\s*(?:.|\n)*?'
-        r'(?:(?<=\n)\s+def\s+([a-zA-Z][a-zA-Z0-9_]*)\s*\()',  # capture only public method names
-        re.MULTILINE
-    )
-    class_methods = class_method_pattern.findall(code)
-    function_names.update(class_methods)
-
-    return sorted(function_names)
+    return re.findall(r'^def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE)
 
 def extract_import_statements(code: str) -> List[str]:
     try:
