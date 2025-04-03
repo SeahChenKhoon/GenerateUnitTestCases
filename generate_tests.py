@@ -180,29 +180,47 @@ def save_test_file(src_dir: Path, test_dir: Path, original_path: Path, test_code
     return test_path
 
 
-def clean_test_code(file_path: str) -> str:
+def clean_test_code(code: str) -> str:
     """
-    Reads a Python file and removes all inline comments from each line.
+    Removes inline comments (everything after '#') from a Python code string,
+    while preserving docstrings and indentation.
 
     Args:
-        file_path (str): Path to the Python (.py) file.
+        code (str): Python source code as a string.
 
     Returns:
         str: Cleaned code with inline comments removed.
     """
+    import io
+    import tokenize
+
     cleaned_lines = []
+    tokens = tokenize.generate_tokens(io.StringIO(code).readline)
 
-    with open(file_path, "r", encoding="utf-8") as f:
-        for line in f:
-            stripped = line.strip()
-            if not stripped or stripped.startswith("#"):
-                continue  # skip blank lines and full-line comments
+    current_line = ""
+    last_lineno = -1
+    last_col = 0
 
-            code_part = line.split("#", 1)[0].rstrip()
-            if code_part:
-                cleaned_lines.append(code_part)
+    for token_type, token_string, (start_line, start_col), (_, end_col), line in tokens:
+        if start_line != last_lineno:
+            if current_line.strip():
+                cleaned_lines.append(current_line.rstrip())
+            current_line = ""
+            last_col = 0
+            last_lineno = start_line
+
+        if token_type == tokenize.COMMENT:
+            continue  # Skip comments
+        if start_col > last_col:
+            current_line += " " * (start_col - last_col)
+        current_line += token_string
+        last_col = end_col
+
+    if current_line.strip():
+        cleaned_lines.append(current_line.rstrip())
 
     return "\n".join(cleaned_lines)
+
 
 def _get_llm_client(provider: str) -> Union[OpenAI, AzureOpenAI]:
     """
