@@ -276,6 +276,7 @@ def main() -> NoReturn:
     # Load required variables from .env or environment
     env_vars = _load_env_variables()
     model_arg  = get_llm_client()
+    
     # Collect all Python source files from the configured source directory
     logger.info(f"env file: {env_vars["src_dir"]}")
     python_files = get_python_files(env_vars["src_dir"])
