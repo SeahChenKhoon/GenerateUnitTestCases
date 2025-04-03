@@ -5,9 +5,9 @@ import sys
 import re
 import ast
 import subprocess
-from openai import OpenAI
+from openai import OpenAI, AzureOpenAI
 from pathlib import Path
-from typing import Dict, Any, List, NoReturn
+from typing import Dict, Any, List, NoReturn, Union
 
 # Third-party packages
 from dotenv import load_dotenv
@@ -94,6 +94,7 @@ def _load_env_variables() -> Dict[str, Any]:
 
     return {
         "openai_api_key": os.getenv("OPENAI_API_KEY"),
+        "llm_provider": os.getenv("LLM_PROVIDER"),
         "src_dir": os.getenv("SRC_DIR"),
         "tests_dir": os.getenv("TESTS_DIR"),
         "model_name": os.getenv("MODEL_NAME"),
@@ -134,7 +135,7 @@ def generate_test_prompt(prompt: str, file_content: str, file_path: str, functio
     return formatted_prompt, import_section, import_hint
 
 
-def generate_unit_tests(model_name: str, prompt: str, code: str, file_path: str, function_names:List[str]) -> str:
+def generate_unit_tests(model_arg, prompt: str, code: str, file_path: str, function_names:List[str]) -> str:
     client = OpenAI()
 
 
@@ -143,7 +144,7 @@ def generate_unit_tests(model_name: str, prompt: str, code: str, file_path: str,
 
     # Generate test code from LLM
     response = client.chat.completions.create(
-        model=model_name,
+        model=model_arg,
         messages=[{"role": "user", "content": formatted_prompt}],
         temperature=0.2,
     )
@@ -184,6 +185,7 @@ def clean_test_code(code: str) -> str:
     Cleans LLM-generated test code by:
     - Removing code block fences (e.g., ```python)
     - Trimming to the last meaningful line (function, decorator, import, or class)
+    - Removing inline comments (everything after #)
     - Normalizing line endings
 
     Args:
@@ -193,17 +195,62 @@ def clean_test_code(code: str) -> str:
         str: The cleaned, ready-to-save test code.
     """
     lines = code.strip().splitlines()
+
+    # Remove markdown code fences
     lines = [line for line in lines if not line.strip().startswith("```")]
 
-    pattern = re.compile(r"^(def |@pytest|@patch|import |from |class )")
-    last_code_index = max(
-        (i for i, line in enumerate(lines) if pattern.match(line.strip())),
-        default=len(lines) - 1
-    )
+    # Remove inline comments (anything after '#')
+    stripped_lines = []
+    for line in lines:
+        line_no_comment = line.split("#", 1)[0].rstrip()
+        if line_no_comment:
+            stripped_lines.append(line_no_comment)
 
-    cleaned_lines = lines[:last_code_index + 1]
+    # Find last index of a line that starts a code block
+    pattern = re.compile(r"^(def |@pytest|@patch|import |from |class )")
+    last_code_index = None
+    for i, line in enumerate(stripped_lines):
+        if pattern.match(line.strip()):
+            last_code_index = i
+
+    # If found, include all lines after the last match to preserve multi-line blocks
+    if last_code_index is not None:
+        cleaned_lines = stripped_lines[last_code_index:]
+    else:
+        cleaned_lines = stripped_lines    
     return "\n".join(cleaned_lines).replace("\r", "")
 
+
+def get_llm_client() -> Union[OpenAI, AzureOpenAI]:
+    provider = os.getenv("LLM_PROVIDER").lower()
+
+    if provider == "azure":
+        azure_key = os.getenv("AZURE_OPENAI_KEY")
+        azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
+        api_version = os.getenv("API_VERSION")
+
+        if not azure_key or not azure_endpoint or not api_version:
+            raise EnvironmentError(
+                "Missing one or more Azure environment variables: "
+                "AZURE_OPENAI_KEY, AZURE_OPENAI_ENDPOINT, API_VERSION"
+            )
+
+        return AzureOpenAI(
+            api_key=azure_key,
+            api_version=api_version,
+            azure_endpoint=azure_endpoint,
+        )
+
+    elif provider == "openai":
+        openai_key = os.getenv("OPENAI_API_KEY")
+        if not openai_key:
+            raise EnvironmentError("Missing required environment variable: OPENAI_API_KEY")
+
+        return OpenAI(api_key=openai_key)
+
+    else:
+        raise ValueError(f"Unsupported provider: '{provider}'. Expected 'openai' or 'azure'.")
+    
 
 def main() -> NoReturn:
     """
@@ -228,7 +275,7 @@ def main() -> NoReturn:
 
     # Load required variables from .env or environment
     env_vars = _load_env_variables()
-
+    model_arg  = get_llm_client()
     # Collect all Python source files from the configured source directory
     logger.info(f"env file: {env_vars["src_dir"]}")
     python_files = get_python_files(env_vars["src_dir"])
@@ -244,14 +291,18 @@ def main() -> NoReturn:
             continue
 
         logger.info(f"Generating tests for {file_path}...")
+        # Clean the code to remove unnecessary parts
+        code = clean_test_code(code)
+        logger.info(f"cleaned code : {code}")
 
         # Extract function names and import lines from the file content
         function_names = extract_function_names(code)
-        print(f"function_names : {function_names}")
+        logger.info(f"function_names : {function_names}")
+
         if function_names:
             # Use LLM to generate test code based on the file's content and path
             test_code = generate_unit_tests(
-                model_name=env_vars["model_name"],
+                model_arg=model_arg,
                 prompt=env_vars["llm_test_prompt_template"],
                 code=code,
                 file_path=str(file_path),
@@ -282,6 +333,6 @@ if __name__ == "__main__":
     try:
         main()
     except Exception as e:
-        logger.error(f"❌ Unhandled error: {e}")
+        logger.error(f"Unhandled error: {e}")
     finally:
         sys.exit(0)        

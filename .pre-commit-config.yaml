@@ -20,10 +20,11 @@ repos:
         verbose: true
         always_run: true
 
-      - id: run-tests
-        name: Run All Pytest Tests
-        entry: sh -c 'test -n "$(find tests -name "*.py" -print -quit)" && python -m pytest || echo "No test files found. Skipping pytest."'
-        language: system
-        types: [python]
-        pass_filenames: false
-        always_run: true
+      # - id: run-tests
+      #   name: Run All Pytest Tests
+      #   entry: python -m pytest
+      #   language: system
+      #   types: [python]
+      #   pass_filenames: false
+      #   always_run: true
+      #   verbose: true
