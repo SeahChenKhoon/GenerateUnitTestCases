@@ -89,6 +89,7 @@ def _load_env_variables() -> Dict[str, Any]:
 
 def generate_test_prompt(prompt: str, file_content: str, file_path: str, function_names:List[str]) -> tuple[str, str, str]:
     import_statements = extract_import_statements(file_content)
+    logger.info(f"Hello World {prompt}")
 
     # Convert file path to module path (dot-separated)
     module_path = file_path.replace("\\", "/").replace("/", ".").replace(".py", "")
@@ -104,10 +105,6 @@ def generate_test_prompt(prompt: str, file_content: str, file_path: str, functio
         "import pytest\n" + "\n".join(import_statements)
         if import_statements else "import pytest\n# No imports found in original file"
     )
-
-    # Log for debugging
-    logger.info(f"import_hint : {import_hint}")
-    logger.info(f"import_section : {import_section}")
 
     # Format the prompt using the provided template
     formatted_prompt = prompt.format(
@@ -131,18 +128,30 @@ def _get_model_arguments(provider: str, model_name: str = "", deployment_id: str
         return model_name
     
    
-
 def generate_unit_tests(
-    provider,
-    model_arg,
+    provider: Union[OpenAI, AzureOpenAI],
+    model_arg: str,
     prompt: str,
     code: str,
     file_path: str,
     function_names: List[str]
 ) -> str:
+    """
+    Generates pytest-style unit test code using an LLM (OpenAI or Azure OpenAI).
 
+    Args:
+        provider (Union[OpenAI, AzureOpenAI]): An initialized LLM client.
+        model_arg (str): Model name (for OpenAI) or deployment ID (for Azure OpenAI).
+        prompt (str): The base instruction to guide the test generation.
+        code (str): The source code to be tested.
+        file_path (str): The path of the source file.
+        function_names (List[str]): A list of function names to generate tests for.
+
+    Returns:
+        str: Generated unit test code as a string.
+    """
     formatted_prompt, import_section, import_hint = generate_test_prompt(
-        prompt, code, file_path, function_names=function_names
+        prompt=prompt, file_content=code, file_path=file_path, function_names=function_names
     )
 
     response = provider.chat.completions.create(
@@ -158,6 +167,7 @@ def generate_unit_tests(
         generated_test_code = f"{import_section}\n{import_hint}\n\n{generated_test_code}"
 
     return generated_test_code
+
 
 def save_test_file(src_dir: Path, test_dir: Path, original_path: Path, test_code: str) -> Path:
     """
@@ -291,21 +301,17 @@ def main() -> NoReturn:
             continue
 
         # Clean the code to remove unnecessary parts
-        logger.info(f"cleaning code...")
         code = clean_test_code(code)
-        logger.info(f"cleaned code : {code}")
 
         # Extract function names and import lines from the file content
-        logger.info(f"Before function name extraction...")
         function_names = extract_function_names(code)
-        logger.info(f"function_names : {function_names}")
 
         logger.info(f"Generating tests for {file_path}...")
         if function_names:
             # Use LLM to generate test code based on the file's content and path
             test_code = generate_unit_tests(
-                client,
-                model_arg,
+                provider=client,
+                model_arg=model_arg,
                 prompt=env_vars["llm_test_prompt_template"],
                 code=code,
                 file_path=str(file_path),
