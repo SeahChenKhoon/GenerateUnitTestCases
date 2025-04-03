@@ -287,8 +287,9 @@ def main() -> NoReturn:
 
     # Load required variables from .env or environment
     env_vars = _load_env_variables()
-    
-    provider = _get_llm_client(provider=env_vars["llm_provider"])
+
+    provider=env_vars["llm_provider"]
+    client = _get_llm_client(provider=provider)
     model_arg = _get_model_arguments(provider=provider, model_name=env_vars["model_name"], deployment_id=env_vars["deployment_id"])
 
     # Collect all Python source files from the configured source directory
@@ -317,7 +318,7 @@ def main() -> NoReturn:
         if function_names:
             # Use LLM to generate test code based on the file's content and path
             test_code = generate_unit_tests(
-                provider,
+                client,
                 model_arg,
                 prompt=env_vars["llm_test_prompt_template"],
                 code=code,
