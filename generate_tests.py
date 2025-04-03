@@ -272,15 +272,17 @@ def main() -> NoReturn:
         if not code.strip():
             continue
 
-        logger.info(f"Generating tests for {file_path}...")
         # Clean the code to remove unnecessary parts
+        logger.info(f"cleaning code...")
         code = clean_test_code(code)
         logger.info(f"cleaned code : {code}")
 
         # Extract function names and import lines from the file content
+        logger.info(f"Before function name extraction...")
         function_names = extract_function_names(code)
         logger.info(f"function_names : {function_names}")
 
+        logger.info(f"Generating tests for {file_path}...")
         if function_names:
             # Use LLM to generate test code based on the file's content and path
             test_code = generate_unit_tests(
