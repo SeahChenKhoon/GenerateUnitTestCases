@@ -127,7 +127,19 @@ def _get_model_arguments(provider: str, model_name: str = "", deployment_id: str
             raise ValueError("model_name must be provided for OpenAI")
         return model_name
     
-   
+
+def strip_markdown_fences(text: str) -> str:
+    """
+    Removes Markdown-style triple backtick fences from LLM output.
+    """
+    lines = text.strip().splitlines()
+    if lines[0].strip().startswith("```"):
+        lines = lines[1:]
+    if lines and lines[-1].strip().startswith("```"):
+        lines = lines[:-1]
+    return "\n".join(lines)
+
+
 def generate_unit_tests(
     provider: Union[OpenAI, AzureOpenAI],
     model_arg: str,
@@ -160,7 +172,7 @@ def generate_unit_tests(
         temperature=0.2,
     )
 
-    generated_test_code = response.choices[0].message.content.strip()
+    generated_test_code = strip_markdown_fences(response.choices[0].message.content.strip())
 
     if import_hint not in generated_test_code:
         logger.warning("Import_hint missing from generated output. Injecting it manually.")
