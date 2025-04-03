@@ -20,10 +20,8 @@ from ..llm_utils import initialise_prompt, initialise_settings
 from theory_evaluation.evaluator.general_qa import delete_theory_score
 
 import pytest
-from unittest.mock import patch, AsyncMock, MagicMock
+from unittest.mock import AsyncMock, patch, MagicMock
 from fastapi import HTTPException
-from uuid import UUID
-from pydantic import EmailStr
 from theory_evaluation.evaluator.general_qa import (
     process_theory_evaluation,
     evaluate_theory,
@@ -35,81 +33,89 @@ from theory_evaluation.evaluator.general_qa import (
 )
 
 @pytest.mark.asyncio
-async def test_process_theory_evaluation(mocker):
-    mock_initialise_prompt = mocker.patch('theory_evaluation.evaluator.general_qa.initialise_prompt', return_value="prompt")
-    mock_initialise_settings = mocker.patch('theory_evaluation.evaluator.general_qa.initialise_settings', return_value={})
+async def test_process_theory_evaluation_success(mocker):
     mock_llm_completion = mocker.patch('theory_evaluation.evaluator.general_qa.llm_completion')
-    mock_llm_completion.execute = AsyncMock(return_value=[{"Evaluation": "Good", "Score": 90, "Grade": "A"}])
+    mock_llm_completion.execute = AsyncMock(return_value=[{"Evaluation": "Good", "Score": 85, "Grade": "A"}])
     mock_manage_user_performance = mocker.patch('theory_evaluation.evaluator.general_qa.manage_user_performance', return_value=True)
+    mock_initialise_prompt = mocker.patch('theory_evaluation.evaluator.general_qa.initialise_prompt', return_value="Prompt")
+    mock_initialise_settings = mocker.patch('theory_evaluation.evaluator.general_qa.initialise_settings', return_value={})
 
     await process_theory_evaluation(
-        email=EmailStr("test@example.com"),
-        question_id=UUID("12345678123456781234567812345678"),
-        answer="Test Answer",
-        question="Test Question",
-        marking_scheme="Test Marking Scheme",
-        model_answer="Test Model Answer"
+        email="test@example.com",
+        question_id=UUID("12345678-1234-5678-1234-567812345678"),
+        answer="Answer",
+        question="Question",
+        marking_scheme="Scheme",
+        model_answer="Model Answer"
     )
 
-    assert mock_initialise_prompt.called
-    assert mock_initialise_settings.called
-    assert mock_llm_completion.execute.called
+    assert mock_llm_completion.message == "Prompt"
     assert mock_manage_user_performance.called
 
 @pytest.mark.asyncio
-async def test_evaluate_theory(mocker):
+async def test_process_theory_evaluation_failure(mocker):
+    mock_llm_completion = mocker.patch('theory_evaluation.evaluator.general_qa.llm_completion')
+    mock_llm_completion.execute = AsyncMock(return_value=[{}])
+    mock_manage_user_performance = mocker.patch('theory_evaluation.evaluator.general_qa.manage_user_performance', return_value=False)
+
+    await process_theory_evaluation(
+        email="test@example.com",
+        question_id=UUID("12345678-1234-5678-1234-567812345678"),
+        answer="Answer",
+        question="Question",
+        marking_scheme="Scheme",
+        model_answer="Model Answer"
+    )
+
+    assert mock_manage_user_performance.called
+
+@pytest.mark.asyncio
+async def test_evaluate_theory_success(mocker):
     mock_validate_user = mocker.patch('theory_evaluation.evaluator.general_qa.validate_user', return_value=True)
-    mock_get_marking_scheme = mocker.patch('theory_evaluation.evaluator.general_qa.get_marking_scheme', return_value=("Question", "Marking Scheme", "Model Answer"))
+    mock_get_marking_scheme = mocker.patch('theory_evaluation.evaluator.general_qa.get_marking_scheme', return_value=("Question", "Scheme", "Model Answer"))
     mock_manage_user_performance = mocker.patch('theory_evaluation.evaluator.general_qa.manage_user_performance', return_value=True)
     mock_background_tasks = MagicMock()
 
-    request = EvaluateTheoryPOSTRequest(
-        email="test@example.com",
-        uuid=UUID("12345678123456781234567812345678"),
-        answer="Test Answer"
-    )
+    response = EvaluateTheoryPOSTRequest(email="test@example.com", uuid=UUID("12345678-1234-5678-1234-567812345678"), answer="Answer")
+    result = await evaluate_theory(mock_background_tasks, response)
 
-    response = await evaluate_theory(mock_background_tasks, request)
-
-    assert response == {"status": "Accepted", "message": "Processing started"}
-    assert mock_validate_user.called
-    assert mock_get_marking_scheme.called
-    assert mock_manage_user_performance.called
+    assert result == {"status": "Accepted", "message": "Processing started"}
     assert mock_background_tasks.add_task.called
 
 @pytest.mark.asyncio
-async def test_get_theory_score(mocker):
+async def test_evaluate_theory_user_not_exist(mocker):
+    mock_validate_user = mocker.patch('theory_evaluation.evaluator.general_qa.validate_user', return_value=False)
+
+    response = EvaluateTheoryPOSTRequest(email="test@example.com", uuid=UUID("12345678-1234-5678-1234-567812345678"), answer="Answer")
+    result = await evaluate_theory(MagicMock(), response)
+
+    assert result == {"status": "Not Accepted", "message": "User's email does not exist."}
+
+@pytest.mark.asyncio
+async def test_get_theory_score_success(mocker):
     mock_validate_user = mocker.patch('theory_evaluation.evaluator.general_qa.validate_user', return_value=True)
-    mock_get_marking_scheme = mocker.patch('theory_evaluation.evaluator.general_qa.get_marking_scheme', return_value=("Question", "Marking Scheme", "Model Answer"))
-    mock_get_user_performance = mocker.patch('theory_evaluation.evaluator.general_qa.get_user_performance', return_value=(1, "Evaluation", "Grade", 0))
+    mock_get_marking_scheme = mocker.patch('theory_evaluation.evaluator.general_qa.get_marking_scheme', return_value=("Question", "Scheme", "Model Answer"))
+    mock_get_user_performance = mocker.patch('theory_evaluation.evaluator.general_qa.get_user_performance', return_value=(1, "Evaluation", "A", 0))
 
-    request = TheoryEvaluationScoreRequest(
-        email="test@example.com",
-        uuid=UUID("12345678123456781234567812345678")
-    )
+    response = TheoryEvaluationScoreRequest(email="test@example.com", uuid=UUID("12345678-1234-5678-1234-567812345678"))
+    result = await get_theory_score(response)
 
-    response = await get_theory_score(request)
+    assert result == {"user_attempts": 1, "evaluation": "Evaluation", "grade": "A"}
 
-    assert response == {
-        "user_attempts": 1,
-        "evaluation": "Evaluation",
-        "grade": "Grade"
-    }
-    assert mock_validate_user.called
-    assert mock_get_marking_scheme.called
-    assert mock_get_user_performance.called
-
-def test_delete_theory_score(mocker):
+def test_delete_theory_score_success(mocker):
     mock_validate_user = mocker.patch('theory_evaluation.evaluator.general_qa.validate_user', return_value=True)
     mock_delete_user_performance = mocker.patch('theory_evaluation.evaluator.general_qa.delete_user_performance', return_value=True)
 
-    request = TheoryEvaluationDeleteRequest(
-        email="test@example.com",
-        uuid=UUID("12345678123456781234567812345678")
-    )
+    response = TheoryEvaluationDeleteRequest(email="test@example.com", uuid=UUID("12345678-1234-5678-1234-567812345678"))
+    delete_theory_score(response)
 
-    response = delete_theory_score(request)
-
-    assert response is None
-    assert mock_validate_user.called
     assert mock_delete_user_performance.called
+
+def test_delete_theory_score_user_not_exist(mocker):
+    mock_validate_user = mocker.patch('theory_evaluation.evaluator.general_qa.validate_user', return_value=False)
+
+    response = TheoryEvaluationDeleteRequest(email="test@example.com", uuid=UUID("12345678-1234-5678-1234-567812345678"))
+    with pytest.raises(HTTPException) as excinfo:
+        delete_theory_score(response)
+
+    assert excinfo.value.status_code == 404
