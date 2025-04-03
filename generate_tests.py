@@ -93,14 +93,17 @@ def _load_env_variables() -> Dict[str, Any]:
     load_dotenv(override=True)  # Load environment variables from .env file
 
     return {
-        "openai_api_key": os.getenv("OPENAI_API_KEY"),
         "llm_provider": os.getenv("LLM_PROVIDER"),
+        "openai_api_key": os.getenv("OPENAI_API_KEY"),
+        "azure_openai_endpoint": os.getenv("AZURE_OPENAI_ENDPOINT"),
+        "azure_openai_key": os.getenv("AZURE_OPENAI_KEY"),
+        "deployment_id": os.getenv("DEPLOYMENT_ID"),
+        "api_version": os.getenv("API_VERSION"),        
         "src_dir": os.getenv("SRC_DIR"),
         "tests_dir": os.getenv("TESTS_DIR"),
         "model_name": os.getenv("MODEL_NAME"),
         "llm_test_prompt_template": os.getenv("LLM_TEST_PROMPT_TEMPLATE"),
     }
-
 
 def generate_test_prompt(prompt: str, file_content: str, file_path: str, function_names:List[str]) -> tuple[str, str, str]:
     import_statements = extract_import_statements(file_content)
@@ -134,16 +137,32 @@ def generate_test_prompt(prompt: str, file_content: str, file_path: str, functio
 
     return formatted_prompt, import_section, import_hint
 
+def _get_model_arguments(provider: str, model_name: str = "", deployment_id: str = "") -> str:
+    if provider.lower() == "azure":
+        if not deployment_id:
+            raise ValueError("deployment_id must be provided for Azure OpenAI")
+        return deployment_id
+    else:
+        if not model_name:
+            raise ValueError("model_name must be provided for OpenAI")
+        return model_name
+    
+   
 
-def generate_unit_tests(model_arg, prompt: str, code: str, file_path: str, function_names:List[str]) -> str:
-    client = OpenAI()
+def generate_unit_tests(
+    provider,
+    model_arg,
+    prompt: str,
+    code: str,
+    file_path: str,
+    function_names: List[str]
+) -> str:
 
+    formatted_prompt, import_section, import_hint = generate_test_prompt(
+        prompt, code, file_path, function_names=function_names
+    )
 
-    # Prepare the full prompt and reuse import metadata
-    formatted_prompt, import_section, import_hint = generate_test_prompt(prompt, code, file_path, function_names=function_names)
-
-    # Generate test code from LLM
-    response = client.chat.completions.create(
+    response = provider.chat.completions.create(
         model=model_arg,
         messages=[{"role": "user", "content": formatted_prompt}],
         temperature=0.2,
@@ -151,13 +170,11 @@ def generate_unit_tests(model_arg, prompt: str, code: str, file_path: str, funct
 
     generated_test_code = response.choices[0].message.content.strip()
 
-    # Ensure import_hint is present in output
     if import_hint not in generated_test_code:
         logger.warning("Import_hint missing from generated output. Injecting it manually.")
         generated_test_code = f"{import_section}\n{import_hint}\n\n{generated_test_code}"
 
     return generated_test_code
-
 
 def save_test_file(src_dir: Path, test_dir: Path, original_path: Path, test_code: str) -> Path:
     """
@@ -221,8 +238,21 @@ def clean_test_code(code: str) -> str:
     return "\n".join(cleaned_lines).replace("\r", "")
 
 
-def get_llm_client() -> Union[OpenAI, AzureOpenAI]:
-    provider = os.getenv("LLM_PROVIDER").lower()
+def _get_llm_client(provider: str) -> Union[OpenAI, AzureOpenAI]:
+    """
+    Initializes and returns an OpenAI or AzureOpenAI client based on the provider.
+    
+    Args:
+        provider (str): Either "openai" or "azure".
+
+    Returns:
+        Union[OpenAI, AzureOpenAI]: Configured API client.
+
+    Raises:
+        EnvironmentError: If required environment variables are missing.
+        ValueError: If the provider is invalid.
+    """
+    provider = provider.lower()
 
     if provider == "azure":
         azure_key = os.getenv("AZURE_OPENAI_KEY")
@@ -253,30 +283,14 @@ def get_llm_client() -> Union[OpenAI, AzureOpenAI]:
     
 
 def main() -> NoReturn:
-    """
-    Main entry point for generating unit tests for Python files.
-
-    This function:
-    - Loads environment variables.
-    - Identifies Python files to process:
-        * If filenames are passed as command-line arguments (e.g., by pre-commit),
-          only those files are processed.
-        * Otherwise, all `.py` files in the configured `src_dir` are processed.
-    - For each file:
-        * Reads its content.
-        * Generates pytest-style unit tests using an LLM.
-        * Saves the generated tests to the corresponding location in `tests_dir`.
-        * Stages the test files using `git add`.
-
-    Raises:
-        Logs an error if `git add` fails.
-    """
     logger.info("Loading environment variables...")
 
     # Load required variables from .env or environment
     env_vars = _load_env_variables()
-    model_arg  = get_llm_client()
     
+    provider = _get_llm_client(provider=env_vars["llm_provider"])
+    model_arg = _get_model_arguments(provider=provider, model_name=env_vars["model_name"], deployment_id=env_vars["deployment_id"])
+
     # Collect all Python source files from the configured source directory
     logger.info(f"env file: {env_vars["src_dir"]}")
     python_files = get_python_files(env_vars["src_dir"])
@@ -303,7 +317,8 @@ def main() -> NoReturn:
         if function_names:
             # Use LLM to generate test code based on the file's content and path
             test_code = generate_unit_tests(
-                model_arg=model_arg,
+                provider,
+                model_arg,
                 prompt=env_vars["llm_test_prompt_template"],
                 code=code,
                 file_path=str(file_path),
