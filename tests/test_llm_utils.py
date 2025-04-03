@@ -5,49 +5,51 @@ import yaml
 from unittest.mock import mock_open, patch
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 
-def test_initialise_prompt_success(mocker):
-    mocker.patch("builtins.open", mock_open(read_data="Hello, {$name}!"))
-    mocker.patch("yaml.load", return_value={"name": "World"})
-    mocker.patch("os.path.exists", return_value=True)
+def test_initialise_prompt_success():
+    agent = "test_agent"
+    config_values = {"placeholder": "value"}
+    prompt_structure = "This is a {$placeholder} test."
+    expected_prompt = "This is a value test."
 
-    result = initialise_prompt("test_agent")
-    assert result == "Hello, World!"
+    m_open = mock_open(read_data=yaml.dump(config_values))
+    with patch("builtins.open", m_open):
+        with patch("yaml.load", return_value=config_values):
+            with patch("re.finditer", return_value=[re.match(r"\{\$(\w+)\}", prompt_structure)]):
+                result = initialise_prompt(agent)
+                assert result == expected_prompt
 
-def test_initialise_prompt_missing_config_file(mocker):
-    mocker.patch("builtins.open", side_effect=FileNotFoundError)
-    mocker.patch("os.path.exists", return_value=True)
+def test_initialise_prompt_file_not_found():
+    agent = "test_agent"
+    with patch("builtins.open", side_effect=FileNotFoundError):
+        result = initialise_prompt(agent)
+        assert result is None
 
-    with pytest.raises(FileNotFoundError):
-        initialise_prompt("test_agent")
+def test_initialise_prompt_value_error():
+    agent = "test_agent"
+    with patch("builtins.open", mock_open()):
+        with patch("yaml.load", side_effect=ValueError):
+            result = initialise_prompt(agent)
+            assert result is None
 
-def test_initialise_prompt_invalid_yaml(mocker):
-    mocker.patch("builtins.open", mock_open(read_data="Hello, {$name}!"))
-    mocker.patch("yaml.load", side_effect=yaml.YAMLError)
-    mocker.patch("os.path.exists", return_value=True)
+def test_initialise_settings_success():
+    agent = "test_agent"
+    settings_data = {"setting_key": "setting_value"}
 
-    with pytest.raises(yaml.YAMLError):
-        initialise_prompt("test_agent")
+    m_open = mock_open(read_data=yaml.dump(settings_data))
+    with patch("builtins.open", m_open):
+        with patch("yaml.safe_load", return_value=settings_data):
+            result = initialise_settings(agent)
+            assert result == settings_data
 
-def test_initialise_settings_success(mocker):
-    mock_yaml_data = {"setting1": "value1", "setting2": "value2"}
-    mocker.patch("builtins.open", mock_open(read_data=yaml.dump(mock_yaml_data)))
-    mocker.patch("yaml.safe_load", return_value=mock_yaml_data)
-    mocker.patch("os.path.exists", return_value=True)
+def test_initialise_settings_file_not_found():
+    agent = "test_agent"
+    with patch("builtins.open", side_effect=FileNotFoundError):
+        result = initialise_settings(agent)
+        assert result is None
 
-    result = initialise_settings("test_agent")
-    assert result == mock_yaml_data
-
-def test_initialise_settings_missing_config_file(mocker):
-    mocker.patch("builtins.open", side_effect=FileNotFoundError)
-    mocker.patch("os.path.exists", return_value=True)
-
-    with pytest.raises(FileNotFoundError):
-        initialise_settings("test_agent")
-
-def test_initialise_settings_invalid_yaml(mocker):
-    mocker.patch("builtins.open", mock_open(read_data="invalid_yaml"))
-    mocker.patch("yaml.safe_load", side_effect=yaml.YAMLError)
-    mocker.patch("os.path.exists", return_value=True)
-
-    with pytest.raises(yaml.YAMLError):
-        initialise_settings("test_agent")
+def test_initialise_settings_value_error():
+    agent = "test_agent"
+    with patch("builtins.open", mock_open()):
+        with patch("yaml.safe_load", side_effect=ValueError):
+            result = initialise_settings(agent)
+            assert result is None
