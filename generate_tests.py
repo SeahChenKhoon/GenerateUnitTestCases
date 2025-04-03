@@ -19,6 +19,9 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+BOLD = "\033[1m"
+RESET = "\033[0m"
+
 def get_python_files(directory: str) -> List[Path]:
     """
     Recursively retrieves all Python (.py) files within the given directory.
@@ -330,7 +333,8 @@ def main() -> NoReturn:
 
     # Iterate through each Python file and generate corresponding test cases
     for file_path in python_files:
-        logger.info(f"Processing file: {file_path}")
+        logger.info(f"{BOLD}Processing file: {file_path}{RESET}")
+
         # Read the source code content from the file
         code = file_path.read_text(encoding="utf-8")
 
@@ -340,6 +344,9 @@ def main() -> NoReturn:
 
         # Clean the code to remove unnecessary parts
         code = clean_test_code(code)
+
+        if not _is_valid_python(code):
+            logger.error("Source code is invalid Python.")
 
         # Extract function names and import lines from the file content
         function_names = extract_function_names(code)
@@ -367,7 +374,7 @@ def main() -> NoReturn:
         else:
             logger.warning(f"No public functions found in {file_path}. Skipping test generation.")
 
-
+        logger.info(f"{BOLD}End Processing file: {file_path}{RESET}\n")
         try:
             # Optionally stage the tests directory (in case it's newly created)
             subprocess.run(["git", "add", env_vars["tests_dir"]], check=True)
