@@ -5,16 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "datasets>=3.5.0",
-    "document>=1.0",
-    "dotenv>=0.9.9",
     "fastapi>=0.115.12",
-    "langchain-experimental>=0.3.4",
-    "openai>=1.69.0",
-    "pandas>=2.2.3",
     "pre-commit>=4.2.0",
-    "pytest>=8.3.5",
-    "pytest-mock>=3.14.0",
-    "ragas>=0.2.14",
-    "rouge-score>=0.1.2",
+    "pydantic-settings>=2.8.1",
 ]

@@ -93,3 +93,10 @@ Markdown formatting (no triple backticks)
 {file_content}
 🧪 Output:
 Generate a single test file that is complete and executable with pytest.
+
+$ uv init
+$ uv venv
+$ source .venv\\Scripts\\activate
+$ uv add pre-commit
+$ pre-commit install
+$ uv pip install -r requirements.txt
