@@ -23,8 +23,8 @@ from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 
 
 router = APIRouter()
-llm_completion = OpenAI_llm(useAzureOpenAI=True, output="json", verbose=False)
-
+def llm_completion():
+    return OpenAI_llm(useAzureOpenAI=True, output="json", verbose=False)
 
 async def process_theory_evaluation(
     email: pydantic.EmailStr,
