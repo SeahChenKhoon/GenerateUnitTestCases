@@ -1,8 +1,8 @@
 .env
 tests/
-tests/__pycache__/*.pyc
+tests/__pycache__/
 tests/*.py
 .python-version
 generate_tests.py
-theory_evaluation/__pycache__/*.pyc
-theory_evaluation/evaluator/__pycache__/*.pyc
+theory_evaluation/__pycache__/
+theory_evaluation/evaluator/__pycache__/
