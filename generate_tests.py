@@ -37,18 +37,20 @@ def get_python_files(directory: str) -> List[Path]:
 
 def extract_function_names(code: str) -> List[str]:
     """
-    Extracts all top-level function names from the given Python source code.
+    Extracts all top-level function and class names from the given Python source code.
 
-    This function uses a regular expression to find function definitions
-    that start with `def` at the beginning of a line.
+    This includes both `def` and `async def` functions, and class definitions.
 
     Args:
         code (str): The Python source code to analyze.
 
     Returns:
-        List[str]: A list of function names defined in the code.
+        List[str]: A list of function and class names defined in the code.
     """
-    return re.findall(r'^def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE)
+    function_names = re.findall(r'^(?:async\s+)?def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE)
+    class_names = re.findall(r'^class\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE)
+    return sorted(set(function_names + class_names))
+
 
 def extract_import_statements(code: str) -> List[str]:
     try:
