@@ -9,5 +9,6 @@ dependencies = [
     "fastapi>=0.115.12",
     "pre-commit>=4.2.0",
     "pydantic-settings>=2.8.1",
+    "pytest-asyncio>=0.26.0",
     "sqlalchemy>=2.0.40",
 ]
