@@ -15,7 +15,7 @@ from sqlalchemy.exc import SQLAlchemyError, OperationalError
 from contextlib import contextmanager
 
 # Libraries for postgres database
-from . import models
+from theory_evaluation import models
 
 SessionLocal = None  # Global session factory
 
