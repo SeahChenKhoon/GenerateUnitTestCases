@@ -4,7 +4,8 @@ repos:
     
       - id: clean-tests
         name: Remove and recreate tests folder before generating new ones
-        entry: python -c "import shutil, os, subprocess; shutil.rmtree('tests', ignore_errors=True); os.makedirs('tests', exist_ok=True); subprocess.run(['git', 'add', 'tests'], check=True)"
+        # entry: python -c "import shutil, os, subprocess; shutil.rmtree('tests', ignore_errors=True); os.makedirs('tests', exist_ok=True); subprocess.run(['git', 'add', 'tests'], check=True)"
+        entry: python -c "import shutil, os, subprocess; shutil.rmtree('tests', ignore_errors=True); os.makedirs('tests', exist_ok=True)"
         language: system
         types: [python]
         pass_filenames: false
