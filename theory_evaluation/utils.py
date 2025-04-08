@@ -17,30 +17,34 @@ from contextlib import contextmanager
 # Libraries for postgres database
 from . import models
 
+SessionLocal = None  # Global session factory
 
-# Create DB Session via SQLalchemy ORM =============================
-DB_USER = os.getenv("DB_USER")
-DB_PASSWORD = os.getenv("DB_PASSWORD")
-DB_NAME = os.getenv("DB_NAME")
-DB_HOST = os.getenv("DB_HOST")
-DB_PORT = os.getenv("DB_PORT")
-SSL_MODE = os.getenv("SSL_MODE")
-ENVIRONMENT = os.getenv("ENVIRONMENT")
+def init_db_session():
+    """
+    Initializes the SQLAlchemy session factory using environment variables.
+    """
+    global SessionLocal
 
-if ENVIRONMENT == "local":
-    conn_str = (
-        f"postgresql+psycopg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+    db_user = os.getenv("DB_USER")
+    db_password = os.getenv("DB_PASSWORD")
+    db_name = os.getenv("DB_NAME")
+    db_host = os.getenv("DB_HOST")
+    db_port = os.getenv("DB_PORT")
+    ssl_mode = os.getenv("SSL_MODE")
+    environment = os.getenv("ENVIRONMENT", "local")
+
+    if environment == "local":
+        conn_str = f"postgresql+psycopg://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
+    else:
+        conn_str = (
+            f"postgresql+psycopg://{db_user}:{db_password}@{db_host}:{db_port}/"
+            f"{db_name}?sslmode={ssl_mode}"
+        )
+
+    engine = create_engine(conn_str)
+    SessionLocal = scoped_session(
+        sessionmaker(autocommit=False, autoflush=False, bind=engine)
     )
-else:
-    conn_str = f"postgresql+psycopg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}?sslmode={SSL_MODE}"
-
-engine = create_engine(conn_str)
-
-# scoped_session ensures that each request gets its isolated session without interfering with other request on multiple threads.
-SessionLocal = scoped_session(
-    sessionmaker(autocommit=False, autoflush=False, bind=engine)
-)
-
 
 @contextmanager
 def get_db():
