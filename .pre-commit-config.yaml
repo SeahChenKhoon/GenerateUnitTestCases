@@ -23,7 +23,7 @@ repos:
 
       - id: run-tests
         name: Run All Pytest Tests
-        entry: python -m pytest
+        entry: python -m pytest .
         language: system
         types: [python]
         pass_filenames: false
