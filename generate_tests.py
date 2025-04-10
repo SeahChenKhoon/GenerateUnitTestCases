@@ -137,6 +137,7 @@ def generate_test_prompt(prompt: str, file_content: str, file_path: str, functio
         logger.info(f"file_path - {file_path}")
         logger.info(f"import_statements - {import_statements}")
         logger.info(f"new_import_statements - {new_import_statements}")
+        import_statements = new_import_statements
 
     # Convert file path to module path (dot-separated)
     module_path = file_path.replace("\\", "/").replace("/", ".").replace(".py", "")
