@@ -128,16 +128,12 @@ def update_relative_imports(code: str, file_path: str) -> str:
     return pattern.sub(replacer, code)
 
 def generate_test_prompt(prompt: str, file_content: str, file_path: str, function_names:List[str]) -> tuple[str, str, str]:
-    logger.info(f"Hello World 10")
     import_statements = extract_import_statements(file_content)
-    logger.info(f"Hello World 11")
     new_import_statements = update_relative_imports(code=file_content, file_path=file_path)
-    logger.info(f"Hello World 12")
     if import_statements != new_import_statements:
         logger.info(f"file_path - {file_path}")
         logger.info(f"import_statements - {import_statements}")
         logger.info(f"new_import_statements - {new_import_statements}")
-        import_statements = new_import_statements
 
     # Convert file path to module path (dot-separated)
     module_path = file_path.replace("\\", "/").replace("/", ".").replace(".py", "")
@@ -338,15 +334,12 @@ def main() -> NoReturn:
 
         # Read the source code content from the file
         code = file_path.read_text(encoding="utf-8")
-        logger.info(f"Hello World 1")
 
         # Extract function names and import lines from the file content
         function_names = extract_function_names(code)
-        logger.info(f"Hello World 3")
         logger.info(f"Generating tests for {file_path}...")
         if function_names:
             # Use LLM to generate test code based on the file's content and path
-            logger.info(f"Hello World 4")
             test_code = generate_unit_tests(
                 provider=client,
                 model_arg=model_arg,
