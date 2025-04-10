@@ -94,31 +94,38 @@ def _load_env_variables() -> Dict[str, Any]:
 
 def update_relative_imports(code: str, file_path: str) -> str:
     """
-    Converts relative imports (e.g., from .. import x) to absolute imports
+    Converts relative imports (e.g., from .. import x, from ..module import y) to absolute imports
     using only the file_path by treating its top-level directory as the root module.
     """
-    pattern = re.compile(r"from\s+(\.+)\s+import\s+(\w+)")
     file_path_obj = Path(file_path).with_suffix("")
     module_parts = list(file_path_obj.parts)
+    
+    # Match cases like:
+    #   from . import models
+    #   from .. import utils
+    #   from ...llm_handler import OpenAI_llm
+    #   from ..subpackage.module import something
+    pattern = re.compile(r"from\s+(\.+)([\w\.]*)\s+import\s+(\w+)")
 
     def replacer(match):
-        dots = match.group(1)
-        imported = match.group(2)
+        dots = match.group(1)                  # ., .., ...
+        relative_module = match.group(2)       # can be empty or nested (e.g., llm_handler or sub.module)
+        imported_name = match.group(3)         # imported object
+
         levels_up = len(dots)
-
         if levels_up > len(module_parts):
-            raise ValueError(f"Too many '..' in relative import for path {file_path}")
+            raise ValueError(f"Too many dots in relative import for path {file_path}")
 
+        # Trim path upward based on levels
         base_parts = module_parts[:len(module_parts) - levels_up]
+        # Append relative module parts (if any)
+        if relative_module:
+            base_parts.extend(relative_module.split("."))
 
-        if not base_parts:
-            return f"import {imported}"
-
-        new_import_path = ".".join(base_parts)
-        return f"from {new_import_path} import {imported}"
+        absolute_import = ".".join(base_parts)
+        return f"from {absolute_import} import {imported_name}"
 
     return pattern.sub(replacer, code)
-
 
 def generate_test_prompt(prompt: str, file_content: str, file_path: str, function_names:List[str]) -> tuple[str, str, str]:
     logger.info(f"Hello World 10")
