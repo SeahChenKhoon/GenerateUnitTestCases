@@ -109,6 +109,7 @@ def generate_test_prompt(prompt: str, file_content: str, file_path: str, functio
         "import pytest\n" + "\n".join(import_statements)
         if import_statements else "import pytest\n# No imports found in original file"
     )
+    logger.info(import_section)
 
     # Format the prompt using the provided template
     formatted_prompt = prompt.format(
