@@ -265,48 +265,6 @@ def save_test_file(src_dir: Path, test_dir: Path, original_path: Path, test_code
     return test_path
 
 
-def clean_test_code(code: str) -> str:
-    """
-    Removes inline comments (everything after '#') from a Python code string,
-    while preserving docstrings and indentation.
-
-    Args:
-        code (str): Python source code as a string.
-
-    Returns:
-        str: Cleaned code with inline comments removed.
-    """
-    import io
-    import tokenize
-
-    cleaned_lines = []
-    tokens = tokenize.generate_tokens(io.StringIO(code).readline)
-
-    current_line = ""
-    last_lineno = -1
-    last_col = 0
-
-    for token_type, token_string, (start_line, start_col), (_, end_col), line in tokens:
-        if start_line != last_lineno:
-            if current_line.strip():
-                cleaned_lines.append(current_line.rstrip())
-            current_line = ""
-            last_col = 0
-            last_lineno = start_line
-
-        if token_type == tokenize.COMMENT:
-            continue  # Skip comments
-        if start_col > last_col:
-            current_line += " " * (start_col - last_col)
-        current_line += token_string
-        last_col = end_col
-
-    if current_line.strip():
-        cleaned_lines.append(current_line.rstrip())
-
-    return "\n".join(cleaned_lines)
-
-
 def _get_llm_client(provider: str) -> Union[OpenAI, AzureOpenAI]:
     """
     Initializes and returns an OpenAI or AzureOpenAI client based on the provider.
@@ -376,17 +334,11 @@ def main() -> NoReturn:
     # Iterate through each Python file and generate corresponding test cases
     for file_path in python_files:
         logger.info(f"{BOLD}Start Processing file: {file_path}{RESET}")
-        if is_special_python_file(str(file_path)):
-            logger.info(f"{BOLD}End Processing file: {file_path} - is_special_python_file\n")
-            continue
 
         # Read the source code content from the file
         code = file_path.read_text(encoding="utf-8")
         logger.info(f"Hello World 1")
-        # Skip files that are empty or contain only whitespace
-        if not code.strip():
-            continue
-        logger.info(f"Hello World 2")
+
         # Extract function names and import lines from the file content
         function_names = extract_function_names(code)
         logger.info(f"Hello World 3")
