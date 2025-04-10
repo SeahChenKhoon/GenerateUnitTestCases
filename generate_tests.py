@@ -129,7 +129,7 @@ def generate_test_prompt(prompt: str, file_content: str, file_path: str, functio
 
     # Convert file path to module path (dot-separated)
     module_path = file_path.replace("\\", "/").replace("/", ".").replace(".py", "")
-    
+
     # Create import hint for testing public functions
     import_hint = (
         f"from {module_path} import {', '.join(function_names)}"
@@ -230,10 +230,6 @@ def generate_unit_tests(
     if import_hint not in generated_test_code:
         logger.warning("Import_hint missing from generated output. Injecting it manually.")
         generated_test_code = f"{import_section}\n{import_hint}\n\n{generated_test_code}"
-
-    if not _is_valid_python(generated_test_code):
-        logger.warning("Generated code is invalid Python.")
-
     return generated_test_code
 
 
