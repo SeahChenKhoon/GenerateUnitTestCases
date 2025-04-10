@@ -342,6 +342,13 @@ def _get_llm_client(provider: str) -> Union[OpenAI, AzureOpenAI]:
     else:
         raise ValueError(f"Unsupported provider: '{provider}'. Expected 'openai' or 'azure'.")
     
+def is_special_python_file(file_path: str) -> bool:
+    """
+    Returns True if the file is a special Python file such as __init__.py or __main__.py.
+    """
+    special_files = {"__init__.py", "__main__.py", "__version__.py"}
+    return Path(file_path).name in special_files
+
 
 def main() -> NoReturn:
     logger.info("Loading environment variables...")
@@ -361,7 +368,10 @@ def main() -> NoReturn:
     # Iterate through each Python file and generate corresponding test cases
     for file_path in python_files:
         logger.info(f"{BOLD}Start Processing file: {file_path}{RESET}")
-        
+        if is_special_python_file:
+            logger.info(f"{BOLD}End Processing file: {file_path} - is_special_python_file\n")
+            continue
+
         # Read the source code content from the file
         code = file_path.read_text(encoding="utf-8")
         logger.info(f"Hello World 1")
