@@ -58,12 +58,6 @@ def update_relative_imports(code: str, file_path: str) -> str:
     """
     file_path_obj = Path(file_path).with_suffix("")
     module_parts = list(file_path_obj.parts)
-    
-    # Match cases like:
-    #   from . import models
-    #   from .. import utils
-    #   from ...llm_handler import OpenAI_llm
-    #   from ..subpackage.module import something
     pattern = re.compile(r"from\s+(\.+)([\w\.]*)\s+import\s+(\w+)")
 
     def replacer(match):
@@ -346,24 +340,24 @@ def main() -> NoReturn:
                 function_names=function_names
             )
 
-            # # Save the generated test to the tests directory
-            # test_path = save_test_file(
-            #     Path(env_vars["src_dir"]),
-            #     Path(env_vars["tests_dir"]),
-            #     file_path,
-            #     test_code
-            # )
+            # Save the generated test to the tests directory
+            test_path = save_test_file(
+                Path(env_vars["src_dir"]),
+                Path(env_vars["tests_dir"]),
+                file_path,
+                test_code
+            )
 
         else:
             logger.warning(f"No public functions found in {file_path}. Skipping test generation.")
 
-        # try:
-        #     # Optionally stage the tests directory (in case it's newly created)
-        #     subprocess.run(["git", "add", env_vars["tests_dir"]], check=True)
-        #     logger.info(f"Staged test directory: {env_vars['tests_dir']}")
-        # except subprocess.CalledProcessError as e:
-        #     logger.error(f"Failed to stage tests directory: {e}")
-        # logger.info(f"{BOLD}End Processing file: {file_path}{RESET}\n")
+        try:
+            # Optionally stage the tests directory (in case it's newly created)
+            subprocess.run(["git", "add", env_vars["tests_dir"]], check=True)
+            logger.info(f"Staged test directory: {env_vars['tests_dir']}")
+        except subprocess.CalledProcessError as e:
+            logger.error(f"Failed to stage tests directory: {e}")
+        logger.info(f"{BOLD}End Processing file: {file_path}{RESET}\n")
 
 if __name__ == "__main__":
     try:
