@@ -123,6 +123,7 @@ def update_relative_imports(code: str, file_path: Path) -> str:
 def generate_test_prompt(prompt: str, file_content: str, file_path: str, function_names:List[str]) -> tuple[str, str, str]:
     import_statements = extract_import_statements(file_content)
     new_import_statements = update_relative_imports(code=file_content, file_path=file_path)
+    logger.info(f"Hello World 1")
     if import_statements != new_import_statements:
         logger.info(f"file_path - {file_path}")
         logger.info(f"new_import_statements - {new_import_statements}")
