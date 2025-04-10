@@ -403,24 +403,24 @@ def main() -> NoReturn:
                 function_names=function_names
             )
 
-            # Save the generated test to the tests directory
-            test_path = save_test_file(
-                Path(env_vars["src_dir"]),
-                Path(env_vars["tests_dir"]),
-                file_path,
-                test_code
-            )
+            # # Save the generated test to the tests directory
+            # test_path = save_test_file(
+            #     Path(env_vars["src_dir"]),
+            #     Path(env_vars["tests_dir"]),
+            #     file_path,
+            #     test_code
+            # )
 
         else:
             logger.warning(f"No public functions found in {file_path}. Skipping test generation.")
 
-        try:
-            # Optionally stage the tests directory (in case it's newly created)
-            subprocess.run(["git", "add", env_vars["tests_dir"]], check=True)
-            logger.info(f"Staged test directory: {env_vars['tests_dir']}")
-        except subprocess.CalledProcessError as e:
-            logger.error(f"Failed to stage tests directory: {e}")
-        logger.info(f"{BOLD}End Processing file: {file_path}{RESET}\n")
+        # try:
+        #     # Optionally stage the tests directory (in case it's newly created)
+        #     subprocess.run(["git", "add", env_vars["tests_dir"]], check=True)
+        #     logger.info(f"Staged test directory: {env_vars['tests_dir']}")
+        # except subprocess.CalledProcessError as e:
+        #     logger.error(f"Failed to stage tests directory: {e}")
+        # logger.info(f"{BOLD}End Processing file: {file_path}{RESET}\n")
 
 if __name__ == "__main__":
     try:
