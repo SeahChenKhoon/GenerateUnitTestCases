@@ -92,11 +92,40 @@ def _load_env_variables() -> Dict[str, Any]:
     }
 
 
+def update_relative_imports(code: str, file_path: Path) -> str:
+    """
+    Converts relative imports (e.g., from .. import x) to absolute imports
+    using only the file_path by treating its top-level directory as the root module.
+    """
+    pattern = re.compile(r"from\s+(\.+)\s+import\s+(\w+)")
+
+    def replacer(match):
+        dots = match.group(1)
+        imported = match.group(2)
+
+        levels_up = len(dots)
+        module_parts = list(file_path.with_suffix("").parts)
+
+        if levels_up > len(module_parts):
+            raise ValueError(f"Too many '..' in relative import for path {file_path}")
+
+        base_parts = module_parts[:len(module_parts) - levels_up]
+
+        if not base_parts:
+            return f"import {imported}"  # fallback to plain import if we go to root
+
+        new_import_path = ".".join(base_parts)
+        return f"from {new_import_path} import {imported}"
+
+    return pattern.sub(replacer, code)
+
+
 def generate_test_prompt(prompt: str, file_content: str, file_path: str, function_names:List[str]) -> tuple[str, str, str]:
     import_statements = extract_import_statements(file_content)
-
-    # Convert file path to module path (dot-separated)
-    module_path = file_path.replace("\\", "/").replace("/", ".").replace(".py", "")
+    new_import_statements = update_relative_imports(code=file_content, file_path=file_path)
+    if import_statements != new_import_statements:
+        logger.info(f"file_path - {file_path}")
+        logger.info(f"new_import_statements - {new_import_statements}")
 
     # Create import hint for testing public functions
     import_hint = (
@@ -160,14 +189,6 @@ def strip_markdown_fences(text: str) -> str:
 
     return "\n".join(lines)
 
-
-def _is_valid_python(code: str) -> bool:
-    try:
-        ast.parse(code)
-        return True
-    except SyntaxError:
-        return False
-    
 
 def generate_unit_tests(
     provider: Union[OpenAI, AzureOpenAI],
@@ -338,9 +359,7 @@ def main() -> NoReturn:
     # Iterate through each Python file and generate corresponding test cases
     for file_path in python_files:
         logger.info(f"{BOLD}Start Processing file: {file_path}{RESET}")
-        processed_files.append(file_path)
-        logger.info(f"Hello World {processed_files}")
-
+        
         # Read the source code content from the file
         code = file_path.read_text(encoding="utf-8")
 
