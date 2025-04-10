@@ -92,19 +92,19 @@ def _load_env_variables() -> Dict[str, Any]:
     }
 
 
-def update_relative_imports(code: str, file_path: Path) -> str:
+def update_relative_imports(code: str, file_path: str) -> str:
     """
     Converts relative imports (e.g., from .. import x) to absolute imports
     using only the file_path by treating its top-level directory as the root module.
     """
     pattern = re.compile(r"from\s+(\.+)\s+import\s+(\w+)")
+    file_path_obj = Path(file_path).with_suffix("")
+    module_parts = list(file_path_obj.parts)
 
     def replacer(match):
         dots = match.group(1)
         imported = match.group(2)
-
         levels_up = len(dots)
-        module_parts = list(file_path.with_suffix("").parts)
 
         if levels_up > len(module_parts):
             raise ValueError(f"Too many '..' in relative import for path {file_path}")
@@ -112,7 +112,7 @@ def update_relative_imports(code: str, file_path: Path) -> str:
         base_parts = module_parts[:len(module_parts) - levels_up]
 
         if not base_parts:
-            return f"import {imported}"  # fallback to plain import if we go to root
+            return f"import {imported}"
 
         new_import_path = ".".join(base_parts)
         return f"from {new_import_path} import {imported}"
