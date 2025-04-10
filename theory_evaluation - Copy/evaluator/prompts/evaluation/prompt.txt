@@ -1,0 +1,20 @@
+<System>
+{$system}
+</System>
+
+<Guardrail>
+{$guardrail}
+</Guardrail>
+
+<Task Instructions>
+{$task_instructions}
+</Task Instructions>
+
+<Example Response>
+{$example_response}
+</Example Response>
+
+<Output Format>
+{$output_format}
+</Output Format>
+
