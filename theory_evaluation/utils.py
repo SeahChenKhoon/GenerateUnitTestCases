@@ -19,6 +19,28 @@ from theory_evaluation import models
 
 SessionLocal = None  # Global session factory
 
+db_user = os.getenv("DB_USER")
+db_password = os.getenv("DB_PASSWORD")
+db_name = os.getenv("DB_NAME")
+db_host = os.getenv("DB_HOST")
+db_port = os.getenv("DB_PORT")
+ssl_mode = os.getenv("SSL_MODE")
+environment = os.getenv("ENVIRONMENT", "local")
+
+if environment == "local":
+    conn_str = f"postgresql+psycopg://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
+else:
+    conn_str = (
+        f"postgresql+psycopg://{db_user}:{db_password}@{db_host}:{db_port}/"
+        f"{db_name}?sslmode={ssl_mode}"
+    )
+
+engine = create_engine(conn_str)
+SessionLocal = scoped_session(
+    sessionmaker(autocommit=False, autoflush=False, bind=engine)
+)
+
+
 def init_db_session():
     """
     Initializes the SQLAlchemy session factory using environment variables.
