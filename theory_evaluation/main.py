@@ -1,6 +1,6 @@
 # Libraries required ======================
-from theory_evaluation import config
-from theory_evaluation.evaluator import general_qa
+from . import config
+from .evaluator import general_qa
 
 import fastapi
 from fastapi.responses import JSONResponse

@@ -15,7 +15,9 @@ from sqlalchemy.exc import SQLAlchemyError, OperationalError
 from contextlib import contextmanager
 
 # Libraries for postgres database
-from theory_evaluation import models
+from . import models
+
+
 
 SessionLocal = None  # Global session factory
 
@@ -45,6 +47,8 @@ def init_db_session():
     SessionLocal = scoped_session(
         sessionmaker(autocommit=False, autoflush=False, bind=engine)
     )
+
+
 
 @contextmanager
 def get_db():

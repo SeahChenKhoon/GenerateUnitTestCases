@@ -1,4 +1,4 @@
-from theory_evaluation.utils import (
+from ..utils import (
     validate_user,
     get_marking_scheme,
     manage_user_performance,
@@ -18,13 +18,13 @@ from fastapi.responses import StreamingResponse
 
 # Intrinsic packages
 import asyncio
-from theory_evaluation.llm_handler import OpenAI_llm
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+from ..llm_handler import OpenAI_llm
+from ..llm_utils import initialise_prompt, initialise_settings
 
 
 router = APIRouter()
-def llm_completion():
-    return OpenAI_llm(useAzureOpenAI=True, output="json", verbose=False)
+llm_completion = OpenAI_llm(useAzureOpenAI=True, output="json", verbose=False)
+
 
 async def process_theory_evaluation(
     email: pydantic.EmailStr,
