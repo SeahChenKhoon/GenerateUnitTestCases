@@ -368,7 +368,7 @@ def main() -> NoReturn:
     # Iterate through each Python file and generate corresponding test cases
     for file_path in python_files:
         logger.info(f"{BOLD}Start Processing file: {file_path}{RESET}")
-        if is_special_python_file:
+        if is_special_python_file(str(file_path)):
             logger.info(f"{BOLD}End Processing file: {file_path} - is_special_python_file\n")
             continue
 
