@@ -51,47 +51,6 @@ def extract_function_names(code: str) -> List[str]:
     class_names = re.findall(r'^class\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE)
     return sorted(set(function_names + class_names))
 
-
-def extract_import_statements(code: str) -> List[str]:
-    try:
-        tree = ast.parse(code)
-    except SyntaxError:
-        return []  # or handle parsing errors if needed
-    imports = []
-    for node in ast.walk(tree):
-        if isinstance(node, (ast.Import, ast.ImportFrom)):
-            # Get the exact source text for the import node
-            stmt = ast.get_source_segment(code, node)
-            if stmt is not None:
-                imports.append(stmt)
-    return imports
-
-
-def _load_env_variables() -> Dict[str, Any]:
-    """
-    Loads required environment variables from a .env file and returns them
-    as a dictionary.
-
-    Returns:
-        Dict[str, Optional[str]]: A dictionary containing environment variable
-        values for OpenAI API key, source directory, tests directory, and model name.
-    """
-    load_dotenv(override=True)  # Load environment variables from .env file
-
-    return {
-        "llm_provider": os.getenv("LLM_PROVIDER"),
-        "openai_api_key": os.getenv("OPENAI_API_KEY"),
-        "azure_openai_endpoint": os.getenv("AZURE_OPENAI_ENDPOINT"),
-        "azure_openai_key": os.getenv("AZURE_OPENAI_KEY"),
-        "deployment_id": os.getenv("DEPLOYMENT_ID"),
-        "api_version": os.getenv("API_VERSION"),        
-        "src_dir": os.getenv("SRC_DIR"),
-        "tests_dir": os.getenv("TESTS_DIR"),
-        "model_name": os.getenv("MODEL_NAME"),
-        "llm_test_prompt_template": os.getenv("LLM_TEST_PROMPT_TEMPLATE"),
-    }
-
-
 def update_relative_imports(code: str, file_path: str) -> str:
     """
     Converts relative imports (e.g., from .. import x, from ..module import y) to absolute imports
@@ -127,8 +86,49 @@ def update_relative_imports(code: str, file_path: str) -> str:
 
     return pattern.sub(replacer, code)
 
+
+def extract_import_statements(code: str, file_path:str) -> List[str]:
+    try:
+        tree = ast.parse(code)
+    except SyntaxError:
+        return []  # or handle parsing errors if needed
+    imports = []
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.Import, ast.ImportFrom)):
+            # Get the exact source text for the import node
+            stmt = ast.get_source_segment(code, node)
+            if stmt is not None:
+                imports.append(update_relative_imports(stmt,file_path))
+    return imports
+
+
+def _load_env_variables() -> Dict[str, Any]:
+    """
+    Loads required environment variables from a .env file and returns them
+    as a dictionary.
+
+    Returns:
+        Dict[str, Optional[str]]: A dictionary containing environment variable
+        values for OpenAI API key, source directory, tests directory, and model name.
+    """
+    load_dotenv(override=True)  # Load environment variables from .env file
+
+    return {
+        "llm_provider": os.getenv("LLM_PROVIDER"),
+        "openai_api_key": os.getenv("OPENAI_API_KEY"),
+        "azure_openai_endpoint": os.getenv("AZURE_OPENAI_ENDPOINT"),
+        "azure_openai_key": os.getenv("AZURE_OPENAI_KEY"),
+        "deployment_id": os.getenv("DEPLOYMENT_ID"),
+        "api_version": os.getenv("API_VERSION"),        
+        "src_dir": os.getenv("SRC_DIR"),
+        "tests_dir": os.getenv("TESTS_DIR"),
+        "model_name": os.getenv("MODEL_NAME"),
+        "llm_test_prompt_template": os.getenv("LLM_TEST_PROMPT_TEMPLATE"),
+    }
+
+
 def generate_test_prompt(prompt: str, file_content: str, file_path: str, function_names:List[str]) -> tuple[str, str, str]:
-    import_statements = extract_import_statements(file_content)
+    import_statements = extract_import_statements(file_content, file_path)
     # new_import_statements = update_relative_imports(code=import_statements, file_path=file_path)
     logger.info(f"import_statements - {import_statements}")
 
