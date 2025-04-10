@@ -322,6 +322,7 @@ def _get_llm_client(provider: str) -> Union[OpenAI, AzureOpenAI]:
 
 def main() -> NoReturn:
     logger.info("Loading environment variables...")
+    processed_files = []
 
     # Load required variables from .env or environment
     env_vars = _load_env_variables()
@@ -337,6 +338,8 @@ def main() -> NoReturn:
     # Iterate through each Python file and generate corresponding test cases
     for file_path in python_files:
         logger.info(f"{BOLD}Start Processing file: {file_path}{RESET}")
+        processed_files.append(file_path)
+        logger.info(f"Hello World {processed_files}")
 
         # Read the source code content from the file
         code = file_path.read_text(encoding="utf-8")
