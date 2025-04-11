@@ -23,7 +23,7 @@ BOLD = "\033[1m"
 RESET = "\033[0m"
 
 def _initialize_llm(env_vars: dict) -> Tuple[Union[OpenAI, AzureOpenAI], str]:
-        """
+    """
     Initializes the LLM client and retrieves the appropriate model argument based on the environment configuration.
 
     Args:
