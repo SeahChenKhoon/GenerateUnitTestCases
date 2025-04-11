@@ -488,17 +488,15 @@ def extract_test_functions_with_bodies(test_code: str) -> List[str]:
         re.MULTILINE
     )
     return pattern.findall(test_code)
-
+    
 def run_each_pytest_function_individually(provider, model_arg, source_code: str, test_code: str, temp_path: Path) -> str:
     results = []
 
     # Extract all import statements
-    test_functions = extract_test_functions_with_bodies(test_code)
+    import_lines = "\n".join(re.findall(r"^(import .+|from .+ import .+)", test_code, re.MULTILINE))
 
     # Extract each test function body individually
-    test_functions = re.findall(
-        r"(def\s+test_[\w_]+\s*\([^)]*\):(?:\n(?: {4}|\t).+)+)", test_code
-    )
+    test_functions = extract_test_functions_with_bodies(test_code)
 
     all_test_code = import_lines +"\n"
     temp_path.mkdir(parents=True, exist_ok=True)
