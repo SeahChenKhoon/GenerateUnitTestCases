@@ -90,19 +90,7 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
             function_names=function_names
         )
         
-        for output in run_each_pytest_function_individually(test_code, Path(env_vars["temp_dir"])):
-            # Save the generated test to the tests directory
-            test_path = save_test_file(
-                Path(env_vars["src_dir"]),
-                Path(env_vars["tests_dir"]),
-                file_path,
-                output
-            )
-
-
-
-
-
+        return test_code
 
     except Exception as e:
         logger.error(f"Failed processing {file_path}: {e}")
@@ -457,15 +445,6 @@ def _generate_unit_tests(
         generated_test_code = f"{import_section}\n{import_hint}\n\n{generated_test_code}"
     return generated_test_code
 
-
-# import os
-# import pytest
-# import tempfile
-# from pathlib import Path
-# from typing import List, Tuple
-# from xml.etree import ElementTree as ET
-# from unittest import mock
-
 def extract_test_functions(code: str) -> List[str]:
     """
     Extracts all top-level test function names from the given test code string.
@@ -551,8 +530,14 @@ def main() -> NoReturn:
     logger.info(f"Source directory: {env_vars['src_dir']}")
 
     for file_path in python_files:
-        _process_file(file_path, client, model_arg, env_vars)
-
+        output = _process_file(file_path, client, model_arg, env_vars)
+        test_path = save_test_file(
+                Path(env_vars["src_dir"]),
+                Path(env_vars["tests_dir"]),
+                file_path,
+                test_code
+            )
+        logger.info(f"{test_path}")
 
 if __name__ == "__main__":
     try:
