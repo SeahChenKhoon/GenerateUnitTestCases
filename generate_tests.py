@@ -491,12 +491,18 @@ def run_single_test_file(temp_path: Path) -> Tuple[bool, str]:
     passed = result.returncode == 0
     return passed, result.stdout.strip()
 
+def extract_import_blocks(code: str) -> str:
+    # Pattern to match single-line and multi-line import statements
+    pattern = r"^(?:import\s.+|from\s.+?import\s.+?(?:\n(?: {4}|\t).+)*\)?)"
+    matches = re.findall(pattern, code, flags=re.MULTILINE)
+    return "\n".join(matches)
+
 
 def run_each_pytest_function_individually(provider, model_arg, source_code: str, test_code: str, temp_file:Path):
     results = []
     error_messages = ""
     # Extract all import statements
-    import_lines = "\n".join(re.findall(r"^(import .+|from .+ import .+)", test_code, re.MULTILINE))
+    import_lines = extract_import_blocks(test_code)
     logger.info(f"test_code {test_code}")
     logger.info(f"import_lines {import_lines}")
     all_test_code = import_lines +"\n"
