@@ -78,7 +78,7 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
         code = file_path.read_text(encoding="utf-8")
         function_names = _extract_function_names(code)
         if not function_names:
-            logger.warning(f"No public functions found in {file_path}. Skipping test generation.")
+            logger.warning(f"No public functions found in {file_path}. Skipping test generation.\n")
             return
 
         test_code = _generate_unit_tests(
