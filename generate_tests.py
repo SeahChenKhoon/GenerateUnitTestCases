@@ -490,7 +490,8 @@ def run_each_pytest_function(test_code: str) -> List[str]:
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
                 text=True,
-                env=env
+                env=env,
+                cwd=os.getcwd()
             )
             logger.info("Hello World 16")
             # results.append(f"Running: {test_name}\n{result.stdout}\n{'=' * 80}")
