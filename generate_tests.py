@@ -554,7 +554,7 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
         )
 
         logger.info(f"Hello World 1")
-        # test_code = run_each_pytest_function_individually(client, model_arg, source_code, test_code, Path(env_vars["temp_file"]))
+        test_code = run_each_pytest_function_individually(client, model_arg, source_code, test_code, Path(env_vars["temp_file"]))
         logger.info(f"Hello World 2")
         
         # if test_code:
