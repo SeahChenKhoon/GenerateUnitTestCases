@@ -97,9 +97,6 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
                     file_path,
                     test_code
                 )
-            logger.info(f"{test_path}")
-
-        return test_code
 
     except Exception as e:
         logger.error(f"Failed processing {file_path}: {e}")
