@@ -519,6 +519,9 @@ def run_each_pytest_function_individually(test_code: str, temp_path: Path) -> st
         )
 
         passed = result.returncode == 0
+
+        if not passed:
+            logger.info("result")
     if passed:
         all_test_code += "\n" + test_func_code + "\n"
     else:
