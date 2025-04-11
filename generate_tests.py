@@ -98,8 +98,14 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
             test_code
         )
 
+        all_passed = True
         for output in run_each_pytest_function(test_code, test_path):
             logger.info(f"{output}")
+            if not output[1]:  
+                all_passed = False
+
+        if all_passed:
+            logger.info("Hello World")
 
     except Exception as e:
         logger.error(f"Failed processing {file_path}: {e}")
