@@ -469,42 +469,49 @@ def extract_test_functions(code: str) -> List[str]:
 
 def run_each_pytest_function_individually(test_code: str, test_path: Path) -> List[Tuple[str, bool]]:
     """
-    Runs each pytest test function in the given test file one by one using `-k <test_name>`.
-    
+    Extracts and runs each test function from test_code individually.
+
     Args:
-        test_code (str): The complete pytest test code as a string.
-        test_path (Path): The file path to save the test code to.
+        test_code (str): The full pytest test module code as a string.
+        test_path (Path): Path to save the temporary test file.
 
     Returns:
-        List[Tuple[str, bool]]: List of tuples with (test_name, passed: bool)
+        List of (test_name, passed) results.
     """
     results = []
-    
-    # Save the test code to the given path
-    test_path.parent.mkdir(parents=True, exist_ok=True)
-    test_path.write_text(test_code, encoding="utf-8")
 
-    # Extract test function names
-    test_functions = extract_test_functions(test_code)
+    # Extract all import statements
+    import_lines = "\n".join(re.findall(r"^(import .+|from .+ import .+)", test_code, re.MULTILINE))
 
-    # Set PYTHONPATH=. to ensure imports work
-    env = os.environ.copy()
-    env["PYTHONPATH"] = "."
+    # Extract each test function body individually
+    test_functions = re.findall(
+        r"(def\s+test_[\w_]+\s*\([^)]*\):(?:\n(?: {4}|\t).+)+)", test_code
+    )
 
-    for test_name in test_functions:
-        logger.info(f"Running {test_name}...")
+    for test_func_code in test_functions:
+        # Extract test function name
+        match = re.match(r"def\s+(test_[\w_]+)", test_func_code)
+        if not match:
+            continue
+        test_name = match.group(1)
+
+        # Compose full temp test code (imports + 1 test)
+        full_test_code = f"{import_lines}\n\n{test_func_code}\n"
+
+        # Save to temp file
+        test_path.parent.mkdir(parents=True, exist_ok=True)
+        test_path.write_text(full_test_code, encoding="utf-8")
+
+        # Run pytest on that file and function
         result = subprocess.run(
             ["pytest", str(test_path), "-k", test_name, "--tb=short", "--quiet"],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
-            env=env
+            cwd=os.getcwd()
         )
+
         passed = result.returncode == 0
-
-        if not passed:
-            logger.info(f"To re-run {test_name} test case")
-
         results.append((test_name, passed))
 
     return results
