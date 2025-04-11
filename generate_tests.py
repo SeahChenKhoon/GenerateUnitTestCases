@@ -480,12 +480,29 @@ def save_test_file(src_dir: Path, test_dir: Path, original_path: Path, test_code
     test_path.write_text(test_code, encoding="utf-8")
     return test_path
 
-def extract_test_functions_with_bodies(test_code: str) -> List[str]:
+
+def extract_test_cases_from_code(test_code: str) -> List[str]:
+    """
+    Extracts each full test case (with decorators and body) from a test file's code.
+
+    A test case is defined as any top-level function whose name starts with `test_`,
+    optionally preceded by one or more decorators.
+
+    Args:
+        test_code (str): The raw test file source code.
+
+    Returns:
+        List[str]: A list of full test function blocks as strings.
+    """
     pattern = re.compile(
-        r"(?:@[\w\.\(\)=, \"']+\n)*"               # optional decorators
-        r"def\s+(test_[\w_]+)\s*\([^)]*\):"         # def test_xxx(...):
-        r"(?:\n(?:[ \t]+.+))+",                     # indented body lines
-        re.MULTILINE
+        r"""
+        (                                   # Capture the entire function + decorators
+            (?:@[\w\.]+\s*(?:\([^\n]*\))?\n)*  # Optional decorators
+            def\s+test_[\w_]+\s*\(.*?\):       # The function signature
+            (?:\n(?:[ \t]+.+))+                # The indented body lines
+        )
+        """,
+        re.VERBOSE | re.MULTILINE
     )
     return pattern.findall(test_code)
     
@@ -496,68 +513,70 @@ def run_each_pytest_function_individually(provider, model_arg, source_code: str,
     import_lines = "\n".join(re.findall(r"^(import .+|from .+ import .+)", test_code, re.MULTILINE))
 
     # Extract each test function body individually
-    test_functions = extract_test_functions_with_bodies(test_code)
+    test_functions = extract_test_cases_from_code(test_code)
 
-    all_test_code = import_lines +"\n"
-    temp_path.mkdir(parents=True, exist_ok=True)
-    temp_path = temp_path / "temp.py"
-    for test_func_code in test_functions:
-        # Extract test function name
-        match = re.match(r"def\s+(test_[\w_]+)", test_func_code)
-        if not match:
-            continue
-        test_name = match.group(1)
+    for idx, test_func in enumerate(test_functions, start=1):
+        print(f"\n--- Test Function #{idx} ---\n{test_func}")
+    # all_test_code = import_lines +"\n"
+    # temp_path.mkdir(parents=True, exist_ok=True)
+    # temp_path = temp_path / "temp.py"
+    # for test_func_code in test_functions:
+    #     # Extract test function name
+    #     match = re.match(r"def\s+(test_[\w_]+)", test_func_code)
+    #     if not match:
+    #         continue
+    #     test_name = match.group(1)
 
-        # Compose full temp test code (imports + 1 test)
-        full_test_code = f"{import_lines}\n\n{test_func_code}\n"
+    #     # Compose full temp test code (imports + 1 test)
+    #     full_test_code = f"{import_lines}\n\n{test_func_code}\n"
 
-        temp_path.write_text(full_test_code, encoding="utf-8")
+    #     temp_path.write_text(full_test_code, encoding="utf-8")
 
-        env = os.environ.copy()
-        env["PYTHONPATH"] = str(Path(".").resolve()) 
-        # Run pytest on that file and function
-        result = subprocess.run(
-            ["pytest", str(temp_path), "-k", test_name, "--tb=short", "--quiet"],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True,
-            env=env
-        )
+    #     env = os.environ.copy()
+    #     env["PYTHONPATH"] = str(Path(".").resolve()) 
+    #     # Run pytest on that file and function
+    #     result = subprocess.run(
+    #         ["pytest", str(temp_path), "-k", test_name, "--tb=short", "--quiet"],
+    #         stdout=subprocess.PIPE,
+    #         stderr=subprocess.STDOUT,
+    #         text=True,
+    #         env=env
+    #     )
 
-        passed = result.returncode == 0
+    #     passed = result.returncode == 0
 
-        if not passed:
-            logger.info("Initial Generated Test Case Failed!")
-            formatted_prompt = (
-                f"Based on the source as follows: {source_code}\n\n"
-                f"and unit test case as follows:\n{full_test_code}\n\n"
-                f"and error as follows:\n{result.stdout}\n\n"
-                "🧪 Output: Return ONLY valid .py test code — no Markdown formatting, explanations, or docstrings. - Do NOT wrap your output in backticks."
-            )
+        # if not passed:
+        #     logger.info("Initial Generated Test Case Failed!")
+        #     formatted_prompt = (
+        #         f"Based on the source as follows: {source_code}\n\n"
+        #         f"and unit test case as follows:\n{full_test_code}\n\n"
+        #         f"and error as follows:\n{result.stdout}\n\n"
+        #         "🧪 Output: Return ONLY valid .py test code — no Markdown formatting, explanations, or docstrings. - Do NOT wrap your output in backticks."
+        #     )
 
-            response = provider.chat.completions.create(
-                model=model_arg,
-                messages=[{"role": "user", "content": formatted_prompt}],
-                temperature=0.2,
-            )
-            new_unit_test = strip_markdown_fences(response.choices[0].message.content.strip())
+        #     response = provider.chat.completions.create(
+        #         model=model_arg,
+        #         messages=[{"role": "user", "content": formatted_prompt}],
+        #         temperature=0.2,
+        #     )
+        #     new_unit_test = strip_markdown_fences(response.choices[0].message.content.strip())
 
-            temp_path.write_text(new_unit_test, encoding="utf-8")
-            logger.info(f"new_unit_test - {new_unit_test}")
-            # Run pytest on that file and function
-            result = subprocess.run(
-                ["pytest", str(temp_path), "-k", test_name, "--tb=short", "--quiet"],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                text=True,
-                env=env
-            )
-            passed = result.returncode == 0
+        #     temp_path.write_text(new_unit_test, encoding="utf-8")
+        #     logger.info(f"new_unit_test - {new_unit_test}")
+        #     # Run pytest on that file and function
+        #     result = subprocess.run(
+        #         ["pytest", str(temp_path), "-k", test_name, "--tb=short", "--quiet"],
+        #         stdout=subprocess.PIPE,
+        #         stderr=subprocess.STDOUT,
+        #         text=True,
+        #         env=env
+        #     )
+        #     passed = result.returncode == 0
 
-            if not passed:
-                logger.info(f"Re-tried and failed - {result.STDOUT}")
-            else:
-                logger.info("Passed after re-try")
+        #     if not passed:
+        #         logger.info(f"Re-tried and failed - {result.STDOUT}")
+        #     else:
+        #         logger.info("Passed after re-try")
 
         if passed:
             all_test_code += "\n" + test_func_code + "\n"
