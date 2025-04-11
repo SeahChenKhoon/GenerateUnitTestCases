@@ -52,58 +52,6 @@ def _initialize_llm(env_vars: dict) -> Tuple[Union[OpenAI, AzureOpenAI], str]:
     return client, model_arg
 
 
-def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg: str, env_vars: dict) -> None:
-    """
-    Processes a Python source file by extracting function names, generating unit tests using an LLM,
-    and executing those tests.
-
-    Args:
-        file_path (Path): The path to the Python source file to be processed.
-        client (Union[OpenAI, AzureOpenAI]): The initialized LLM client for generating test code.
-        model_arg (str): The model name (for OpenAI) or deployment ID (for Azure OpenAI).
-        env_vars (dict): A dictionary of environment variables, expected to contain:
-            - "llm_test_prompt_template": The prompt template to guide test generation.
-
-    Returns:
-        None
-
-    Logs:
-        - Start and end of file processing.
-        - Warnings if no public functions are found.
-        - Errors if processing fails.
-    """
-    logger.info(f"{BOLD}Start Processing file: {file_path}{RESET}")
-
-    try:
-        source_code = file_path.read_text(encoding="utf-8")
-        function_names = _extract_function_names(source_code)
-        if not function_names:
-            logger.warning(f"No public functions found in {file_path}. Skipping test generation.\n")
-            return
-
-        test_code = _generate_unit_tests(
-            provider=client,
-            model_arg=model_arg,
-            prompt=env_vars["llm_test_prompt_template"],
-            code=source_code,
-            file_path=str(file_path),
-            function_names=function_names
-        )
-
-        test_code = run_each_pytest_function_individually(client, model_arg, source_code, test_code, Path(env_vars["temp_file"]))
-        
-        if test_code:
-            test_path = save_test_file(
-                    Path(env_vars["src_dir"]),
-                    Path(env_vars["tests_dir"]),
-                    file_path,
-                    test_code
-                )
-
-    except Exception as e:
-        logger.error(f"Failed processing {file_path}: {e}")
-
-    logger.info(f"{BOLD}End Processing file: {file_path}{RESET}\n")
 
 
 def _stage_test_directory(tests_dir: str) -> None:
@@ -566,6 +514,59 @@ def run_each_pytest_function_individually(provider, model_arg, source_code: str,
         passed = result.returncode == 0
 
     return "I love the world"
+
+def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg: str, env_vars: dict) -> None:
+    """
+    Processes a Python source file by extracting function names, generating unit tests using an LLM,
+    and executing those tests.
+
+    Args:
+        file_path (Path): The path to the Python source file to be processed.
+        client (Union[OpenAI, AzureOpenAI]): The initialized LLM client for generating test code.
+        model_arg (str): The model name (for OpenAI) or deployment ID (for Azure OpenAI).
+        env_vars (dict): A dictionary of environment variables, expected to contain:
+            - "llm_test_prompt_template": The prompt template to guide test generation.
+
+    Returns:
+        None
+
+    Logs:
+        - Start and end of file processing.
+        - Warnings if no public functions are found.
+        - Errors if processing fails.
+    """
+    logger.info(f"{BOLD}Start Processing file: {file_path}{RESET}")
+
+    try:
+        source_code = file_path.read_text(encoding="utf-8")
+        function_names = _extract_function_names(source_code)
+        if not function_names:
+            logger.warning(f"No public functions found in {file_path}. Skipping test generation.\n")
+            return
+
+        test_code = _generate_unit_tests(
+            provider=client,
+            model_arg=model_arg,
+            prompt=env_vars["llm_test_prompt_template"],
+            code=source_code,
+            file_path=str(file_path),
+            function_names=function_names
+        )
+
+        test_code = run_each_pytest_function_individually(client, model_arg, source_code, test_code, Path(env_vars["temp_file"]))
+        
+        if test_code:
+            test_path = save_test_file(
+                    Path(env_vars["src_dir"]),
+                    Path(env_vars["tests_dir"]),
+                    file_path,
+                    test_code
+                )
+
+    except Exception as e:
+        logger.error(f"Failed processing {file_path}: {e}")
+
+    logger.info(f"{BOLD}End Processing file: {file_path}{RESET}\n")
 
 
 def main() -> NoReturn:
