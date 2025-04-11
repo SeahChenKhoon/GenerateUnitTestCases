@@ -481,14 +481,14 @@ def run_each_pytest_function(test_code: str) -> List[str]:
         for test_name in test_names:
             logger.info(f"Hello World 14 {test_name}")
             logger.info(f"Hello World 15 {file_path}")
-            result = subprocess.run(
-                ["pytest", file_path, "-k", test_name, "--tb=short", "-q"],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                text=True
-            )
+            # result = subprocess.run(
+            #     ["pytest", file_path, "-k", test_name, "--tb=short", "-q"],
+            #     stdout=subprocess.PIPE,
+            #     stderr=subprocess.STDOUT,
+            #     text=True
+            # )
             logger.info("Hello World 16")
-            results.append(f"Running: {test_name}\n{result.stdout}\n{'=' * 80}")
+            # results.append(f"Running: {test_name}\n{result.stdout}\n{'=' * 80}")
             logger.info("Hello World 17")
 
     return results
