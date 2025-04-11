@@ -488,7 +488,7 @@ def run_each_pytest_function(test_code: str) -> List[str]:
             logger.info(f"Verifying path: {os.path.exists(file_path)}")
             logger.info(f"Verifying absolute path: {os.path.abspath('theory_evaluation/math_utils.py')}")
             result = subprocess.run(
-                ["pytest", "C:/ChenKhoon/JupyterNotebook/GenerateUnitTestCases/theory_evaluation/math_utils.py", "-k", test_name, "--tb=short", "-q"],
+                ["pytest", "C:\Users\User\AppData\Local\Temp\tmpmn8tyx7q\test_case.py", "-k", test_name, "--tb=short", "-q"],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
                 text=True,
