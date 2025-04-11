@@ -511,7 +511,7 @@ def run_each_pytest_function_individually(provider, model_arg, source_code: str,
         passed, result = run_single_test_file(temp_file)
         logger.info(f"passed {passed}")
         logger.info(f"result {result}")
-        passed = result.returncode == 0
+        # passed = result.returncode == 0
 
     return "I love the world"
 
