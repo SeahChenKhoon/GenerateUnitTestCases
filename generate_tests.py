@@ -90,7 +90,7 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
             function_names=function_names
         )
 
-        run_each_pytest_function_individually(source_code, test_code, Path(env_vars["temp_dir"]))
+        run_each_pytest_function_individually(client, model_arg, source_code, test_code, Path(env_vars["temp_dir"]))
         
         if test_code:
             test_path = save_test_file(
@@ -480,8 +480,7 @@ def save_test_file(src_dir: Path, test_dir: Path, original_path: Path, test_code
     test_path.write_text(test_code, encoding="utf-8")
     return test_path
 
-
-def run_each_pytest_function_individually(source_code: str, test_code: str, temp_path: Path) -> str:
+def run_each_pytest_function_individually(provider, model_arg, source_code: str, test_code: str, temp_path: Path) -> str:
     results = []
 
     # Extract all import statements
