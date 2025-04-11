@@ -89,7 +89,8 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
             function_names=function_names
         )
 
-        run_tests_from_code(test_code)
+        for output in run_each_pytest_function(test_code):
+            print(output)
 
 
 
@@ -445,6 +446,39 @@ def _generate_unit_tests(
     return generated_test_code
 
 
+def run_each_pytest_function(test_code: str) -> List[str]:
+    """
+    Executes each pytest test function one at a time from the provided source code.
+
+    Args:
+        test_code: Full Python test code as a string.
+
+    Returns:
+        List of pytest outputs for each test run.
+    """
+    def _extract_test_function_names(code: str) -> List[str]:
+        pattern = r'^(?:async\s+)?def\s+(test_[a-zA-Z_][a-zA-Z0-9_]*)\s*\('
+        return re.findall(pattern, code, re.MULTILINE)
+
+    results = []
+    test_names = _extract_test_function_names(test_code)
+
+    with tempfile.TemporaryDirectory() as tmpdirname:
+        file_path = os.path.join(tmpdirname, "test_case.py")
+        with open(file_path, "w") as f:
+            f.write(test_code)
+
+        for test_name in test_names:
+            result = subprocess.run(
+                ["pytest", file_path, "-k", test_name, "--tb=short", "-q"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True
+            )
+            results.append(f"Running: {test_name}\n{result.stdout}\n{'=' * 80}")
+
+    return results
+
 def save_test_file(src_dir: Path, test_dir: Path, original_path: Path, test_code: str) -> Path:
     """
     Saves the generated test code to the appropriate location in the tests directory.
@@ -464,38 +498,6 @@ def save_test_file(src_dir: Path, test_dir: Path, original_path: Path, test_code
     test_path.parent.mkdir(parents=True, exist_ok=True)
     test_path.write_text(test_code, encoding="utf-8")
     return test_path
-
-
-def run_tests_from_code(test_code: str) -> List[Tuple[str, bool]]:
-    """
-    Accepts Python test code as a string, runs the tests using pytest, and
-    returns a list of tuples (test_name, passed: bool).
-    """
-    results = []
-
-    with tempfile.TemporaryDirectory() as tmpdirname:
-        test_file_path = Path(tmpdirname) / "test_temp_code.py"
-        test_file_path.write_text(test_code)
-
-        # Run pytest on the temporary file and capture results in JUnit format
-        result_code = pytest.main([
-            str(test_file_path),
-            "--tb=no",             # no traceback in output
-            "--quiet",             # less verbose output
-            "--disable-warnings",
-            f"--junitxml={tmpdirname}/results.xml"  # structured results
-        ])
-
-        from xml.etree import ElementTree as ET
-        tree = ET.parse(f"{tmpdirname}/results.xml")
-        root = tree.getroot()
-
-        for testcase in root.iter("testcase"):
-            name = testcase.attrib["name"]
-            failed = any(child.tag in {"failure", "error"} for child in testcase)
-            results.append((name, not failed))
-
-    return results
 
 
 def main() -> NoReturn:
