@@ -13,8 +13,9 @@ def test_circle_area_zero_radius():
     assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_negative_radius():
+    radius = -5
     with pytest.raises(ValueError, match="Radius cannot be negative."):
-        circle_area(-1)
+        circle_area(radius)
 
 def test_circle_circumference_positive_radius():
     radius = 5
@@ -27,5 +28,6 @@ def test_circle_circumference_zero_radius():
     assert circle_circumference(radius) == pytest.approx(expected_circumference)
 
 def test_circle_circumference_negative_radius():
+    radius = -5
     with pytest.raises(ValueError, match="Radius cannot be negative."):
-        circle_circumference(-1)
+        circle_circumference(radius)
