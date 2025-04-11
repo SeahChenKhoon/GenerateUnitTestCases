@@ -99,6 +99,7 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
 
         for count, output in enumerate(run_each_pytest_function(test_code, test_path)):
             print(f"Hello There {count}")
+            print(f"Hello here {output}")
 
     except Exception as e:
         logger.error(f"Failed processing {file_path}: {e}")
