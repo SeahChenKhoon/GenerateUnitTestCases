@@ -103,7 +103,7 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
         )
         logger.info(f"Hello World 6")
 
-        for output in run_each_pytest_function(test_code):
+        for output in run_each_pytest_function(test_code, test_path):
             print(output)
         logger.info(f"Hello World 7")
 
@@ -461,52 +461,44 @@ def _generate_unit_tests(
     return generated_test_code
 
 
-def run_each_pytest_function(test_code: str) -> List[str]:
+def run_each_pytest_function(test_code: str, test_path: Path) -> List[Tuple[str, bool]]:
     """
-    Executes each pytest test function one at a time from the provided source code.
+    Saves the test code to the given test_path, runs each pytest function individually,
+    and returns a list of tuples indicating the test name and its pass/fail result.
 
     Args:
-        test_code: Full Python test code as a string.
+        test_code (str): The generated pytest test code as a string.
+        test_path (Path): The path to save the test file before execution.
 
     Returns:
-        List of pytest outputs for each test run.
+        List[Tuple[str, bool]]: A list of tuples where each tuple is (test_name, passed).
     """
-    def _extract_test_function_names(code: str) -> List[str]:
-        pattern = r'^(?:async\s+)?def\s+(test_[a-zA-Z_][a-zA-Z0-9_]*)\s*\('
-        return re.findall(pattern, code, re.MULTILINE)
-
-    logger.info(f"Hello World 10 {test_code}")
     results = []
-    test_names = _extract_test_function_names(test_code)
-    logger.info("Hello World 11")
+
+    # Ensure directory exists
+    test_path.parent.mkdir(parents=True, exist_ok=True)
+    test_path.write_text(test_code, encoding="utf-8")
 
     with tempfile.TemporaryDirectory() as tmpdirname:
-        logger.info("Hello World 12")
-        file_path = os.path.join(tmpdirname, "test_case.py")
-        with open(file_path, "w") as f:
-            f.write(test_code)
-        logger.info("Hello World 13")
+        xml_report = Path(tmpdirname) / "results.xml"
 
-        env = os.environ.copy()
-        env["PYTHONPATH"] = os.getcwd()
+        # Run pytest and generate JUnit XML report
+        pytest.main([
+            str(test_path),
+            "--tb=no",
+            "--quiet",
+            "--disable-warnings",
+            f"--junitxml={xml_report}"
+        ])
 
-        for test_name in test_names:
-            logger.info(f"Hello World 14 {test_name}")
-            logger.info(f"Hello World 15 {file_path}")
-            logger.info(f"Hello World 15.1 {os.getcwd()}")
-            logger.info(f"Verifying path: {os.path.exists(file_path)}")
-            logger.info(f"Verifying absolute path: {os.path.abspath('theory_evaluation/math_utils.py')}")
-            result = subprocess.run(
-                ["pytest", "C:\\Users\\User\\AppData\\Local\\Temp\\tmpmn8tyx7q\\test_case.py", "-k", test_name, "--tb=short", "-q"],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                text=True,
-                env=env,
-                cwd=os.getcwd()
-            )
-            logger.info("Hello World 16")
-            # results.append(f"Running: {test_name}\n{result.stdout}\n{'=' * 80}")
-            logger.info("Hello World 17")
+        # Parse results
+        tree = ET.parse(xml_report)
+        root = tree.getroot()
+
+        for testcase in root.iter("testcase"):
+            name = testcase.attrib["name"]
+            failed = any(child.tag in {"failure", "error"} for child in testcase)
+            results.append((name, not failed))
 
     return results
 
