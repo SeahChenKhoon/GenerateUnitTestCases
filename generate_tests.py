@@ -90,6 +90,15 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
             function_names=function_names
         )
         
+        if test_code:
+            test_path = save_test_file(
+                    Path(env_vars["src_dir"]),
+                    Path(env_vars["tests_dir"]),
+                    file_path,
+                    output
+                )
+            logger.info(f"{test_path}")
+
         return test_code
 
     except Exception as e:
@@ -527,18 +536,9 @@ def main() -> NoReturn:
         logger.error(f"Initialization failed: {e}")
         raise
 
-    logger.info(f"Source directory: {env_vars['src_dir']}")
-
     for file_path in python_files:
         output = _process_file(file_path, client, model_arg, env_vars)
-        if output:
-            test_path = save_test_file(
-                    Path(env_vars["src_dir"]),
-                    Path(env_vars["tests_dir"]),
-                    file_path,
-                    output
-                )
-            logger.info(f"{test_path}")
+
 
 if __name__ == "__main__":
     try:
