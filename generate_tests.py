@@ -93,7 +93,7 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
         # Save the generated test to the tests directory
         test_path = save_test_file(
             Path(env_vars["src_dir"]),
-            Path(env_vars["tests_dir"]),
+            Path(env_vars["temp_dir"]),
             file_path,
             test_code
         )
@@ -105,7 +105,15 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
                 all_passed = False
 
         if all_passed:
-            logger.info("Hello World")
+            # Save the generated test to the tests directory
+            test_path = save_test_file(
+                Path(env_vars["src_dir"]),
+                Path(env_vars["tests_dir"]),
+                file_path,
+                test_code
+            )
+
+
 
     except Exception as e:
         logger.error(f"Failed processing {file_path}: {e}")
