@@ -533,7 +533,7 @@ def run_each_pytest_function_individually(provider, model_arg, source_code: str,
                 temperature=0.2,
             )
 
-            logger.info(response.choices[0].message.content)
+            logger.info(strip_markdown_fences(response.choices[0].message.content.strip()))
 
 
     if passed:
