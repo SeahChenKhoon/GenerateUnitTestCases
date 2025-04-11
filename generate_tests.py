@@ -524,7 +524,7 @@ def run_each_pytest_function_individually(provider, model_arg, source_code: str,
                 f"Based on the source as follows: {source_code}\n\n"
                 f"and unit test case as follows:\n{full_test_code}\n\n"
                 f"and error as follows:\n{result.stdout}\n\n"
-                "Provide an equivalent test case to resolve the error."
+                "🧪 Output: Return ONLY valid .py test code — no Markdown formatting, explanations, or docstrings. Do NOT wrap your output in backticks."
             )
 
             response = provider.chat.completions.create(

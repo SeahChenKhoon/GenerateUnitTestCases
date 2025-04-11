@@ -11,7 +11,8 @@ from fastapi.testclient import TestClient
 from theory_evaluation.main import APP, health_check, shutdown_event, startup_event
 import logging
 
-def test_health_check(client):
-    response = client.get("/health")
-    assert response.status_code == 200
-    assert response.json() == {"status": "healthy"}
+def test_shutdown_event(mocker):
+    mock_logger = mocker.patch('theory_evaluation.main.logger')
+    await shutdown_event()
+    assert mock_logger.info.called
+    assert mock_logger.info.call_args_list[0][0][0] == "Shutting down the FastAPI application"
