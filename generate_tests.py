@@ -91,9 +91,15 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
         )
         
         for output in run_each_pytest_function_individually(test_code, Path(env_vars["temp_dir"])):
-            logger.info(f"{output}")
-            if not output[1]:  
-                all_passed = False
+            # Save the generated test to the tests directory
+            test_path = save_test_file(
+                Path(env_vars["src_dir"]),
+                Path(env_vars["tests_dir"]),
+                file_path,
+                output
+            )
+
+
 
 
 
@@ -518,9 +524,8 @@ def run_each_pytest_function_individually(test_code: str, test_path: Path) -> Li
         if passed:
             all_test_code += "\n" + test_func_code + "\n"
 
-        results.append((test_name, passed))
-    logger.info(f"all_test_code: {all_test_code}")
-    return results
+        return 
+    return all_test_code
 
 
 def save_test_file(src_dir: Path, test_dir: Path, original_path: Path, test_code: str) -> Path:
