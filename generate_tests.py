@@ -98,7 +98,7 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
             test_code
         )
 
-        for output in enumerate(run_each_pytest_function(test_code, test_path):
+        for output in run_each_pytest_function(test_code, test_path):
             logger.info(f"{output}")
 
     except Exception as e:
