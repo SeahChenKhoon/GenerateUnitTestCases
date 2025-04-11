@@ -531,13 +531,14 @@ def main() -> NoReturn:
 
     for file_path in python_files:
         output = _process_file(file_path, client, model_arg, env_vars)
-        test_path = save_test_file(
-                Path(env_vars["src_dir"]),
-                Path(env_vars["tests_dir"]),
-                file_path,
-                output
-            )
-        logger.info(f"{test_path}")
+        if output:
+            test_path = save_test_file(
+                    Path(env_vars["src_dir"]),
+                    Path(env_vars["tests_dir"]),
+                    file_path,
+                    output
+                )
+            logger.info(f"{test_path}")
 
 if __name__ == "__main__":
     try:
