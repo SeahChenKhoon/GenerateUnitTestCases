@@ -80,7 +80,7 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
             logger.warning(f"No public functions found in {file_path}. Skipping test generation.")
             return
 
-        logger.log(f"{file_path} - _generate_unit_tests")
+        logger.info(f"{file_path} - _generate_unit_tests")
         test_code = _generate_unit_tests(
             provider=client,
             model_arg=model_arg,
@@ -91,7 +91,7 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
         )
         
         # Save the generated test to the tests directory
-        logger.log(f"{file_path} - save_test_file")
+        logger.info(f"{file_path} - save_test_file")
         test_path = save_test_file(
             Path(env_vars["src_dir"]),
             Path(env_vars["tests_dir"]),
@@ -99,10 +99,10 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
             test_code
         )
 
-        logger.log(f"{file_path} - run_each_pytest_function")
+        logger.info(f"{file_path} - run_each_pytest_function")
         for count, output in enumerate(run_each_pytest_function(test_code, test_path)):
-            logger.log(f"{test_path}")
-            logger.log(f"{count + 1}. {output}")
+            logger.info(f"{test_path}")
+            logger.info(f"{count + 1}. {output}")
 
     except Exception as e:
         logger.error(f"Failed processing {file_path}: {e}")
