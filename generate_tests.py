@@ -7,7 +7,7 @@ import ast
 import subprocess
 from openai import OpenAI, AzureOpenAI
 from pathlib import Path
-from typing import Dict, Any, List, NoReturn, Union
+from typing import Dict, Any, List, NoReturn, Union, Tuple
 
 # Third-party packages
 from dotenv import load_dotenv
