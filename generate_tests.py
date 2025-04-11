@@ -493,7 +493,8 @@ def run_each_pytest_function_individually(test_code: str, temp_path: Path) -> st
     )
 
     all_test_code = import_lines +"\n"
-
+    temp_path.mkdir(parents=True, exist_ok=True)
+    temp_path = temp_path / "temp.py"
     for test_func_code in test_functions:
         # Extract test function name
         match = re.match(r"def\s+(test_[\w_]+)", test_func_code)
@@ -503,8 +504,7 @@ def run_each_pytest_function_individually(test_code: str, temp_path: Path) -> st
 
         # Compose full temp test code (imports + 1 test)
         full_test_code = f"{import_lines}\n\n{test_func_code}\n"
-        temp_path.mkdir(parents=True, exist_ok=True)
-        temp_path = temp_path / "temp.py"
+
         temp_path.write_text(full_test_code, encoding="utf-8")
 
         env = os.environ.copy()
