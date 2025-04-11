@@ -493,11 +493,15 @@ def run_single_test_file(temp_path: Path) -> Tuple[bool, str]:
 
 def extract_full_imports(code: str) -> str:
     """
-    Extract all import statements, including multi-line ones.
+    Extract all import statements, including multi-line ones that use parentheses.
     """
-    pattern = r"^([ \t]*(import .+|from .+ import .+(?:\n[ \t]+.+)*))"
-    matches = re.findall(pattern, code, flags=re.MULTILINE)
-    return "\n".join(match[0] for match in matches)
+    pattern = r"""
+        ^(?:import\s+[^\n]+|                           # simple import
+        from\s+[^\n]+\s+import\s+\([^\)]*\))           # from ... import (...) multi-line
+        |^from\s+[^\n]+\s+import\s+[^\n]+$             # from ... import ... single-line
+    """
+    matches = re.findall(pattern, code, flags=re.MULTILINE | re.VERBOSE)
+    return "\n".join(matches)
 
 def run_each_pytest_function_individually(provider, model_arg, source_code: str, test_code: str, temp_file:Path):
     results = []
