@@ -478,14 +478,19 @@ def run_each_pytest_function(test_code: str) -> List[str]:
             f.write(test_code)
         logger.info("Hello World 13")
 
+        env = os.environ.copy()
+        env["PYTHONPATH"] = os.getcwd()
+
         for test_name in test_names:
             logger.info(f"Hello World 14 {test_name}")
             logger.info(f"Hello World 15 {file_path}")
+            logger.info(f"Hello World 15.1 {file_path}")
             result = subprocess.run(
                 ["pytest", file_path, "-k", test_name, "--tb=short", "-q"],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
-                text=True
+                text=True,
+                env=env
             )
             logger.info("Hello World 16")
             # results.append(f"Running: {test_name}\n{result.stdout}\n{'=' * 80}")
