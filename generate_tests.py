@@ -75,8 +75,8 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
     logger.info(f"{BOLD}Start Processing file: {file_path}{RESET}")
 
     try:
-        code = file_path.read_text(encoding="utf-8")
-        function_names = _extract_function_names(code)
+        source_code = file_path.read_text(encoding="utf-8")
+        function_names = _extract_function_names(source_code)
         if not function_names:
             logger.warning(f"No public functions found in {file_path}. Skipping test generation.\n")
             return
@@ -85,12 +85,12 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
             provider=client,
             model_arg=model_arg,
             prompt=env_vars["llm_test_prompt_template"],
-            code=code,
+            code=source_code,
             file_path=str(file_path),
             function_names=function_names
         )
 
-        run_each_pytest_function_individually(test_code, Path(env_vars["temp_dir"]))
+        run_each_pytest_function_individually(source_code, test_code, Path(env_vars["temp_dir"]))
         
         if test_code:
             test_path = save_test_file(
@@ -481,7 +481,7 @@ def save_test_file(src_dir: Path, test_dir: Path, original_path: Path, test_code
     return test_path
 
 
-def run_each_pytest_function_individually(test_code: str, temp_path: Path) -> str:
+def run_each_pytest_function_individually(source_code: str, test_code: str, temp_path: Path) -> str:
     results = []
 
     # Extract all import statements
@@ -521,8 +521,23 @@ def run_each_pytest_function_individually(test_code: str, temp_path: Path) -> st
         passed = result.returncode == 0
 
         if not passed:
-            logger.info(f"Hello World Start\n{test_name} failed with output:\n{result.stdout}")
-            logger.info(f"Hello World End\n")
+            formatted_prompt = f"Based on the source as follows: " +
+                        "{source_code}" +
+                        "and unit test case as follows " +
+                        "{full_test_code} " +
+                        "and error as follows " +
+                        "{result.stdout} " +
+                        "Provide an equalvalent test case to resolve the error." 
+
+            response = provider.chat.completions.create(
+                model=model_arg,
+                messages=[{"role": "user", "content": formatted_prompt}],
+                temperature=0.2,
+            )
+
+            logger.info(response.choices[0].message.content)
+
+
     if passed:
         all_test_code += "\n" + test_func_code + "\n"
     else:
