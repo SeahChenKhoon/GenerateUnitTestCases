@@ -581,7 +581,7 @@ def run_each_pytest_function_individually(provider, model_arg, source_code: str,
             all_test_code += "\n" + test_func + "\n"
 
     
-    return all_test_code
+    return "I love the world"
 
 
     # all_test_code = import_lines +"\n"
