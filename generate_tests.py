@@ -484,13 +484,16 @@ def run_each_pytest_function_individually(test_code: str, test_path: Path) -> Li
     test_path.parent.mkdir(parents=True, exist_ok=True)
     test_path.write_text(test_code, encoding="utf-8")
 
+    logger.info(f"Hello World 2")
     # Extract test function names
     test_functions = extract_test_functions(test_code)
 
+    logger.info(f"Hello World 3")
     # Set PYTHONPATH=. to ensure imports work
     env = os.environ.copy()
     env["PYTHONPATH"] = "."
 
+    logger.info(f"Hello World 4")
     for test_name in test_functions:
         logger.info(f"Running {test_name}...")
         result = subprocess.run(
