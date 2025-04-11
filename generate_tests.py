@@ -503,8 +503,8 @@ def run_each_pytest_function_individually(test_code: str, temp_path: Path) -> st
 
         # Compose full temp test code (imports + 1 test)
         full_test_code = f"{import_lines}\n\n{test_func_code}\n"
-        # Save to temp file
-        temp_path.mkdir(parents=True, exist_ok=True)
+        temp_dir.mkdir(parents=True, exist_ok=True)
+        temp_path = temp_dir / "temp.py"
         temp_path.write_text(full_test_code, encoding="utf-8")
 
         env = os.environ.copy()
