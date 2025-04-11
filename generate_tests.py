@@ -491,23 +491,30 @@ def run_single_test_file(temp_path: Path) -> Tuple[bool, str]:
     passed = result.returncode == 0
     return passed, result.stdout.strip()
 
-def extract_full_imports(code: str) -> str:
+def extract_unique_imports(code: str) -> List[str]:
     """
-    Extract all import statements, including multi-line ones that use parentheses.
+    Extracts all unique import statements from a block of Python code.
+
+    Args:
+        code (str): The Python source code containing import statements.
+
+    Returns:
+        List[str]: A list of deduplicated import statements.
     """
-    pattern = r"""
-        ^(?:import\s+[^\n]+|                           # simple import
-        from\s+[^\n]+\s+import\s+\([^\)]*\))           # from ... import (...) multi-line
-        |^from\s+[^\n]+\s+import\s+[^\n]+$             # from ... import ... single-line
-    """
-    matches = re.findall(pattern, code, flags=re.MULTILINE | re.VERBOSE)
-    return "\n".join(matches)
+    import_lines = re.findall(r'^\s*(import .+|from .+ import .+)', code, re.MULTILINE)
+    seen = set()
+    unique_imports = []
+    for line in import_lines:
+        if line not in seen:
+            seen.add(line)
+            unique_imports.append(line)
+    return unique_imports
 
 def run_each_pytest_function_individually(provider, model_arg, source_code: str, test_code: str, temp_file:Path):
     results = []
     error_messages = ""
     # Extract all import statements
-    import_lines = extract_full_imports(test_code)
+    import_lines = extract_unique_imports(test_code)
     logger.info(f"test_code - {test_code}")
     logger.info(f"import_lines - {import_lines}")
     all_test_code = import_lines +"\n"
