@@ -466,22 +466,29 @@ def run_each_pytest_function(test_code: str) -> List[str]:
         pattern = r'^(?:async\s+)?def\s+(test_[a-zA-Z_][a-zA-Z0-9_]*)\s*\('
         return re.findall(pattern, code, re.MULTILINE)
 
+    logger.info("Hello World 10")
     results = []
     test_names = _extract_test_function_names(test_code)
+    logger.info("Hello World 11")
 
     with tempfile.TemporaryDirectory() as tmpdirname:
+        logger.info("Hello World 12")
         file_path = os.path.join(tmpdirname, "test_case.py")
         with open(file_path, "w") as f:
             f.write(test_code)
+        logger.info("Hello World 13")
 
         for test_name in test_names:
+            logger.info("Hello World 14")
             result = subprocess.run(
                 ["pytest", file_path, "-k", test_name, "--tb=short", "-q"],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
                 text=True
             )
+            logger.info("Hello World 15")
             results.append(f"Running: {test_name}\n{result.stdout}\n{'=' * 80}")
+            logger.info("Hello World 16")
 
     return results
 
