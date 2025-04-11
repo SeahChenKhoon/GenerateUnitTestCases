@@ -14,5 +14,4 @@ import logging
 def test_shutdown_event(mocker):
     mock_logger = mocker.patch("theory_evaluation.main.logger")
     await shutdown_event()
-    assert mock_logger.info.called
-    assert mock_logger.info.call_args_list[0][0][0] == "Shutting down the FastAPI application"
+    mock_logger.info.assert_called_once_with("Shutting down the FastAPI application")
