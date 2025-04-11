@@ -653,7 +653,7 @@ def run_each_pytest_function_individually(provider, model_arg, source_code: str,
         #     all_test_code += "\n" + test_func_code + "\n"
         # else:
         #     logger.info("Not all test case passed")
-    return None
+
 
 
 
