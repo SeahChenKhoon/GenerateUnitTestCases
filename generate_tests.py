@@ -461,6 +461,14 @@ def _generate_unit_tests(
     return generated_test_code
 
 
+import os
+import pytest
+import tempfile
+from pathlib import Path
+from typing import List, Tuple
+from xml.etree import ElementTree as ET
+from unittest import mock
+
 def run_each_pytest_function(test_code: str, test_path: Path) -> List[Tuple[str, bool]]:
     """
     Saves the test code to the given test_path, runs each pytest function individually,
@@ -475,23 +483,27 @@ def run_each_pytest_function(test_code: str, test_path: Path) -> List[Tuple[str,
     """
     results = []
 
-    # Ensure directory exists
+    # Ensure test file directory exists and save the file
     test_path.parent.mkdir(parents=True, exist_ok=True)
     test_path.write_text(test_code, encoding="utf-8")
 
     with tempfile.TemporaryDirectory() as tmpdirname:
         xml_report = Path(tmpdirname) / "results.xml"
 
-        # Run pytest and generate JUnit XML report
-        pytest.main([
-            str(test_path),
-            "--tb=no",
-            "--quiet",
-            "--disable-warnings",
-            f"--junitxml={xml_report}"
-        ])
+        # Set PYTHONPATH temporarily to the current directory
+        env = os.environ.copy()
+        env["PYTHONPATH"] = "."
 
-        # Parse results
+        with mock.patch.dict(os.environ, env):
+            pytest.main([
+                str(test_path),
+                "--tb=no",
+                "--quiet",
+                "--disable-warnings",
+                f"--junitxml={xml_report}"
+            ])
+
+        # Parse results from the XML report
         tree = ET.parse(xml_report)
         root = tree.getroot()
 
@@ -501,6 +513,7 @@ def run_each_pytest_function(test_code: str, test_path: Path) -> List[Tuple[str,
             results.append((name, not failed))
 
     return results
+
 
 def save_test_file(src_dir: Path, test_dir: Path, original_path: Path, test_code: str) -> Path:
     """
