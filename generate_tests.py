@@ -484,7 +484,7 @@ def run_each_pytest_function(test_code: str) -> List[str]:
         for test_name in test_names:
             logger.info(f"Hello World 14 {test_name}")
             logger.info(f"Hello World 15 {file_path}")
-            logger.info(f"Hello World 15.1 {file_path}")
+            logger.info(f"Hello World 15.1 {env["PYTHONPATH"]}")
             result = subprocess.run(
                 ["pytest", file_path, "-k", test_name, "--tb=short", "-q"],
                 stdout=subprocess.PIPE,
