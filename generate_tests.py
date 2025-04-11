@@ -509,7 +509,9 @@ def run_each_pytest_function(test_code: str, test_path: Path) -> List[Tuple[str,
 
         for testcase in root.iter("testcase"):
             name = testcase.attrib["name"]
+            logger.info(f"Hello World 1 name: {name}")
             failed = any(child.tag in {"failure", "error"} for child in testcase)
+            logger.info(f"Hello World 2 failed: {failed}")
             results.append((name, not failed))
 
     return results
