@@ -485,13 +485,15 @@ def run_each_pytest_function(test_code: str, test_path: Path) -> List[Tuple[str,
         env["PYTHONPATH"] = "."
 
         with mock.patch.dict(os.environ, env):
-            pytest.main([
-                str(test_path),
-                "--tb=short",
-                "--quiet",
-                "--disable-warnings",
-                f"--junitxml={xml_report}"
-            ])
+            with open(os.devnull, "w") as devnull:
+                with contextlib.redirect_stdout(devnull):
+                    pytest.main([
+                        str(test_path),
+                        "--tb=short",
+                        "--quiet",
+                        "--disable-warnings",
+                        f"--junitxml={xml_report}"
+                    ])
 
         tree = ET.parse(xml_report)
         root = tree.getroot()
