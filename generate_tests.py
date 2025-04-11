@@ -75,12 +75,15 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
 
     try:
         code = file_path.read_text(encoding="utf-8")
+        logger.info(f"Hello World 1")
         function_names = _extract_function_names(code)
-
+        logger.info(f"Hello World 2")
         if not function_names:
+            logger.info(f"Hello World 3")
             logger.warning(f"No public functions found in {file_path}. Skipping test generation.")
             return
 
+        logger.info(f"Hello World 4")
         test_code = _generate_unit_tests(
             provider=client,
             model_arg=model_arg,
@@ -90,9 +93,10 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
             function_names=function_names
         )
 
+        logger.info(f"Hello World 5")
         for output in run_each_pytest_function(test_code):
             print(output)
-
+        logger.info(f"Hello World 6")
 
 
     except Exception as e:
