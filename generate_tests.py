@@ -499,7 +499,6 @@ def run_each_pytest_function_individually(test_code: str, test_path: Path) -> Li
 
         # Compose full temp test code (imports + 1 test)
         full_test_code = f"{import_lines}\n\n{test_func_code}\n"
-        logger.info(full_test_code)
         # Save to temp file
         test_path.parent.mkdir(parents=True, exist_ok=True)
         test_path.write_text(full_test_code, encoding="utf-8")
@@ -518,7 +517,7 @@ def run_each_pytest_function_individually(test_code: str, test_path: Path) -> Li
             all_test_code += "\n" + test_func_code
 
         results.append((test_name, passed))
-    print(f"all_test_code: {all_test_code}")
+    logger.info(f"all_test_code: {all_test_code}")
     return results
 
 
