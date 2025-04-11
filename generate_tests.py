@@ -89,6 +89,8 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
             file_path=str(file_path),
             function_names=function_names
         )
+
+        run_each_pytest_function_individually(test_code, env_vars["temp_dir"])
         
         if test_code:
             test_path = save_test_file(
@@ -451,6 +453,7 @@ def _generate_unit_tests(
         generated_test_code = f"{import_section}\n{import_hint}\n\n{generated_test_code}"
     return generated_test_code
 
+
 def extract_test_functions(code: str) -> List[str]:
     """
     Extracts all top-level test function names from the given test code string.
@@ -478,7 +481,7 @@ def save_test_file(src_dir: Path, test_dir: Path, original_path: Path, test_code
     return test_path
 
 
-def run_each_pytest_function_individually(test_code: str, test_path: Path) -> str:
+def run_each_pytest_function_individually(test_code: str, temp_path: Path) -> str:
     results = []
 
     # Extract all import statements
@@ -501,14 +504,14 @@ def run_each_pytest_function_individually(test_code: str, test_path: Path) -> st
         # Compose full temp test code (imports + 1 test)
         full_test_code = f"{import_lines}\n\n{test_func_code}\n"
         # Save to temp file
-        test_path.parent.mkdir(parents=True, exist_ok=True)
-        test_path.write_text(full_test_code, encoding="utf-8")
+        temp_path.parent.mkdir(parents=True, exist_ok=True)
+        temp_path.write_text(full_test_code, encoding="utf-8")
 
         env = os.environ.copy()
         env["PYTHONPATH"] = str(Path(".").resolve()) 
         # Run pytest on that file and function
         result = subprocess.run(
-            ["pytest", str(test_path), "-k", test_name, "--tb=short", "--quiet"],
+            ["pytest", str(temp_path), "-k", test_name, "--tb=short", "--quiet"],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
@@ -518,6 +521,8 @@ def run_each_pytest_function_individually(test_code: str, test_path: Path) -> st
         passed = result.returncode == 0
         if passed:
             all_test_code += "\n" + test_func_code + "\n"
+        else:
+            logger.info("Not all test case passed")
     return all_test_code
 
 
