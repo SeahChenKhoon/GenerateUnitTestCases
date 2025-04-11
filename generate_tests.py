@@ -514,7 +514,6 @@ def run_each_pytest_function_individually(provider, model_arg, source_code: str,
         
         count = 0
         max_retries = 3
-        passed = False
 
         while count < max_retries and not passed:
             logger.info(f"Regenerate new test case")
