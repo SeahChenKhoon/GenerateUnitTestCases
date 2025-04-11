@@ -90,28 +90,11 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
             function_names=function_names
         )
         
-        # Save the generated test to the tests directory
-        test_path = save_test_file(
-            Path(env_vars["src_dir"]),
-            Path(env_vars["temp_dir"]),
-            file_path,
-            test_code
-        )
-
-        all_passed = True
-        for output in run_each_pytest_function(test_code, test_path):
+        for output in run_each_pytest_function_individually(test_code, env_vars["temp_dir"]):
             logger.info(f"{output}")
             if not output[1]:  
                 all_passed = False
 
-        if all_passed:
-            # Save the generated test to the tests directory
-            test_path = save_test_file(
-                Path(env_vars["src_dir"]),
-                Path(env_vars["tests_dir"]),
-                file_path,
-                test_code
-            )
 
 
 
@@ -477,49 +460,48 @@ from typing import List, Tuple
 from xml.etree import ElementTree as ET
 from unittest import mock
 
-def run_each_pytest_function(test_code: str, test_path: Path) -> List[Tuple[str, bool, str]]:
+def extract_test_functions(code: str) -> List[str]:
     """
-    Saves the test code to the given test_path, runs all tests, and returns results with details.
+    Extracts all top-level test function names from the given test code string.
+    """
+    return re.findall(r'^def\s+(test_\w+)\s*\(', code, re.MULTILINE)
+
+
+def run_each_pytest_function_individually(test_code: str, test_path: Path) -> List[Tuple[str, bool]]:
+    """
+    Runs each pytest test function in the given test file one by one using `-k <test_name>`.
+    
+    Args:
+        test_code (str): The complete pytest test code as a string.
+        test_path (Path): The file path to save the test code to.
 
     Returns:
-        List of tuples: (test_name, passed: bool, message: str)
+        List[Tuple[str, bool]]: List of tuples with (test_name, passed: bool)
     """
     results = []
 
+    # Save the test code to the given path
     test_path.parent.mkdir(parents=True, exist_ok=True)
     test_path.write_text(test_code, encoding="utf-8")
 
-    with tempfile.TemporaryDirectory() as tmpdirname:
-        xml_report = Path(tmpdirname) / "results.xml"
+    # Extract test function names
+    test_functions = extract_test_functions(test_code)
 
-        env = os.environ.copy()
-        env["PYTHONPATH"] = "."
+    # Set PYTHONPATH=. to ensure imports work
+    env = os.environ.copy()
+    env["PYTHONPATH"] = "."
 
-        with mock.patch.dict(os.environ, env):
-            with open(os.devnull, "w") as devnull:
-                with contextlib.redirect_stdout(devnull):
-                    pytest.main([
-                        str(test_path),
-                        "--tb=short",
-                        "--quiet",
-                        "--disable-warnings",
-                        f"--junitxml={xml_report}"
-                    ])
-
-        tree = ET.parse(xml_report)
-        root = tree.getroot()
-
-        for testcase in root.iter("testcase"):
-            name = testcase.attrib["name"]
-            failure = testcase.find("failure")
-            error = testcase.find("error")
-
-            if failure is not None:
-                results.append((name, False, failure.text.strip()))
-            elif error is not None:
-                results.append((name, False, error.text.strip()))
-            else:
-                results.append((name, True, "Passed"))
+    for test_name in test_functions:
+        print(f"Running {test_name}...")
+        result = subprocess.run(
+            ["pytest", str(test_path), "-k", test_name, "--tb=short", "--quiet"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            env=env
+        )
+        passed = result.returncode == 0
+        results.append((test_name, passed))
 
     return results
 
