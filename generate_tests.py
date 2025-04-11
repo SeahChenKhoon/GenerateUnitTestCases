@@ -479,7 +479,7 @@ def run_each_pytest_function_individually(test_code: str, test_path: Path) -> Li
         List[Tuple[str, bool]]: List of tuples with (test_name, passed: bool)
     """
     results = []
-
+    logger.info(f"Hello World 1")
     # Save the test code to the given path
     test_path.parent.mkdir(parents=True, exist_ok=True)
     test_path.write_text(test_code, encoding="utf-8")
@@ -492,7 +492,7 @@ def run_each_pytest_function_individually(test_code: str, test_path: Path) -> Li
     env["PYTHONPATH"] = "."
 
     for test_name in test_functions:
-        print(f"Running {test_name}...")
+        logger.info(f"Running {test_name}...")
         result = subprocess.run(
             ["pytest", str(test_path), "-k", test_name, "--tb=short", "--quiet"],
             stdout=subprocess.PIPE,
