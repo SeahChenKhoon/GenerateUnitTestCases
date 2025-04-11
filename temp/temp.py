@@ -1,9 +1,12 @@
 import pytest
-from pydantic_settings import BaseSettings
-from theory_evaluation.config import Settings
+import os
+import yaml
+import re
+from unittest.mock import patch, mock_open
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 
-def test_settings_default_values():
-    settings = Settings()
-    assert settings.API_NAME == "project_simulation_fastapi"
-    assert settings.API_V1_STR == "/api/v1"
-    assert settings.LOGGER_CONFIG_PATH == "../conf/base/logging.yml"
+def test_initialise_settings_file_not_found():
+    agent = "non_existent_agent"
+    with patch("builtins.open", side_effect=FileNotFoundError):
+        result = initialise_settings(agent)
+        assert result is None
