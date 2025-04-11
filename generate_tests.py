@@ -514,9 +514,9 @@ def run_each_pytest_function_individually(provider, model_arg, source_code: str,
     results = []
     error_messages = ""
     # Extract all import statements
-    cleaned_imports = extract_unique_imports(test_code)
+    import_lines = extract_unique_imports(test_code)
     logger.info(f"test_code - {test_code}")
-    logger.info(f"import_lines - {cleaned_imports}")
+    logger.info(f"import_lines - {import_lines}")
     all_test_code = import_lines +"\n"
 
     # Extract each test function body individually
