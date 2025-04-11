@@ -517,7 +517,7 @@ def run_each_pytest_function_individually(test_code: str, test_path: Path) -> Li
         if passed:
             all_test_code += "\n" + test_func_code
 
-        print(all_test_code)
+        print(f"all_test_code: {all_test_code}")
         results.append((test_name, passed))
 
     return results
