@@ -555,13 +555,13 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
 
         test_code = run_each_pytest_function_individually(client, model_arg, source_code, test_code, Path(env_vars["temp_file"]))
         
-        if test_code:
-            test_path = save_test_file(
-                    Path(env_vars["src_dir"]),
-                    Path(env_vars["tests_dir"]),
-                    file_path,
-                    test_code
-                )
+        # if test_code:
+        #     test_path = save_test_file(
+        #             Path(env_vars["src_dir"]),
+        #             Path(env_vars["tests_dir"]),
+        #             file_path,
+        #             test_code
+        #         )
 
     except Exception as e:
         logger.error(f"Failed processing {file_path}: {e}")
