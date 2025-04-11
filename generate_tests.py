@@ -473,17 +473,7 @@ def extract_test_functions(code: str) -> List[str]:
     return re.findall(r'^def\s+(test_\w+)\s*\(', code, re.MULTILINE)
 
 
-def run_each_pytest_function_individually(test_code: str, test_path: Path) -> List[Tuple[str, bool]]:
-    """
-    Extracts and runs each test function from test_code individually.
-
-    Args:
-        test_code (str): The full pytest test module code as a string.
-        test_path (Path): Path to save the temporary test file.
-
-    Returns:
-        List of (test_name, passed) results.
-    """
+def run_each_pytest_function_individually(test_code: str, test_path: Path) -> str:
     results = []
 
     # Extract all import statements
@@ -523,8 +513,6 @@ def run_each_pytest_function_individually(test_code: str, test_path: Path) -> Li
         passed = result.returncode == 0
         if passed:
             all_test_code += "\n" + test_func_code + "\n"
-
-        return 
     return all_test_code
 
 
