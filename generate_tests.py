@@ -161,7 +161,8 @@ def _get_llm_client(provider: str) -> Union[OpenAI, AzureOpenAI]:
             - For "azure": AZURE_OPENAI_KEY, AZURE_OPENAI_ENDPOINT, API_VERSION
             - For "openai": OPENAI_API_KEY
         ValueError: If the provider name is unsupported.
-    """    provider = provider.lower()
+    """    
+    provider = provider.lower()
 
     if provider == "azure":
         required_vars = {
