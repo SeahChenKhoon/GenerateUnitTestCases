@@ -503,13 +503,15 @@ def run_each_pytest_function_individually(test_code: str, test_path: Path) -> Li
         test_path.parent.mkdir(parents=True, exist_ok=True)
         test_path.write_text(full_test_code, encoding="utf-8")
 
+        env = os.environ.copy()
+        env["PYTHONPATH"] = str(Path(".").resolve()) 
         # Run pytest on that file and function
         result = subprocess.run(
             ["pytest", str(test_path), "-k", test_name, "--tb=short", "--quiet"],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
-            cwd=os.getcwd()
+            env=env
         )
 
         passed = result.returncode == 0
