@@ -535,7 +535,7 @@ def main() -> NoReturn:
                 Path(env_vars["src_dir"]),
                 Path(env_vars["tests_dir"]),
                 file_path,
-                test_code
+                output
             )
         logger.info(f"{test_path}")
 
