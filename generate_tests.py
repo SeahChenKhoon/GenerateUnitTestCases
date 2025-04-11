@@ -90,7 +90,7 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
             function_names=function_names
         )
         
-        for output in run_each_pytest_function_individually(test_code, env_vars["temp_dir"]):
+        for output in run_each_pytest_function_individually(test_code, Path(env_vars["temp_dir"])):
             logger.info(f"{output}")
             if not output[1]:  
                 all_passed = False
