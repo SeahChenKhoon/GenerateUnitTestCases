@@ -90,7 +90,7 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
             function_names=function_names
         )
 
-        run_each_pytest_function_individually(test_code, env_vars["temp_dir"])
+        run_each_pytest_function_individually(test_code, Path(env_vars["temp_dir"]))
         
         if test_code:
             test_path = save_test_file(
