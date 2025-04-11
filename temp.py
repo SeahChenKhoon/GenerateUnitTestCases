@@ -2,7 +2,6 @@ import pytest
 import math
 from theory_evaluation.circle_utils import circle_area, circle_circumference
 
-def test_circle_area_positive_radius():
-    assert circle_area(1) == pytest.approx(math.pi)
-    assert circle_area(2) == pytest.approx(4 * math.pi)
-    assert circle_area(0) == pytest.approx(0)
+def test_circle_circumference_negative_radius():
+    with pytest.raises(ValueError, match="Radius cannot be negative."):
+        circle_circumference(-1)

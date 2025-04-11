@@ -511,9 +511,11 @@ def run_each_pytest_function_individually(provider, model_arg, source_code: str,
         passed, result = run_single_test_file(temp_file)
         logger.info(f"passed {passed}")
         logger.info(f"result {result}")
-        # passed = result.returncode == 0
+        
+        if passed:
+            all_test_code += "\n" + test_func + "\n"
 
-    return "I love the world"
+    return all_test_code
 
 def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg: str, env_vars: dict) -> None:
     """
