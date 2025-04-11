@@ -482,7 +482,9 @@ def run_each_pytest_function_individually(test_code: str, test_path: Path) -> Li
     logger.info(f"Hello World 1")
     # Save the test code to the given path
     test_path.parent.mkdir(parents=True, exist_ok=True)
+    logger.info(f"Hello World 1.1")
     test_path.write_text(test_code, encoding="utf-8")
+    logger.info(f"Hello World 1.2")
 
     logger.info(f"Hello World 2")
     # Extract test function names
