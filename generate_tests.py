@@ -75,15 +75,11 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
 
     try:
         code = file_path.read_text(encoding="utf-8")
-        logger.info(f"Hello World 1")
         function_names = _extract_function_names(code)
-        logger.info(f"Hello World 2")
         if not function_names:
-            logger.info(f"Hello World 3")
             logger.warning(f"No public functions found in {file_path}. Skipping test generation.")
             return
 
-        logger.info(f"Hello World 4")
         test_code = _generate_unit_tests(
             provider=client,
             model_arg=model_arg,
@@ -93,7 +89,6 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
             function_names=function_names
         )
         
-        logger.info(f"Hello World 5")
         # Save the generated test to the tests directory
         test_path = save_test_file(
             Path(env_vars["src_dir"]),
@@ -101,12 +96,9 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
             file_path,
             test_code
         )
-        logger.info(f"Hello World 6")
 
         for output in run_each_pytest_function(test_code, test_path):
             print(output)
-        logger.info(f"Hello World 7")
-
 
     except Exception as e:
         logger.error(f"Failed processing {file_path}: {e}")
@@ -155,6 +147,7 @@ def _load_env_variables() -> Dict[str, Any]:
         "api_version": os.getenv("API_VERSION"),        
         "src_dir": os.getenv("SRC_DIR"),
         "tests_dir": os.getenv("TESTS_DIR"),
+        "temp_dir": os.getenv("TEMP_DIR"),
         "model_name": os.getenv("MODEL_NAME"),
         "llm_test_prompt_template": os.getenv("LLM_TEST_PROMPT_TEMPLATE"),
     }
@@ -509,9 +502,7 @@ def run_each_pytest_function(test_code: str, test_path: Path) -> List[Tuple[str,
 
         for testcase in root.iter("testcase"):
             name = testcase.attrib["name"]
-            logger.info(f"Hello World 1 name: {name}")
             failed = any(child.tag in {"failure", "error"} for child in testcase)
-            logger.info(f"Hello World 2 failed: {failed}")
             results.append((name, not failed))
 
     return results
