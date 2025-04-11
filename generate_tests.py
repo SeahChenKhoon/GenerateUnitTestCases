@@ -462,48 +462,47 @@ from typing import List, Tuple
 from xml.etree import ElementTree as ET
 from unittest import mock
 
-def run_each_pytest_function(test_code: str, test_path: Path) -> List[Tuple[str, bool]]:
+def run_each_pytest_function(test_code: str, test_path: Path) -> List[Tuple[str, bool, str]]:
     """
-    Saves the test code to the given test_path, runs each pytest function individually,
-    and returns a list of tuples indicating the test name and its pass/fail result.
-
-    Args:
-        test_code (str): The generated pytest test code as a string.
-        test_path (Path): The path to save the test file before execution.
+    Saves the test code to the given test_path, runs all tests, and returns results with details.
 
     Returns:
-        List[Tuple[str, bool]]: A list of tuples where each tuple is (test_name, passed).
+        List of tuples: (test_name, passed: bool, message: str)
     """
     results = []
 
-    # Ensure test file directory exists and save the file
     test_path.parent.mkdir(parents=True, exist_ok=True)
     test_path.write_text(test_code, encoding="utf-8")
 
     with tempfile.TemporaryDirectory() as tmpdirname:
         xml_report = Path(tmpdirname) / "results.xml"
 
-        # Set PYTHONPATH temporarily to the current directory
         env = os.environ.copy()
         env["PYTHONPATH"] = "."
 
         with mock.patch.dict(os.environ, env):
             pytest.main([
                 str(test_path),
-                "--tb=no",
+                "--tb=short",
                 "--quiet",
                 "--disable-warnings",
                 f"--junitxml={xml_report}"
             ])
 
-        # Parse results from the XML report
         tree = ET.parse(xml_report)
         root = tree.getroot()
 
         for testcase in root.iter("testcase"):
             name = testcase.attrib["name"]
-            failed = any(child.tag in {"failure", "error"} for child in testcase)
-            results.append(name)
+            failure = testcase.find("failure")
+            error = testcase.find("error")
+
+            if failure is not None:
+                results.append((name, False, failure.text.strip()))
+            elif error is not None:
+                results.append((name, False, error.text.strip()))
+            else:
+                results.append((name, True, "Passed"))
 
     return results
 
