@@ -554,10 +554,33 @@ def run_each_pytest_function_individually(provider, model_arg, source_code: str,
     test_functions = extract_test_cases_from_code(test_code)
     
     for idx, test_func in enumerate(test_functions, start=1):
+        passed = 0
         save_test_case_to_temp_file(import_lines, test_func, temp_file)
         passed, result = run_single_test_file(temp_file)
         logger.info(f"passed {passed}")
         logger.info(f"result {result}")
+        passed = result.returncode == 0
+
+        count = 0
+        max_retries = 3
+        passed = False
+
+        while count < max_retries and not passed:
+            logger.info(f"Regenerate new test case")
+            if passed:
+                logger.info("✅ Test passed.")
+            else:
+                logger.warning("❌ Test failed.")
+                logger.info("Regenerating new test case...")
+                logger.info("save_test_case_to_temp_file")
+                logger.info("run_single_test_file")
+
+            count += 1
+
+
+    
+    if passed:
+        logger.info("Save test file")
 
 
     # all_test_code = import_lines +"\n"
