@@ -533,8 +533,20 @@ def run_each_pytest_function_individually(provider, model_arg, source_code: str,
                 temperature=0.2,
             )
 
-            logger.info(strip_markdown_fences(response.choices[0].message.content.strip()))
+            temp_path.write_text(strip_markdown_fences(response.choices[0].message.content.strip()), encoding="utf-8")
 
+            # Run pytest on that file and function
+            result = subprocess.run(
+                ["pytest", str(temp_path), "-k", test_name, "--tb=short", "--quiet"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                env=env
+            )
+            passed = result.returncode == 0
+
+            if not passed:
+                logger.info("Re-tried and failed")
 
     if passed:
         all_test_code += "\n" + test_func_code + "\n"
