@@ -521,13 +521,12 @@ def run_each_pytest_function_individually(source_code: str, test_code: str, temp
         passed = result.returncode == 0
 
         if not passed:
-            formatted_prompt = f"Based on the source as follows: " +
-                        "{source_code}" +
-                        "and unit test case as follows " +
-                        "{full_test_code} " +
-                        "and error as follows " +
-                        "{result.stdout} " +
-                        "Provide an equalvalent test case to resolve the error." 
+            formatted_prompt = (
+                f"Based on the source as follows: {source_code}\n\n"
+                f"and unit test case as follows:\n{full_test_code}\n\n"
+                f"and error as follows:\n{result.stdout}\n\n"
+                "Provide an equivalent test case to resolve the error."
+            )
 
             response = provider.chat.completions.create(
                 model=model_arg,
