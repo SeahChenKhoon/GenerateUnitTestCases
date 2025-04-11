@@ -505,7 +505,21 @@ def extract_test_cases_from_code(test_code: str) -> List[str]:
         re.VERBOSE | re.MULTILINE
     )
     return pattern.findall(test_code)
-    
+
+
+def save_test_function_to_file(import_lines: str, test_func: str, temp_path: Path) -> None:
+    """
+    Combines import statements and a test function into one file and writes it to the given path.
+
+    Args:
+        import_lines (str): The import statements to include.
+        test_func (str): The test function code.
+        temp_path (Path): The full file path where the test code should be saved.
+    """
+    full_test_code = f"{import_lines}\n\n{test_func}\n"
+    temp_path.write_text(full_test_code, encoding="utf-8")
+
+
 def run_each_pytest_function_individually(provider, model_arg, source_code: str, test_code: str, temp_path: Path) -> str:
     results = []
 
@@ -516,7 +530,7 @@ def run_each_pytest_function_individually(provider, model_arg, source_code: str,
     test_functions = extract_test_cases_from_code(test_code)
     logger.info(len(test_functions))
     for idx, test_func in enumerate(test_functions, start=1):
-        logger.info(f"\n--- Test Function #{idx} ---\n{test_func}")
+        save_test_function_to_file(import_lines, test_functions, temp_path)
 
 
     # all_test_code = import_lines +"\n"
