@@ -466,7 +466,7 @@ def run_each_pytest_function(test_code: str) -> List[str]:
         pattern = r'^(?:async\s+)?def\s+(test_[a-zA-Z_][a-zA-Z0-9_]*)\s*\('
         return re.findall(pattern, code, re.MULTILINE)
 
-    logger.info("Hello World 10")
+    logger.info(f"Hello World 10 {test_code}")
     results = []
     test_names = _extract_test_function_names(test_code)
     logger.info("Hello World 11")
