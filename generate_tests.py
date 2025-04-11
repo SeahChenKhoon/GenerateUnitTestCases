@@ -557,10 +557,10 @@ def run_each_pytest_function_individually(provider, model_arg, source_code: str,
     for idx, test_func in enumerate(test_functions, start=1):
         passed = 0
         save_test_case_to_temp_file(import_lines, test_func, temp_file)
-        # passed, result = run_single_test_file(temp_file)
-        # logger.info(f"passed {passed}")
-        # logger.info(f"result {result}")
-        # passed = result.returncode == 0
+        passed, result = run_single_test_file(temp_file)
+        logger.info(f"passed {passed}")
+        logger.info(f"result {result}")
+        passed = result.returncode == 0
 
         # count = 0
         # max_retries = 3
