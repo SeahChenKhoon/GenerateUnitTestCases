@@ -487,7 +487,7 @@ def run_each_pytest_function(test_code: str) -> List[str]:
             logger.info(f"Hello World 14 {test_name}")
             logger.info(f"Hello World 15 {file_path}")
             logger.info(f"Hello World 15.1 {os.getcwd()}")
-            logger.info(f"Verifying path: {os.path.exists('theory_evaluation/math_utils.py')}")
+            logger.info(f"Verifying path: {os.path.exists(file_path)}")
             logger.info(f"Verifying absolute path: {os.path.abspath('theory_evaluation/math_utils.py')}")
             result = subprocess.run(
                 ["pytest", file_path, "-k", test_name, "--tb=short", "-q"],
