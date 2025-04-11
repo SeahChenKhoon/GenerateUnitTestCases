@@ -5,6 +5,7 @@ import sys
 import re
 import ast
 import subprocess
+import tempfile
 from openai import OpenAI, AzureOpenAI
 from pathlib import Path
 from typing import Dict, Any, List, NoReturn, Union, Tuple
