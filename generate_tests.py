@@ -530,8 +530,8 @@ def run_each_pytest_function_individually(provider, model_arg, source_code: str,
     test_functions = extract_test_cases_from_code(test_code)
     
     for idx, test_func in enumerate(test_functions, start=1):
-        save_test_case_to_temp_file(import_lines, test_functions, temp_path)
-        logger.info(temp_path.read_text())
+        save_test_case_to_temp_file(import_lines, test_func, temp_path)
+        logger.info(f"Test Case {idx}\n{temp_path.read_text()}")
 
 
     # all_test_code = import_lines +"\n"
