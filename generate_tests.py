@@ -533,9 +533,10 @@ def run_each_pytest_function_individually(provider, model_arg, source_code: str,
                 messages=[{"role": "user", "content": formatted_prompt}],
                 temperature=0.2,
             )
+            new_unit_test = strip_markdown_fences(response.choices[0].message.content.strip())
 
-            temp_path.write_text(strip_markdown_fences(response.choices[0].message.content.strip()), encoding="utf-8")
-
+            temp_path.write_text(new_unit_test, encoding="utf-8")
+            logger.info(f"new_unit_test - {new_unit_test}")
             # Run pytest on that file and function
             result = subprocess.run(
                 ["pytest", str(temp_path), "-k", test_name, "--tb=short", "--quiet"],
