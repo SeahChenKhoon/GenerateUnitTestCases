@@ -500,8 +500,10 @@ def run_each_pytest_function_individually(test_code: str, test_path: Path) -> Li
             text=True,
             env=env
         )
-        logger.info(f"Result {result}")
         passed = result.returncode == 0
+
+        if !passed:
+            logger.info(f"To re-run {test_name} test case")
 
         results.append((test_name, passed))
 
