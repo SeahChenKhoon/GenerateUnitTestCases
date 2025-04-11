@@ -577,7 +577,8 @@ def run_each_pytest_function_individually(provider, model_arg, source_code: str,
         #         logger.info("run_single_test_file")
 
         #     count += 1
-        # all_test_code += "\n" + test_func + "\n"
+        if passed:
+            all_test_code += "\n" + test_func + "\n"
 
     
     return all_test_code
