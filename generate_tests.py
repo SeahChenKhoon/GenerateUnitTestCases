@@ -520,6 +520,7 @@ def run_each_pytest_function_individually(provider, model_arg, source_code: str,
         passed = result.returncode == 0
 
         if not passed:
+            logger.info("Initial Generated Test Case Failed!")
             formatted_prompt = (
                 f"Based on the source as follows: {source_code}\n\n"
                 f"and unit test case as follows:\n{full_test_code}\n\n"
