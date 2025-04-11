@@ -519,10 +519,10 @@ def run_each_pytest_function_individually(test_code: str, temp_path: Path) -> st
         )
 
         passed = result.returncode == 0
-        if passed:
-            all_test_code += "\n" + test_func_code + "\n"
-        else:
-            logger.info("Not all test case passed")
+    if passed:
+        all_test_code += "\n" + test_func_code + "\n"
+    else:
+        logger.info("Not all test case passed")
     return all_test_code
 
 

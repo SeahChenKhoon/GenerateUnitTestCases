@@ -1,12 +1,18 @@
 import pytest
-import os
-import yaml
-import re
-from unittest.mock import patch, mock_open
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+from theory_evaluation import config
+from theory_evaluation.evaluator import general_qa
+import fastapi
+from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
+import logging
+from theory_evaluation.main import health_check, shutdown_event, startup_event
+import pytest
+from fastapi.testclient import TestClient
+from unittest.mock import patch
+from theory_evaluation.main import APP, health_check, shutdown_event, startup_event
 
-def test_initialise_settings_file_not_found():
-    agent = "non_existent_agent"
-    with patch("builtins.open", side_effect=FileNotFoundError):
-        result = initialise_settings(agent)
-        assert result is None
+def test_shutdown_event():
+    with patch("theory_evaluation.main.logger") as mock_logger:
+        await shutdown_event()
+        assert mock_logger.info.called
+        assert mock_logger.info.call_args_list[0][0][0] == "Shutting down the FastAPI application"
