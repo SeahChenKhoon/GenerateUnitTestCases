@@ -92,11 +92,20 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
             file_path=str(file_path),
             function_names=function_names
         )
-
+        
         logger.info(f"Hello World 5")
+        # Save the generated test to the tests directory
+        test_path = save_test_file(
+            Path(env_vars["src_dir"]),
+            Path(env_vars["tests_dir"]),
+            file_path,
+            test_code
+        )
+        logger.info(f"Hello World 6")
+
         for output in run_each_pytest_function(test_code):
             print(output)
-        logger.info(f"Hello World 6")
+        logger.info(f"Hello World 7")
 
 
     except Exception as e:
