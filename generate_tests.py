@@ -488,7 +488,7 @@ def run_each_pytest_function_individually(test_code: str, test_path: Path) -> Li
         r"(def\s+test_[\w_]+\s*\([^)]*\):(?:\n(?: {4}|\t).+)+)", test_code
     )
 
-    all_test_code = import_lines
+    all_test_code = import_lines +"\n"
 
     for test_func_code in test_functions:
         # Extract test function name
@@ -516,7 +516,7 @@ def run_each_pytest_function_individually(test_code: str, test_path: Path) -> Li
 
         passed = result.returncode == 0
         if passed:
-            all_test_code += "\n" + test_func_code
+            all_test_code += "\n" + test_func_code + "\n"
 
         results.append((test_name, passed))
     logger.info(f"all_test_code: {all_test_code}")
