@@ -11,9 +11,9 @@ from theory_evaluation import models
 from theory_evaluation.utils import delete_user_performance, get_db, get_marking_scheme, get_user_performance, init_db_session, manage_user_performance, validate_user
 import pytest
 from unittest.mock import patch, MagicMock
+from uuid import UUID
 from theory_evaluation.utils import (
 from theory_evaluation import models
-from uuid import UUID
 import pydantic
 
 def test_init_db_session(monkeypatch):
@@ -23,4 +23,4 @@ def test_init_db_session(monkeypatch):
     monkeypatch.setenv("DB_HOST", "localhost")
     monkeypatch.setenv("DB_PORT", "5432")
     monkeypatch.setenv("SSL_MODE", "require")
-    monkeypatch.setenv("ENVIRONMENT", "local")
+    monkeypatch.setenv("ENVIRONMENT", "production")

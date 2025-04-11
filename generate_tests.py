@@ -90,7 +90,7 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
             function_names=function_names
         )
 
-        run_each_pytest_function_individually(client, model_arg, source_code, test_code, Path(env_vars["temp_file"]))
+        test_code = run_each_pytest_function_individually(client, model_arg, source_code, test_code, Path(env_vars["temp_file"]))
         
         if test_code:
             test_path = save_test_file(
@@ -544,12 +544,13 @@ def run_single_test_file(temp_path: Path) -> Tuple[bool, str]:
     return passed, result.stdout.strip()
 
 
-def run_each_pytest_function_individually(provider, model_arg, source_code: str, test_code: str, temp_file:Path) -> str:
+def run_each_pytest_function_individually(provider, model_arg, source_code: str, test_code: str, temp_file:Path):
     results = []
-
+    error_messages = ""
     # Extract all import statements
     import_lines = "\n".join(re.findall(r"^(import .+|from .+ import .+)", test_code, re.MULTILINE))
-    
+    all_test_code = import_lines +"\n"
+
     # Extract each test function body individually
     test_functions = extract_test_cases_from_code(test_code)
     
@@ -576,11 +577,10 @@ def run_each_pytest_function_individually(provider, model_arg, source_code: str,
                 logger.info("run_single_test_file")
 
             count += 1
-
+        all_test_code += "\n" + test_func + "\n"
 
     
-    if passed:
-        logger.info("Save test file")
+    return all_test_code
 
 
     # all_test_code = import_lines +"\n"
