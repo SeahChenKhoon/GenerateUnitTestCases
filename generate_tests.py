@@ -95,7 +95,7 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
                     Path(env_vars["src_dir"]),
                     Path(env_vars["tests_dir"]),
                     file_path,
-                    output
+                    test_code
                 )
             logger.info(f"{test_path}")
 
