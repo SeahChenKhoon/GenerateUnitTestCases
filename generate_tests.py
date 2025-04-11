@@ -547,7 +547,9 @@ def run_each_pytest_function_individually(provider, model_arg, source_code: str,
             passed = result.returncode == 0
 
             if not passed:
-                logger.info("Re-tried and failed")
+                logger.info(f"Re-tried and failed - {subprocess.STDOUT}")
+            else:
+                logger.info("Passed after re-try")
 
     if passed:
         all_test_code += "\n" + test_func_code + "\n"
