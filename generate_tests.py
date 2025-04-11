@@ -507,7 +507,7 @@ def extract_test_cases_from_code(test_code: str) -> List[str]:
     return pattern.findall(test_code)
 
 
-def save_test_function_to_file(import_lines: str, test_func: str, temp_path: Path) -> None:
+def save_test_case_to_temp_file(import_lines: str, test_func: str, temp_path: Path) -> None:
     """
     Combines import statements and a test function into one file and writes it to the given path.
 
@@ -528,9 +528,10 @@ def run_each_pytest_function_individually(provider, model_arg, source_code: str,
     
     # Extract each test function body individually
     test_functions = extract_test_cases_from_code(test_code)
-    logger.info(len(test_functions))
+    
     for idx, test_func in enumerate(test_functions, start=1):
-        save_test_function_to_file(import_lines, test_functions, temp_path)
+        save_test_case_to_temp_file(import_lines, test_functions, temp_path)
+        logger.info(temp_path.read_text())
 
 
     # all_test_code = import_lines +"\n"
