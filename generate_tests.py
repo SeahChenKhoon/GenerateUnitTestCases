@@ -480,11 +480,20 @@ def save_test_file(src_dir: Path, test_dir: Path, original_path: Path, test_code
     test_path.write_text(test_code, encoding="utf-8")
     return test_path
 
+def extract_test_functions_with_bodies(test_code: str) -> List[str]:
+    pattern = re.compile(
+        r"(?:@[\w\.\(\)=, \"']+\n)*"               # optional decorators
+        r"def\s+(test_[\w_]+)\s*\([^)]*\):"         # def test_xxx(...):
+        r"(?:\n(?:[ \t]+.+))+",                     # indented body lines
+        re.MULTILINE
+    )
+    return pattern.findall(test_code)
+
 def run_each_pytest_function_individually(provider, model_arg, source_code: str, test_code: str, temp_path: Path) -> str:
     results = []
 
     # Extract all import statements
-    import_lines = "\n".join(re.findall(r"^(import .+|from .+ import .+)", test_code, re.MULTILINE))
+    test_functions = extract_test_functions_with_bodies(test_code)
 
     # Extract each test function body individually
     test_functions = re.findall(
