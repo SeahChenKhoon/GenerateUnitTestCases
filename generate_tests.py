@@ -556,6 +556,7 @@ def run_each_pytest_function_individually(provider, model_arg, source_code: str,
     
     for idx, test_func in enumerate(test_functions, start=1):
         passed = 0
+        logger.info(f"test_func {test_func}")
         save_test_case_to_temp_file(import_lines, test_func, temp_file)
         passed, result = run_single_test_file(temp_file)
         logger.info(f"passed {passed}")
