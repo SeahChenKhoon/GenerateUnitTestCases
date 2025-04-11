@@ -11,7 +11,7 @@ from theory_evaluation import m
 from theory_evaluation.utils import d
 import pytest
 from unittest.mock import p
-from sqlalchemy.exc import S
+from uuid import U
 from theory_evaluation.utils import (
     init_db_session,
     get_db,
@@ -21,15 +21,13 @@ from theory_evaluation.utils import (
     manage_user_performance,
     delete_user_performance,
 from theory_evaluation import m
-from uuid import U
 import pydantic
 
 def test_delete_user_performance_not_exists():
     mock_session = MagicMock()
     mock_session.query.return_value.filter.return_value.all.return_value = []
-    with patch("theory_evaluation.utils.SessionLocal", return_value=mock_session):
+    with patch("theory_evaluation.utils.get_db", return_value=mock_session):
         result = delete_user_performance(
-            email=pydantic.EmailStr("test@example.com"),
-            question_id=UUID("12345678123456781234567812345678")
+            "test@example.com", UUID("12345678-1234-5678-1234-567812345678")
         )
         assert result is False
