@@ -519,11 +519,10 @@ def run_each_pytest_function_individually(provider, model_arg, source_code: str,
     logger.info(f"import_lines - {import_lines}")
     all_test_code = import_lines +"\n"
 
-    logger.info(f"Hello World ")
     # Extract each test function body individually
     test_functions = extract_test_cases_from_code(test_code)
 
-    logger.info(f"Hello World test_functions - {test_functions}")
+    # logger.info(f"Hello World test_functions - {test_functions}")
 
     # for idx, test_func in enumerate(test_functions, start=1):
     #     logger.info(f"Hello World ")
