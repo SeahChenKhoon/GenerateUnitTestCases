@@ -522,39 +522,40 @@ def run_each_pytest_function_individually(provider, model_arg, source_code: str,
     logger.info(f"Hello World ")
     # Extract each test function body individually
     test_functions = extract_test_cases_from_code(test_code)
-    logger.info(f"Hello World ")
 
-    for idx, test_func in enumerate(test_functions, start=1):
-        logger.info(f"Hello World ")
-        passed = 0
-        
-        save_test_case_to_temp_file(import_lines, test_func, temp_file)
-        logger.info(f"Hello World ")
-        passed, result = run_single_test_file(temp_file)
-        logger.info(f"passed {passed}")
-        logger.info(f"result {result}")
-        
-        count = 0
-        max_retries = 3
-        logger.info(f"Hello World ")
-        while count < max_retries and not passed:
-            logger.info(f"Hello World ")
-            logger.info(f"Regenerate new test case")
-            if passed:
-                logger.info("✅ Test passed.")
-            else:
-                logger.warning("❌ Test failed.")
-                logger.info("Regenerating new test case...")
-                logger.info("save_test_case_to_temp_file")
-                logger.info("run_single_test_file")
+    logger.info(f"Hello World test_functions - {test_functions}")
 
-            count += 1
+    # for idx, test_func in enumerate(test_functions, start=1):
+    #     logger.info(f"Hello World ")
+    #     passed = 0
+        
+    #     save_test_case_to_temp_file(import_lines, test_func, temp_file)
+    #     logger.info(f"Hello World ")
+    #     passed, result = run_single_test_file(temp_file)
+    #     logger.info(f"passed {passed}")
+    #     logger.info(f"result {result}")
+        
+    #     count = 0
+    #     max_retries = 3
+    #     logger.info(f"Hello World ")
+    #     while count < max_retries and not passed:
+    #         logger.info(f"Hello World ")
+    #         logger.info(f"Regenerate new test case")
+    #         if passed:
+    #             logger.info("✅ Test passed.")
+    #         else:
+    #             logger.warning("❌ Test failed.")
+    #             logger.info("Regenerating new test case...")
+    #             logger.info("save_test_case_to_temp_file")
+    #             logger.info("run_single_test_file")
+
+    #         count += 1
                 
-        if passed:
-            all_test_code += "\n" + test_func + "\n"
+    #     if passed:
+    #         all_test_code += "\n" + test_func + "\n"
 
 
-    logger.info(f"all_test_code {all_test_code}")
+    # logger.info(f"all_test_code {all_test_code}")
     return all_test_code
 
 def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg: str, env_vars: dict) -> None:
