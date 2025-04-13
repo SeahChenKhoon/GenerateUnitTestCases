@@ -519,6 +519,7 @@ def run_each_pytest_function_individually(provider, model_arg, source_code: str,
     # logger.info(f"import_lines - {import_lines}")
     all_test_code = import_lines +"\n"
 
+    logger.info(f"Suspect Error Line After this")
     # Extract each test function body individually
     test_functions = extract_test_cases_from_code(test_code)
 
