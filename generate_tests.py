@@ -510,39 +510,64 @@ def resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_c
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
 
-def run_each_pytest_function_individually(provider, model_arg, temperature, llm_resolve_prompt, import_statements, source_code: str, test_code: str, temp_file:Path):
+from pathlib import Path
+import logging
+
+logger = logging.getLogger(__name__)
+
+def run_each_pytest_function_individually(
+    provider,
+    model_arg,
+    temperature,
+    llm_resolve_prompt,
+    import_statements,
+    source_code: str,
+    test_code: str,
+    temp_file: Path
+) -> str:
     # Extract each test function body individually
     test_cases = extract_test_cases_from_code(test_code)
     all_test_code = ""
+    
     for idx, test_case in enumerate(test_cases, start=1):
         passed = 0
-        count = 0        
-        save_test_case_to_temp_file(import_statements, test_case, temp_file)
-        passed, test_case_error = run_single_test_file(temp_file)
+        count = 0
 
-        logger.info(f"passed {count + 1}- {passed}")
-        logger.info(f"test_case_error {count + 1}- {test_case_error}")
+        try:
+            save_test_case_to_temp_file(import_statements, test_case, temp_file)
+            passed, test_case_error = run_single_test_file(temp_file)
 
+            logger.info(f"passed {count + 1}- {passed}")
+            logger.info(f"test_case_error {count + 1}- {test_case_error}")
 
-        max_retries = 2
-        while count < max_retries and not passed:
-            missing_import_statement = resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_case_error, temperature)
-            logger.info(f"missing_import_statement {count + 1}- {missing_import_statement}")
-            if missing_import_statement:
-                import_statements += "\n" + missing_import_statement + "\n"
-                logger.info(f"new import statement {count + 1}- {import_statements}")
-                save_test_case_to_temp_file(import_statements, test_case, temp_file)
-                passed, test_case_error = run_single_test_file(temp_file)
-                if passed:
-                    logger.info(f"passed after retry {count + 1}")
-            count += 1
+            max_retries = 2
+            while count < max_retries and not passed:
+                missing_import_statement = resolve_unit_test(
+                    provider, model_arg, llm_resolve_prompt, test_case, test_case_error, temperature
+                )
+                logger.info(f"missing_import_statement {count + 1}- {missing_import_statement}")
 
-        if passed:
-            all_test_code = import_statements + "\n" + test_case + "\n"
-        else:
-            logger.info(f"Failed after all retry")
+                if missing_import_statement:
+                    import_statements += "\n" + missing_import_statement + "\n"
+                    logger.info(f"new import statement {count + 1}- {import_statements}")
+                    save_test_case_to_temp_file(import_statements, test_case, temp_file)
+                    passed, test_case_error = run_single_test_file(temp_file)
+
+                    if passed:
+                        logger.info(f"passed after retry {count + 1}")
+
+                count += 1
+
+            if passed:
+                all_test_code = import_statements + "\n" + test_case + "\n"
+            else:
+                logger.info(f"Failed after all retries for test case {idx}")
+
+        except Exception as e:
+            logger.exception(f"Exception occurred while processing test case {idx}: {e}")
 
     return all_test_code
+
 
 def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg: str, env_vars: dict) -> None:
     logger.info(f"{BOLD}Start Processing file: {source_code_path}{RESET}")

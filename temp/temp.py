@@ -8,10 +8,14 @@ from unittest.mock import patch
 
 from unittest.mock import patch, mock_open
 
+from unittest.mock import patch, mock_open
+
+from unittest.mock import patch
+
 from unittest.mock import patch
 
 
-def test_initialise_settings_no_config_path():
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_settings("non_existent_agent")
+def test_initialise_settings_file_not_found():
+    with patch("builtins.open", side_effect=FileNotFoundError):
+        result = initialise_settings("test_agent")
         assert result is None
