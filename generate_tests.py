@@ -357,7 +357,6 @@ def _generate_unit_tests(
     model_arg: str,
     llm_test_prompt: str,
     llm_import_prompt: str, 
-    llm_new_import_prompt: str,
     temperature: float,
     source_code: str,
     source_code_path: str
@@ -365,8 +364,7 @@ def _generate_unit_tests(
     
     import_statements = extract_unique_imports(provider, model_arg, llm_import_prompt, source_code, temperature)
     import_statements = update_relative_imports(import_statements, source_code_path)
-    new_import_statements = identify_new_import(provider, model_arg, llm_new_import_prompt, import_statements, source_code_path)
-    logger.info(f"new_import_statements - {new_import_statements}")
+
     formatted_prompt = llm_test_prompt.format(
         file_content=source_code,
         file_path=source_code_path,
@@ -477,7 +475,7 @@ def extract_unique_imports(provider, model_arg, llm_get_import_prompt, test_code
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
 
-def run_each_pytest_function_individually(provider, model_arg, temperature, import_statements, source_code: str, test_code: str, temp_file:Path):
+def run_each_pytest_function_individually(provider, model_arg, temperature, llm_new_import_prompt, import_statements, source_code: str, test_code: str, temp_file:Path):
     all_test_code = import_statements +"\n"
 
     # Extract each test function body individually
@@ -490,6 +488,10 @@ def run_each_pytest_function_individually(provider, model_arg, temperature, impo
         passed, result = run_single_test_file(temp_file)
         logger.info(f"passed {passed}")
         logger.info(f"result {result}")
+
+        new_import_statements = identify_new_import(provider, model_arg, llm_new_import_prompt, import_statements, temperature)
+        logger.info(f"new_import_statements - {new_import_statements}")
+        
         # count = 0
         # max_retries = 3
         # logger.info(f"Hello World ")
@@ -528,7 +530,6 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
             model_arg=model_arg,
             llm_test_prompt=env_vars["llm_test_prompt"],
             llm_import_prompt=env_vars["llm_import_prompt"],
-            llm_new_import_prompt=env_vars["llm_new_import_prompt"],
             temperature=temperature,
             source_code=source_code,
             source_code_path=str(source_code_path)
@@ -542,7 +543,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
                     test_code
                 )
 
-            test_code = run_each_pytest_function_individually(client, model_arg, temperature, import_statements, source_code, test_code, Path(env_vars["temp_file"]))
+            test_code = run_each_pytest_function_individually(client, model_arg, temperature, env_vars["llm_new_import_prompt"], import_statements, source_code, test_code, Path(env_vars["temp_file"]))
         
         # if test_code:
         #     test_path = save_test_file(
