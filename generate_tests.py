@@ -503,7 +503,7 @@ def run_each_pytest_function_individually(provider, model_arg, temperature, llm_
         #         logger.info("save_test_case_to_temp_file")
         #         logger.info("run_single_test_file")
 
-        #     count += 1
+            count += 1
         # import_statements += identify_new_import(provider, model_arg, llm_new_import_prompt, test_case, import_statements, temperature) + "\n"
         # logger.info(f"new_import_statements - {import_statements}")
 
