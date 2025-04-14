@@ -531,7 +531,8 @@ def run_each_pytest_function_individually(
     for idx, test_case in enumerate(test_cases, start=1):
         passed = 0
         count = 0
-        logger.info(f"\nTEST CASE {idx}")
+        logger.info(f"\n")
+        logger.info(f"TEST CASE {idx}")
         logger.info(f"---------------")
         logger.info(f"{test_case}")
         logger.info(f"---------------")
