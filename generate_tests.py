@@ -452,7 +452,7 @@ def run_single_test_file(temp_path: Path) -> Tuple[bool, str]:
     )
 
     passed = result.returncode == 0
-    return passed, result.stdout.strip()
+    return passed, result.stderr.strip()
 
 def extract_unique_imports(provider, model_arg, llm_get_import_prompt, test_code, temperature):
         # Format the prompt using the provided template
