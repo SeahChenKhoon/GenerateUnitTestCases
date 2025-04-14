@@ -353,6 +353,7 @@ def _generate_unit_tests(
 ) -> str:
     
     import_statements = extract_unique_imports(provider, model_arg, llm_import_prompt, source_code, temperature)
+    import_statements = update_relative_imports(import_statements, source_code_path)
     logger.info(f"import_statements - {import_statements}")
     formatted_prompt = llm_test_prompt.format(
         file_content=source_code,
