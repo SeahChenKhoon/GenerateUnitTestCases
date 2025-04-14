@@ -531,7 +531,10 @@ def run_each_pytest_function_individually(
     for idx, test_case in enumerate(test_cases, start=1):
         passed = 0
         count = 0
-
+        logger.info(f"TEST CASE {idx}")
+        logger.info(f"---------------")
+        logger.info(f"{test_case}")
+        logger.info(f"---------------")
         try:
             save_test_case_to_temp_file(import_statements, test_case, temp_file)
             passed, test_case_error = run_single_test_file(temp_file)
