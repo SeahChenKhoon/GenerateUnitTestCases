@@ -8,7 +8,10 @@ from sqlalchemy.exc import SQLAlchemyError, OperationalError
 from contextlib import contextmanager
 from theory_evaluation import models
 
-def test_init_db_session(mock_env_vars):
-    init_db_session()
-    from theory_evaluation import utils
-    assert hasattr(utils, "SessionLocal")
+def test_delete_user_performance_operational_error():
+    with patch("theory_evaluation.utils.get_db") as mock_get_db:
+        mock_get_db.side_effect = OperationalError("Test", "Test", "Test")
+        result = delete_user_performance(
+            "test@example.com", UUID("12345678-1234-5678-1234-567812345678")
+        )
+        assert result is False

@@ -99,7 +99,8 @@ def _load_env_variables() -> Dict[str, Any]:
         "model_name": os.getenv("MODEL_NAME"),
         "llm_test_prompt": os.getenv("LLM_TEST_PROMPT"),
         "temperature": os.getenv("TEMPERATURE"),
-        "llm_import_prompt": os.getenv("LLM_IMPORT_PROMPT")
+        "llm_import_prompt": os.getenv("LLM_IMPORT_PROMPT"),
+        "llm_new_import_prompt": os.getenv("LLM_NEW_IMPORT_PROMPT")
     }
 
 
@@ -341,12 +342,22 @@ def get_chat_completion(provider: Any, model: str, prompt: str, temperature: flo
         temperature=temperature,
     )
 
+def identify_new_import(provider, model_arg, llm_new_import_prompt, unit_test, import_statement, temperature):
+        # Format the prompt using the provided template
+    formatted_prompt = llm_new_import_prompt.format(
+        unit_test=unit_test,
+        import_statement=import_statement
+    )
+    
+    response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
+    return strip_markdown_fences(response.choices[0].message.content.strip())
 
 def _generate_unit_tests(
     provider: Union[OpenAI, AzureOpenAI],
     model_arg: str,
     llm_test_prompt: str,
     llm_import_prompt: str, 
+    llm_new_import_prompt: str,
     temperature: float,
     source_code: str,
     source_code_path: str
@@ -354,6 +365,8 @@ def _generate_unit_tests(
     
     import_statements = extract_unique_imports(provider, model_arg, llm_import_prompt, source_code, temperature)
     import_statements = update_relative_imports(import_statements, source_code_path)
+    new_import_statements = identify_new_import(provider, model_arg, llm_new_import_prompt, import_statements, source_code_path)
+    logger.info(f"new_import_statements - {new_import_statements}")
     formatted_prompt = llm_test_prompt.format(
         file_content=source_code,
         file_path=source_code_path,
@@ -515,6 +528,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
             model_arg=model_arg,
             llm_test_prompt=env_vars["llm_test_prompt"],
             llm_import_prompt=env_vars["llm_import_prompt"],
+            llm_new_import=env_vars["llm_new_import_prompt"],
             temperature=temperature,
             source_code=source_code,
             source_code_path=str(source_code_path)
