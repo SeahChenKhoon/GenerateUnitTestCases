@@ -527,8 +527,7 @@ def run_each_pytest_function_individually(
 ) -> str:
     # Extract each test function body individually
     test_cases = extract_test_cases_from_code(test_code)
-    all_test_code = ""
-    
+    success_test_cases = ""
     for idx, test_case in enumerate(test_cases, start=1):
         passed = 0
         count = 0
@@ -559,14 +558,14 @@ def run_each_pytest_function_individually(
                 count += 1
 
             if passed:
-                all_test_code = import_statements + "\n" + test_case + "\n"
+                success_test_cases += "\n" + test_case + "\n"
             else:
                 logger.info(f"Failed after all retries for test case {idx}")
 
         except Exception as e:
             logger.exception(f"Exception occurred while processing test case {idx}: {e}")
 
-    return all_test_code
+    return import_statements + "\n" + success_test_cases
 
 
 def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg: str, env_vars: dict) -> None:
