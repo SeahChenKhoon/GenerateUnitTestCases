@@ -13,7 +13,7 @@ from typing import Dict, Any, List, NoReturn, Union, Tuple
 
 # Third-party packages
 from dotenv import load_dotenv
-
+os.makedirs("logs", exist_ok=True)
 # Create file handler
 file_handler = logging.FileHandler("logs/output.log")  # Make sure "logs/" exists or change path
 file_handler.setLevel(logging.INFO)
