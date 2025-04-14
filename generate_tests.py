@@ -523,7 +523,15 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
             source_code_path=str(source_code_path)
         )
 
-        test_code = run_each_pytest_function_individually(client, model_arg, temperature, source_code, test_code, Path(env_vars["temp_file"]))
+        if test_code:
+            save_test_file(
+                    Path(env_vars["src_dir"]),
+                    Path(env_vars["tests_dir"]),
+                    source_code_path,
+                    test_code
+                )
+
+            test_code = run_each_pytest_function_individually(client, model_arg, temperature, source_code, test_code, Path(env_vars["temp_file"]))
         
         # if test_code:
         #     test_path = save_test_file(
