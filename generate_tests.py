@@ -540,7 +540,7 @@ def run_each_pytest_function_individually(
             passed, test_case_error = run_single_test_file(temp_file)
 
             logger.info(f"passed {count + 1}- {passed}")
-            logger.info(f"test_case_error {count + 1}- {test_case_error}")
+            logger.info(f"test_case_error {count + 1} - {test_case_error}")
 
             max_retries = 2
             while count < max_retries and not passed:
@@ -556,7 +556,8 @@ def run_each_pytest_function_individually(
                     passed, test_case_error = run_single_test_file(temp_file)
 
                     if passed:
-                        logger.info(f"passed after retry {count + 1}")
+                        logger.info(f"passed {count + 1}- {passed}")
+                        logger.info(f"test_case_error {count + 1} - {test_case_error}")
 
                 else:
                     logger.info("Error due to unit test case fault")
