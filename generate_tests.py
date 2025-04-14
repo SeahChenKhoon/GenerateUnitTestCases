@@ -95,6 +95,7 @@ def _load_env_variables() -> Dict[str, Any]:
         "api_version": os.getenv("API_VERSION"),        
         "src_dir": os.getenv("SRC_DIR"),
         "tests_dir": os.getenv("TESTS_DIR"),
+        "final_dir": os.getenv("FINAL_DIR"),        
         "temp_file": os.getenv("TEMP_FILE"),
         "model_name": os.getenv("MODEL_NAME"),
         "llm_test_prompt": os.getenv("LLM_TEST_PROMPT"),
@@ -578,13 +579,13 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
 
             test_code = run_each_pytest_function_individually(client, model_arg, temperature, env_vars["llm_resolve_prompt"], import_statements, source_code, test_code, Path(env_vars["temp_file"]))
         
-        # if test_code:
-        #     test_path = save_test_file(
-        #             Path(env_vars["src_dir"]),
-        #             Path(env_vars["tests_dir"]),
-        #             source_code_path,
-        #             test_code
-        #         )
+            if test_code:
+                save_test_file(
+                        Path(env_vars["src_dir"]),
+                        Path(env_vars["final_dir"]),
+                        source_code_path,
+                        test_code
+                    )
 
     except Exception as e:
         logger.error(f"Failed processing {source_code_path}: {e}")
