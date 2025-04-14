@@ -16,9 +16,9 @@ import uuid
 
 def test_theory_eval_user_performance_table_columns():
     inspector = inspect(TheoryEvalUserPerformance)
-    columns = {column.name for column in inspector.columns}
-    expected_columns = {
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
         "id", "email", "question_id", "user_response", "llm_evaluation",
         "llm_score", "user_grade", "user_attempts", "llm_evaluation_status", "timestamp"
-    }
-    assert columns == expected_columns
+    ]
+    assert set(columns) == set(expected_columns)
