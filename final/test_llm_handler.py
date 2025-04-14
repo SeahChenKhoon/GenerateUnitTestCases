@@ -8,21 +8,27 @@ from theory_evaluation.llm_handler import execute
 
 from theory_evaluation.llm_handler import execute
 
-import asyncio
+from theory_evaluation.llm_handler import main
 
-from unittest.mock import AsyncMock
+from theory_evaluation.llm_handler import execute
 
-import pytest
+import pytest_asyncio
 
-import asyncio
-
-import pytest
+''
 
 asyncio
 
 import pytest
 
-async def test_execute_text_generation():
+import pytest
 
-from unittest.mock import patch, AsyncMock
+import pytest
+
+import pytest
+
+import pytest
+
+async def test_execute_vision(mock_openai):
+
+from unittest.mock import MagicMock, AsyncMock
 

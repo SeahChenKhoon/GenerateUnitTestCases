@@ -8,8 +8,8 @@ from unittest.mock import patch
 def test_initialise_prompt_success():
     agent = "test_agent"
     config_yaml = "key: value"
-    prompt_txt = "This is a {$key} prompt."
-    expected_prompt = "This is a value prompt."
+    prompt_txt = "This is a {$key} test."
+    expected_prompt = "This is a value test."
 
 def test_initialise_prompt_no_config_path():
     with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
@@ -18,8 +18,8 @@ def test_initialise_prompt_no_config_path():
 
 def test_initialise_settings_success():
     agent = "test_agent"
-    settings_yaml = "setting_key: setting_value"
-    expected_settings = {"setting_key": "setting_value"}
+    settings_yaml = "key: value"
+    expected_settings = {'key': 'value'}
 
 def test_initialise_settings_no_config_path():
     with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):

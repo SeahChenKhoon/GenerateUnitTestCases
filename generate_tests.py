@@ -360,7 +360,7 @@ def identify_new_import(provider, model_arg, llm_new_import_prompt, test_case, i
 def generate_import_statement(function_names: List[str], source_code_path: str) -> str:
     """
     Generates a Python import statement for the given function/class names from a source file path,
-    excluding any names prefixed with an underscore (_).
+    excluding any names prefixed with an underscore (_) and any functions defined within a class.
 
     Args:
         function_names (List[str]): A list of function or class names to import.
@@ -376,14 +376,18 @@ def generate_import_statement(function_names: List[str], source_code_path: str) 
     
     code = source_path.read_text()
 
-    # Extract top-level function and class names
-    declared_names = set(
-        re.findall(r'^\s*(?:async\s+)?def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(|^\s*class\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE)
-    )
-    valid_declarations = {name for pair in declared_names for name in pair if name and not name.startswith("_")}
+    # Match only top-level functions (not indented, so not in class) and classes
+    top_level_funcs = re.findall(r'^def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE)
+    top_level_async_funcs = re.findall(r'^async\s+def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE)
+    top_level_classes = re.findall(r'^class\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE)
 
-    # Filter input names: must be valid, public
-    valid_names = [name for name in function_names if name in valid_declarations and not name.startswith("_")]
+    declared_names = set(top_level_funcs + top_level_async_funcs + top_level_classes)
+
+    # Filter out any names that start with _
+    valid_declarations = {name for name in declared_names if not name.startswith("_")}
+
+    # Cross-check with provided function_names
+    valid_names = [name for name in function_names if name in valid_declarations]
 
     if not valid_names:
         return ""
