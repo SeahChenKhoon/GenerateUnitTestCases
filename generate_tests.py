@@ -342,10 +342,10 @@ def get_chat_completion(provider: Any, model: str, prompt: str, temperature: flo
         temperature=temperature,
     )
 
-def identify_new_import(provider, model_arg, llm_new_import_prompt, unit_test, import_statement, temperature):
+def identify_new_import(provider, model_arg, llm_new_import_prompt, test_case, import_statement, temperature):
         # Format the prompt using the provided template
     formatted_prompt = llm_new_import_prompt.format(
-        unit_test=unit_test,
+        test_case=test_case,
         import_statement=import_statement
     )
     
@@ -489,9 +489,9 @@ def run_each_pytest_function_individually(provider, model_arg, temperature, llm_
         logger.info(f"passed {passed}")
         logger.info(f"result {result}")
 
-        new_import_statements = identify_new_import(provider, model_arg, llm_new_import_prompt, import_statements, temperature)
+        new_import_statements = identify_new_import(provider, model_arg, llm_new_import_prompt, test_case, import_statements, temperature)
         logger.info(f"new_import_statements - {new_import_statements}")
-        
+
         # count = 0
         # max_retries = 3
         # logger.info(f"Hello World ")
