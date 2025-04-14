@@ -354,6 +354,26 @@ def identify_new_import(provider, model_arg, llm_new_import_prompt, test_case, i
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
+def generate_import_statement(function_names: List[str], source_code_path: str) -> str:
+    """
+    Generates a Python import statement for the given function/class names from a source file path.
+
+    Args:
+        function_names (List[str]): A list of function or class names to import.
+        source_code_path (str): Path to the source file, e.g., 'theory_evaluation/models.py'.
+
+    Returns:
+        str: A valid Python import statement.
+    """
+    # Remove .py extension and replace slashes with dots
+    module_path = source_code_path.replace("/", ".").replace("\\", ".")
+    if module_path.endswith(".py"):
+        module_path = module_path[:-3]
+
+    imports = ", ".join(function_names)
+    return f"from {module_path} import {imports}"
+
+
 def _generate_unit_tests(
     provider: Union[OpenAI, AzureOpenAI],
     model_arg: str,
@@ -367,8 +387,7 @@ def _generate_unit_tests(
     
     import_statements = extract_unique_imports(provider, model_arg, llm_import_prompt, source_code, temperature)
     import_statements = update_relative_imports(import_statements, source_code_path)
-    logger.info(f"HELLO WORLD function_names - {function_names}")
-    logger.info(f"HELLO WORLD source_code_path - {source_code_path}")
+    import_statements += "\n" + generate_import_statement(function_names, source_code_path)
 
     formatted_prompt = llm_test_prompt.format(
         file_content=source_code,
