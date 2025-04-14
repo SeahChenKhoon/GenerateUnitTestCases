@@ -354,7 +354,6 @@ def _generate_unit_tests(
     
     import_statements = extract_unique_imports(provider, model_arg, llm_import_prompt, source_code, temperature)
     import_statements = update_relative_imports(import_statements, source_code_path)
-    logger.info(f"import_statements - {import_statements}")
     formatted_prompt = llm_test_prompt.format(
         file_content=source_code,
         file_path=source_code_path,
@@ -362,10 +361,7 @@ def _generate_unit_tests(
     )
 
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
-
     generated_test_code = strip_markdown_fences(response.choices[0].message.content.strip())
-
-
     return generated_test_code
 
 
@@ -477,7 +473,6 @@ def run_each_pytest_function_individually(provider, model_arg, llm_get_import_pr
     # Extract each test function body individually
     test_cases = extract_test_cases_from_code(test_code)
 
-
     for idx, test_case in enumerate(test_cases, start=1):
         passed = 0
         
@@ -528,7 +523,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
             source_code_path=str(source_code_path)
         )
 
-        # test_code = run_each_pytest_function_individually(client, model_arg, env_vars["llm_import_prompt"], temperature, source_code, test_code, Path(env_vars["temp_file"]))
+        test_code = run_each_pytest_function_individually(client, model_arg, temperature, source_code, test_code, Path(env_vars["temp_file"]))
         
         # if test_code:
         #     test_path = save_test_file(
