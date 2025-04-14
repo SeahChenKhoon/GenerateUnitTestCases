@@ -98,6 +98,8 @@ def _load_env_variables() -> Dict[str, Any]:
         "temp_file": os.getenv("TEMP_FILE"),
         "model_name": os.getenv("MODEL_NAME"),
         "llm_test_prompt_template": os.getenv("LLM_TEST_PROMPT_TEMPLATE"),
+        "temperature": os.getenv("TEMPERATURE"),
+        "llm_get_import_prompt": os.getenv("LLM_GET_IMPORT_PROMPT")
     }
 
 
@@ -362,10 +364,31 @@ def strip_markdown_fences(text: str) -> str:
     return "\n".join(lines)
 
 
+def get_chat_completion(provider: Any, model: str, prompt: str, temperature: float = 0.2) -> Any:
+    """
+    Sends a prompt to the chat model and returns the response.
+
+    Args:
+        provider (Any): The provider instance with a chat.completions.create method.
+        model (str): The model name to use.
+        prompt (str): The user prompt to send.
+        temperature (float, optional): Sampling temperature. Defaults to 0.2.
+
+    Returns:
+        Any: The response object from the provider.
+    """
+    return provider.chat.completions.create(
+        model=model,
+        messages=[{"role": "user", "content": prompt}],
+        temperature=temperature,
+    )
+
+
 def _generate_unit_tests(
     provider: Union[OpenAI, AzureOpenAI],
     model_arg: str,
     prompt: str,
+    temperature: float,
     code: str,
     file_path: str,
     function_names: List[str]
@@ -388,11 +411,7 @@ def _generate_unit_tests(
         prompt=prompt, file_content=code, file_path=file_path, function_names=function_names
     )
 
-    response = provider.chat.completions.create(
-        model=model_arg,
-        messages=[{"role": "user", "content": formatted_prompt}],
-        temperature=0.2,
-    )
+    response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
 
     generated_test_code = strip_markdown_fences(response.choices[0].message.content.strip())
 
@@ -491,35 +510,23 @@ def run_single_test_file(temp_path: Path) -> Tuple[bool, str]:
     passed = result.returncode == 0
     return passed, result.stdout.strip()
 
-def extract_unique_imports(code: str) -> List[str]:
-    """
-    Extracts all unique import statements from a block of Python code.
+def extract_unique_imports(provider, model_arg, llm_get_import_prompt, test_code, temperature):
+        # Format the prompt using the provided template
+    formatted_prompt = llm_get_import_prompt.format(
+        python_code=test_code
+    )
+    response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
+    return response
 
-    Args:
-        code (str): The Python source code containing import statements.
 
-    Returns:
-        List[str]: A list of deduplicated import statements.
-    """
-    import_lines = re.findall(r'^\s*(import .+|from .+ import .+)', code, re.MULTILINE)
-    seen = set()
-    unique_imports = []
-    for line in import_lines:
-        if line not in seen:
-            seen.add(line)
-            unique_imports.append(line)
-    return unique_imports
-
-def run_each_pytest_function_individually(provider, model_arg, source_code: str, test_code: str, temp_file:Path):
-    results = []
-    error_messages = ""
-    # Extract all import statements
-    import_lines = extract_unique_imports(test_code)
+def run_each_pytest_function_individually(provider, model_arg, llm_get_import_prompt, source_code: str, test_code: str, temp_file:Path):
+    import_lines = extract_unique_imports(provider, model_arg, llm_get_import_prompt, test_code)
     # logger.info(f"test_code - {test_code}")
     # logger.info(f"import_lines - {import_lines}")
     all_test_code = import_lines +"\n"
 
     logger.info(f"Suspect Error Line After this")
+    
     # Extract each test function body individually
     test_functions = extract_test_cases_from_code(test_code)
 
@@ -592,12 +599,13 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
             provider=client,
             model_arg=model_arg,
             prompt=env_vars["llm_test_prompt_template"],
+            temperature=float(env_vars["temperature"]),
             code=source_code,
             file_path=str(file_path),
             function_names=function_names
         )
 
-        test_code = run_each_pytest_function_individually(client, model_arg, source_code, test_code, Path(env_vars["temp_file"]))
+        test_code = run_each_pytest_function_individually(client, model_arg, env_vars["llm_get_import_prompt"], source_code, test_code, Path(env_vars["temp_file"]))
         
         if test_code:
             test_path = save_test_file(
