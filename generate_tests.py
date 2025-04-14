@@ -450,9 +450,9 @@ def run_single_test_file(temp_path: Path) -> Tuple[bool, str]:
         text=True,
         env=env
     )
-    logger.info(f"result - {result}")
+    logger.info(f"result.stdout - {result.stdout}")
     passed = result.returncode == 0
-    return passed, result.stderr.strip()
+    return passed, result.stdout.strip()
 
 def extract_unique_imports(provider, model_arg, llm_get_import_prompt, test_code, temperature):
         # Format the prompt using the provided template
