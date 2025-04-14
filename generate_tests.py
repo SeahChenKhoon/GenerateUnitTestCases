@@ -338,7 +338,7 @@ def generate_test_prompt(prompt: str, file_content: str, file_path: str, functio
 
 def strip_markdown_fences(text: str) -> str:
     """
-    Removes Markdown-style triple backtick fences from LLM output.
+    Removes all Markdown-style triple backtick fences from LLM output.
     Logs a warning if any stripping was performed.
 
     Args:
@@ -348,21 +348,19 @@ def strip_markdown_fences(text: str) -> str:
         str: The cleaned string without Markdown-style code fences.
     """
     lines = text.strip().splitlines()
+    cleaned_lines = []
     modified = False
 
-    if lines and lines[0].strip().startswith("```"):
-        lines = lines[1:]
-        modified = True
-
-    if lines and lines[-1].strip().startswith("```"):
-        lines = lines[:-1]
-        modified = True
+    for line in lines:
+        if line.strip().startswith("```"):
+            modified = True
+            continue  # Skip the fence line
+        cleaned_lines.append(line)
 
     if modified:
         logger.warning("Stripped Markdown-style triple backtick fences from LLM output.")
 
-    return "\n".join(lines)
-
+    return "\n".join(cleaned_lines)
 
 def get_chat_completion(provider: Any, model: str, prompt: str, temperature: float = 0.2) -> Any:
     """
