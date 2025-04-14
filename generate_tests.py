@@ -503,17 +503,19 @@ def run_each_pytest_function_individually(provider, model_arg, temperature, llm_
         logger.info(f"passed {count + 1}- {passed}")
         logger.info(f"test_case_error {count + 1}- {test_case_error}")
 
-        # count = 0
-        # max_retries = 1
-        # logger.info(f"Hello World ")
-        # while count < max_retries and not passed:
-        #     missing_import_statement = resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_case_error, temperature)
-        #     logger.info(f"missing_import_statement {count + 1}- {missing_import_statement}")
-        #     if missing_import_statement:
-        #         import_statements += "\n" + missing_import_statement + "\n"
-        #         logger.info(f"new import statement {count + 1}- {import_statements}")
-        #         save_test_case_to_temp_file(import_statements, test_case, temp_file)
-        #         passed, test_case_error = run_single_test_file(temp_file)
+        count = 0
+        max_retries = 1
+        logger.info(f"Hello World ")
+        while count < max_retries and not passed:
+            missing_import_statement = resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_case_error, temperature)
+            logger.info(f"missing_import_statement {count + 1}- {missing_import_statement}")
+            if missing_import_statement:
+                import_statements += "\n" + missing_import_statement + "\n"
+                logger.info(f"new import statement {count + 1}- {import_statements}")
+                save_test_case_to_temp_file(import_statements, test_case, temp_file)
+                passed, test_case_error = run_single_test_file(temp_file)
+
+            count += 1
 
         #         logger.info(f"passed {count + 1}- {passed}")
         #         logger.info(f"test_case_error {count + 1}- {test_case_error}")
@@ -527,7 +529,6 @@ def run_each_pytest_function_individually(provider, model_arg, temperature, llm_
         #         logger.info("save_test_case_to_temp_file")
         #         logger.info("run_single_test_file")
 
-        count += 1
         # import_statements += identify_new_import(provider, model_arg, llm_new_import_prompt, test_case, import_statements, temperature) + "\n"
         # logger.info(f"new_import_statements - {import_statements}")
 
