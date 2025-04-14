@@ -359,22 +359,39 @@ def identify_new_import(provider, model_arg, llm_new_import_prompt, test_case, i
 
 def generate_import_statement(function_names: List[str], source_code_path: str) -> str:
     """
-    Generates a Python import statement for the given function/class names from a source file path.
+    Generates a Python import statement for the given valid class/function names
+    that exist in the actual source file.
 
     Args:
-        function_names (List[str]): A list of function or class names to import.
+        function_names (List[str]): Candidate names to import.
         source_code_path (str): Path to the source file, e.g., 'theory_evaluation/models.py'.
 
     Returns:
         str: A valid Python import statement.
     """
-    # Remove .py extension and replace slashes with dots
+    # Read the source code from file
+    source_path = Path(source_code_path)
+    if not source_path.exists():
+        raise FileNotFoundError(f"{source_code_path} does not exist.")
+
+    code = source_path.read_text()
+
+    # Extract top-level classes and functions only
+    declared_names = set(
+        re.findall(r'^\s*(?:async\s+)?def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(|^\s*class\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE)
+    )
+    # Flatten tuples: each match will return a tuple with one non-empty element
+    valid_declarations = {name for pair in declared_names for name in pair if name}
+
+    # Filter function_names by what exists in the source
+    valid_names = [name for name in function_names if name in valid_declarations]
+
+    # Convert file path to module path
     module_path = source_code_path.replace("/", ".").replace("\\", ".")
     if module_path.endswith(".py"):
         module_path = module_path[:-3]
 
-    imports = ", ".join(function_names)
-    return f"from {module_path} import {imports}"
+    return f"from {module_path} import {', '.join(sorted(valid_names))}"
 
 
 def _generate_unit_tests(

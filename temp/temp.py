@@ -1,27 +1,14 @@
+import asyncio
+import json
 import os
-import re
-import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
-from unittest.mock import patch
 
-from unittest.mock import patch
-
-from unittest.mock import patch
-
-from unittest.mock import patch
-
-from unittest.mock import patch
-
-from unittest.mock import patch
-
-from unittest.mock import patch
-
-from unittest.mock import patch
-
-from unittest.mock import patch
-
-from unittest.mock import patch
+from openai import AzureOpenAI, OpenAI
+from theory_evaluation.llm_handler import _OpenAI_Chat_Completion, _OpenAI_JSON_Completion, _OpenAI_Streaming, __init__, _run, execute, main
+from theory_evaluation.llm_handler import _OpenAI_Chat_Completion
 
 
-def test_initialise_settings_file_not_found(mock_open_file):
-    mock_open_file.side_effect = FileNotFoundError
+
+def test_openai_llm_initialization_with_azure(mock_azure_openai, mock_env_vars):
+    llm = OpenAI_llm(useAzureOpenAI=True)
+    assert llm.client == mock_azure_openai.return_value
+    assert llm.model_name == "azure_model"
