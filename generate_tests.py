@@ -515,6 +515,7 @@ def extract_unique_imports(provider, model_arg, llm_get_import_prompt, test_code
     formatted_prompt = llm_get_import_prompt.format(
         python_code=test_code
     )
+    logger.info(f"Formatted Prompt {formatted_prompt}")
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
     return response.choices[0].message.content.strip()
 
@@ -531,7 +532,7 @@ def run_each_pytest_function_individually(provider, model_arg, llm_get_import_pr
     import_stmts = extract_test_cases_from_code(test_code)
 
 
-    logger.info(f"Length of test function {import_stmts}")
+    logger.info(f"Import Statments {import_stmts}")
 
     # for idx, test_func in enumerate(test_functions, start=1):
     #     logger.info(f"Hello World ")
