@@ -496,14 +496,14 @@ def run_each_pytest_function_individually(provider, model_arg, temperature, llm_
 
     for idx, test_case in enumerate(test_cases, start=1):
         passed = 0
-        
+        count = 0        
         save_test_case_to_temp_file(import_statements, test_case, temp_file)
         passed, test_case_error = run_single_test_file(temp_file)
 
         logger.info(f"passed {count + 1}- {passed}")
         logger.info(f"test_case_error {count + 1}- {test_case_error}")
 
-        count = 0
+
         max_retries = 1
         logger.info(f"Hello World ")
         while count < max_retries and not passed:
