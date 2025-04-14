@@ -486,7 +486,6 @@ def run_single_test_file(temp_path: Path) -> Tuple[bool, str]:
         text=True,
         env=env
     )
-    logger.info(f"result.stdout - {result.stdout}")
     passed = result.returncode == 0
     return passed, result.stdout.strip()
 
@@ -528,7 +527,6 @@ def run_each_pytest_function_individually(provider, model_arg, temperature, llm_
 
 
         max_retries = 1
-        logger.info(f"Hello World ")
         while count < max_retries and not passed:
             missing_import_statement = resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_case_error, temperature)
             logger.info(f"missing_import_statement {count + 1}- {missing_import_statement}")
@@ -543,9 +541,9 @@ def run_each_pytest_function_individually(provider, model_arg, temperature, llm_
 
         if passed:
             all_test_code += "\n" + test_case + "\n"
+        else:
+            logger.info(f"Failed after all retry")
 
-
-    logger.info(f"all_test_code {all_test_code}")
     return all_test_code
 
 def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg: str, env_vars: dict) -> None:
