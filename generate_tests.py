@@ -97,9 +97,9 @@ def _load_env_variables() -> Dict[str, Any]:
         "tests_dir": os.getenv("TESTS_DIR"),
         "temp_file": os.getenv("TEMP_FILE"),
         "model_name": os.getenv("MODEL_NAME"),
-        "llm_test_prompt_template": os.getenv("LLM_TEST_PROMPT_TEMPLATE"),
+        "llm_test_prompt": os.getenv("LLM_TEST_PROMPT"),
         "temperature": os.getenv("TEMPERATURE"),
-        "llm_get_import_prompt": os.getenv("LLM_GET_IMPORT_PROMPT")
+        "llm_import_prompt": os.getenv("LLM_IMPORT_PROMPT")
     }
 
 
@@ -286,54 +286,14 @@ def extract_import_statements(code: str, file_path:str) -> List[str]:
     return imports
 
 
-def generate_test_prompt(prompt: str, file_content: str, file_path: str, function_names:List[str]) -> tuple[str, str, str]:
-    """
-    Generates a formatted test generation prompt for an LLM based on the given file content and metadata.
-
-    Args:
-        prompt (str): A template string containing placeholders for file content, path, and imports.
-        file_content (str): The raw Python source code of the file to be tested.
-        file_path (str): The path to the source file (used for import resolution).
-        function_names (List[str]): A list of public function names extracted from the source code.
-
-    Returns:
-        tuple[str, str, str]: A tuple containing:
-            - formatted_prompt: The final prompt string filled with relevant context.
-            - import_section: The constructed import section with `import pytest` and resolved imports.
-            - import_hint: A suggested import line for the test file based on function names and module path.
-
-    Notes:
-        - Relative imports in the file are converted to absolute ones using `extract_import_statements`.
-        - The function constructs a clean import section for inclusion in generated test code.
-        - If no public functions are found, a comment is inserted instead of an import hint.
-    """
-    import_statements = extract_import_statements(file_content, file_path)
-
-    # Convert file path to module path (dot-separated)
-    module_path = file_path.replace("\\", "/").replace("/", ".").replace(".py", "")
-
-    # Create import hint for testing public functions
-    import_hint = (
-        f"from {module_path} import {', '.join(function_names)}"
-        if function_names else f"# No public functions found in {module_path}"
-    )
-
-    # Prepend "import pytest" to the original file's imports
-    import_section = (
-        "import pytest\n" + "\n".join(import_statements)
-        if import_statements else "import pytest\n# No imports found in original file"
-    )
-    # logger.info(import_section)
-
-    # Format the prompt using the provided template
-    formatted_prompt = prompt.format(
+def generate_test_prompt(llm_test_prompt: str, import_statements: str, file_content: str, source_code_path: str, function_names:List[str]) -> tuple[str, str, str]:
+    formatted_prompt = llm_test_prompt.format(
         file_content=file_content,
-        file_path=file_path,
-        import_section=import_section,
-        import_hint=import_hint,
+        file_path=source_code_path,
+        import_statements=import_statements,
     )
 
-    return formatted_prompt, import_section, import_hint
+    return formatted_prompt, import_statements
 
 
 def strip_markdown_fences(text: str) -> str:
@@ -385,37 +345,26 @@ def get_chat_completion(provider: Any, model: str, prompt: str, temperature: flo
 def _generate_unit_tests(
     provider: Union[OpenAI, AzureOpenAI],
     model_arg: str,
-    prompt: str,
+    llm_test_prompt: str,
+    llm_import_prompt: str, 
     temperature: float,
-    code: str,
-    file_path: str,
-    function_names: List[str]
+    source_code: str,
+    source_code_path: str
 ) -> str:
-    """
-    Generates pytest-style unit test code using an LLM (OpenAI or Azure OpenAI).
-
-    Args:
-        provider (Union[OpenAI, AzureOpenAI]): An initialized LLM client.
-        model_arg (str): Model name (for OpenAI) or deployment ID (for Azure OpenAI).
-        prompt (str): The base instruction to guide the test generation.
-        code (str): The source code to be tested.
-        file_path (str): The path of the source file.
-        function_names (List[str]): A list of function names to generate tests for.
-
-    Returns:
-        str: Generated unit test code as a string.
-    """
-    formatted_prompt, import_section, import_hint = generate_test_prompt(
-        prompt=prompt, file_content=code, file_path=file_path, function_names=function_names
+    
+    import_statements = extract_unique_imports(provider, model_arg, llm_import_prompt, source_code, temperature)
+    logger.inf(f"import_statements - {import_statements}")
+    formatted_prompt = llm_test_prompt.format(
+        file_content=source_code,
+        file_path=source_code_path,
+        import_statements=import_statements,
     )
 
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
 
     generated_test_code = strip_markdown_fences(response.choices[0].message.content.strip())
 
-    if import_hint not in generated_test_code:
-        logger.warning("Import_hint missing from generated output. Injecting it manually.")
-        generated_test_code = f"{import_section}\n{import_hint}\n\n{generated_test_code}"
+
     return generated_test_code
 
 
@@ -558,59 +507,40 @@ def run_each_pytest_function_individually(provider, model_arg, llm_get_import_pr
     # logger.info(f"all_test_code {all_test_code}")
     return all_test_code
 
-def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg: str, env_vars: dict) -> None:
-    """
-    Processes a Python source file by extracting function names, generating unit tests using an LLM,
-    and executing those tests.
-
-    Args:
-        file_path (Path): The path to the Python source file to be processed.
-        client (Union[OpenAI, AzureOpenAI]): The initialized LLM client for generating test code.
-        model_arg (str): The model name (for OpenAI) or deployment ID (for Azure OpenAI).
-        env_vars (dict): A dictionary of environment variables, expected to contain:
-            - "llm_test_prompt_template": The prompt template to guide test generation.
-
-    Returns:
-        None
-
-    Logs:
-        - Start and end of file processing.
-        - Warnings if no public functions are found.
-        - Errors if processing fails.
-    """
-    logger.info(f"{BOLD}Start Processing file: {file_path}{RESET}")
+def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg: str, env_vars: dict) -> None:
+    logger.info(f"{BOLD}Start Processing file: {source_code_path}{RESET}")
 
     try:
-        source_code = file_path.read_text(encoding="utf-8")
+        source_code = source_code_path.read_text(encoding="utf-8")
         function_names = _extract_function_names(source_code)
         if not function_names:
-            logger.warning(f"No public functions found in {file_path}. Skipping test generation.\n")
+            logger.warning(f"No public functions found in {source_code_path}. Skipping test generation.\n")
             return
         temperature=float(env_vars["temperature"])
         test_code = _generate_unit_tests(
             provider=client,
             model_arg=model_arg,
-            prompt=env_vars["llm_test_prompt_template"],
+            llm_test_prompt=env_vars["llm_test_prompt"],
+            llm_import_prompt=env_vars["llm_import_prompt"],
             temperature=temperature,
-            code=source_code,
-            file_path=str(file_path),
-            function_names=function_names
+            source_code=source_code,
+            source_code_path=str(source_code_path)
         )
 
-        test_code = run_each_pytest_function_individually(client, model_arg, env_vars["llm_get_import_prompt"], temperature, source_code, test_code, Path(env_vars["temp_file"]))
+        # test_code = run_each_pytest_function_individually(client, model_arg, env_vars["llm_import_prompt"], temperature, source_code, test_code, Path(env_vars["temp_file"]))
         
-        if test_code:
-            test_path = save_test_file(
-                    Path(env_vars["src_dir"]),
-                    Path(env_vars["tests_dir"]),
-                    file_path,
-                    test_code
-                )
+        # if test_code:
+        #     test_path = save_test_file(
+        #             Path(env_vars["src_dir"]),
+        #             Path(env_vars["tests_dir"]),
+        #             source_code_path,
+        #             test_code
+        #         )
 
     except Exception as e:
-        logger.error(f"Failed processing {file_path}: {e}")
+        logger.error(f"Failed processing {source_code_path}: {e}")
 
-    logger.info(f"{BOLD}End Processing file: {file_path}{RESET}\n")
+    logger.info(f"{BOLD}End Processing file: {source_code_path}{RESET}\n")
 
 
 def main() -> NoReturn:
@@ -619,13 +549,13 @@ def main() -> NoReturn:
     try:
         env_vars = _load_env_variables()
         client, model_arg = _initialize_llm(env_vars)
-        python_files = _get_python_files(env_vars["src_dir"])
+        source_code_files = _get_python_files(env_vars["src_dir"])
     except Exception as e:
         logger.error(f"Initialization failed: {e}")
         raise
 
-    for file_path in python_files:
-        output = _process_file(file_path, client, model_arg, env_vars)
+    for source_code_path in source_code_files:
+        output = _process_file(source_code_path, client, model_arg, env_vars)
 
 
 if __name__ == "__main__":
