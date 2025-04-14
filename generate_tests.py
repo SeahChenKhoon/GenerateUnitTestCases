@@ -516,7 +516,7 @@ def extract_unique_imports(provider, model_arg, llm_get_import_prompt, test_code
         python_code=test_code
     )
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
-    return response
+    return response.choices[0].message.content.strip()
 
 
 def run_each_pytest_function_individually(provider, model_arg, llm_get_import_prompt, temperature, source_code: str, test_code: str, temp_file:Path):
@@ -528,10 +528,10 @@ def run_each_pytest_function_individually(provider, model_arg, llm_get_import_pr
     logger.info(f"Suspect Error Line After this")
 
     # Extract each test function body individually
-    test_functions = extract_test_cases_from_code(test_code)
+    import_stmts = extract_test_cases_from_code(test_code)
 
 
-    logger.info(f"Length of test function {len(test_functions)}")
+    logger.info(f"Length of test function {import_stmts}")
 
     # for idx, test_func in enumerate(test_functions, start=1):
     #     logger.info(f"Hello World ")
