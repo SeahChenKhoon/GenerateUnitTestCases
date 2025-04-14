@@ -555,6 +555,8 @@ def run_each_pytest_function_individually(
                     if passed:
                         logger.info(f"passed after retry {count + 1}")
 
+                else:
+                    logger.info("Error due to unit test case fault")
                 count += 1
 
             if passed:
