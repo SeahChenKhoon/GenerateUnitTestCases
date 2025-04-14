@@ -1,53 +1,11 @@
-from sqlalchemy.dialects.postgresql import JSONB, UUID
-from sqlalchemy import (
-    Column,
-    Integer,
-    String,
-    TIMESTAMP,
-    create_engine,
-    Float,
-    ForeignKey,
-    Text,
-    UniqueConstraint,
-)
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.sql import func
-import uuid
-from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
-None
+from pydantic_settings import BaseSettings
+from theory_evaluation.config import Settings
 
-None
-
-None
-
-None
-
-None
-
-None
-
-from theory_evaluation import config
-
-None
-
-None
-
-from theory_evaluation import config
-
-
-def test_theory_eval_user_performance_table_columns():
-    inspector = inspect(TheoryEvalUserPerformance)
-    columns = inspector.columns.keys()
-    expected_columns = [
-        "id",
-        "email",
-        "question_id",
-        "user_response",
-        "llm_evaluation",
-        "llm_score",
-        "user_grade",
-        "user_attempts",
-        "llm_evaluation_status",
-        "timestamp",
-    ]
-    assert set(columns) == set(expected_columns)
+def test_global_settings_instance():
+    from theory_evaluation.config import SETTINGS
+    assert hasattr(SETTINGS, "API_NAME")
+    assert SETTINGS.API_NAME == "project_simulation_fastapi"
+    assert hasattr(SETTINGS, "API_V1_STR")
+    assert SETTINGS.API_V1_STR == "/api/v1"
+    assert hasattr(SETTINGS, "LOGGER_CONFIG_PATH")
+    assert SETTINGS.LOGGER_CONFIG_PATH == "../conf/base/logging.yml"
