@@ -528,7 +528,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
             model_arg=model_arg,
             llm_test_prompt=env_vars["llm_test_prompt"],
             llm_import_prompt=env_vars["llm_import_prompt"],
-            llm_new_import=env_vars["llm_new_import_prompt"],
+            llm_new_import_prompt=env_vars["llm_new_import_prompt"],
             temperature=temperature,
             source_code=source_code,
             source_code_path=str(source_code_path)
