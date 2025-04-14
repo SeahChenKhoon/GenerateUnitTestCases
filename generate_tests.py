@@ -545,6 +545,7 @@ def run_each_pytest_function_individually(
 
             max_retries = 2
             while count < max_retries and not passed:
+                count += 1
                 missing_import_statement = resolve_unit_test(
                     provider, model_arg, llm_resolve_prompt, test_case, test_case_error, temperature
                 )
@@ -562,7 +563,6 @@ def run_each_pytest_function_individually(
 
                 else:
                     logger.info("Error due to unit test case fault")
-                count += 1
 
             if passed:
                 success_test_cases += "\n" + test_case + "\n"
