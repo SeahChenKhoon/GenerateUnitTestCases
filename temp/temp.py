@@ -13,40 +13,32 @@ from sqlalchemy import (
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql import func
 import uuid
-from sqlalchemy import inspect
+import inspect
 
 from your_module import Projects
 
 from your_module import SprintIssues
 
-from your_module import UserRepo
+None
 
-from sqlalchemy import inspect
+from your_module import UserScoreLog
 
-from your_module import CurrentUserTable
+None
 
 from your_module import ConsultantChat
 
-from your_module import MentorChat
+from sqlalchemy import inspect
 
-from your_module import Curriculum
+None
 
 from your_module import TheoryEvalUserPerformance
 
 
 def test_theory_eval_user_performance_table_columns():
     inspector = inspect(TheoryEvalUserPerformance)
-    columns = inspector.columns.keys()
+    columns = [column.name for column in inspector.columns]
     expected_columns = [
-        "id",
-        "email",
-        "question_id",
-        "user_response",
-        "llm_evaluation",
-        "llm_score",
-        "user_grade",
-        "user_attempts",
-        "llm_evaluation_status",
-        "timestamp",
+        "id", "email", "question_id", "user_response", "llm_evaluation",
+        "llm_score", "user_grade", "user_attempts", "llm_evaluation_status", "timestamp"
     ]
     assert set(columns) == set(expected_columns)

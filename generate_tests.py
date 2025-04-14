@@ -360,12 +360,15 @@ def _generate_unit_tests(
     llm_test_prompt: str,
     llm_import_prompt: str, 
     temperature: float,
+    function_names: List[str],
     source_code: str,
     source_code_path: str
 ) -> str:
     
     import_statements = extract_unique_imports(provider, model_arg, llm_import_prompt, source_code, temperature)
     import_statements = update_relative_imports(import_statements, source_code_path)
+    logger.info(f"HELLO WORLD function_names - {function_names}")
+    logger.info(f"HELLO WORLD source_code_path - {source_code_path}")
 
     formatted_prompt = llm_test_prompt.format(
         file_content=source_code,
@@ -556,6 +559,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
             llm_test_prompt=env_vars["llm_test_prompt"],
             llm_import_prompt=env_vars["llm_import_prompt"],
             temperature=temperature,
+            function_names=function_names,
             source_code=source_code,
             source_code_path=str(source_code_path)
         )
