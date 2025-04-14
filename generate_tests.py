@@ -204,7 +204,6 @@ def extract_function_and_class_names(code: str):
 
     return sorted(set(function_names + class_names))
 
-
 def update_relative_imports(code: str, file_path: str) -> str:
     """
     Converts relative import statements in Python code to absolute imports based on the file path.
@@ -573,7 +572,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
 
     try:
         source_code = source_code_path.read_text(encoding="utf-8")
-        function_names = _extract_function_names(source_code)
+        function_names = extract_function_and_class_names(source_code)
         if not function_names:
             logger.warning(f"No public functions found in {source_code_path}. Skipping test generation.\n")
             return
