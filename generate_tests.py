@@ -519,14 +519,14 @@ def extract_unique_imports(provider, model_arg, llm_get_import_prompt, test_code
     return response
 
 
-def run_each_pytest_function_individually(provider, model_arg, llm_get_import_prompt, source_code: str, test_code: str, temp_file:Path):
-    import_lines = extract_unique_imports(provider, model_arg, llm_get_import_prompt, test_code)
+def run_each_pytest_function_individually(provider, model_arg, llm_get_import_prompt, temperature, source_code: str, test_code: str, temp_file:Path):
+    import_lines = extract_unique_imports(provider, model_arg, llm_get_import_prompt, test_code, temperature)
     # logger.info(f"test_code - {test_code}")
     # logger.info(f"import_lines - {import_lines}")
     all_test_code = import_lines +"\n"
 
     logger.info(f"Suspect Error Line After this")
-    
+
     # Extract each test function body individually
     test_functions = extract_test_cases_from_code(test_code)
 
@@ -594,18 +594,18 @@ def _process_file(file_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg
         if not function_names:
             logger.warning(f"No public functions found in {file_path}. Skipping test generation.\n")
             return
-
+        temperature=float(env_vars["temperature"])
         test_code = _generate_unit_tests(
             provider=client,
             model_arg=model_arg,
             prompt=env_vars["llm_test_prompt_template"],
-            temperature=float(env_vars["temperature"]),
+            temperature=temperature,
             code=source_code,
             file_path=str(file_path),
             function_names=function_names
         )
 
-        test_code = run_each_pytest_function_individually(client, model_arg, env_vars["llm_get_import_prompt"], source_code, test_code, Path(env_vars["temp_file"]))
+        test_code = run_each_pytest_function_individually(client, model_arg, env_vars["llm_get_import_prompt"], temperature, source_code, test_code, Path(env_vars["temp_file"]))
         
         if test_code:
             test_path = save_test_file(
