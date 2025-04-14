@@ -195,20 +195,13 @@ def _get_python_files(directory: str) -> List[Path]:
     return list(Path(directory).rglob("*.py"))
 
 
-def _extract_function_names(code: str) -> List[str]:
-    """
-    Extracts all top-level function and class names from the given Python source code.
+def extract_function_and_class_names(code: str):
+    # Match def and async def at any indentation level (including top-level)
+    function_names = re.findall(r'^\s*(?:async\s+)?def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE)
 
-    This includes both `def` and `async def` functions, and class definitions.
+    # Match class definitions at any indentation level
+    class_names = re.findall(r'^\s*class\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE)
 
-    Args:
-        code (str): The Python source code to analyze.
-
-    Returns:
-        List[str]: A list of function and class names defined in the code.
-    """
-    function_names = re.findall(r'^(?:async\s+)?def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE)
-    class_names = re.findall(r'^class\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE)
     return sorted(set(function_names + class_names))
 
 
