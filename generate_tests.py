@@ -524,7 +524,7 @@ def run_each_pytest_function_individually(
         passed = 0
         count = 0
         logger.info(f"\n")
-        logger.info(f"TEST CASE {idx}")
+        logger.info(f"TEST CASE {idx} Retry {count + 1}")
         logger.info(f"---------------")
         logger.info(f"{test_case}")
         logger.info(f"---------------")
@@ -538,6 +538,10 @@ def run_each_pytest_function_individually(
             max_retries = 2
             while count < max_retries and not passed:
                 count += 1
+                logger.info(f"TEST CASE {idx} Retry {count + 1}")
+                logger.info(f"---------------")
+                logger.info(f"{test_case}")
+                logger.info(f"---------------")
                 missing_import_statement = resolve_unit_test(
                     provider, model_arg, llm_resolve_prompt, test_case, test_case_error, temperature
                 )
