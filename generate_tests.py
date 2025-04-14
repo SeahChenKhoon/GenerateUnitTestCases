@@ -517,7 +517,7 @@ def extract_unique_imports(provider, model_arg, llm_get_import_prompt, test_code
     )
     logger.info(f"Formatted Prompt {formatted_prompt}")
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
-    return response.choices[0].message.content.strip()
+    return strip_markdown_fences(response.choices[0].message.content.strip())
 
 
 def run_each_pytest_function_individually(provider, model_arg, llm_get_import_prompt, temperature, source_code: str, test_code: str, temp_file:Path):
