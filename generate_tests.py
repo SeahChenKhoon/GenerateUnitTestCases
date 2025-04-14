@@ -14,12 +14,22 @@ from typing import Dict, Any, List, NoReturn, Union, Tuple
 # Third-party packages
 from dotenv import load_dotenv
 
-# Set up logging
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s"
-)
+# Create file handler
+file_handler = logging.FileHandler("logs/output.log")  # Make sure "logs/" exists or change path
+file_handler.setLevel(logging.INFO)
+file_formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+file_handler.setFormatter(file_formatter)
+
+# Create logger
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+# Remove any existing handlers (especially default StreamHandler from basicConfig)
+if logger.hasHandlers():
+    logger.handlers.clear()
+
+# Add the file handler
+logger.addHandler(file_handler)
 
 BOLD = "\033[1m"
 RESET = "\033[0m"
