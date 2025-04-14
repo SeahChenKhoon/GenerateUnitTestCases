@@ -450,7 +450,7 @@ def run_single_test_file(temp_path: Path) -> Tuple[bool, str]:
         text=True,
         env=env
     )
-
+    logger.info(f"result - {result}")
     passed = result.returncode == 0
     return passed, result.stderr.strip()
 
