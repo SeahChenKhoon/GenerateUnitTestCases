@@ -519,9 +519,9 @@ def extract_unique_imports(provider, model_arg, llm_get_import_prompt, test_code
 
 
 def run_each_pytest_function_individually(provider, model_arg, llm_get_import_prompt, temperature, source_code: str, test_code: str, temp_file:Path):
-    logger.info(f"test_code {source_code}")
+    # logger.info(f"source_code {source_code}")
     import_lines = extract_unique_imports(provider, model_arg, llm_get_import_prompt, source_code, temperature)
-    logger.info(f"import_lines {import_lines}")
+    # logger.info(f"import_lines {import_lines}")
     all_test_code = import_lines +"\n"
 
     # Extract each test function body individually
@@ -533,7 +533,8 @@ def run_each_pytest_function_individually(provider, model_arg, llm_get_import_pr
         
         save_test_case_to_temp_file(import_lines, test_case, temp_file)
         passed, result = run_single_test_file(temp_file)
-        
+        logger.info(f"passed {passed}")
+        logger.info(f"result {result}")
         # count = 0
         # max_retries = 3
         # logger.info(f"Hello World ")
