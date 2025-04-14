@@ -511,11 +511,9 @@ def resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_c
 
 
 def run_each_pytest_function_individually(provider, model_arg, temperature, llm_resolve_prompt, import_statements, source_code: str, test_code: str, temp_file:Path):
-    all_test_code = import_statements +"\n"
-
     # Extract each test function body individually
     test_cases = extract_test_cases_from_code(test_code)
-
+    all_test_code = ""
     for idx, test_case in enumerate(test_cases, start=1):
         passed = 0
         count = 0        
@@ -540,7 +538,7 @@ def run_each_pytest_function_individually(provider, model_arg, temperature, llm_
             count += 1
 
         if passed:
-            all_test_code += "\n" + test_case + "\n"
+            all_test_code = import_statements + "\n" + test_case + "\n"
         else:
             logger.info(f"Failed after all retry")
 
