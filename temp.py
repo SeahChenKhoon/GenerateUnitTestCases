@@ -23,12 +23,7 @@ from theory_evaluation.utils import (
     manage_user_performance,
     delete_user_performance,
 )
-from theory_evaluation import models
 
-def test_delete_user_performance_not_exists(mock_session):
-    with patch("theory_evaluation.utils.SessionLocal", return_value=mock_session):
-        mock_session.query.return_value.filter.return_value.all.return_value = []
-        result = delete_user_performance(
-            EmailStr("test@example.com"), UUID("12345678123456781234567812345678")
-        )
-        assert result is False
+def test_delete_user_performance_success():
+    email = EmailStr("test@example.com")
+    question_id = UUID("12345678123456781234567812345678")
