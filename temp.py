@@ -1,32 +1,41 @@
 import pytest
-import os
-import time
-import pydantic
-from uuid import UUID
-from sqlalchemy import create_engine, and_, desc
-from sqlalchemy.orm import sessionmaker, scoped_session
-from sqlalchemy.exc import SQLAlchemyError, OperationalError
-from contextlib import contextmanager
-from theory_evaluation import models
-from theory_evaluation.utils import delete_user_performance, get_db, get_marking_scheme, get_user_performance, init_db_session, manage_user_performance, validate_user
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    create_engine,
+    Float,
+    ForeignKey,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+import uuid
+from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
 
 import pytest
-from unittest.mock import patch, MagicMock
-from uuid import UUID
-from pydantic import EmailStr
-from theory_evaluation.utils import (
-    init_db_session,
-    get_db,
-    validate_user,
-    get_marking_scheme,
-    get_user_performance,
-    manage_user_performance,
-    delete_user_performance,
+from sqlalchemy import inspect
+from theory_evaluation.models import (
+    UserInfo,
+    Projects,
+    SprintIssues,
+    UserRepo,
+    UserScoreLog,
+    CurrentUserTable,
+    ConsultantChat,
+    MentorChat,
+    Curriculum,
+    TheoryEvalUserPerformance,
 )
 
-@patch("theory_evaluation.utils.get_db")
-def test_delete_user_performance(mock_get_db):
-    mock_db = MagicMock()
-    mock_get_db.return_value.__enter__.return_value = mock_db
-    mock_performance = [MagicMock(), MagicMock()]
-    mock_db.query.return_value.filter.return_value.all.return_value = mock_performance
+def test_theory_eval_user_performance_table_columns():
+    inspector = inspect(TheoryEvalUserPerformance)
+    columns = inspector.columns.keys()
+    expected_columns = [
+        "id", "email", "question_id", "user_response", "llm_evaluation",
+        "llm_score", "user_grade", "user_attempts", "llm_evaluation_status", "timestamp"
+    ]
+    assert set(columns) == set(expected_columns)
