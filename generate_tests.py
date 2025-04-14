@@ -514,7 +514,8 @@ def run_each_pytest_function_individually(provider, model_arg, temperature, llm_
                 logger.info(f"new import statement {count + 1}- {import_statements}")
                 save_test_case_to_temp_file(import_statements, test_case, temp_file)
                 passed, test_case_error = run_single_test_file(temp_file)
-
+                if passed:
+                    logger.info(f"passed {count + 1}")
             count += 1
 
         #         logger.info(f"passed {count + 1}- {passed}")
