@@ -483,7 +483,7 @@ def resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_c
         test_case=test_case,
         test_case_error=test_case_error
     )
-    
+    logger.info(f"formatted_prompt - {formatted_prompt}")
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
