@@ -540,26 +540,11 @@ def run_each_pytest_function_individually(provider, model_arg, temperature, llm_
                     logger.info(f"passed after retry {count + 1}")
             count += 1
 
-        #         logger.info(f"passed {count + 1}- {passed}")
-        #         logger.info(f"test_case_error {count + 1}- {test_case_error}")
-        #         logger.info(f"test_case {count + 1} - {test_case}")
-
-        #     if passed:
-        #         logger.info("✅ Test passed.")
-        #     else:
-        #         logger.warning("❌ Test failed.")
-        #         logger.info("Regenerating new test case...")
-        #         logger.info("save_test_case_to_temp_file")
-        #         logger.info("run_single_test_file")
-
-        # import_statements += identify_new_import(provider, model_arg, llm_new_import_prompt, test_case, import_statements, temperature) + "\n"
-        # logger.info(f"new_import_statements - {import_statements}")
-
         if passed:
             all_test_code += "\n" + test_case + "\n"
 
 
-    # logger.info(f"all_test_code {all_test_code}")
+    logger.info(f"all_test_code {all_test_code}")
     return all_test_code
 
 def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg: str, env_vars: dict) -> None:
