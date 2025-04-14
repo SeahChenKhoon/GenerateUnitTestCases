@@ -7,21 +7,29 @@ from unittest.mock import patch
 
 def test_initialise_prompt_success():
     agent = "test_agent"
-    mock_config_values = {"placeholder": "value"}
-    mock_prompt_structure = "This is a {$placeholder} test."
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} test."
+    expected_prompt = "This is a value test."
 
-def test_initialise_prompt_file_not_found():
+def test_initialise_prompt_missing_placeholder():
     agent = "test_agent"
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$missing_key} test."
+    expected_prompt = "This is a {$missing_key} test."
+
+def test_initialise_prompt_exception():
+    agent = "test_agent"
+    with patch("theory_evaluation.llm_utils.open", side_effect=Exception("File not found")) as mock_file:
         result = initialise_prompt(agent)
         assert result is None
 
 def test_initialise_settings_success():
     agent = "test_agent"
-    mock_settings = {"setting_key": "setting_value"}
+    settings_yaml = "setting_key: setting_value"
+    expected_settings = {"setting_key": "setting_value"}
 
-def test_initialise_settings_file_not_found():
+def test_initialise_settings_exception():
     agent = "test_agent"
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+    with patch("theory_evaluation.llm_utils.open", side_effect=Exception("File not found")) as mock_file:
         result = initialise_settings(agent)
         assert result is None
