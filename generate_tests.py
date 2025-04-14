@@ -100,7 +100,9 @@ def _load_env_variables() -> Dict[str, Any]:
         "llm_test_prompt": os.getenv("LLM_TEST_PROMPT"),
         "temperature": os.getenv("TEMPERATURE"),
         "llm_import_prompt": os.getenv("LLM_IMPORT_PROMPT"),
-        "llm_new_import_prompt": os.getenv("LLM_NEW_IMPORT_PROMPT")
+        "llm_new_import_prompt": os.getenv("LLM_NEW_IMPORT_PROMPT"),
+        "llm_resolve_prompt": os.getenv("LLM_RESOLVE_PROMPT")
+        
     }
 
 
@@ -475,7 +477,18 @@ def extract_unique_imports(provider, model_arg, llm_get_import_prompt, test_code
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
 
-def run_each_pytest_function_individually(provider, model_arg, temperature, llm_new_import_prompt, import_statements, source_code: str, test_code: str, temp_file:Path):
+def resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_case_error, temperature):
+    # Format the prompt using the provided template
+    formatted_prompt = llm_resolve_prompt.format(
+        test_case=test_case,
+        test_case_error=test_case_error
+    )
+    
+    response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
+    return strip_markdown_fences(response.choices[0].message.content.strip())
+
+
+def run_each_pytest_function_individually(provider, model_arg, temperature, llm_resolve_prompt, import_statements, source_code: str, test_code: str, temp_file:Path):
     all_test_code = import_statements +"\n"
 
     # Extract each test function body individually
@@ -485,15 +498,22 @@ def run_each_pytest_function_individually(provider, model_arg, temperature, llm_
         passed = 0
         
         save_test_case_to_temp_file(import_statements, test_case, temp_file)
-        passed, result = run_single_test_file(temp_file)
+        passed, test_case_error = run_single_test_file(temp_file)
 
 
         count = 0
         max_retries = 3
         logger.info(f"Hello World ")
         while count < max_retries and not passed:
-            logger.info(f"Result - {result}")
-            logger.info(f"test_case - {test_case}")
+            missing_import_statement = resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_case_error, temperature)
+            if not missing_import_statement:
+                import_statements += missing_import_statement
+                save_test_case_to_temp_file(import_statements, test_case, temp_file)
+                passed, test_case_error = run_single_test_file(temp_file)
+
+                logger.info(f"passed {count + 1}- {passed}")
+                logger.info(f"test_case_error {count + 1}- {test_case_error}")
+                logger.info(f"test_case {count + 1} - {test_case}")
 
         #     if passed:
         #         logger.info("✅ Test passed.")
@@ -542,7 +562,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
                     test_code
                 )
 
-            test_code = run_each_pytest_function_individually(client, model_arg, temperature, env_vars["llm_new_import_prompt"], import_statements, source_code, test_code, Path(env_vars["temp_file"]))
+            test_code = run_each_pytest_function_individually(client, model_arg, temperature, env_vars["llm_resolve_prompt"], import_statements, source_code, test_code, Path(env_vars["temp_file"]))
         
         # if test_code:
         #     test_path = save_test_file(

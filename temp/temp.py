@@ -1,13 +1,32 @@
-import os
-import time
-import pydantic
-from uuid import UUID
-from sqlalchemy import create_engine, and_, desc
-from sqlalchemy.orm import sessionmaker, scoped_session
-from sqlalchemy.exc import SQLAlchemyError, OperationalError
-from contextlib import contextmanager
-from theory_evaluation import models
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    create_engine,
+    Float,
+    ForeignKey,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+import uuid
 
-def test_delete_user_performance_not_exists():
-    mock_session = MagicMock()
-    mock_session.query.return_value.filter.return_value.all.return_value = []
+def test_theory_eval_user_performance_table_columns():
+    inspector = inspect(TheoryEvalUserPerformance)
+    columns = inspector.columns.keys()
+    expected_columns = [
+        "id",
+        "email",
+        "question_id",
+        "user_response",
+        "llm_evaluation",
+        "llm_score",
+        "user_grade",
+        "user_attempts",
+        "llm_evaluation_status",
+        "timestamp",
+    ]
+    assert set(columns) == set(expected_columns)
