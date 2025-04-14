@@ -362,7 +362,7 @@ def _generate_unit_tests(
 
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
     generated_test_code = strip_markdown_fences(response.choices[0].message.content.strip())
-    return generated_test_code
+    return generated_test_code, import_statements
 
 
 def extract_test_functions(code: str) -> List[str]:
@@ -464,11 +464,8 @@ def extract_unique_imports(provider, model_arg, llm_get_import_prompt, test_code
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
 
-def run_each_pytest_function_individually(provider, model_arg, temperature, source_code: str, test_code: str, temp_file:Path):
-    # logger.info(f"source_code {source_code}")
-    import_lines = extract_unique_imports(provider, model_arg, source_code, temperature)
-    logger.info(f"import_lines {import_lines}")
-    all_test_code = import_lines +"\n"
+def run_each_pytest_function_individually(provider, model_arg, temperature, import_statements, source_code: str, test_code: str, temp_file:Path):
+    all_test_code = import_statements +"\n"
 
     # Extract each test function body individually
     test_cases = extract_test_cases_from_code(test_code)
@@ -476,7 +473,7 @@ def run_each_pytest_function_individually(provider, model_arg, temperature, sour
     for idx, test_case in enumerate(test_cases, start=1):
         passed = 0
         
-        save_test_case_to_temp_file(import_lines, test_case, temp_file)
+        save_test_case_to_temp_file(import_statements, test_case, temp_file)
         passed, result = run_single_test_file(temp_file)
         logger.info(f"passed {passed}")
         logger.info(f"result {result}")
@@ -513,7 +510,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
             logger.warning(f"No public functions found in {source_code_path}. Skipping test generation.\n")
             return
         temperature=float(env_vars["temperature"])
-        test_code = _generate_unit_tests(
+        test_code, import_statements = _generate_unit_tests(
             provider=client,
             model_arg=model_arg,
             llm_test_prompt=env_vars["llm_test_prompt"],
@@ -531,7 +528,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
                     test_code
                 )
 
-            test_code = run_each_pytest_function_individually(client, model_arg, temperature, source_code, test_code, Path(env_vars["temp_file"]))
+            test_code = run_each_pytest_function_individually(client, model_arg, temperature, import_statements, source_code, test_code, Path(env_vars["temp_file"]))
         
         # if test_code:
         #     test_path = save_test_file(
