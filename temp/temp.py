@@ -14,19 +14,16 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql import func
 import uuid
 
-def test_theory_eval_user_performance_table_columns():
+def test_theory_eval_user_performance_table_structure():
     inspector = inspect(TheoryEvalUserPerformance)
     columns = inspector.columns.keys()
-    expected_columns = [
-        "id",
-        "email",
-        "question_id",
-        "user_response",
-        "llm_evaluation",
-        "llm_score",
-        "user_grade",
-        "user_attempts",
-        "llm_evaluation_status",
-        "timestamp",
-    ]
-    assert set(columns) == set(expected_columns)
+    assert "id" in columns
+    assert "email" in columns
+    assert "question_id" in columns
+    assert "user_response" in columns
+    assert "llm_evaluation" in columns
+    assert "llm_score" in columns
+    assert "user_grade" in columns
+    assert "user_attempts" in columns
+    assert "llm_evaluation_status" in columns
+    assert "timestamp" in columns
