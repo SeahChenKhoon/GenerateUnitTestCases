@@ -486,18 +486,15 @@ def run_each_pytest_function_individually(provider, model_arg, temperature, llm_
         
         save_test_case_to_temp_file(import_statements, test_case, temp_file)
         passed, result = run_single_test_file(temp_file)
-        logger.info(f"passed {passed}")
-        logger.info(f"result {result}")
 
-        import_statements += identify_new_import(provider, model_arg, llm_new_import_prompt, test_case, import_statements, temperature) + "\n"
-        logger.info(f"new_import_statements - {import_statements}")
 
-        # count = 0
-        # max_retries = 3
-        # logger.info(f"Hello World ")
-        # while count < max_retries and not passed:
-        #     logger.info(f"Hello World ")
-        #     logger.info(f"Regenerate new test case")
+        count = 0
+        max_retries = 3
+        logger.info(f"Hello World ")
+        while count < max_retries and not passed:
+            logger.info(f"Result - {result}")
+            logger.info(f"test_case - {test_case}")
+
         #     if passed:
         #         logger.info("✅ Test passed.")
         #     else:
@@ -507,7 +504,9 @@ def run_each_pytest_function_individually(provider, model_arg, temperature, llm_
         #         logger.info("run_single_test_file")
 
         #     count += 1
-                
+        # import_statements += identify_new_import(provider, model_arg, llm_new_import_prompt, test_case, import_statements, temperature) + "\n"
+        # logger.info(f"new_import_statements - {import_statements}")
+
         if passed:
             all_test_code += "\n" + test_case + "\n"
 
