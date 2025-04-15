@@ -3,32 +3,32 @@ import json
 import os
 
 from openai import AzureOpenAI, OpenAI
-from theory_evaluation.llm_handler import execute, main
-from theory_evaluation.llm_handler import execute
 
-from theory_evaluation.llm_handler import execute
+import mock_azure_openai_client
 
-from theory_evaluation.llm_handler import main
+import mock_azure_openai_client
 
-from theory_evaluation.llm_handler import execute
+import mock_azure_openai_client
 
-import pytest_asyncio
+import mock_azure_openai_client
 
-''
+import mock_azure_openai_client
 
-asyncio
+import mock_azure_openai_client
 
-import pytest
+import mock_azure_openai_client
 
-import pytest
+import mock_azure_openai_client
 
-import pytest
+import mock_azure_openai_client
 
-import pytest
+import mock_azure_openai_client
 
-import pytest
+import mock_azure_openai_client
 
-async def test_execute_vision(mock_openai):
+import mock_azure_openai_client
 
-from unittest.mock import MagicMock, AsyncMock
+import mock_azure_openai_client
+
+import mock_azure_openai_client
 

@@ -1,787 +1,674 @@
-2025-04-14 17:39:22,961 - INFO - Loading environment variables...
-2025-04-14 17:39:23,341 - INFO - [1mStart Processing file: theory_evaluation\llm_handler.py[0m
-2025-04-14 17:39:34,814 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-14 17:39:34,822 - INFO - 
+2025-04-14 17:48:14,744 - INFO - Loading environment variables...
+2025-04-14 17:48:15,104 - INFO - [1mStart Processing file: theory_evaluation\llm_handler.py[0m
+2025-04-14 17:48:28,220 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-14 17:48:28,227 - INFO - 
 
-2025-04-14 17:39:34,823 - INFO - TEST CASE 1 Retry 1
-2025-04-14 17:39:34,823 - INFO - ---------------
-2025-04-14 17:39:34,824 - INFO - def test_openai_llm_initialization_with_azure(mock_azure_openai, mock_os_environ):
-    llm = OpenAI_llm(useAzureOpenAI=True)
-    assert llm.client == mock_azure_openai.return_value
-    assert llm.azure_endpoint == "test_endpoint"
-    assert llm.api_version == "test_version"
-    assert llm.model_name == "test_deployment"
-2025-04-14 17:39:34,825 - INFO - ---------------
-2025-04-14 17:39:37,623 - INFO - passed 1- False
-2025-04-14 17:39:37,623 - INFO - test_case_error 1 - =================================== ERRORS ====================================
+2025-04-14 17:48:28,227 - INFO - TEST CASE 1 Retry 1
+2025-04-14 17:48:28,228 - INFO - ---------------
+2025-04-14 17:48:28,228 - INFO - def test_openai_llm_initialization_with_azure(mock_azure_openai_client, mock_os_environ):
+    llm = OpenAI_llm(useAzureOpenAI=True, message=DEFAULT_MESSAGE)
+    assert llm.client == mock_azure_openai_client.return_value
+    assert llm.azure_endpoint == "mock_endpoint"
+    assert llm.api_version == "mock_version"
+    assert llm.model_name == "mock_deployment"
+2025-04-14 17:48:28,230 - INFO - ---------------
+2025-04-14 17:48:29,976 - INFO - passed 1- False
+2025-04-14 17:48:29,977 - INFO - test_case_error 1 - E                                                                        [100%]
+=================================== ERRORS ====================================
+_________ ERROR at setup of test_openai_llm_initialization_with_azure _________
+file C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py, line 8
+  def test_openai_llm_initialization_with_azure(mock_azure_openai_client, mock_os_environ):
+E       fixture 'mock_azure_openai_client' not found
+>       available fixtures: anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, doctest_namespace, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:8
+=========================== short test summary info ===========================
+ERROR temp/temp.py::test_openai_llm_initialization_with_azure
+1 error in 0.94s
+2025-04-14 17:48:29,977 - INFO - TEST CASE 1 Retry 2
+2025-04-14 17:48:29,977 - INFO - ---------------
+2025-04-14 17:48:29,977 - INFO - def test_openai_llm_initialization_with_azure(mock_azure_openai_client, mock_os_environ):
+    llm = OpenAI_llm(useAzureOpenAI=True, message=DEFAULT_MESSAGE)
+    assert llm.client == mock_azure_openai_client.return_value
+    assert llm.azure_endpoint == "mock_endpoint"
+    assert llm.api_version == "mock_version"
+    assert llm.model_name == "mock_deployment"
+2025-04-14 17:48:29,977 - INFO - ---------------
+2025-04-14 17:48:30,487 - INFO - missing_import_statement 2- import mock_azure_openai_client
+2025-04-14 17:48:30,487 - INFO - new import statement 2- import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import mock_azure_openai_client
+
+2025-04-14 17:48:32,546 - INFO - TEST CASE 1 Retry 3
+2025-04-14 17:48:32,546 - INFO - ---------------
+2025-04-14 17:48:32,547 - INFO - def test_openai_llm_initialization_with_azure(mock_azure_openai_client, mock_os_environ):
+    llm = OpenAI_llm(useAzureOpenAI=True, message=DEFAULT_MESSAGE)
+    assert llm.client == mock_azure_openai_client.return_value
+    assert llm.azure_endpoint == "mock_endpoint"
+    assert llm.api_version == "mock_version"
+    assert llm.model_name == "mock_deployment"
+2025-04-14 17:48:32,547 - INFO - ---------------
+2025-04-14 17:48:33,065 - INFO - missing_import_statement 3- import mock_azure_openai_client
+2025-04-14 17:48:33,065 - INFO - new import statement 3- import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+2025-04-14 17:48:35,812 - INFO - Failed after all retries for test case 1
+2025-04-14 17:48:35,813 - INFO - 
+
+2025-04-14 17:48:35,813 - INFO - TEST CASE 2 Retry 1
+2025-04-14 17:48:35,813 - INFO - ---------------
+2025-04-14 17:48:35,813 - INFO - def test_openai_llm_initialization_without_azure(mock_openai_client, mock_os_environ):
+    llm = OpenAI_llm(useAzureOpenAI=False, message=DEFAULT_MESSAGE)
+    assert llm.client == mock_openai_client.return_value
+    assert llm.model_name == "mock_openai_deployment"
+2025-04-14 17:48:35,814 - INFO - ---------------
+2025-04-14 17:48:37,700 - INFO - passed 1- False
+2025-04-14 17:48:37,701 - INFO - test_case_error 1 - =================================== ERRORS ====================================
 ________________________ ERROR collecting temp/temp.py ________________________
 ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
 Hint: make sure your test modules/packages have valid Python names.
 Traceback:
 C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
     return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:6: in <module>
-    from theory_evaluation.llm_handler import execute, main
-E   ImportError: cannot import name 'execute' from 'theory_evaluation.llm_handler' (C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\theory_evaluation\llm_handler.py)
+temp\temp.py:7: in <module>
+    import mock_azure_openai_client
+E   ModuleNotFoundError: No module named 'mock_azure_openai_client'
 =========================== short test summary info ===========================
 ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 1.60s
-2025-04-14 17:39:37,623 - INFO - TEST CASE 1 Retry 2
-2025-04-14 17:39:37,623 - INFO - ---------------
-2025-04-14 17:39:37,623 - INFO - def test_openai_llm_initialization_with_azure(mock_azure_openai, mock_os_environ):
-    llm = OpenAI_llm(useAzureOpenAI=True)
-    assert llm.client == mock_azure_openai.return_value
-    assert llm.azure_endpoint == "test_endpoint"
-    assert llm.api_version == "test_version"
-    assert llm.model_name == "test_deployment"
-2025-04-14 17:39:37,623 - INFO - ---------------
-2025-04-14 17:39:38,190 - INFO - missing_import_statement 2- from theory_evaluation.llm_handler import execute
-2025-04-14 17:39:38,190 - INFO - new import statement 2- import asyncio
+1 error in 1.06s
+2025-04-14 17:48:37,701 - INFO - TEST CASE 2 Retry 2
+2025-04-14 17:48:37,701 - INFO - ---------------
+2025-04-14 17:48:37,701 - INFO - def test_openai_llm_initialization_without_azure(mock_openai_client, mock_os_environ):
+    llm = OpenAI_llm(useAzureOpenAI=False, message=DEFAULT_MESSAGE)
+    assert llm.client == mock_openai_client.return_value
+    assert llm.model_name == "mock_openai_deployment"
+2025-04-14 17:48:37,701 - INFO - ---------------
+2025-04-14 17:48:38,185 - INFO - missing_import_statement 2- import mock_azure_openai_client
+2025-04-14 17:48:38,185 - INFO - new import statement 2- import asyncio
 import json
 import os
 
 from openai import AzureOpenAI, OpenAI
-from theory_evaluation.llm_handler import execute, main
-from theory_evaluation.llm_handler import execute
 
-2025-04-14 17:39:41,425 - INFO - TEST CASE 1 Retry 3
-2025-04-14 17:39:41,425 - INFO - ---------------
-2025-04-14 17:39:41,425 - INFO - def test_openai_llm_initialization_with_azure(mock_azure_openai, mock_os_environ):
-    llm = OpenAI_llm(useAzureOpenAI=True)
-    assert llm.client == mock_azure_openai.return_value
-    assert llm.azure_endpoint == "test_endpoint"
-    assert llm.api_version == "test_version"
-    assert llm.model_name == "test_deployment"
-2025-04-14 17:39:41,425 - INFO - ---------------
-2025-04-14 17:39:41,949 - INFO - missing_import_statement 3- from theory_evaluation.llm_handler import execute
-2025-04-14 17:39:41,949 - INFO - new import statement 3- import asyncio
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+2025-04-14 17:48:40,691 - INFO - TEST CASE 2 Retry 3
+2025-04-14 17:48:40,692 - INFO - ---------------
+2025-04-14 17:48:40,692 - INFO - def test_openai_llm_initialization_without_azure(mock_openai_client, mock_os_environ):
+    llm = OpenAI_llm(useAzureOpenAI=False, message=DEFAULT_MESSAGE)
+    assert llm.client == mock_openai_client.return_value
+    assert llm.model_name == "mock_openai_deployment"
+2025-04-14 17:48:40,692 - INFO - ---------------
+2025-04-14 17:48:41,191 - INFO - missing_import_statement 3- import mock_azure_openai_client
+2025-04-14 17:48:41,192 - INFO - new import statement 3- import asyncio
 import json
 import os
 
 from openai import AzureOpenAI, OpenAI
-from theory_evaluation.llm_handler import execute, main
-from theory_evaluation.llm_handler import execute
 
-from theory_evaluation.llm_handler import execute
+import mock_azure_openai_client
 
-2025-04-14 17:39:44,286 - INFO - Failed after all retries for test case 1
-2025-04-14 17:39:44,286 - INFO - 
+import mock_azure_openai_client
 
-2025-04-14 17:39:44,286 - INFO - TEST CASE 2 Retry 1
-2025-04-14 17:39:44,286 - INFO - ---------------
-2025-04-14 17:39:44,286 - INFO - def test_openai_llm_initialization_without_azure(mock_openai, mock_os_environ):
-    llm = OpenAI_llm(useAzureOpenAI=False)
-    assert llm.client == mock_openai.return_value
-    assert llm.model_name == "test_openai_deployment"
-2025-04-14 17:39:44,286 - INFO - ---------------
-2025-04-14 17:39:46,084 - INFO - passed 1- False
-2025-04-14 17:39:46,085 - INFO - test_case_error 1 - =================================== ERRORS ====================================
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+2025-04-14 17:48:43,101 - INFO - Failed after all retries for test case 2
+2025-04-14 17:48:43,101 - INFO - 
+
+2025-04-14 17:48:43,101 - INFO - TEST CASE 3 Retry 1
+2025-04-14 17:48:43,102 - INFO - ---------------
+2025-04-14 17:48:43,102 - INFO - def test_openai_json_completion(mock_openai_client):
+    mock_response = AsyncMock()
+    mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to life"})
+    mock_openai_client.return_value.chat.completions.create.return_value = mock_response
+2025-04-14 17:48:43,102 - INFO - ---------------
+2025-04-14 17:48:45,496 - INFO - passed 1- False
+2025-04-14 17:48:45,497 - INFO - test_case_error 1 - =================================== ERRORS ====================================
 ________________________ ERROR collecting temp/temp.py ________________________
 ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
 Hint: make sure your test modules/packages have valid Python names.
 Traceback:
 C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
     return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:6: in <module>
-    from theory_evaluation.llm_handler import execute, main
-E   ImportError: cannot import name 'execute' from 'theory_evaluation.llm_handler' (C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\theory_evaluation\llm_handler.py)
+temp\temp.py:7: in <module>
+    import mock_azure_openai_client
+E   ModuleNotFoundError: No module named 'mock_azure_openai_client'
+=========================== short test summary info ===========================
+ERROR temp/temp.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 1.50s
+2025-04-14 17:48:45,498 - INFO - TEST CASE 3 Retry 2
+2025-04-14 17:48:45,498 - INFO - ---------------
+2025-04-14 17:48:45,498 - INFO - def test_openai_json_completion(mock_openai_client):
+    mock_response = AsyncMock()
+    mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to life"})
+    mock_openai_client.return_value.chat.completions.create.return_value = mock_response
+2025-04-14 17:48:45,498 - INFO - ---------------
+2025-04-14 17:48:45,986 - INFO - missing_import_statement 2- import mock_azure_openai_client
+2025-04-14 17:48:45,986 - INFO - new import statement 2- import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+2025-04-14 17:48:47,922 - INFO - TEST CASE 3 Retry 3
+2025-04-14 17:48:47,922 - INFO - ---------------
+2025-04-14 17:48:47,922 - INFO - def test_openai_json_completion(mock_openai_client):
+    mock_response = AsyncMock()
+    mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to life"})
+    mock_openai_client.return_value.chat.completions.create.return_value = mock_response
+2025-04-14 17:48:47,922 - INFO - ---------------
+2025-04-14 17:48:48,440 - INFO - missing_import_statement 3- import mock_azure_openai_client
+2025-04-14 17:48:48,440 - INFO - new import statement 3- import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+2025-04-14 17:48:50,291 - INFO - Failed after all retries for test case 3
+2025-04-14 17:48:50,292 - INFO - 
+
+2025-04-14 17:48:50,292 - INFO - TEST CASE 4 Retry 1
+2025-04-14 17:48:50,292 - INFO - ---------------
+2025-04-14 17:48:50,292 - INFO - def test_openai_streaming(mock_openai_client):
+    mock_chunk = AsyncMock()
+    mock_chunk.choices[0].delta.content = "streamed content"
+    mock_openai_client.return_value.chat.completions.create.return_value = [mock_chunk]
+2025-04-14 17:48:50,292 - INFO - ---------------
+2025-04-14 17:48:52,157 - INFO - passed 1- False
+2025-04-14 17:48:52,157 - INFO - test_case_error 1 - =================================== ERRORS ====================================
+________________________ ERROR collecting temp/temp.py ________________________
+ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+temp\temp.py:7: in <module>
+    import mock_azure_openai_client
+E   ModuleNotFoundError: No module named 'mock_azure_openai_client'
+=========================== short test summary info ===========================
+ERROR temp/temp.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 1.18s
+2025-04-14 17:48:52,157 - INFO - TEST CASE 4 Retry 2
+2025-04-14 17:48:52,157 - INFO - ---------------
+2025-04-14 17:48:52,157 - INFO - def test_openai_streaming(mock_openai_client):
+    mock_chunk = AsyncMock()
+    mock_chunk.choices[0].delta.content = "streamed content"
+    mock_openai_client.return_value.chat.completions.create.return_value = [mock_chunk]
+2025-04-14 17:48:52,157 - INFO - ---------------
+2025-04-14 17:48:53,007 - INFO - missing_import_statement 2- import mock_azure_openai_client
+2025-04-14 17:48:53,007 - INFO - new import statement 2- import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+2025-04-14 17:48:55,091 - INFO - TEST CASE 4 Retry 3
+2025-04-14 17:48:55,092 - INFO - ---------------
+2025-04-14 17:48:55,092 - INFO - def test_openai_streaming(mock_openai_client):
+    mock_chunk = AsyncMock()
+    mock_chunk.choices[0].delta.content = "streamed content"
+    mock_openai_client.return_value.chat.completions.create.return_value = [mock_chunk]
+2025-04-14 17:48:55,092 - INFO - ---------------
+2025-04-14 17:48:55,621 - INFO - missing_import_statement 3- import mock_azure_openai_client
+2025-04-14 17:48:55,622 - INFO - new import statement 3- import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+2025-04-14 17:48:57,630 - INFO - Failed after all retries for test case 4
+2025-04-14 17:48:57,631 - INFO - 
+
+2025-04-14 17:48:57,631 - INFO - TEST CASE 5 Retry 1
+2025-04-14 17:48:57,631 - INFO - ---------------
+2025-04-14 17:48:57,631 - INFO - def test_openai_chat_completion(mock_openai_client):
+    mock_response = AsyncMock()
+    mock_response.choices[0].message.content = "chat completion content"
+    mock_openai_client.return_value.chat.completions.create.return_value = mock_response
+2025-04-14 17:48:57,631 - INFO - ---------------
+2025-04-14 17:48:59,975 - INFO - passed 1- False
+2025-04-14 17:48:59,975 - INFO - test_case_error 1 - =================================== ERRORS ====================================
+________________________ ERROR collecting temp/temp.py ________________________
+ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+temp\temp.py:7: in <module>
+    import mock_azure_openai_client
+E   ModuleNotFoundError: No module named 'mock_azure_openai_client'
+=========================== short test summary info ===========================
+ERROR temp/temp.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 1.36s
+2025-04-14 17:48:59,975 - INFO - TEST CASE 5 Retry 2
+2025-04-14 17:48:59,976 - INFO - ---------------
+2025-04-14 17:48:59,976 - INFO - def test_openai_chat_completion(mock_openai_client):
+    mock_response = AsyncMock()
+    mock_response.choices[0].message.content = "chat completion content"
+    mock_openai_client.return_value.chat.completions.create.return_value = mock_response
+2025-04-14 17:48:59,976 - INFO - ---------------
+2025-04-14 17:49:00,453 - INFO - missing_import_statement 2- import mock_azure_openai_client
+2025-04-14 17:49:00,454 - INFO - new import statement 2- import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+2025-04-14 17:49:02,674 - INFO - TEST CASE 5 Retry 3
+2025-04-14 17:49:02,674 - INFO - ---------------
+2025-04-14 17:49:02,674 - INFO - def test_openai_chat_completion(mock_openai_client):
+    mock_response = AsyncMock()
+    mock_response.choices[0].message.content = "chat completion content"
+    mock_openai_client.return_value.chat.completions.create.return_value = mock_response
+2025-04-14 17:49:02,675 - INFO - ---------------
+2025-04-14 17:49:03,176 - INFO - missing_import_statement 3- import mock_azure_openai_client
+2025-04-14 17:49:03,176 - INFO - new import statement 3- import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+2025-04-14 17:49:05,636 - INFO - Failed after all retries for test case 5
+2025-04-14 17:49:05,637 - INFO - 
+
+2025-04-14 17:49:05,637 - INFO - TEST CASE 6 Retry 1
+2025-04-14 17:49:05,638 - INFO - ---------------
+2025-04-14 17:49:05,638 - INFO - def test_execute_text_generation(mock_openai_client):
+    mock_response = AsyncMock()
+    mock_response.choices[0].message.content = "generated text"
+    mock_openai_client.return_value.chat.completions.create.return_value = mock_response
+2025-04-14 17:49:05,638 - INFO - ---------------
+2025-04-14 17:49:07,550 - INFO - passed 1- False
+2025-04-14 17:49:07,550 - INFO - test_case_error 1 - =================================== ERRORS ====================================
+________________________ ERROR collecting temp/temp.py ________________________
+ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+temp\temp.py:7: in <module>
+    import mock_azure_openai_client
+E   ModuleNotFoundError: No module named 'mock_azure_openai_client'
 =========================== short test summary info ===========================
 ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
 1 error in 1.09s
-2025-04-14 17:39:46,085 - INFO - TEST CASE 2 Retry 2
-2025-04-14 17:39:46,086 - INFO - ---------------
-2025-04-14 17:39:46,086 - INFO - def test_openai_llm_initialization_without_azure(mock_openai, mock_os_environ):
-    llm = OpenAI_llm(useAzureOpenAI=False)
-    assert llm.client == mock_openai.return_value
-    assert llm.model_name == "test_openai_deployment"
-2025-04-14 17:39:46,087 - INFO - ---------------
-2025-04-14 17:39:46,613 - INFO - missing_import_statement 2- from theory_evaluation.llm_handler import main
-2025-04-14 17:39:46,613 - INFO - new import statement 2- import asyncio
+2025-04-14 17:49:07,550 - INFO - TEST CASE 6 Retry 2
+2025-04-14 17:49:07,550 - INFO - ---------------
+2025-04-14 17:49:07,550 - INFO - def test_execute_text_generation(mock_openai_client):
+    mock_response = AsyncMock()
+    mock_response.choices[0].message.content = "generated text"
+    mock_openai_client.return_value.chat.completions.create.return_value = mock_response
+2025-04-14 17:49:07,550 - INFO - ---------------
+2025-04-14 17:49:08,058 - INFO - missing_import_statement 2- import mock_azure_openai_client
+2025-04-14 17:49:08,058 - INFO - new import statement 2- import asyncio
 import json
 import os
 
 from openai import AzureOpenAI, OpenAI
-from theory_evaluation.llm_handler import execute, main
-from theory_evaluation.llm_handler import execute
 
-from theory_evaluation.llm_handler import execute
+import mock_azure_openai_client
 
-from theory_evaluation.llm_handler import main
+import mock_azure_openai_client
 
-2025-04-14 17:39:48,668 - INFO - TEST CASE 2 Retry 3
-2025-04-14 17:39:48,668 - INFO - ---------------
-2025-04-14 17:39:48,668 - INFO - def test_openai_llm_initialization_without_azure(mock_openai, mock_os_environ):
-    llm = OpenAI_llm(useAzureOpenAI=False)
-    assert llm.client == mock_openai.return_value
-    assert llm.model_name == "test_openai_deployment"
-2025-04-14 17:39:48,669 - INFO - ---------------
-2025-04-14 17:39:49,204 - INFO - missing_import_statement 3- from theory_evaluation.llm_handler import execute
-2025-04-14 17:39:49,204 - INFO - new import statement 3- import asyncio
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+2025-04-14 17:49:10,005 - INFO - TEST CASE 6 Retry 3
+2025-04-14 17:49:10,005 - INFO - ---------------
+2025-04-14 17:49:10,005 - INFO - def test_execute_text_generation(mock_openai_client):
+    mock_response = AsyncMock()
+    mock_response.choices[0].message.content = "generated text"
+    mock_openai_client.return_value.chat.completions.create.return_value = mock_response
+2025-04-14 17:49:10,005 - INFO - ---------------
+2025-04-14 17:49:10,735 - INFO - missing_import_statement 3- import mock_azure_openai_client
+2025-04-14 17:49:10,736 - INFO - new import statement 3- import asyncio
 import json
 import os
 
 from openai import AzureOpenAI, OpenAI
-from theory_evaluation.llm_handler import execute, main
-from theory_evaluation.llm_handler import execute
 
-from theory_evaluation.llm_handler import execute
+import mock_azure_openai_client
 
-from theory_evaluation.llm_handler import main
+import mock_azure_openai_client
 
-from theory_evaluation.llm_handler import execute
+import mock_azure_openai_client
 
-2025-04-14 17:39:51,311 - INFO - Failed after all retries for test case 2
-2025-04-14 17:39:51,312 - INFO - 
+import mock_azure_openai_client
 
-2025-04-14 17:39:51,312 - INFO - TEST CASE 3 Retry 1
-2025-04-14 17:39:51,312 - INFO - ---------------
-2025-04-14 17:39:51,312 - INFO - def test_openai_json_completion(mock_openai):
-    mock_client = MagicMock()
-    mock_client.chat.completions.create = AsyncMock(return_value=MagicMock(choices=[MagicMock(message=MagicMock(content=json.dumps({"key": "value"})))]))
-    llm = OpenAI_llm()
-    llm.client = mock_client
-    result = await llm._OpenAI_JSON_Completion()
-    assert result == {"key": "value"}
-2025-04-14 17:39:51,312 - INFO - ---------------
-2025-04-14 17:39:52,155 - INFO - passed 1- False
-2025-04-14 17:39:52,155 - INFO - test_case_error 1 - =================================== ERRORS ====================================
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+2025-04-14 17:49:12,718 - INFO - Failed after all retries for test case 6
+2025-04-14 17:49:12,718 - INFO - 
+
+2025-04-14 17:49:12,718 - INFO - TEST CASE 7 Retry 1
+2025-04-14 17:49:12,718 - INFO - ---------------
+2025-04-14 17:49:12,718 - INFO - def test_execute_vision(mock_openai_client):
+    mock_response = AsyncMock()
+    mock_response.choices[0].message.content = "vision response"
+    mock_openai_client.return_value.chat.completions.create.return_value = mock_response
+2025-04-14 17:49:12,718 - INFO - ---------------
+2025-04-14 17:49:14,658 - INFO - passed 1- False
+2025-04-14 17:49:14,659 - INFO - test_case_error 1 - =================================== ERRORS ====================================
 ________________________ ERROR collecting temp/temp.py ________________________
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
-    mod = import_path(
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
-    importlib.import_module(module_name)
+ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
 C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
     return _bootstrap._gcd_import(name[level:], package, level)
-<frozen importlib._bootstrap>:1387: in _gcd_import
-    ???
-<frozen importlib._bootstrap>:1360: in _find_and_load
-    ???
-<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
-    ???
-<frozen importlib._bootstrap>:935: in _load_unlocked
-    ???
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:358: in _rewrite_test
-    co = compile(tree, strfn, "exec", dont_inherit=True)
-E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 21
-E       result = await llm._OpenAI_JSON_Completion()
-E                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-E   SyntaxError: 'await' outside async function
+temp\temp.py:7: in <module>
+    import mock_azure_openai_client
+E   ModuleNotFoundError: No module named 'mock_azure_openai_client'
 =========================== short test summary info ===========================
 ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.18s
-2025-04-14 17:39:52,155 - INFO - TEST CASE 3 Retry 2
-2025-04-14 17:39:52,156 - INFO - ---------------
-2025-04-14 17:39:52,156 - INFO - def test_openai_json_completion(mock_openai):
-    mock_client = MagicMock()
-    mock_client.chat.completions.create = AsyncMock(return_value=MagicMock(choices=[MagicMock(message=MagicMock(content=json.dumps({"key": "value"})))]))
-    llm = OpenAI_llm()
-    llm.client = mock_client
-    result = await llm._OpenAI_JSON_Completion()
-    assert result == {"key": "value"}
-2025-04-14 17:39:52,156 - INFO - ---------------
-2025-04-14 17:39:52,595 - INFO - missing_import_statement 2- import pytest_asyncio
-2025-04-14 17:39:52,596 - INFO - new import statement 2- import asyncio
+1 error in 1.15s
+2025-04-14 17:49:14,659 - INFO - TEST CASE 7 Retry 2
+2025-04-14 17:49:14,659 - INFO - ---------------
+2025-04-14 17:49:14,659 - INFO - def test_execute_vision(mock_openai_client):
+    mock_response = AsyncMock()
+    mock_response.choices[0].message.content = "vision response"
+    mock_openai_client.return_value.chat.completions.create.return_value = mock_response
+2025-04-14 17:49:14,660 - INFO - ---------------
+2025-04-14 17:49:15,605 - INFO - missing_import_statement 2- import mock_azure_openai_client
+2025-04-14 17:49:15,606 - INFO - new import statement 2- import asyncio
 import json
 import os
 
 from openai import AzureOpenAI, OpenAI
-from theory_evaluation.llm_handler import execute, main
-from theory_evaluation.llm_handler import execute
 
-from theory_evaluation.llm_handler import execute
+import mock_azure_openai_client
 
-from theory_evaluation.llm_handler import main
+import mock_azure_openai_client
 
-from theory_evaluation.llm_handler import execute
+import mock_azure_openai_client
 
-import pytest_asyncio
+import mock_azure_openai_client
 
-2025-04-14 17:39:53,413 - INFO - TEST CASE 3 Retry 3
-2025-04-14 17:39:53,414 - INFO - ---------------
-2025-04-14 17:39:53,414 - INFO - def test_openai_json_completion(mock_openai):
-    mock_client = MagicMock()
-    mock_client.chat.completions.create = AsyncMock(return_value=MagicMock(choices=[MagicMock(message=MagicMock(content=json.dumps({"key": "value"})))]))
-    llm = OpenAI_llm()
-    llm.client = mock_client
-    result = await llm._OpenAI_JSON_Completion()
-    assert result == {"key": "value"}
-2025-04-14 17:39:53,414 - INFO - ---------------
-2025-04-14 17:39:54,412 - INFO - missing_import_statement 3- ''
-2025-04-14 17:39:54,413 - INFO - new import statement 3- import asyncio
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+2025-04-14 17:49:17,597 - INFO - TEST CASE 7 Retry 3
+2025-04-14 17:49:17,598 - INFO - ---------------
+2025-04-14 17:49:17,598 - INFO - def test_execute_vision(mock_openai_client):
+    mock_response = AsyncMock()
+    mock_response.choices[0].message.content = "vision response"
+    mock_openai_client.return_value.chat.completions.create.return_value = mock_response
+2025-04-14 17:49:17,598 - INFO - ---------------
+2025-04-14 17:49:18,091 - INFO - missing_import_statement 3- import mock_azure_openai_client
+2025-04-14 17:49:18,091 - INFO - new import statement 3- import asyncio
 import json
 import os
 
 from openai import AzureOpenAI, OpenAI
-from theory_evaluation.llm_handler import execute, main
-from theory_evaluation.llm_handler import execute
 
-from theory_evaluation.llm_handler import execute
+import mock_azure_openai_client
 
-from theory_evaluation.llm_handler import main
+import mock_azure_openai_client
 
-from theory_evaluation.llm_handler import execute
+import mock_azure_openai_client
 
-import pytest_asyncio
+import mock_azure_openai_client
 
-''
+import mock_azure_openai_client
 
-2025-04-14 17:39:55,229 - INFO - Failed after all retries for test case 3
-2025-04-14 17:39:55,229 - INFO - 
+import mock_azure_openai_client
 
-2025-04-14 17:39:55,230 - INFO - TEST CASE 4 Retry 1
-2025-04-14 17:39:55,230 - INFO - ---------------
-2025-04-14 17:39:55,230 - INFO - def test_openai_streaming(mock_openai):
-    mock_client = MagicMock()
-    mock_client.chat.completions.create = AsyncMock(return_value=[MagicMock(choices=[MagicMock(delta=MagicMock(content="chunk"))])])
-    llm = OpenAI_llm(output="stream")
-    llm.client = mock_client
-    result = [chunk async for chunk in llm._OpenAI_Streaming()]
-    assert result == ["chunk"]
-2025-04-14 17:39:55,230 - INFO - ---------------
-2025-04-14 17:39:56,105 - INFO - passed 1- False
-2025-04-14 17:39:56,105 - INFO - test_case_error 1 - =================================== ERRORS ====================================
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+import mock_azure_openai_client
+
+2025-04-14 17:49:21,175 - INFO - Failed after all retries for test case 7
+2025-04-14 17:49:21,176 - INFO - [1mEnd Processing file: theory_evaluation\llm_handler.py[0m
+
+2025-04-14 17:49:21,176 - INFO - [1mStart Processing file: theory_evaluation\llm_utils.py[0m
+2025-04-14 17:49:27,879 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-14 17:49:27,884 - INFO - 
+
+2025-04-14 17:49:27,884 - INFO - TEST CASE 1 Retry 1
+2025-04-14 17:49:27,884 - INFO - ---------------
+2025-04-14 17:49:27,885 - INFO - @patch("theory_evaluation.llm_utils.open", new_callable=mock_open)
+@patch("theory_evaluation.llm_utils.yaml.load")
+def test_initialise_prompt(mock_yaml_load, mock_open_files):
+    mock_yaml_load.return_value = {"name": "World"}
+    mock_open_files.side_effect = [
+        mock_open(read_data="name: World").return_value,
+        mock_open(read_data="Hello, {$name}!").return_value
+    ]
+2025-04-14 17:49:27,885 - INFO - ---------------
+2025-04-14 17:49:28,581 - INFO - passed 1- False
+2025-04-14 17:49:28,581 - INFO - test_case_error 1 - =================================== ERRORS ====================================
 ________________________ ERROR collecting temp/temp.py ________________________
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
-    mod = import_path(
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
-    importlib.import_module(module_name)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-<frozen importlib._bootstrap>:1387: in _gcd_import
-    ???
-<frozen importlib._bootstrap>:1360: in _find_and_load
-    ???
-<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
-    ???
-<frozen importlib._bootstrap>:935: in _load_unlocked
-    ???
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:358: in _rewrite_test
-    co = compile(tree, strfn, "exec", dont_inherit=True)
-E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 25
-E       result = [chunk async for chunk in llm._OpenAI_Streaming()]
-E                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-E   SyntaxError: asynchronous comprehension outside of an asynchronous function
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.18s
-2025-04-14 17:39:56,105 - INFO - TEST CASE 4 Retry 2
-2025-04-14 17:39:56,105 - INFO - ---------------
-2025-04-14 17:39:56,105 - INFO - def test_openai_streaming(mock_openai):
-    mock_client = MagicMock()
-    mock_client.chat.completions.create = AsyncMock(return_value=[MagicMock(choices=[MagicMock(delta=MagicMock(content="chunk"))])])
-    llm = OpenAI_llm(output="stream")
-    llm.client = mock_client
-    result = [chunk async for chunk in llm._OpenAI_Streaming()]
-    assert result == ["chunk"]
-2025-04-14 17:39:56,105 - INFO - ---------------
-2025-04-14 17:39:56,588 - INFO - missing_import_statement 2- asyncio
-2025-04-14 17:39:56,588 - INFO - new import statement 2- import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-from theory_evaluation.llm_handler import execute, main
-from theory_evaluation.llm_handler import execute
-
-from theory_evaluation.llm_handler import execute
-
-from theory_evaluation.llm_handler import main
-
-from theory_evaluation.llm_handler import execute
-
-import pytest_asyncio
-
-''
-
-asyncio
-
-2025-04-14 17:39:57,834 - INFO - TEST CASE 4 Retry 3
-2025-04-14 17:39:57,834 - INFO - ---------------
-2025-04-14 17:39:57,834 - INFO - def test_openai_streaming(mock_openai):
-    mock_client = MagicMock()
-    mock_client.chat.completions.create = AsyncMock(return_value=[MagicMock(choices=[MagicMock(delta=MagicMock(content="chunk"))])])
-    llm = OpenAI_llm(output="stream")
-    llm.client = mock_client
-    result = [chunk async for chunk in llm._OpenAI_Streaming()]
-    assert result == ["chunk"]
-2025-04-14 17:39:57,835 - INFO - ---------------
-2025-04-14 17:39:58,276 - INFO - missing_import_statement 3- import pytest
-2025-04-14 17:39:58,276 - INFO - new import statement 3- import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-from theory_evaluation.llm_handler import execute, main
-from theory_evaluation.llm_handler import execute
-
-from theory_evaluation.llm_handler import execute
-
-from theory_evaluation.llm_handler import main
-
-from theory_evaluation.llm_handler import execute
-
-import pytest_asyncio
-
-''
-
-asyncio
-
-import pytest
-
-2025-04-14 17:39:59,206 - INFO - Failed after all retries for test case 4
-2025-04-14 17:39:59,206 - INFO - 
-
-2025-04-14 17:39:59,207 - INFO - TEST CASE 5 Retry 1
-2025-04-14 17:39:59,207 - INFO - ---------------
-2025-04-14 17:39:59,207 - INFO - def test_openai_chat_completion(mock_openai):
-    mock_client = MagicMock()
-    mock_client.chat.completions.create = AsyncMock(return_value=MagicMock(choices=[MagicMock(message=MagicMock(content="response"))]))
-    llm = OpenAI_llm()
-    llm.client = mock_client
-    result = await llm._OpenAI_Chat_Completion()
-    assert result == "response"
-2025-04-14 17:39:59,207 - INFO - ---------------
-2025-04-14 17:40:00,139 - INFO - passed 1- False
-2025-04-14 17:40:00,139 - INFO - test_case_error 1 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
-    mod = import_path(
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
-    importlib.import_module(module_name)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-<frozen importlib._bootstrap>:1387: in _gcd_import
-    ???
-<frozen importlib._bootstrap>:1360: in _find_and_load
-    ???
-<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
-    ???
-<frozen importlib._bootstrap>:935: in _load_unlocked
-    ???
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:358: in _rewrite_test
-    co = compile(tree, strfn, "exec", dont_inherit=True)
-E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 29
-E       result = await llm._OpenAI_Chat_Completion()
-E                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-E   SyntaxError: 'await' outside async function
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.18s
-2025-04-14 17:40:00,139 - INFO - TEST CASE 5 Retry 2
-2025-04-14 17:40:00,139 - INFO - ---------------
-2025-04-14 17:40:00,140 - INFO - def test_openai_chat_completion(mock_openai):
-    mock_client = MagicMock()
-    mock_client.chat.completions.create = AsyncMock(return_value=MagicMock(choices=[MagicMock(message=MagicMock(content="response"))]))
-    llm = OpenAI_llm()
-    llm.client = mock_client
-    result = await llm._OpenAI_Chat_Completion()
-    assert result == "response"
-2025-04-14 17:40:00,140 - INFO - ---------------
-2025-04-14 17:40:00,543 - INFO - missing_import_statement 2- import pytest
-2025-04-14 17:40:00,544 - INFO - new import statement 2- import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-from theory_evaluation.llm_handler import execute, main
-from theory_evaluation.llm_handler import execute
-
-from theory_evaluation.llm_handler import execute
-
-from theory_evaluation.llm_handler import main
-
-from theory_evaluation.llm_handler import execute
-
-import pytest_asyncio
-
-''
-
-asyncio
-
-import pytest
-
-import pytest
-
-2025-04-14 17:40:01,548 - INFO - TEST CASE 5 Retry 3
-2025-04-14 17:40:01,548 - INFO - ---------------
-2025-04-14 17:40:01,548 - INFO - def test_openai_chat_completion(mock_openai):
-    mock_client = MagicMock()
-    mock_client.chat.completions.create = AsyncMock(return_value=MagicMock(choices=[MagicMock(message=MagicMock(content="response"))]))
-    llm = OpenAI_llm()
-    llm.client = mock_client
-    result = await llm._OpenAI_Chat_Completion()
-    assert result == "response"
-2025-04-14 17:40:01,548 - INFO - ---------------
-2025-04-14 17:40:02,073 - INFO - missing_import_statement 3- import pytest
-2025-04-14 17:40:02,073 - INFO - new import statement 3- import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-from theory_evaluation.llm_handler import execute, main
-from theory_evaluation.llm_handler import execute
-
-from theory_evaluation.llm_handler import execute
-
-from theory_evaluation.llm_handler import main
-
-from theory_evaluation.llm_handler import execute
-
-import pytest_asyncio
-
-''
-
-asyncio
-
-import pytest
-
-import pytest
-
-import pytest
-
-2025-04-14 17:40:02,759 - INFO - Failed after all retries for test case 5
-2025-04-14 17:40:02,759 - INFO - 
-
-2025-04-14 17:40:02,759 - INFO - TEST CASE 6 Retry 1
-2025-04-14 17:40:02,759 - INFO - ---------------
-2025-04-14 17:40:02,759 - INFO - def test_execute_text_generation(mock_openai):
-    mock_client = MagicMock()
-    mock_client.chat.completions.create = AsyncMock(return_value=MagicMock(choices=[MagicMock(message=MagicMock(content="response"))]))
-    llm = OpenAI_llm(mode="text_generation")
-    llm.client = mock_client
-    result = [response async for response in llm.execute()]
-    assert result == ["response"]
-2025-04-14 17:40:02,759 - INFO - ---------------
-2025-04-14 17:40:03,570 - INFO - passed 1- False
-2025-04-14 17:40:03,571 - INFO - test_case_error 1 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
-    mod = import_path(
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
-    importlib.import_module(module_name)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-<frozen importlib._bootstrap>:1387: in _gcd_import
-    ???
-<frozen importlib._bootstrap>:1360: in _find_and_load
-    ???
-<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
-    ???
-<frozen importlib._bootstrap>:935: in _load_unlocked
-    ???
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:358: in _rewrite_test
-    co = compile(tree, strfn, "exec", dont_inherit=True)
-E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 33
-E       result = [response async for response in llm.execute()]
-E                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-E   SyntaxError: asynchronous comprehension outside of an asynchronous function
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.17s
-2025-04-14 17:40:03,571 - INFO - TEST CASE 6 Retry 2
-2025-04-14 17:40:03,571 - INFO - ---------------
-2025-04-14 17:40:03,571 - INFO - def test_execute_text_generation(mock_openai):
-    mock_client = MagicMock()
-    mock_client.chat.completions.create = AsyncMock(return_value=MagicMock(choices=[MagicMock(message=MagicMock(content="response"))]))
-    llm = OpenAI_llm(mode="text_generation")
-    llm.client = mock_client
-    result = [response async for response in llm.execute()]
-    assert result == ["response"]
-2025-04-14 17:40:03,571 - INFO - ---------------
-2025-04-14 17:40:03,998 - INFO - missing_import_statement 2- import pytest
-2025-04-14 17:40:03,999 - INFO - new import statement 2- import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-from theory_evaluation.llm_handler import execute, main
-from theory_evaluation.llm_handler import execute
-
-from theory_evaluation.llm_handler import execute
-
-from theory_evaluation.llm_handler import main
-
-from theory_evaluation.llm_handler import execute
-
-import pytest_asyncio
-
-''
-
-asyncio
-
-import pytest
-
-import pytest
-
-import pytest
-
-import pytest
-
-2025-04-14 17:40:04,917 - INFO - TEST CASE 6 Retry 3
-2025-04-14 17:40:04,917 - INFO - ---------------
-2025-04-14 17:40:04,917 - INFO - def test_execute_text_generation(mock_openai):
-    mock_client = MagicMock()
-    mock_client.chat.completions.create = AsyncMock(return_value=MagicMock(choices=[MagicMock(message=MagicMock(content="response"))]))
-    llm = OpenAI_llm(mode="text_generation")
-    llm.client = mock_client
-    result = [response async for response in llm.execute()]
-    assert result == ["response"]
-2025-04-14 17:40:04,917 - INFO - ---------------
-2025-04-14 17:40:05,352 - INFO - missing_import_statement 3- import pytest
-2025-04-14 17:40:05,353 - INFO - new import statement 3- import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-from theory_evaluation.llm_handler import execute, main
-from theory_evaluation.llm_handler import execute
-
-from theory_evaluation.llm_handler import execute
-
-from theory_evaluation.llm_handler import main
-
-from theory_evaluation.llm_handler import execute
-
-import pytest_asyncio
-
-''
-
-asyncio
-
-import pytest
-
-import pytest
-
-import pytest
-
-import pytest
-
-import pytest
-
-2025-04-14 17:40:06,108 - INFO - Failed after all retries for test case 6
-2025-04-14 17:40:06,109 - INFO - 
-
-2025-04-14 17:40:06,109 - INFO - TEST CASE 7 Retry 1
-2025-04-14 17:40:06,109 - INFO - ---------------
-2025-04-14 17:40:06,109 - INFO - def test_execute_vision(mock_openai):
-    mock_client = MagicMock()
-    mock_client.chat.completions.create = AsyncMock(return_value=MagicMock(choices=[MagicMock(message=MagicMock(content="response"))]))
-    llm = OpenAI_llm(mode="vision", image_input="test_image")
-    llm.client = mock_client
-    result = [response async for response in llm.execute()]
-    assert result == ["response"]
-2025-04-14 17:40:06,109 - INFO - ---------------
-2025-04-14 17:40:06,803 - INFO - passed 1- False
-2025-04-14 17:40:06,803 - INFO - test_case_error 1 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
-    mod = import_path(
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
-    importlib.import_module(module_name)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-<frozen importlib._bootstrap>:1387: in _gcd_import
-    ???
-<frozen importlib._bootstrap>:1360: in _find_and_load
-    ???
-<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
-    ???
-<frozen importlib._bootstrap>:935: in _load_unlocked
-    ???
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:358: in _rewrite_test
-    co = compile(tree, strfn, "exec", dont_inherit=True)
-E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 37
-E       result = [response async for response in llm.execute()]
-E                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-E   SyntaxError: asynchronous comprehension outside of an asynchronous function
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.18s
-2025-04-14 17:40:06,803 - INFO - TEST CASE 7 Retry 2
-2025-04-14 17:40:06,803 - INFO - ---------------
-2025-04-14 17:40:06,803 - INFO - def test_execute_vision(mock_openai):
-    mock_client = MagicMock()
-    mock_client.chat.completions.create = AsyncMock(return_value=MagicMock(choices=[MagicMock(message=MagicMock(content="response"))]))
-    llm = OpenAI_llm(mode="vision", image_input="test_image")
-    llm.client = mock_client
-    result = [response async for response in llm.execute()]
-    assert result == ["response"]
-2025-04-14 17:40:06,803 - INFO - ---------------
-2025-04-14 17:40:07,321 - INFO - missing_import_statement 2- async def test_execute_vision(mock_openai):
-2025-04-14 17:40:07,322 - INFO - new import statement 2- import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-from theory_evaluation.llm_handler import execute, main
-from theory_evaluation.llm_handler import execute
-
-from theory_evaluation.llm_handler import execute
-
-from theory_evaluation.llm_handler import main
-
-from theory_evaluation.llm_handler import execute
-
-import pytest_asyncio
-
-''
-
-asyncio
-
-import pytest
-
-import pytest
-
-import pytest
-
-import pytest
-
-import pytest
-
-async def test_execute_vision(mock_openai):
-
-2025-04-14 17:40:08,133 - INFO - TEST CASE 7 Retry 3
-2025-04-14 17:40:08,133 - INFO - ---------------
-2025-04-14 17:40:08,134 - INFO - def test_execute_vision(mock_openai):
-    mock_client = MagicMock()
-    mock_client.chat.completions.create = AsyncMock(return_value=MagicMock(choices=[MagicMock(message=MagicMock(content="response"))]))
-    llm = OpenAI_llm(mode="vision", image_input="test_image")
-    llm.client = mock_client
-    result = [response async for response in llm.execute()]
-    assert result == ["response"]
-2025-04-14 17:40:08,134 - INFO - ---------------
-2025-04-14 17:40:08,668 - INFO - missing_import_statement 3- from unittest.mock import MagicMock, AsyncMock
-2025-04-14 17:40:08,669 - INFO - new import statement 3- import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-from theory_evaluation.llm_handler import execute, main
-from theory_evaluation.llm_handler import execute
-
-from theory_evaluation.llm_handler import execute
-
-from theory_evaluation.llm_handler import main
-
-from theory_evaluation.llm_handler import execute
-
-import pytest_asyncio
-
-''
-
-asyncio
-
-import pytest
-
-import pytest
-
-import pytest
-
-import pytest
-
-import pytest
-
-async def test_execute_vision(mock_openai):
-
-from unittest.mock import MagicMock, AsyncMock
-
-2025-04-14 17:40:09,628 - INFO - Failed after all retries for test case 7
-2025-04-14 17:40:09,630 - INFO - [1mEnd Processing file: theory_evaluation\llm_handler.py[0m
-
-2025-04-14 17:40:09,630 - INFO - [1mStart Processing file: theory_evaluation\llm_utils.py[0m
-2025-04-14 17:40:15,034 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-14 17:40:15,040 - INFO - 
-
-2025-04-14 17:40:15,040 - INFO - TEST CASE 1 Retry 1
-2025-04-14 17:40:15,041 - INFO - ---------------
-2025-04-14 17:40:15,041 - INFO - def test_initialise_prompt_success():
-    agent = "test_agent"
-    config_yaml = "key: value"
-    prompt_txt = "This is a {$key} test."
-    expected_prompt = "This is a value test."
-2025-04-14 17:40:15,041 - INFO - ---------------
-2025-04-14 17:40:15,782 - INFO - passed 1- True
-2025-04-14 17:40:15,783 - INFO - test_case_error 1 - .                                                                        [100%]
-1 passed in 0.06s
-2025-04-14 17:40:15,783 - INFO - 
-
-2025-04-14 17:40:15,783 - INFO - TEST CASE 2 Retry 1
-2025-04-14 17:40:15,783 - INFO - ---------------
-2025-04-14 17:40:15,783 - INFO - def test_initialise_prompt_no_config_path():
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_prompt("non_existent_agent")
-        assert result is None
-2025-04-14 17:40:15,783 - INFO - ---------------
-2025-04-14 17:40:16,787 - INFO - passed 1- False
-2025-04-14 17:40:16,787 - INFO - test_case_error 1 - F                                                                        [100%]
-================================== FAILURES ===================================
-____________________ test_initialise_prompt_no_config_path ____________________
-temp\temp.py:7: in test_initialise_prompt_no_config_path
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+temp\temp.py:6: in <module>
+    @patch("theory_evaluation.llm_utils.open", new_callable=mock_open)
 E   NameError: name 'patch' is not defined
 =========================== short test summary info ===========================
-FAILED temp/temp.py::test_initialise_prompt_no_config_path - NameError: name ...
-1 failed in 0.14s
-2025-04-14 17:40:16,787 - INFO - TEST CASE 2 Retry 2
-2025-04-14 17:40:16,787 - INFO - ---------------
-2025-04-14 17:40:16,787 - INFO - def test_initialise_prompt_no_config_path():
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_prompt("non_existent_agent")
-        assert result is None
-2025-04-14 17:40:16,787 - INFO - ---------------
-2025-04-14 17:40:17,245 - INFO - missing_import_statement 2- from unittest.mock import patch
-2025-04-14 17:40:17,246 - INFO - new import statement 2- import os
+ERROR temp/temp.py - NameError: name 'patch' is not defined
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.14s
+2025-04-14 17:49:28,581 - INFO - TEST CASE 1 Retry 2
+2025-04-14 17:49:28,581 - INFO - ---------------
+2025-04-14 17:49:28,581 - INFO - @patch("theory_evaluation.llm_utils.open", new_callable=mock_open)
+@patch("theory_evaluation.llm_utils.yaml.load")
+def test_initialise_prompt(mock_yaml_load, mock_open_files):
+    mock_yaml_load.return_value = {"name": "World"}
+    mock_open_files.side_effect = [
+        mock_open(read_data="name: World").return_value,
+        mock_open(read_data="Hello, {$name}!").return_value
+    ]
+2025-04-14 17:49:28,581 - INFO - ---------------
+2025-04-14 17:49:29,190 - INFO - missing_import_statement 2- from unittest.mock import patch
+2025-04-14 17:49:29,191 - INFO - new import statement 2- import os
 import re
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 from unittest.mock import patch
 
-2025-04-14 17:40:18,052 - INFO - passed 2- True
-2025-04-14 17:40:18,052 - INFO - test_case_error 2 - .                                                                        [100%]
+2025-04-14 17:49:29,961 - INFO - TEST CASE 1 Retry 3
+2025-04-14 17:49:29,961 - INFO - ---------------
+2025-04-14 17:49:29,961 - INFO - @patch("theory_evaluation.llm_utils.open", new_callable=mock_open)
+@patch("theory_evaluation.llm_utils.yaml.load")
+def test_initialise_prompt(mock_yaml_load, mock_open_files):
+    mock_yaml_load.return_value = {"name": "World"}
+    mock_open_files.side_effect = [
+        mock_open(read_data="name: World").return_value,
+        mock_open(read_data="Hello, {$name}!").return_value
+    ]
+2025-04-14 17:49:29,961 - INFO - ---------------
+2025-04-14 17:49:30,432 - INFO - missing_import_statement 3- from unittest.mock import mock_open
+2025-04-14 17:49:30,432 - INFO - new import statement 3- import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+from unittest.mock import patch
+
+from unittest.mock import mock_open
+
+2025-04-14 17:49:31,118 - INFO - passed 3- True
+2025-04-14 17:49:31,118 - INFO - test_case_error 3 - .                                                                        [100%]
+1 passed in 0.09s
+2025-04-14 17:49:31,118 - INFO - 
+
+2025-04-14 17:49:31,118 - INFO - TEST CASE 2 Retry 1
+2025-04-14 17:49:31,118 - INFO - ---------------
+2025-04-14 17:49:31,118 - INFO - @patch("theory_evaluation.llm_utils.open", new_callable=mock_open)
+@patch("theory_evaluation.llm_utils.yaml.safe_load")
+def test_initialise_settings(mock_yaml_safe_load, mock_open_files):
+    mock_yaml_safe_load.return_value = {"setting1": "value1", "setting2": "value2"}
+2025-04-14 17:49:31,118 - INFO - ---------------
+2025-04-14 17:49:31,748 - INFO - passed 1- True
+2025-04-14 17:49:31,748 - INFO - test_case_error 1 - .                                                                        [100%]
 1 passed in 0.08s
-2025-04-14 17:40:18,053 - INFO - 
+2025-04-14 17:49:31,750 - INFO - [1mEnd Processing file: theory_evaluation\llm_utils.py[0m
 
-2025-04-14 17:40:18,053 - INFO - TEST CASE 3 Retry 1
-2025-04-14 17:40:18,053 - INFO - ---------------
-2025-04-14 17:40:18,053 - INFO - def test_initialise_settings_success():
-    agent = "test_agent"
-    settings_yaml = "key: value"
-    expected_settings = {'key': 'value'}
-2025-04-14 17:40:18,053 - INFO - ---------------
-2025-04-14 17:40:18,927 - INFO - passed 1- True
-2025-04-14 17:40:18,927 - INFO - test_case_error 1 - .                                                                        [100%]
-1 passed in 0.17s
-2025-04-14 17:40:18,927 - INFO - 
-
-2025-04-14 17:40:18,927 - INFO - TEST CASE 4 Retry 1
-2025-04-14 17:40:18,927 - INFO - ---------------
-2025-04-14 17:40:18,927 - INFO - def test_initialise_settings_no_config_path():
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_settings("non_existent_agent")
-        assert result is None
-2025-04-14 17:40:18,927 - INFO - ---------------
-2025-04-14 17:40:19,943 - INFO - passed 1- True
-2025-04-14 17:40:19,943 - INFO - test_case_error 1 - .                                                                        [100%]
-1 passed in 0.18s
-2025-04-14 17:40:19,946 - INFO - [1mEnd Processing file: theory_evaluation\llm_utils.py[0m
-
-2025-04-14 17:40:19,946 - INFO - [1mStart Processing file: theory_evaluation\__init__.py[0m
-2025-04-14 17:40:19,946 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
+2025-04-14 17:49:31,750 - INFO - [1mStart Processing file: theory_evaluation\__init__.py[0m
+2025-04-14 17:49:31,750 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
 

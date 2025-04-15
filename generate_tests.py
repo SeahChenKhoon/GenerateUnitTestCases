@@ -413,7 +413,7 @@ def _generate_unit_tests(
     
     import_statements = extract_unique_imports(provider, model_arg, llm_import_prompt, source_code, temperature)
     import_statements = update_relative_imports(import_statements, source_code_path)
-    import_statements += "\n" + generate_import_statement(function_names, source_code_path)
+    # import_statements += "\n" + generate_import_statement(function_names, source_code_path)
 
     formatted_prompt = llm_test_prompt.format(
         file_content=source_code,
@@ -524,11 +524,12 @@ def extract_unique_imports(provider, model_arg, llm_get_import_prompt, test_code
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
 
-def resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_case_error, temperature):
+def resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, temperature):
     # Format the prompt using the provided template
     formatted_prompt = llm_resolve_prompt.format(
         test_case=test_case,
-        test_case_error=test_case_error
+        test_case_error=test_case_error,
+        source_code=source_code
     )
     logger.info(f"formatted_prompt - {formatted_prompt}")
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
@@ -575,23 +576,18 @@ def run_each_pytest_function_individually(
                 logger.info(f"---------------")
                 logger.info(f"{test_case}")
                 logger.info(f"---------------")
-                missing_import_statement = resolve_unit_test(
-                    provider, model_arg, llm_resolve_prompt, test_case, test_case_error, temperature
+                resolved_test_case = resolve_unit_test(
+                    provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, 
+                    temperature
                 )
-                logger.info(f"missing_import_statement {count + 1}- {missing_import_statement}")
+                logger.info(f"resolved_test_case {count + 1}- {resolved_test_case}")
 
-                if missing_import_statement:
-                    import_statements += "\n" + missing_import_statement + "\n"
-                    logger.info(f"new import statement {count + 1}- {import_statements}")
-                    save_test_case_to_temp_file(import_statements, test_case, temp_file)
-                    passed, test_case_error = run_single_test_file(temp_file)
+                save_test_case_to_temp_file(import_statements, test_case, temp_file)
+                passed, test_case_error = run_single_test_file(temp_file)
 
-                    if passed:
-                        logger.info(f"passed {count + 1}- {passed}")
-                        logger.info(f"test_case_error {count + 1} - {test_case_error}")
-
-                else:
-                    logger.info("Error due to unit test case fault")
+                if passed:
+                    logger.info(f"passed {count + 1}- {passed}")
+                    logger.info(f"test_case_error {count + 1} - {test_case_error}")
 
             if passed:
                 success_test_cases += "\n" + test_case + "\n"
