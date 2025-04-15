@@ -1,11 +1,11 @@
-2025-04-15 14:28:09,673 - INFO - Loading environment variables...
-2025-04-15 14:28:10,064 - INFO - [1mStart Processing file: theory_evaluation\llm_handler.py[0m
-2025-04-15 14:28:23,529 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 14:28:36,736 - INFO - 
+2025-04-15 14:39:03,811 - INFO - Loading environment variables...
+2025-04-15 14:39:04,143 - INFO - [1mStart Processing file: theory_evaluation\llm_handler.py[0m
+2025-04-15 14:39:16,175 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 14:39:24,103 - INFO - 
 
-2025-04-15 14:28:36,736 - INFO - TEST CASE 1 Retry 0
-2025-04-15 14:28:36,737 - INFO - ---------------
-2025-04-15 14:28:36,737 - INFO - 
+2025-04-15 14:39:24,104 - INFO - TEST CASE 1 Retry 0
+2025-04-15 14:39:24,104 - INFO - ---------------
+2025-04-15 14:39:24,105 - INFO - 
 import asyncio
 import json
 import os
@@ -26,13 +26,13 @@ def mock_azure_openai():
 @pytest.mark.asyncio
 async def test_openai_llm_initialization_with_openai(mock_openai):
     os.environ['OPENAI_API_KEY'] = 'test_key'
-    llm = OpenAI_llm()
-    assert llm.client is mock_openai.return_value
-    assert hasattr(llm.client, 'chat')
+    llm = OpenAI_llm(useAzureOpenAI=False)
+    assert llm.client == mock_openai.return_value
+    assert llm.client.api_key == 'test_key'
 
-2025-04-15 14:28:36,738 - INFO - ---------------
-2025-04-15 14:28:38,961 - INFO - Test Result 1- False
-2025-04-15 14:28:38,961 - INFO - Test Error 1 - E                                                                        [100%]
+2025-04-15 14:39:24,105 - INFO - ---------------
+2025-04-15 14:39:25,933 - INFO - Test Result 1- False
+2025-04-15 14:39:25,933 - INFO - Test Error 1 - E                                                                        [100%]
 =================================== ERRORS ====================================
 ________ ERROR at setup of test_openai_llm_initialization_with_openai _________
 temp\temp.py:10: in mock_openai
@@ -46,10 +46,10 @@ temp\temp.py:18
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
 =========================== short test summary info ===========================
 ERROR temp/temp.py::test_openai_llm_initialization_with_openai - NameError: n...
-1 warning, 1 error in 1.41s
-2025-04-15 14:28:40,277 - INFO - TEST CASE 1 Retry 1
-2025-04-15 14:28:40,278 - INFO - ---------------
-2025-04-15 14:28:40,278 - INFO - 
+1 warning, 1 error in 1.07s
+2025-04-15 14:39:27,488 - INFO - TEST CASE 1 Retry 1
+2025-04-15 14:39:27,488 - INFO - ---------------
+2025-04-15 14:39:27,488 - INFO - 
 import asyncio
 import json
 import os
@@ -66,25 +66,33 @@ def mock_openai():
 def mock_azure_openai():
     with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock:
         yield mock
+import os
 from unittest.mock import patch
+import pytest
 
 @pytest.mark.asyncio
-@patch('theory_evaluation.llm_handler.OpenAI')
-async def test_openai_llm_initialization_with_openai(mock_openai):
-    os.environ['OPENAI_API_KEY'] = 'test_key'
-    llm = OpenAI_llm()
-    assert llm.client is mock_openai.return_value
-    assert hasattr(llm.client, 'chat')
+async def test_openai_llm_initialization_with_openai():
+    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
+        os.environ['OPENAI_API_KEY'] = 'test_key'
+        llm = OpenAI_llm(useAzureOpenAI=False)
+        assert llm.client == mock_openai.return_value
+        assert llm.client.api_key == 'test_key'
 
-2025-04-15 14:28:40,278 - INFO - ---------------
-2025-04-15 14:28:43,364 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 14:28:43,365 - INFO - New import Statements 2- from unittest.mock import patch
-2025-04-15 14:28:43,365 - INFO - Test Result 2- True
-2025-04-15 14:28:43,366 - INFO - Test Error 2 - 
+2025-04-15 14:39:27,488 - INFO - ---------------
+2025-04-15 14:39:29,889 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 14:39:29,890 - INFO - New import Statements 2- import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import pytestfrom unittest.mock import patch
+2025-04-15 14:39:29,890 - INFO - Test Result 2- True
+2025-04-15 14:39:29,890 - INFO - Test Error 2 - 
 s                                                                        [100%]
 ============================== warnings summary ===============================
-temp\temp.py:19
-  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:19: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+temp\temp.py:21
+  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:21: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
     @pytest.mark.asyncio
 
 temp/temp.py::test_openai_llm_initialization_with_openai
@@ -98,13 +106,19 @@ temp/temp.py::test_openai_llm_initialization_with_openai
     warnings.warn(PytestUnhandledCoroutineWarning(msg.format(nodeid)))
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-1 skipped, 2 warnings in 1.37s
-2025-04-15 14:28:43,367 - INFO - 
+1 skipped, 2 warnings in 1.00s
+2025-04-15 14:39:29,891 - INFO - 
 
-2025-04-15 14:28:43,367 - INFO - TEST CASE 2 Retry 0
-2025-04-15 14:28:43,367 - INFO - ---------------
-2025-04-15 14:28:43,367 - INFO - 
-from unittest.mock import patch
+2025-04-15 14:39:29,891 - INFO - TEST CASE 2 Retry 0
+2025-04-15 14:39:29,891 - INFO - ---------------
+2025-04-15 14:39:29,891 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import pytestfrom unittest.mock import patch
 @pytest.fixture
 def mock_openai():
     with patch('theory_evaluation.llm_handler.OpenAI') as mock:
@@ -117,66 +131,254 @@ def mock_azure_openai():
 
 @pytest.mark.asyncio
 async def test_openai_llm_initialization_with_azure_openai(mock_azure_openai):
-    os.environ['AZURE_OPENAI_API_KEY_SWEDEN'] = 'test_key'
-    os.environ['AZURE_OPENAI_ENDPOINT_SWEDEN'] = 'test_endpoint'
-    os.environ['AZURE_OPENAI_API_VERSION'] = 'test_version'
+    os.environ['AZURE_OPENAI_API_KEY_SWEDEN'] = 'azure_test_key'
+    os.environ['AZURE_OPENAI_ENDPOINT_SWEDEN'] = 'azure_test_endpoint'
+    os.environ['AZURE_OPENAI_API_VERSION'] = 'v1'
     llm = OpenAI_llm(useAzureOpenAI=True)
-    assert llm.client is mock_azure_openai.return_value
-    assert hasattr(llm.client, 'chat')
+    assert llm.client == mock_azure_openai.return_value
+    assert llm.client.api_key == 'azure_test_key'
+    assert llm.client.azure_endpoint == 'azure_test_endpoint'
+    assert llm.client.api_version == 'v1'
 
-2025-04-15 14:28:43,367 - INFO - ---------------
-2025-04-15 14:28:44,243 - INFO - Test Result 1- False
-2025-04-15 14:28:44,243 - INFO - Test Error 1 - =================================== ERRORS ====================================
+2025-04-15 14:39:29,891 - INFO - ---------------
+2025-04-15 14:39:30,780 - INFO - Test Result 1- False
+2025-04-15 14:39:30,780 - INFO - Test Error 1 - =================================== ERRORS ====================================
 ________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:2: in <module>
-    @pytest.fixture
-E   NameError: name 'pytest' is not defined
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 7
+E       import pytestfrom unittest.mock import patch
+E                         ^^^^^^^^
+E   SyntaxError: invalid syntax
 =========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
+ERROR temp/temp.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.21s
+2025-04-15 14:39:33,746 - INFO - TEST CASE 2 Retry 1
+2025-04-15 14:39:33,746 - INFO - ---------------
+2025-04-15 14:39:33,747 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import pytestfrom unittest.mock import patch
+@pytest.fixture
+def mock_openai():
+    with patch('theory_evaluation.llm_handler.OpenAI') as mock:
+        yield mock
+
+@pytest.fixture
+def mock_azure_openai():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock:
+        yield mock
+from unittest.mock import patch
+import pytest
+
+@pytest.mark.asyncio
+@patch('llm_handler.AzureOpenAI')
+async def test_openai_llm_initialization_with_azure_openai(mock_azure_openai):
+    os.environ['AZURE_OPENAI_API_KEY_SWEDEN'] = 'azure_test_key'
+    os.environ['AZURE_OPENAI_ENDPOINT_SWEDEN'] = 'azure_test_endpoint'
+    os.environ['AZURE_OPENAI_API_VERSION'] = 'v1'
+    llm = OpenAI_llm(useAzureOpenAI=True)
+    assert llm.client == mock_azure_openai.return_value
+    assert llm.client.api_key == 'azure_test_key'
+    assert llm.client.azure_endpoint == 'azure_test_endpoint'
+    assert llm.client.api_version == 'v1'
+
+2025-04-15 14:39:33,748 - INFO - ---------------
+2025-04-15 14:39:34,726 - INFO - Test Result 2- False
+2025-04-15 14:39:34,726 - INFO - Test Error 2 - 
+=================================== ERRORS ====================================
+________________________ ERROR collecting temp/temp.py ________________________
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 7
+E       import pytestfrom unittest.mock import patch
+E                         ^^^^^^^^
+E   SyntaxError: invalid syntax
+=========================== short test summary info ===========================
+ERROR temp/temp.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.21s
+2025-04-15 14:39:37,614 - INFO - TEST CASE 2 Retry 2
+2025-04-15 14:39:37,616 - INFO - ---------------
+2025-04-15 14:39:37,616 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import pytestfrom unittest.mock import patch
+@pytest.fixture
+def mock_openai():
+    with patch('theory_evaluation.llm_handler.OpenAI') as mock:
+        yield mock
+
+@pytest.fixture
+def mock_azure_openai():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock:
+        yield mock
+from unittest.mock import patch
+import os
+import pytest
+
+@pytest.mark.asyncio
+@patch('llm_handler.AzureOpenAI')
+async def test_openai_llm_initialization_with_azure_openai(mock_azure_openai):
+    os.environ['AZURE_OPENAI_API_KEY_SWEDEN'] = 'azure_test_key'
+    os.environ['AZURE_OPENAI_ENDPOINT_SWEDEN'] = 'azure_test_endpoint'
+    os.environ['AZURE_OPENAI_API_VERSION'] = 'v1'
+    llm = OpenAI_llm(useAzureOpenAI=True)
+    assert llm.client == mock_azure_openai.return_value
+    assert llm.client.api_key == 'azure_test_key'
+    assert llm.client.azure_endpoint == 'azure_test_endpoint'
+    assert llm.client.api_version == 'v1'
+
+2025-04-15 14:39:37,616 - INFO - ---------------
+2025-04-15 14:39:38,608 - INFO - Test Result 3- False
+2025-04-15 14:39:38,608 - INFO - Test Error 3 - 
+=================================== ERRORS ====================================
+________________________ ERROR collecting temp/temp.py ________________________
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 7
+E       import pytestfrom unittest.mock import patch
+E                         ^^^^^^^^
+E   SyntaxError: invalid syntax
+=========================== short test summary info ===========================
+ERROR temp/temp.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.21s
+2025-04-15 14:39:38,608 - INFO - Failed after all retries for test case 2
+2025-04-15 14:39:38,608 - INFO - 
+
+2025-04-15 14:39:38,608 - INFO - TEST CASE 3 Retry 0
+2025-04-15 14:39:38,609 - INFO - ---------------
+2025-04-15 14:39:38,609 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import pytestfrom unittest.mock import patch
+@pytest.fixture
+def mock_openai():
+    with patch('theory_evaluation.llm_handler.OpenAI') as mock:
+        yield mock
+
+@pytest.fixture
+def mock_azure_openai():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock:
+        yield mock
+
+@pytest.mark.asyncio
+async def test_openai_json_completion(mock_openai):
+    mock_response = AsyncMock()
+    mock_response.choices = [AsyncMock()]
+    mock_response.choices[0].message.content = json.dumps({"answer": "test_answer"})
+    mock_openai.return_value.chat.completions.create.return_value = mock_response
+
+2025-04-15 14:39:38,609 - INFO - ---------------
+2025-04-15 14:39:39,291 - INFO - Test Result 1- False
+2025-04-15 14:39:39,291 - INFO - Test Error 1 - =================================== ERRORS ====================================
+________________________ ERROR collecting temp/temp.py ________________________
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 7
+E       import pytestfrom unittest.mock import patch
+E                         ^^^^^^^^
+E   SyntaxError: invalid syntax
+=========================== short test summary info ===========================
+ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
 1 error in 0.20s
-2025-04-15 14:28:45,909 - INFO - TEST CASE 2 Retry 1
-2025-04-15 14:28:45,909 - INFO - ---------------
-2025-04-15 14:28:45,910 - INFO - 
-from unittest.mock import patch
-@pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock:
-        yield mock
-
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock:
-        yield mock
+2025-04-15 14:39:41,307 - INFO - TEST CASE 3 Retry 1
+2025-04-15 14:39:41,308 - INFO - ---------------
+2025-04-15 14:39:41,308 - INFO - 
+import asyncio
+import json
 import os
-import pytest
-from llm_handler import OpenAI_llm
 
-@pytest.mark.asyncio
-async def test_openai_llm_initialization_with_azure_openai(mock_azure_openai):
-    os.environ['AZURE_OPENAI_API_KEY_SWEDEN'] = 'test_key'
-    os.environ['AZURE_OPENAI_ENDPOINT_SWEDEN'] = 'test_endpoint'
-    os.environ['AZURE_OPENAI_API_VERSION'] = 'test_version'
-    llm = OpenAI_llm(useAzureOpenAI=True)
-    assert llm.client is mock_azure_openai.return_value
-    assert hasattr(llm.client, 'chat')
+from openai import AzureOpenAI, OpenAI
 
-2025-04-15 14:28:45,910 - INFO - ---------------
-2025-04-15 14:28:46,879 - INFO - Test Result 2- False
-2025-04-15 14:28:46,879 - INFO - Test Error 2 - 
-=================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:2: in <module>
-    @pytest.fixture
-E   NameError: name 'pytest' is not defined
-=========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.19s
-2025-04-15 14:28:49,073 - INFO - TEST CASE 2 Retry 2
-2025-04-15 14:28:49,073 - INFO - ---------------
-2025-04-15 14:28:49,073 - INFO - 
-from unittest.mock import patch
+import pytestfrom unittest.mock import patch
 @pytest.fixture
 def mock_openai():
     with patch('theory_evaluation.llm_handler.OpenAI') as mock:
@@ -186,140 +388,134 @@ def mock_openai():
 def mock_azure_openai():
     with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock:
         yield mock
+import pytest
+from unittest.mock import patch, AsyncMock
+
+@pytest.mark.asyncio
+@patch('openai.AzureOpenAI')
+@patch('openai.OpenAI')
+async def test_openai_json_completion(mock_openai, mock_azure_openai):
+    mock_response = AsyncMock()
+    mock_response.choices = [AsyncMock()]
+    mock_response.choices[0].message.content = json.dumps({"answer": "test_answer"})
+    mock_openai.return_value.chat.completions.create.return_value = mock_response
+
+    llm = OpenAI_llm(message="Test message", output="json")
+    result = await llm._OpenAI_JSON_Completion()
+
+    assert result == {"answer": "test_answer"}
+
+2025-04-15 14:39:41,308 - INFO - ---------------
+2025-04-15 14:39:42,047 - INFO - Test Result 2- False
+2025-04-15 14:39:42,047 - INFO - Test Error 2 - 
+=================================== ERRORS ====================================
+________________________ ERROR collecting temp/temp.py ________________________
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 7
+E       import pytestfrom unittest.mock import patch
+E                         ^^^^^^^^
+E   SyntaxError: invalid syntax
+=========================== short test summary info ===========================
+ERROR temp/temp.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.22s
+2025-04-15 14:39:43,531 - INFO - TEST CASE 3 Retry 2
+2025-04-15 14:39:43,532 - INFO - ---------------
+2025-04-15 14:39:43,532 - INFO - 
+import asyncio
+import json
 import os
+
+from openai import AzureOpenAI, OpenAI
+
+import pytestfrom unittest.mock import patch
+@pytest.fixture
+def mock_openai():
+    with patch('theory_evaluation.llm_handler.OpenAI') as mock:
+        yield mock
+
+@pytest.fixture
+def mock_azure_openai():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock:
+        yield mock
+from unittest.mock import AsyncMock, patch
 import pytest
-from llm_handler import OpenAI_llm
 
 @pytest.mark.asyncio
-async def test_openai_llm_initialization_with_azure_openai(mock_azure_openai):
-    os.environ['AZURE_OPENAI_API_KEY_SWEDEN'] = 'test_key'
-    os.environ['AZURE_OPENAI_ENDPOINT_SWEDEN'] = 'test_endpoint'
-    os.environ['AZURE_OPENAI_API_VERSION'] = 'test_version'
-    llm = OpenAI_llm(useAzureOpenAI=True)
-    assert llm.client is mock_azure_openai.return_value
-    assert hasattr(llm.client, 'chat')
+@patch('llm_handler.OpenAI_llm._OpenAI_JSON_Completion')
+async def test_openai_json_completion(mock_openai_json_completion):
+    mock_response = {"answer": "test_answer"}
+    mock_openai_json_completion.return_value = mock_response
 
-2025-04-15 14:28:49,074 - INFO - ---------------
-2025-04-15 14:28:49,720 - INFO - Test Result 3- False
-2025-04-15 14:28:49,721 - INFO - Test Error 3 - 
+    llm = OpenAI_llm(message="Test message", output="json")
+    async for response in llm.execute():
+        assert response == mock_response
+
+2025-04-15 14:39:43,532 - INFO - ---------------
+2025-04-15 14:39:44,397 - INFO - Test Result 3- False
+2025-04-15 14:39:44,397 - INFO - Test Error 3 - 
 =================================== ERRORS ====================================
 ________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:2: in <module>
-    @pytest.fixture
-E   NameError: name 'pytest' is not defined
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 7
+E       import pytestfrom unittest.mock import patch
+E                         ^^^^^^^^
+E   SyntaxError: invalid syntax
 =========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
+ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
 1 error in 0.18s
-2025-04-15 14:28:49,721 - INFO - Failed after all retries for test case 2
-2025-04-15 14:28:49,721 - INFO - 
+2025-04-15 14:39:44,397 - INFO - Failed after all retries for test case 3
+2025-04-15 14:39:44,397 - INFO - 
 
-2025-04-15 14:28:49,721 - INFO - TEST CASE 3 Retry 0
-2025-04-15 14:28:49,721 - INFO - ---------------
-2025-04-15 14:28:49,721 - INFO - 
-from unittest.mock import patch
-@pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock:
-        yield mock
+2025-04-15 14:39:44,397 - INFO - TEST CASE 4 Retry 0
+2025-04-15 14:39:44,397 - INFO - ---------------
+2025-04-15 14:39:44,397 - INFO - 
+import asyncio
+import json
+import os
 
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock:
-        yield mock
+from openai import AzureOpenAI, OpenAI
 
-@pytest.mark.asyncio
-async def test_openai_json_completion(mock_openai):
-    mock_response = AsyncMock()
-    mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "2+2=4"})
-    mock_openai.return_value.chat.completions.create.return_value = mock_response
-
-2025-04-15 14:28:49,721 - INFO - ---------------
-2025-04-15 14:28:50,346 - INFO - Test Result 1- False
-2025-04-15 14:28:50,346 - INFO - Test Error 1 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:2: in <module>
-    @pytest.fixture
-E   NameError: name 'pytest' is not defined
-=========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.14s
-2025-04-15 14:28:51,929 - INFO - TEST CASE 3 Retry 1
-2025-04-15 14:28:51,930 - INFO - ---------------
-2025-04-15 14:28:51,931 - INFO - 
-from unittest.mock import patch
-@pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock:
-        yield mock
-
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock:
-        yield mock
-import pytest
-from unittest.mock import AsyncMock
-
-@pytest.mark.asyncio
-async def test_openai_json_completion(mock_openai):
-    mock_response = AsyncMock()
-    mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "2+2=4"})
-    mock_openai.return_value.chat.completions.create.return_value = mock_response
-
-2025-04-15 14:28:51,931 - INFO - ---------------
-2025-04-15 14:28:52,682 - INFO - Test Result 2- False
-2025-04-15 14:28:52,682 - INFO - Test Error 2 - 
-=================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:2: in <module>
-    @pytest.fixture
-E   NameError: name 'pytest' is not defined
-=========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.14s
-2025-04-15 14:28:53,761 - INFO - TEST CASE 3 Retry 2
-2025-04-15 14:28:53,761 - INFO - ---------------
-2025-04-15 14:28:53,762 - INFO - 
-from unittest.mock import patch
-@pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock:
-        yield mock
-
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock:
-        yield mock
-import pytest
-from unittest.mock import AsyncMock
-
-@pytest.mark.asyncio
-async def test_openai_json_completion(mock_openai):
-    mock_response = AsyncMock()
-    mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "2+2=4"})
-    mock_openai.return_value.chat.completions.create.return_value = mock_response
-
-2025-04-15 14:28:53,762 - INFO - ---------------
-2025-04-15 14:28:54,432 - INFO - Test Result 3- False
-2025-04-15 14:28:54,432 - INFO - Test Error 3 - 
-=================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:2: in <module>
-    @pytest.fixture
-E   NameError: name 'pytest' is not defined
-=========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.13s
-2025-04-15 14:28:54,432 - INFO - Failed after all retries for test case 3
-2025-04-15 14:28:54,433 - INFO - 
-
-2025-04-15 14:28:54,433 - INFO - TEST CASE 4 Retry 0
-2025-04-15 14:28:54,433 - INFO - ---------------
-2025-04-15 14:28:54,433 - INFO - 
-from unittest.mock import patch
+import pytestfrom unittest.mock import patch
 @pytest.fixture
 def mock_openai():
     with patch('theory_evaluation.llm_handler.OpenAI') as mock:
@@ -333,24 +529,52 @@ def mock_azure_openai():
 @pytest.mark.asyncio
 async def test_openai_streaming(mock_openai):
     mock_chunk = AsyncMock()
-    mock_chunk.choices[0].delta.content = "streaming content"
+    mock_chunk.choices = [AsyncMock()]
+    mock_chunk.choices[0].delta.content = "test_content"
     mock_openai.return_value.chat.completions.create.return_value = [mock_chunk]
 
-2025-04-15 14:28:54,433 - INFO - ---------------
-2025-04-15 14:28:55,088 - INFO - Test Result 1- False
-2025-04-15 14:28:55,088 - INFO - Test Error 1 - =================================== ERRORS ====================================
+2025-04-15 14:39:44,397 - INFO - ---------------
+2025-04-15 14:39:45,011 - INFO - Test Result 1- False
+2025-04-15 14:39:45,011 - INFO - Test Error 1 - =================================== ERRORS ====================================
 ________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:2: in <module>
-    @pytest.fixture
-E   NameError: name 'pytest' is not defined
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 7
+E       import pytestfrom unittest.mock import patch
+E                         ^^^^^^^^
+E   SyntaxError: invalid syntax
 =========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
+ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.17s
-2025-04-15 14:28:56,311 - INFO - TEST CASE 4 Retry 1
-2025-04-15 14:28:56,312 - INFO - ---------------
-2025-04-15 14:28:56,312 - INFO - 
-from unittest.mock import patch
+1 error in 0.21s
+2025-04-15 14:39:46,658 - INFO - TEST CASE 4 Retry 1
+2025-04-15 14:39:46,658 - INFO - ---------------
+2025-04-15 14:39:46,659 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import pytestfrom unittest.mock import patch
 @pytest.fixture
 def mock_openai():
     with patch('theory_evaluation.llm_handler.OpenAI') as mock:
@@ -361,30 +585,60 @@ def mock_azure_openai():
     with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock:
         yield mock
 import pytest
-from unittest.mock import AsyncMock
+from unittest.mock import patch, AsyncMock
 
 @pytest.mark.asyncio
+@patch("openai.OpenAI")
 async def test_openai_streaming(mock_openai):
     mock_chunk = AsyncMock()
-    mock_chunk.choices[0].delta.content = "streaming content"
+    mock_chunk.choices = [AsyncMock()]
+    mock_chunk.choices[0].delta.content = "test_content"
     mock_openai.return_value.chat.completions.create.return_value = [mock_chunk]
+    # Add your test logic here to call the _OpenAI_Streaming method and assert the expected behavior
 
-2025-04-15 14:28:56,312 - INFO - ---------------
-2025-04-15 14:28:57,267 - INFO - Test Result 2- False
-2025-04-15 14:28:57,267 - INFO - Test Error 2 - 
+2025-04-15 14:39:46,659 - INFO - ---------------
+2025-04-15 14:39:47,413 - INFO - Test Result 2- False
+2025-04-15 14:39:47,413 - INFO - Test Error 2 - 
 =================================== ERRORS ====================================
 ________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:2: in <module>
-    @pytest.fixture
-E   NameError: name 'pytest' is not defined
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 7
+E       import pytestfrom unittest.mock import patch
+E                         ^^^^^^^^
+E   SyntaxError: invalid syntax
 =========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
+ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.19s
-2025-04-15 14:28:58,769 - INFO - TEST CASE 4 Retry 2
-2025-04-15 14:28:58,769 - INFO - ---------------
-2025-04-15 14:28:58,769 - INFO - 
-from unittest.mock import patch
+1 error in 0.18s
+2025-04-15 14:39:49,511 - INFO - TEST CASE 4 Retry 2
+2025-04-15 14:39:49,511 - INFO - ---------------
+2025-04-15 14:39:49,511 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import pytestfrom unittest.mock import patch
 @pytest.fixture
 def mock_openai():
     with patch('theory_evaluation.llm_handler.OpenAI') as mock:
@@ -395,33 +649,66 @@ def mock_azure_openai():
     with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock:
         yield mock
 import pytest
-from unittest.mock import AsyncMock
+from unittest.mock import patch, AsyncMock
 
 @pytest.mark.asyncio
+@patch("openai.OpenAI")
 async def test_openai_streaming(mock_openai):
     mock_chunk = AsyncMock()
-    mock_chunk.choices[0].delta.content = "streaming content"
+    mock_chunk.choices = [AsyncMock()]
+    mock_chunk.choices[0].delta.content = "test_content"
     mock_openai.return_value.chat.completions.create.return_value = [mock_chunk]
+    
+    llm = OpenAI_llm(message="test", useAzureOpenAI=False, output="stream")
+    async for token in llm.execute():
+        assert token == "test_content"
 
-2025-04-15 14:28:58,769 - INFO - ---------------
-2025-04-15 14:28:59,543 - INFO - Test Result 3- False
-2025-04-15 14:28:59,543 - INFO - Test Error 3 - 
+2025-04-15 14:39:49,512 - INFO - ---------------
+2025-04-15 14:39:50,228 - INFO - Test Result 3- False
+2025-04-15 14:39:50,228 - INFO - Test Error 3 - 
 =================================== ERRORS ====================================
 ________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:2: in <module>
-    @pytest.fixture
-E   NameError: name 'pytest' is not defined
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 7
+E       import pytestfrom unittest.mock import patch
+E                         ^^^^^^^^
+E   SyntaxError: invalid syntax
 =========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
+ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.17s
-2025-04-15 14:28:59,543 - INFO - Failed after all retries for test case 4
-2025-04-15 14:28:59,543 - INFO - 
+1 error in 0.22s
+2025-04-15 14:39:50,228 - INFO - Failed after all retries for test case 4
+2025-04-15 14:39:50,228 - INFO - 
 
-2025-04-15 14:28:59,543 - INFO - TEST CASE 5 Retry 0
-2025-04-15 14:28:59,543 - INFO - ---------------
-2025-04-15 14:28:59,543 - INFO - 
-from unittest.mock import patch
+2025-04-15 14:39:50,228 - INFO - TEST CASE 5 Retry 0
+2025-04-15 14:39:50,228 - INFO - ---------------
+2025-04-15 14:39:50,228 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import pytestfrom unittest.mock import patch
 @pytest.fixture
 def mock_openai():
     with patch('theory_evaluation.llm_handler.OpenAI') as mock:
@@ -435,24 +722,52 @@ def mock_azure_openai():
 @pytest.mark.asyncio
 async def test_openai_chat_completion(mock_openai):
     mock_response = AsyncMock()
-    mock_response.choices[0].message.content = "chat content"
+    mock_response.choices = [AsyncMock()]
+    mock_response.choices[0].message.content = "test_content"
     mock_openai.return_value.chat.completions.create.return_value = mock_response
 
-2025-04-15 14:28:59,543 - INFO - ---------------
-2025-04-15 14:29:00,428 - INFO - Test Result 1- False
-2025-04-15 14:29:00,429 - INFO - Test Error 1 - =================================== ERRORS ====================================
+2025-04-15 14:39:50,228 - INFO - ---------------
+2025-04-15 14:39:51,003 - INFO - Test Result 1- False
+2025-04-15 14:39:51,003 - INFO - Test Error 1 - =================================== ERRORS ====================================
 ________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:2: in <module>
-    @pytest.fixture
-E   NameError: name 'pytest' is not defined
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 7
+E       import pytestfrom unittest.mock import patch
+E                         ^^^^^^^^
+E   SyntaxError: invalid syntax
 =========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
+ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
 1 error in 0.19s
-2025-04-15 14:29:01,485 - INFO - TEST CASE 5 Retry 1
-2025-04-15 14:29:01,486 - INFO - ---------------
-2025-04-15 14:29:01,486 - INFO - 
-from unittest.mock import patch
+2025-04-15 14:39:53,090 - INFO - TEST CASE 5 Retry 1
+2025-04-15 14:39:53,090 - INFO - ---------------
+2025-04-15 14:39:53,090 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import pytestfrom unittest.mock import patch
 @pytest.fixture
 def mock_openai():
     with patch('theory_evaluation.llm_handler.OpenAI') as mock:
@@ -463,30 +778,65 @@ def mock_azure_openai():
     with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock:
         yield mock
 import pytest
-from unittest.mock import AsyncMock
+from unittest.mock import patch, AsyncMock
 
 @pytest.mark.asyncio
-async def test_openai_chat_completion(mock_openai):
+@patch('openai.AzureOpenAI')
+@patch('openai.OpenAI')
+async def test_openai_chat_completion(mock_openai, mock_azure_openai):
     mock_response = AsyncMock()
-    mock_response.choices[0].message.content = "chat content"
+    mock_response.choices = [AsyncMock()]
+    mock_response.choices[0].message.content = "test_content"
     mock_openai.return_value.chat.completions.create.return_value = mock_response
 
-2025-04-15 14:29:01,487 - INFO - ---------------
-2025-04-15 14:29:02,309 - INFO - Test Result 2- False
-2025-04-15 14:29:02,309 - INFO - Test Error 2 - 
+    llm = OpenAI_llm(message="test", useAzureOpenAI=False)
+    response = await llm._OpenAI_Chat_Completion(messages=[{"role": "system", "content": "test"}], model="test_model")
+    
+    assert response == "test_content"
+
+2025-04-15 14:39:53,090 - INFO - ---------------
+2025-04-15 14:39:54,076 - INFO - Test Result 2- False
+2025-04-15 14:39:54,076 - INFO - Test Error 2 - 
 =================================== ERRORS ====================================
 ________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:2: in <module>
-    @pytest.fixture
-E   NameError: name 'pytest' is not defined
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 7
+E       import pytestfrom unittest.mock import patch
+E                         ^^^^^^^^
+E   SyntaxError: invalid syntax
 =========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
+ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.17s
-2025-04-15 14:29:03,387 - INFO - TEST CASE 5 Retry 2
-2025-04-15 14:29:03,387 - INFO - ---------------
-2025-04-15 14:29:03,388 - INFO - 
-from unittest.mock import patch
+1 error in 0.22s
+2025-04-15 14:39:57,980 - INFO - TEST CASE 5 Retry 2
+2025-04-15 14:39:57,980 - INFO - ---------------
+2025-04-15 14:39:57,981 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import pytestfrom unittest.mock import patch
 @pytest.fixture
 def mock_openai():
     with patch('theory_evaluation.llm_handler.OpenAI') as mock:
@@ -497,135 +847,68 @@ def mock_azure_openai():
     with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock:
         yield mock
 import pytest
-from unittest.mock import AsyncMock
+from unittest.mock import patch, AsyncMock
 
 @pytest.mark.asyncio
-async def test_openai_chat_completion(mock_openai):
+@patch('openai.AzureOpenAI')
+@patch('openai.OpenAI')
+async def test_openai_chat_completion(mock_openai, mock_azure_openai):
     mock_response = AsyncMock()
-    mock_response.choices[0].message.content = "chat content"
+    mock_response.choices = [AsyncMock()]
+    mock_response.choices[0].message.content = "test_content"
     mock_openai.return_value.chat.completions.create.return_value = mock_response
 
-2025-04-15 14:29:03,388 - INFO - ---------------
-2025-04-15 14:29:04,101 - INFO - Test Result 3- False
-2025-04-15 14:29:04,101 - INFO - Test Error 3 - 
+    # Assuming OpenAI_llm is imported from llm_handler
+    llm = OpenAI_llm(message="test", useAzureOpenAI=False)
+    async for response in llm.execute():
+        assert response == "test_content"
+
+2025-04-15 14:39:57,981 - INFO - ---------------
+2025-04-15 14:39:58,827 - INFO - Test Result 3- False
+2025-04-15 14:39:58,827 - INFO - Test Error 3 - 
 =================================== ERRORS ====================================
 ________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:2: in <module>
-    @pytest.fixture
-E   NameError: name 'pytest' is not defined
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 7
+E       import pytestfrom unittest.mock import patch
+E                         ^^^^^^^^
+E   SyntaxError: invalid syntax
 =========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.16s
-2025-04-15 14:29:04,101 - INFO - Failed after all retries for test case 5
-2025-04-15 14:29:04,102 - INFO - 
-
-2025-04-15 14:29:04,102 - INFO - TEST CASE 6 Retry 0
-2025-04-15 14:29:04,102 - INFO - ---------------
-2025-04-15 14:29:04,102 - INFO - 
-from unittest.mock import patch
-@pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock:
-        yield mock
-
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock:
-        yield mock
-
-@pytest.mark.asyncio
-async def test_execute_text_generation(mock_openai):
-    mock_response = AsyncMock()
-    mock_response.choices[0].message.content = "text generation content"
-    mock_openai.return_value.chat.completions.create.return_value = mock_response
-
-2025-04-15 14:29:04,102 - INFO - ---------------
-2025-04-15 14:29:04,733 - INFO - Test Result 1- False
-2025-04-15 14:29:04,733 - INFO - Test Error 1 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:2: in <module>
-    @pytest.fixture
-E   NameError: name 'pytest' is not defined
-=========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.18s
-2025-04-15 14:29:06,096 - INFO - TEST CASE 6 Retry 1
-2025-04-15 14:29:06,097 - INFO - ---------------
-2025-04-15 14:29:06,097 - INFO - 
-from unittest.mock import patch
-@pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock:
-        yield mock
-
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock:
-        yield mock
-import pytest
-from unittest.mock import AsyncMock
-
-@pytest.mark.asyncio
-async def test_execute_text_generation(mock_openai):
-    mock_response = AsyncMock()
-    mock_response.choices[0].message.content = "text generation content"
-    mock_openai.return_value.chat.completions.create.return_value = mock_response
-
-2025-04-15 14:29:06,097 - INFO - ---------------
-2025-04-15 14:29:06,857 - INFO - Test Result 2- False
-2025-04-15 14:29:06,857 - INFO - Test Error 2 - 
-=================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:2: in <module>
-    @pytest.fixture
-E   NameError: name 'pytest' is not defined
-=========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.18s
-2025-04-15 14:29:07,839 - INFO - TEST CASE 6 Retry 2
-2025-04-15 14:29:07,840 - INFO - ---------------
-2025-04-15 14:29:07,840 - INFO - 
-from unittest.mock import patch
-@pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock:
-        yield mock
-
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock:
-        yield mock
-import pytest
-from unittest.mock import AsyncMock
-
-@pytest.mark.asyncio
-async def test_execute_text_generation(mock_openai):
-    mock_response = AsyncMock()
-    mock_response.choices[0].message.content = "text generation content"
-    mock_openai.return_value.chat.completions.create.return_value = mock_response
-
-2025-04-15 14:29:07,840 - INFO - ---------------
-2025-04-15 14:29:08,631 - INFO - Test Result 3- False
-2025-04-15 14:29:08,631 - INFO - Test Error 3 - 
-=================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:2: in <module>
-    @pytest.fixture
-E   NameError: name 'pytest' is not defined
-=========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
+ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
 1 error in 0.19s
-2025-04-15 14:29:08,631 - INFO - Failed after all retries for test case 6
-2025-04-15 14:29:08,631 - INFO - 
+2025-04-15 14:39:58,827 - INFO - Failed after all retries for test case 5
+2025-04-15 14:39:58,827 - INFO - 
 
-2025-04-15 14:29:08,631 - INFO - TEST CASE 7 Retry 0
-2025-04-15 14:29:08,631 - INFO - ---------------
-2025-04-15 14:29:08,631 - INFO - 
-from unittest.mock import patch
+2025-04-15 14:39:58,827 - INFO - TEST CASE 6 Retry 0
+2025-04-15 14:39:58,827 - INFO - ---------------
+2025-04-15 14:39:58,827 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import pytestfrom unittest.mock import patch
 @pytest.fixture
 def mock_openai():
     with patch('theory_evaluation.llm_handler.OpenAI') as mock:
@@ -637,26 +920,54 @@ def mock_azure_openai():
         yield mock
 
 @pytest.mark.asyncio
-async def test_execute_vision(mock_openai):
+async def test_execute_text_generation(mock_openai):
     mock_response = AsyncMock()
-    mock_response.choices[0].message.content = "vision content"
+    mock_response.choices = [AsyncMock()]
+    mock_response.choices[0].message.content = "test_content"
     mock_openai.return_value.chat.completions.create.return_value = mock_response
 
-2025-04-15 14:29:08,631 - INFO - ---------------
-2025-04-15 14:29:09,236 - INFO - Test Result 1- False
-2025-04-15 14:29:09,237 - INFO - Test Error 1 - =================================== ERRORS ====================================
+2025-04-15 14:39:58,827 - INFO - ---------------
+2025-04-15 14:39:59,585 - INFO - Test Result 1- False
+2025-04-15 14:39:59,586 - INFO - Test Error 1 - =================================== ERRORS ====================================
 ________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:2: in <module>
-    @pytest.fixture
-E   NameError: name 'pytest' is not defined
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 7
+E       import pytestfrom unittest.mock import patch
+E                         ^^^^^^^^
+E   SyntaxError: invalid syntax
 =========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
+ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.15s
-2025-04-15 14:29:10,753 - INFO - TEST CASE 7 Retry 1
-2025-04-15 14:29:10,753 - INFO - ---------------
-2025-04-15 14:29:10,754 - INFO - 
-from unittest.mock import patch
+1 error in 0.25s
+2025-04-15 14:40:01,634 - INFO - TEST CASE 6 Retry 1
+2025-04-15 14:40:01,635 - INFO - ---------------
+2025-04-15 14:40:01,635 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import pytestfrom unittest.mock import patch
 @pytest.fixture
 def mock_openai():
     with patch('theory_evaluation.llm_handler.OpenAI') as mock:
@@ -667,30 +978,275 @@ def mock_azure_openai():
     with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock:
         yield mock
 import pytest
-from unittest.mock import AsyncMock
+from unittest.mock import patch, AsyncMock
+
+@pytest.mark.asyncio
+async def test_execute_text_generation(mock_openai):
+    mock_response = AsyncMock()
+    mock_response.choices = [AsyncMock()]
+    mock_response.choices[0].message.content = "test_content"
+    mock_openai.return_value.chat.completions.create.return_value = mock_response
+
+    llm = OpenAI_llm(
+        message="Test message",
+        useAzureOpenAI=False,
+        output=None,
+        verbose=False
+    )
+
+    with patch.object(llm.client.chat.completions, 'create', return_value=mock_response):
+        async for token in llm.execute():
+            assert token == "test_content"
+
+2025-04-15 14:40:01,635 - INFO - ---------------
+2025-04-15 14:40:02,543 - INFO - Test Result 2- False
+2025-04-15 14:40:02,544 - INFO - Test Error 2 - 
+=================================== ERRORS ====================================
+________________________ ERROR collecting temp/temp.py ________________________
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 7
+E       import pytestfrom unittest.mock import patch
+E                         ^^^^^^^^
+E   SyntaxError: invalid syntax
+=========================== short test summary info ===========================
+ERROR temp/temp.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.28s
+2025-04-15 14:40:04,347 - INFO - TEST CASE 6 Retry 2
+2025-04-15 14:40:04,347 - INFO - ---------------
+2025-04-15 14:40:04,347 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import pytestfrom unittest.mock import patch
+@pytest.fixture
+def mock_openai():
+    with patch('theory_evaluation.llm_handler.OpenAI') as mock:
+        yield mock
+
+@pytest.fixture
+def mock_azure_openai():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock:
+        yield mock
+from unittest.mock import AsyncMock, patch  
+import pytest
+
+@pytest.mark.asyncio
+@patch('llm_handler.OpenAI_llm.client')
+async def test_execute_text_generation(mock_openai):
+    mock_response = AsyncMock()
+    mock_response.choices = [AsyncMock()]
+    mock_response.choices[0].message.content = "test_content"
+    mock_openai.return_value.chat.completions.create.return_value = mock_response
+
+    llm = OpenAI_llm(message="test", useAzureOpenAI=False, output=None)
+    responses = []
+    async for response in llm.execute():
+        responses.append(response)
+
+    assert responses == ["test_content"]
+
+2025-04-15 14:40:04,347 - INFO - ---------------
+2025-04-15 14:40:05,095 - INFO - Test Result 3- False
+2025-04-15 14:40:05,095 - INFO - Test Error 3 - 
+=================================== ERRORS ====================================
+________________________ ERROR collecting temp/temp.py ________________________
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 7
+E       import pytestfrom unittest.mock import patch
+E                         ^^^^^^^^
+E   SyntaxError: invalid syntax
+=========================== short test summary info ===========================
+ERROR temp/temp.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.21s
+2025-04-15 14:40:05,095 - INFO - Failed after all retries for test case 6
+2025-04-15 14:40:05,095 - INFO - 
+
+2025-04-15 14:40:05,095 - INFO - TEST CASE 7 Retry 0
+2025-04-15 14:40:05,095 - INFO - ---------------
+2025-04-15 14:40:05,095 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import pytestfrom unittest.mock import patch
+@pytest.fixture
+def mock_openai():
+    with patch('theory_evaluation.llm_handler.OpenAI') as mock:
+        yield mock
+
+@pytest.fixture
+def mock_azure_openai():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock:
+        yield mock
 
 @pytest.mark.asyncio
 async def test_execute_vision(mock_openai):
     mock_response = AsyncMock()
-    mock_response.choices[0].message.content = "vision content"
+    mock_response.choices = [AsyncMock()]
+    mock_response.choices[0].message.content = "test_content"
     mock_openai.return_value.chat.completions.create.return_value = mock_response
 
-2025-04-15 14:29:10,754 - INFO - ---------------
-2025-04-15 14:29:11,439 - INFO - Test Result 2- False
-2025-04-15 14:29:11,439 - INFO - Test Error 2 - 
+2025-04-15 14:40:05,095 - INFO - ---------------
+2025-04-15 14:40:05,782 - INFO - Test Result 1- False
+2025-04-15 14:40:05,782 - INFO - Test Error 1 - =================================== ERRORS ====================================
+________________________ ERROR collecting temp/temp.py ________________________
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 7
+E       import pytestfrom unittest.mock import patch
+E                         ^^^^^^^^
+E   SyntaxError: invalid syntax
+=========================== short test summary info ===========================
+ERROR temp/temp.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.20s
+2025-04-15 14:40:08,008 - INFO - TEST CASE 7 Retry 1
+2025-04-15 14:40:08,009 - INFO - ---------------
+2025-04-15 14:40:08,009 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import pytestfrom unittest.mock import patch
+@pytest.fixture
+def mock_openai():
+    with patch('theory_evaluation.llm_handler.OpenAI') as mock:
+        yield mock
+
+@pytest.fixture
+def mock_azure_openai():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock:
+        yield mock
+from unittest.mock import patch, AsyncMock
+import pytest
+
+@pytest.mark.asyncio
+@patch("llm_handler.OpenAI_llm.client.chat.completions.create", new_callable=AsyncMock)
+async def test_execute_vision(mock_openai):
+    mock_response = AsyncMock()
+    mock_response.choices = [AsyncMock()]
+    mock_response.choices[0].message.content = "test_content"
+    mock_openai.return_value = mock_response
+
+    llm = OpenAI_llm(
+        message="Test message",
+        useAzureOpenAI=True,
+        mode="vision",
+        image_input="test_image_input",
+        output="json"
+    )
+
+    async for response in llm.execute():
+        assert response == "test_content"
+
+2025-04-15 14:40:08,009 - INFO - ---------------
+2025-04-15 14:40:08,791 - INFO - Test Result 2- False
+2025-04-15 14:40:08,791 - INFO - Test Error 2 - 
 =================================== ERRORS ====================================
 ________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:2: in <module>
-    @pytest.fixture
-E   NameError: name 'pytest' is not defined
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 7
+E       import pytestfrom unittest.mock import patch
+E                         ^^^^^^^^
+E   SyntaxError: invalid syntax
 =========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
+ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.17s
-2025-04-15 14:29:12,803 - INFO - TEST CASE 7 Retry 2
-2025-04-15 14:29:12,804 - INFO - ---------------
-2025-04-15 14:29:12,804 - INFO - 
-from unittest.mock import patch
+1 error in 0.25s
+2025-04-15 14:40:11,578 - INFO - TEST CASE 7 Retry 2
+2025-04-15 14:40:11,579 - INFO - ---------------
+2025-04-15 14:40:11,579 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import pytestfrom unittest.mock import patch
 @pytest.fixture
 def mock_openai():
     with patch('theory_evaluation.llm_handler.OpenAI') as mock:
@@ -701,33 +1257,70 @@ def mock_azure_openai():
     with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock:
         yield mock
 import pytest
-from unittest.mock import AsyncMock
+from unittest.mock import patch, AsyncMock
 
 @pytest.mark.asyncio
-async def test_execute_vision(mock_openai):
+@patch('openai.AzureOpenAI')
+@patch('openai.OpenAI')
+async def test_execute_vision(mock_openai, mock_azure_openai):
     mock_response = AsyncMock()
-    mock_response.choices[0].message.content = "vision content"
+    mock_response.choices = [AsyncMock()]
+    mock_response.choices[0].message.content = "test_content"
     mock_openai.return_value.chat.completions.create.return_value = mock_response
 
-2025-04-15 14:29:12,804 - INFO - ---------------
-2025-04-15 14:29:13,488 - INFO - Test Result 3- False
-2025-04-15 14:29:13,488 - INFO - Test Error 3 - 
+    llm = OpenAI_llm(
+        message="Test message",
+        useAzureOpenAI=False,
+        mode="vision",
+        image_input="test_image_input"
+    )
+
+    responses = []
+    async for response in llm.execute():
+        responses.append(response)
+
+    assert responses == ["test_content"]
+
+2025-04-15 14:40:11,579 - INFO - ---------------
+2025-04-15 14:40:12,611 - INFO - Test Result 3- False
+2025-04-15 14:40:12,611 - INFO - Test Error 3 - 
 =================================== ERRORS ====================================
 ________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:2: in <module>
-    @pytest.fixture
-E   NameError: name 'pytest' is not defined
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 7
+E       import pytestfrom unittest.mock import patch
+E                         ^^^^^^^^
+E   SyntaxError: invalid syntax
 =========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
+ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.14s
-2025-04-15 14:29:13,488 - INFO - Failed after all retries for test case 7
-2025-04-15 14:29:13,489 - INFO - [1mEnd Processing file: theory_evaluation\llm_handler.py[0m
+1 error in 0.28s
+2025-04-15 14:40:12,612 - INFO - Failed after all retries for test case 7
+2025-04-15 14:40:12,615 - INFO - [1mEnd Processing file: theory_evaluation\llm_handler.py[0m
 
-2025-04-15 14:29:13,489 - INFO - [1mStart Processing file: theory_evaluation\llm_utils.py[0m
-2025-04-15 14:29:19,253 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 14:29:25,794 - INFO - [1mEnd Processing file: theory_evaluation\llm_utils.py[0m
+2025-04-15 14:40:12,615 - INFO - [1mStart Processing file: theory_evaluation\llm_utils.py[0m
+2025-04-15 14:40:19,429 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 14:40:26,021 - INFO - [1mEnd Processing file: theory_evaluation\llm_utils.py[0m
 
-2025-04-15 14:29:25,795 - INFO - [1mStart Processing file: theory_evaluation\__init__.py[0m
-2025-04-15 14:29:25,796 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
+2025-04-15 14:40:26,021 - INFO - [1mStart Processing file: theory_evaluation\__init__.py[0m
+2025-04-15 14:40:26,022 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
 

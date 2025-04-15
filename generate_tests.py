@@ -557,11 +557,11 @@ def run_each_pytest_function_individually(
         import_statements += "\nimport pytest"
     test_cases = extract_test_functions(test_cases_str)
 
-    success_test_cases = f"{import_statements}\n{pytest_fixture}"
+    initial_template = f"{import_statements}\n{pytest_fixture}"
     for idx, test_case in enumerate(test_cases, start=1):
         passed = 0
         count = 0
-        full_test_code = f"{import_statements}\n{pytest_fixture}\n\n{test_case}\n"
+        full_test_code = f"{initial_template}\n\n{test_case}\n"
         logger.info(f"\n")
         logger.info(f"TEST CASE {idx} Retry {count}")
         logger.info(f"---------------")
@@ -578,11 +578,11 @@ def run_each_pytest_function_individually(
             max_retries = 2
             while count < max_retries and not passed:
                 count += 1
-                proposed_test_code = resolve_unit_test(
+                test_case = resolve_unit_test(
                     provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, 
                     temperature
                 )
-                full_test_code = f"{import_statements}\n{pytest_fixture}\n{proposed_test_code}\n"
+                full_test_code = f"{initial_template}\n{test_case}\n"
                 logger.info(f"TEST CASE {idx} Retry {count}")
                 logger.info(f"---------------")
                 logger.info(f"\n{full_test_code}")
@@ -591,21 +591,20 @@ def run_each_pytest_function_individually(
                 save_test_case_to_temp_file(full_test_code, temp_file)
                 passed, test_case_error = run_single_test_file(temp_file)
                 if passed:
-                    import_statements += identify_new_import(provider, model_arg, llm_new_import_prompt, import_statements, full_test_code, source_code, 
-                    temperature)
+                    initial_template = f"{import_statements}\n{pytest_fixture}"
                     logger.info(f"New import Statements {count + 1}- {import_statements}")
                 logger.info(f"Test Result {count + 1}- {passed}")
                 logger.info(f"Test Error {count + 1} - \n{test_case_error}")
 
             if passed:
-                success_test_cases += "\n" + full_test_code + "\n"
+                success_test_cases += "\n" + test_case + "\n"
             else:
                 logger.info(f"Failed after all retries for test case {idx}")
 
         except Exception as e:
             logger.exception(f"Exception occurred while processing test case {idx}: {e}")
 
-    return success_test_cases
+    return initial_template + "\n" + success_test_cases
 
 
 def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg: str, env_vars: dict) -> None:
