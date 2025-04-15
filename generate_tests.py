@@ -428,12 +428,6 @@ def _generate_unit_tests(
     return generated_test_code, import_statements
 
 
-# def extract_test_functions(code: str) -> List[str]:
-#     """
-#     Extracts all top-level test function names from the given test code string.
-#     """
-#     return re.findall(r'^def\s+(test_\w+)\s*\(', code, re.MULTILINE)
-
 def save_test_file(src_dir: Path, test_dir: Path, original_path: Path, test_code: str) -> Path:
     """
     Saves the generated test code to the appropriate location in the tests directory.
@@ -461,7 +455,6 @@ def extract_test_cases_from_code(provider, model_arg, llm_test_cases_prompt, tes
     formatted_prompt = llm_test_cases_prompt.format(
         unit_test_file=test_code
     )
-    logger.info(f"llm_test_cases_prompt - {formatted_prompt}")
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
@@ -580,32 +573,32 @@ def run_each_pytest_function_individually(
             logger.info(f"Test Result {count + 1}- {passed}")
             logger.info(f"Test Error {count + 1} - {test_case_error}")
 
-    #         max_retries = 2
-    #         while count < max_retries and not passed:
-    #             count += 1
-    #             proposed_test_code = resolve_unit_test(
-    #                 provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, 
-    #                 temperature
-    #             )
-    #             full_test_code = f"{import_statements}\n{pytest_fixture}\n{proposed_test_code}\n"
-    #             logger.info(f"TEST CASE {idx} Retry {count}")
-    #             logger.info(f"---------------")
-    #             logger.info(f"\n{full_test_code}")
-    #             logger.info(f"---------------")
+            max_retries = 2
+            while count < max_retries and not passed:
+                count += 1
+                proposed_test_code = resolve_unit_test(
+                    provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, 
+                    temperature
+                )
+                full_test_code = f"{import_statements}\n{pytest_fixture}\n{proposed_test_code}\n"
+                logger.info(f"TEST CASE {idx} Retry {count}")
+                logger.info(f"---------------")
+                logger.info(f"\n{full_test_code}")
+                logger.info(f"---------------")
 
-    #             save_test_case_to_temp_file(full_test_code, temp_file)
-    #             passed, test_case_error = run_single_test_file(temp_file)
-    #             if passed:
-    #                 import_statements = identify_new_import(provider, model_arg, llm_new_import_prompt, import_statements, full_test_code, source_code, 
-    #                 temperature)
-    #                 logger.info(f"New import Statements {count + 1}- {import_statements}")
-    #             logger.info(f"Test Result {count + 1}- {passed}")
-    #             logger.info(f"Test Error {count + 1} - \n{test_case_error}")
+                save_test_case_to_temp_file(full_test_code, temp_file)
+                passed, test_case_error = run_single_test_file(temp_file)
+                if passed:
+                    import_statements = identify_new_import(provider, model_arg, llm_new_import_prompt, import_statements, full_test_code, source_code, 
+                    temperature)
+                    logger.info(f"New import Statements {count + 1}- {import_statements}")
+                logger.info(f"Test Result {count + 1}- {passed}")
+                logger.info(f"Test Error {count + 1} - \n{test_case_error}")
 
-    #         if passed:
-    #             success_test_cases += "\n" + full_test_code + "\n"
-    #         else:
-    #             logger.info(f"Failed after all retries for test case {idx}")
+            if passed:
+                success_test_cases += "\n" + full_test_code + "\n"
+            else:
+                logger.info(f"Failed after all retries for test case {idx}")
 
         except Exception as e:
             logger.exception(f"Exception occurred while processing test case {idx}: {e}")
