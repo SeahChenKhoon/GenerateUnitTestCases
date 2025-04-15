@@ -1,429 +1,339 @@
-2025-04-15 14:04:56,906 - INFO - Loading environment variables...
-2025-04-15 14:04:57,221 - INFO - [1mStart Processing file: theory_evaluation\llm_handler.py[0m
-2025-04-15 14:05:07,339 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 14:05:08,696 - INFO - llm_test_cases_prompt - Extract all unit test cases excluding pytest fixtures from the following:
-```
-import asyncio
-import json
-import os
-from unittest.mock import patch, AsyncMock, MagicMock
-import pytest
-from theory_evaluation.llm_handler import OpenAI_llm
+2025-04-15 14:07:18,525 - INFO - Loading environment variables...
+2025-04-15 14:07:18,846 - INFO - [1mStart Processing file: theory_evaluation\llm_handler.py[0m
+2025-04-15 14:07:30,700 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 14:07:41,389 - INFO - 
 
-@pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
-        yield mock_openai
-
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai:
-        yield mock_azure_openai
-
-@pytest.mark.asyncio
-async def test_openai_llm_initialization_with_openai(mock_openai):
-    llm = OpenAI_llm(useAzureOpenAI=False)
-    assert hasattr(llm, 'client')
-    assert mock_openai.called
-
-@pytest.mark.asyncio
-async def test_openai_llm_initialization_with_azure_openai(mock_azure_openai):
-    llm = OpenAI_llm(useAzureOpenAI=True)
-    assert hasattr(llm, 'client')
-    assert mock_azure_openai.called
-
-@pytest.mark.asyncio
-async def test_openai_json_completion(mock_openai):
-    mock_client = MagicMock()
-    mock_response = MagicMock()
-    mock_response.choices = [MagicMock(message=MagicMock(content=json.dumps({"key": "value"})))]
-    mock_client.chat.completions.create.return_value = mock_response
-    mock_openai.return_value = mock_client
-
-    llm = OpenAI_llm(useAzureOpenAI=False)
-    result = await llm._OpenAI_JSON_Completion()
-    assert result == {"key": "value"}
-
-@pytest.mark.asyncio
-async def test_openai_streaming(mock_openai):
-    mock_client = MagicMock()
-    mock_chunk = MagicMock()
-    mock_chunk.choices = [MagicMock(delta=MagicMock(content="streaming content"))]
-    mock_client.chat.completions.create.return_value = [mock_chunk]
-    mock_openai.return_value = mock_client
-
-    llm = OpenAI_llm(useAzureOpenAI=False)
-    result = [chunk async for chunk in llm._OpenAI_Streaming()]
-    assert result == ["streaming content"]
-
-@pytest.mark.asyncio
-async def test_openai_chat_completion(mock_openai):
-    mock_client = MagicMock()
-    mock_response = MagicMock()
-    mock_response.choices = [MagicMock(message=MagicMock(content="chat content"))]
-    mock_client.chat.completions.create.return_value = mock_response
-    mock_openai.return_value = mock_client
-
-    llm = OpenAI_llm(useAzureOpenAI=False)
-    result = await llm._OpenAI_Chat_Completion()
-    assert result == "chat content"
-
-@pytest.mark.asyncio
-async def test_execute_text_generation(mock_openai):
-    mock_client = MagicMock()
-    mock_response = MagicMock()
-    mock_response.choices = [MagicMock(message=MagicMock(content="text generation content"))]
-    mock_client.chat.completions.create.return_value = mock_response
-    mock_openai.return_value = mock_client
-
-    llm = OpenAI_llm(useAzureOpenAI=False, mode="text_generation")
-    result = [response async for response in llm.execute()]
-    assert result == ["text generation content"]
-
-@pytest.mark.asyncio
-async def test_execute_vision(mock_openai):
-    mock_client = MagicMock()
-    mock_response = MagicMock()
-    mock_response.choices = [MagicMock(message=MagicMock(content="vision content"))]
-    mock_client.chat.completions.create.return_value = mock_response
-    mock_openai.return_value = mock_client
-
-    llm = OpenAI_llm(useAzureOpenAI=False, mode="vision", image_input="dummy_image")
-    result = [response async for response in llm.execute()]
-    assert result == ["vision content"]
-```
-. Output only unit test cases. No Markdown formatting, explanations, or docstrings. Do NOT wrap your output in backticks
-2025-04-15 14:05:15,945 - INFO - 
-
-2025-04-15 14:05:15,945 - INFO - TEST CASE 1 Retry 0
-2025-04-15 14:05:15,946 - INFO - ---------------
-2025-04-15 14:05:15,946 - INFO - 
+2025-04-15 14:07:41,390 - INFO - TEST CASE 1 Retry 0
+2025-04-15 14:07:41,390 - INFO - ---------------
+2025-04-15 14:07:41,391 - INFO - 
 import asyncio
 import json
 import os
 
 from openai import AzureOpenAI, OpenAI
 
-@pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
-        yield mock_openai
 
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai:
-        yield mock_azure_openai
 
 @pytest.mark.asyncio
-async def test_openai_llm_initialization_with_openai(mock_openai):
-    llm = OpenAI_llm(useAzureOpenAI=False)
-    assert hasattr(llm, 'client')
-    assert mock_openai.called
+async def test_openai_llm_initialization():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai, \
+         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
+         patch('os.getenv', return_value='mock_value'):
+        llm = OpenAI_llm(
+            useAzureOpenAI=True,
+            azure_endpoint='mock_endpoint',
+            message='Test message',
+            image_input='mock_image_input',
+            api_version='mock_api_version',
+            model_name='mock_model_name',
+            max_retries=5,
+            output='json',
+            mode='text_generation',
+            config={'temperature': 0.5},
+            verbose=True
+        )
+        assert llm.message == 'Test message'
+        assert llm.image_input == 'mock_image_input'
+        assert llm.azure_endpoint == 'mock_endpoint'
+        assert llm.api_version == 'mock_api_version'
+        assert llm.model_name == 'mock_model_name'
+        assert llm.max_retries == 5
+        assert llm.output == 'json'
+        assert llm.mode == 'text_generation'
+        assert llm.config == {'temperature': 0.5}
+        assert llm.verbose is True
+        assert hasattr(llm, 'client')
+        assert mock_azure_openai.called
 
-2025-04-15 14:05:15,946 - INFO - ---------------
-2025-04-15 14:05:18,171 - INFO - Test Result 1- False
-2025-04-15 14:05:18,172 - INFO - Test Error 1 - =================================== ERRORS ====================================
+2025-04-15 14:07:41,394 - INFO - ---------------
+2025-04-15 14:07:43,280 - INFO - Test Result 1- False
+2025-04-15 14:07:43,280 - INFO - Test Error 1 - =================================== ERRORS ====================================
 ________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:7: in <module>
-    @pytest.fixture
-E   NameError: name 'pytest' is not defined
-=========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 1.24s
-2025-04-15 14:05:18,173 - INFO - 
-
-2025-04-15 14:05:18,173 - INFO - TEST CASE 2 Retry 0
-2025-04-15 14:05:18,174 - INFO - ---------------
-2025-04-15 14:05:18,174 - INFO - 
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-@pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
-        yield mock_openai
-
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai:
-        yield mock_azure_openai
-
-@pytest.mark.asyncio
-async def test_openai_llm_initialization_with_azure_openai(mock_azure_openai):
-    llm = OpenAI_llm(useAzureOpenAI=True)
-    assert hasattr(llm, 'client')
-    assert mock_azure_openai.called
-
-2025-04-15 14:05:18,175 - INFO - ---------------
-2025-04-15 14:05:19,936 - INFO - Test Result 1- False
-2025-04-15 14:05:19,936 - INFO - Test Error 1 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:7: in <module>
-    @pytest.fixture
-E   NameError: name 'pytest' is not defined
-=========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 1.04s
-2025-04-15 14:05:19,936 - INFO - 
-
-2025-04-15 14:05:19,936 - INFO - TEST CASE 3 Retry 0
-2025-04-15 14:05:19,936 - INFO - ---------------
-2025-04-15 14:05:19,936 - INFO - 
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-@pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
-        yield mock_openai
-
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai:
-        yield mock_azure_openai
-
-@pytest.mark.asyncio
-async def test_openai_json_completion(mock_openai):
-    mock_client = MagicMock()
-    mock_response = MagicMock()
-    mock_response.choices = [MagicMock(message=MagicMock(content=json.dumps({"key": "value"})))]
-    mock_client.chat.completions.create.return_value = mock_response
-    mock_openai.return_value = mock_client
-
-2025-04-15 14:05:19,936 - INFO - ---------------
-2025-04-15 14:05:21,926 - INFO - Test Result 1- False
-2025-04-15 14:05:21,926 - INFO - Test Error 1 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:7: in <module>
-    @pytest.fixture
-E   NameError: name 'pytest' is not defined
-=========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 1.14s
-2025-04-15 14:05:21,926 - INFO - 
-
-2025-04-15 14:05:21,926 - INFO - TEST CASE 4 Retry 0
-2025-04-15 14:05:21,926 - INFO - ---------------
-2025-04-15 14:05:21,926 - INFO - 
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-@pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
-        yield mock_openai
-
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai:
-        yield mock_azure_openai
-
-@pytest.mark.asyncio
-async def test_openai_streaming(mock_openai):
-    mock_client = MagicMock()
-    mock_chunk = MagicMock()
-    mock_chunk.choices = [MagicMock(delta=MagicMock(content="streaming content"))]
-    mock_client.chat.completions.create.return_value = [mock_chunk]
-    mock_openai.return_value = mock_client
-
-2025-04-15 14:05:21,927 - INFO - ---------------
-2025-04-15 14:05:23,793 - INFO - Test Result 1- False
-2025-04-15 14:05:23,793 - INFO - Test Error 1 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:7: in <module>
-    @pytest.fixture
-E   NameError: name 'pytest' is not defined
-=========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 1.17s
-2025-04-15 14:05:23,793 - INFO - 
-
-2025-04-15 14:05:23,793 - INFO - TEST CASE 5 Retry 0
-2025-04-15 14:05:23,793 - INFO - ---------------
-2025-04-15 14:05:23,793 - INFO - 
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-@pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
-        yield mock_openai
-
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai:
-        yield mock_azure_openai
-
-@pytest.mark.asyncio
-async def test_openai_chat_completion(mock_openai):
-    mock_client = MagicMock()
-    mock_response = MagicMock()
-    mock_response.choices = [MagicMock(message=MagicMock(content="chat content"))]
-    mock_client.chat.completions.create.return_value = mock_response
-    mock_openai.return_value = mock_client
-
-2025-04-15 14:05:23,793 - INFO - ---------------
-2025-04-15 14:05:25,574 - INFO - Test Result 1- False
-2025-04-15 14:05:25,575 - INFO - Test Error 1 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:7: in <module>
-    @pytest.fixture
-E   NameError: name 'pytest' is not defined
-=========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 1.04s
-2025-04-15 14:05:25,575 - INFO - 
-
-2025-04-15 14:05:25,575 - INFO - TEST CASE 6 Retry 0
-2025-04-15 14:05:25,575 - INFO - ---------------
-2025-04-15 14:05:25,575 - INFO - 
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-@pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
-        yield mock_openai
-
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai:
-        yield mock_azure_openai
-
-@pytest.mark.asyncio
-async def test_execute_text_generation(mock_openai):
-    mock_client = MagicMock()
-    mock_response = MagicMock()
-    mock_response.choices = [MagicMock(message=MagicMock(content="text generation content"))]
-    mock_client.chat.completions.create.return_value = mock_response
-    mock_openai.return_value = mock_client
-
-2025-04-15 14:05:25,575 - INFO - ---------------
-2025-04-15 14:05:27,390 - INFO - Test Result 1- False
-2025-04-15 14:05:27,391 - INFO - Test Error 1 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:7: in <module>
-    @pytest.fixture
+temp\temp.py:9: in <module>
+    @pytest.mark.asyncio
 E   NameError: name 'pytest' is not defined
 =========================== short test summary info ===========================
 ERROR temp/temp.py - NameError: name 'pytest' is not defined
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
 1 error in 1.13s
-2025-04-15 14:05:27,391 - INFO - 
-
-2025-04-15 14:05:27,391 - INFO - TEST CASE 7 Retry 0
-2025-04-15 14:05:27,391 - INFO - ---------------
-2025-04-15 14:05:27,391 - INFO - 
+2025-04-15 14:07:46,908 - INFO - TEST CASE 1 Retry 1
+2025-04-15 14:07:46,908 - INFO - ---------------
+2025-04-15 14:07:46,908 - INFO - 
 import asyncio
 import json
 import os
 
 from openai import AzureOpenAI, OpenAI
 
-@pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
-        yield mock_openai
 
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai:
-        yield mock_azure_openai
+import pytest
+from unittest.mock import patch
 
 @pytest.mark.asyncio
-async def test_execute_vision(mock_openai):
-    mock_client = MagicMock()
-    mock_response = MagicMock()
-    mock_response.choices = [MagicMock(message=MagicMock(content="vision content"))]
-    mock_client.chat.completions.create.return_value = mock_response
-    mock_openai.return_value = mock_client
+async def test_openai_llm_initialization():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai, \
+         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
+         patch('os.getenv', return_value='mock_value'):
+        llm = OpenAI_llm(
+            useAzureOpenAI=True,
+            azure_endpoint='mock_endpoint',
+            message='Test message',
+            image_input='mock_image_input',
+            api_version='mock_api_version',
+            model_name='mock_model_name',
+            max_retries=5,
+            output='json',
+            mode='text_generation',
+            config={'temperature': 0.5},
+            verbose=True
+        )
+        assert llm.message == 'Test message'
+        assert llm.image_input == 'mock_image_input'
+        assert llm.azure_endpoint == 'mock_endpoint'
+        assert llm.api_version == 'mock_api_version'
+        assert llm.model_name == 'mock_model_name'
+        assert llm.max_retries == 5
+        assert llm.output == 'json'
+        assert llm.mode == 'text_generation'
+        assert llm.config == {'temperature': 0.5}
+        assert llm.verbose is True
+        assert hasattr(llm, 'client')
+        assert mock_azure_openai.called
 
-2025-04-15 14:05:27,391 - INFO - ---------------
-2025-04-15 14:05:29,219 - INFO - Test Result 1- False
-2025-04-15 14:05:29,220 - INFO - Test Error 1 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:7: in <module>
-    @pytest.fixture
-E   NameError: name 'pytest' is not defined
-=========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 1.16s
-2025-04-15 14:05:29,220 - INFO - [1mEnd Processing file: theory_evaluation\llm_handler.py[0m
+2025-04-15 14:07:46,909 - INFO - ---------------
+2025-04-15 14:07:49,762 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 14:07:49,763 - INFO - New import Statements 2- import pytest
+from unittest.mock import patch
+2025-04-15 14:07:49,763 - INFO - Test Result 2- True
+2025-04-15 14:07:49,763 - INFO - Test Error 2 - 
+s                                                                        [100%]
+============================== warnings summary ===============================
+temp\temp.py:11
+  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:11: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.asyncio
 
-2025-04-15 14:05:29,220 - INFO - [1mStart Processing file: theory_evaluation\llm_utils.py[0m
-2025-04-15 14:05:37,682 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 14:05:38,119 - INFO - llm_test_cases_prompt - Extract all unit test cases excluding pytest fixtures from the following:
-```
-import os
+temp/temp.py::test_openai_llm_initialization
+  C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:148: PytestUnhandledCoroutineWarning: async def functions are not natively supported and have been skipped.
+  You need to install a suitable plugin for your async framework, for example:
+    - anyio
+    - pytest-asyncio
+    - pytest-tornasync
+    - pytest-trio
+    - pytest-twisted
+    warnings.warn(PytestUnhandledCoroutineWarning(msg.format(nodeid)))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 skipped, 2 warnings in 1.41s
+2025-04-15 14:07:49,764 - INFO - 
+
+2025-04-15 14:07:49,764 - INFO - TEST CASE 2 Retry 0
+2025-04-15 14:07:49,764 - INFO - ---------------
+2025-04-15 14:07:49,764 - INFO - 
 import pytest
-import yaml
-import re
-from unittest.mock import patch, mock_open
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+from unittest.mock import patch
 
-def test_initialise_prompt_success():
-    agent = "test_agent"
-    config_values = {"key1": "value1", "key2": "value2"}
-    prompt_structure = "This is a {$key1} and {$key2} test."
 
-    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=yaml.dump(config_values))) as mock_file:
-        with patch("theory_evaluation.llm_utils.yaml.load", return_value=config_values):
-            with patch("theory_evaluation.llm_utils.re.finditer", return_value=re.finditer(r"\{\$(\w+)\}", prompt_structure)):
-                with patch("theory_evaluation.llm_utils.re.sub", side_effect=lambda pattern, repl, string: string.replace(pattern, repl)):
-                    result = initialise_prompt(agent)
-                    expected_prompt = "This is a value1 and value2 test."
-                    assert result == expected_prompt
-                    mock_file.assert_has_calls([
-                        patch.call(f"./theory_evaluation/evaluator/prompts/{agent}/config.yaml"),
-                        patch.call(f"./theory_evaluation/evaluator/prompts/{agent}/prompt.txt", "r")
-                    ])
+@pytest.mark.asyncio
+async def test_openai_llm_execute_text_generation():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
+        mock_run.return_value = AsyncMock()
+        mock_run.return_value.__aiter__.return_value = iter(['response'])
+        llm = OpenAI_llm(message='Test message', output='json', mode='text_generation')
+        responses = []
+        async for response in llm.execute():
+            responses.append(response)
+        assert responses == ['response']
+        assert mock_run.called
 
-def test_initialise_prompt_file_not_found():
-    agent = "non_existent_agent"
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_prompt(agent)
-        assert result is None
+2025-04-15 14:07:49,765 - INFO - ---------------
+2025-04-15 14:07:50,736 - INFO - Test Result 1- True
+2025-04-15 14:07:50,736 - INFO - Test Error 1 - s                                                                        [100%]
+============================== warnings summary ===============================
+temp\temp.py:5
+  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:5: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.asyncio
 
-def test_initialise_settings_success():
-    agent = "test_agent"
-    settings_data = {"setting1": "value1", "setting2": "value2"}
+temp/temp.py::test_openai_llm_execute_text_generation
+  C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:148: PytestUnhandledCoroutineWarning: async def functions are not natively supported and have been skipped.
+  You need to install a suitable plugin for your async framework, for example:
+    - anyio
+    - pytest-asyncio
+    - pytest-tornasync
+    - pytest-trio
+    - pytest-twisted
+    warnings.warn(PytestUnhandledCoroutineWarning(msg.format(nodeid)))
 
-    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=yaml.dump(settings_data))) as mock_file:
-        with patch("theory_evaluation.llm_utils.yaml.safe_load", return_value=settings_data):
-            result = initialise_settings(agent)
-            assert result == settings_data
-            mock_file.assert_called_once_with(f"./theory_evaluation/evaluator/prompts/{agent}/llm_settings.yaml")
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 skipped, 2 warnings in 0.07s
+2025-04-15 14:07:50,736 - INFO - 
 
-def test_initialise_settings_file_not_found():
-    agent = "non_existent_agent"
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_settings(agent)
-        assert result is None
-```
-. Output only unit test cases. No Markdown formatting, explanations, or docstrings. Do NOT wrap your output in backticks
-2025-04-15 14:05:43,379 - INFO - [1mEnd Processing file: theory_evaluation\llm_utils.py[0m
+2025-04-15 14:07:50,736 - INFO - TEST CASE 3 Retry 0
+2025-04-15 14:07:50,736 - INFO - ---------------
+2025-04-15 14:07:50,736 - INFO - 
+import pytest
+from unittest.mock import patch
 
-2025-04-15 14:05:43,379 - INFO - [1mStart Processing file: theory_evaluation\__init__.py[0m
-2025-04-15 14:05:43,380 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
+
+@pytest.mark.asyncio
+async def test_openai_llm_execute_vision():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
+        mock_run.return_value = AsyncMock()
+        mock_run.return_value.__aiter__.return_value = iter(['response'])
+        llm = OpenAI_llm(message='Test message', output='json', mode='vision', image_input='mock_image_input')
+        responses = []
+        async for response in llm.execute():
+            responses.append(response)
+        assert responses == ['response']
+        assert mock_run.called
+
+2025-04-15 14:07:50,736 - INFO - ---------------
+2025-04-15 14:07:51,516 - INFO - Test Result 1- True
+2025-04-15 14:07:51,517 - INFO - Test Error 1 - s                                                                        [100%]
+============================== warnings summary ===============================
+temp\temp.py:5
+  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:5: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.asyncio
+
+temp/temp.py::test_openai_llm_execute_vision
+  C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:148: PytestUnhandledCoroutineWarning: async def functions are not natively supported and have been skipped.
+  You need to install a suitable plugin for your async framework, for example:
+    - anyio
+    - pytest-asyncio
+    - pytest-tornasync
+    - pytest-trio
+    - pytest-twisted
+    warnings.warn(PytestUnhandledCoroutineWarning(msg.format(nodeid)))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 skipped, 2 warnings in 0.06s
+2025-04-15 14:07:51,517 - INFO - 
+
+2025-04-15 14:07:51,517 - INFO - TEST CASE 4 Retry 0
+2025-04-15 14:07:51,517 - INFO - ---------------
+2025-04-15 14:07:51,517 - INFO - 
+import pytest
+from unittest.mock import patch
+
+
+@pytest.mark.asyncio
+async def test_openai_llm_openai_json_completion():
+    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
+        mock_client = MagicMock()
+        mock_openai.return_value = mock_client
+        mock_client.chat.completions.create.return_value.choices = [MagicMock(message=MagicMock(content='{"key": "value"}'))]
+        llm = OpenAI_llm(message='Test message')
+        result = await llm._OpenAI_JSON_Completion()
+        assert result == {"key": "value"}
+        assert mock_client.chat.completions.create.called
+
+2025-04-15 14:07:51,517 - INFO - ---------------
+2025-04-15 14:07:52,284 - INFO - Test Result 1- True
+2025-04-15 14:07:52,285 - INFO - Test Error 1 - s                                                                        [100%]
+============================== warnings summary ===============================
+temp\temp.py:5
+  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:5: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.asyncio
+
+temp/temp.py::test_openai_llm_openai_json_completion
+  C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:148: PytestUnhandledCoroutineWarning: async def functions are not natively supported and have been skipped.
+  You need to install a suitable plugin for your async framework, for example:
+    - anyio
+    - pytest-asyncio
+    - pytest-tornasync
+    - pytest-trio
+    - pytest-twisted
+    warnings.warn(PytestUnhandledCoroutineWarning(msg.format(nodeid)))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 skipped, 2 warnings in 0.08s
+2025-04-15 14:07:52,285 - INFO - 
+
+2025-04-15 14:07:52,285 - INFO - TEST CASE 5 Retry 0
+2025-04-15 14:07:52,285 - INFO - ---------------
+2025-04-15 14:07:52,285 - INFO - 
+import pytest
+from unittest.mock import patch
+
+
+@pytest.mark.asyncio
+async def test_openai_llm_openai_streaming():
+    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
+        mock_client = MagicMock()
+        mock_openai.return_value = mock_client
+        mock_client.chat.completions.create.return_value = iter([MagicMock(choices=[MagicMock(delta=MagicMock(content='chunk'))])])
+        llm = OpenAI_llm(message='Test message')
+        result = []
+        async for chunk in llm._OpenAI_Streaming():
+            result.append(chunk)
+        assert result == ['chunk']
+        assert mock_client.chat.completions.create.called
+
+2025-04-15 14:07:52,285 - INFO - ---------------
+2025-04-15 14:07:53,149 - INFO - Test Result 1- True
+2025-04-15 14:07:53,149 - INFO - Test Error 1 - s                                                                        [100%]
+============================== warnings summary ===============================
+temp\temp.py:5
+  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:5: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.asyncio
+
+temp/temp.py::test_openai_llm_openai_streaming
+  C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:148: PytestUnhandledCoroutineWarning: async def functions are not natively supported and have been skipped.
+  You need to install a suitable plugin for your async framework, for example:
+    - anyio
+    - pytest-asyncio
+    - pytest-tornasync
+    - pytest-trio
+    - pytest-twisted
+    warnings.warn(PytestUnhandledCoroutineWarning(msg.format(nodeid)))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 skipped, 2 warnings in 0.17s
+2025-04-15 14:07:53,149 - INFO - 
+
+2025-04-15 14:07:53,150 - INFO - TEST CASE 6 Retry 0
+2025-04-15 14:07:53,150 - INFO - ---------------
+2025-04-15 14:07:53,150 - INFO - 
+import pytest
+from unittest.mock import patch
+
+
+@pytest.mark.asyncio
+async def test_openai_llm_openai_chat_completion():
+    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
+        mock_client = MagicMock()
+        mock_openai.return_value = mock_client
+        mock_client.chat.completions.create.return_value.choices = [MagicMock(message=MagicMock(content='response'))]
+        llm = OpenAI_llm(message='Test message')
+        result = await llm._OpenAI_Chat_Completion()
+        assert result == 'response'
+        assert mock_client.chat.completions.create.called
+
+2025-04-15 14:07:53,150 - INFO - ---------------
+2025-04-15 14:07:53,795 - INFO - Test Result 1- True
+2025-04-15 14:07:53,795 - INFO - Test Error 1 - s                                                                        [100%]
+============================== warnings summary ===============================
+temp\temp.py:5
+  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:5: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.asyncio
+
+temp/temp.py::test_openai_llm_openai_chat_completion
+  C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:148: PytestUnhandledCoroutineWarning: async def functions are not natively supported and have been skipped.
+  You need to install a suitable plugin for your async framework, for example:
+    - anyio
+    - pytest-asyncio
+    - pytest-tornasync
+    - pytest-trio
+    - pytest-twisted
+    warnings.warn(PytestUnhandledCoroutineWarning(msg.format(nodeid)))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 skipped, 2 warnings in 0.04s
+2025-04-15 14:07:53,796 - INFO - [1mEnd Processing file: theory_evaluation\llm_handler.py[0m
+
+2025-04-15 14:07:53,796 - INFO - [1mStart Processing file: theory_evaluation\llm_utils.py[0m
+2025-04-15 14:08:00,567 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 14:08:06,538 - INFO - [1mEnd Processing file: theory_evaluation\llm_utils.py[0m
+
+2025-04-15 14:08:06,538 - INFO - [1mStart Processing file: theory_evaluation\__init__.py[0m
+2025-04-15 14:08:06,540 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
 

@@ -1,23 +1,14 @@
-import asyncio
-import json
-import os
+import pytest
+from unittest.mock import patch
 
-from openai import AzureOpenAI, OpenAI
-
-@pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
-        yield mock_openai
-
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai:
-        yield mock_azure_openai
 
 @pytest.mark.asyncio
-async def test_execute_vision(mock_openai):
-    mock_client = MagicMock()
-    mock_response = MagicMock()
-    mock_response.choices = [MagicMock(message=MagicMock(content="vision content"))]
-    mock_client.chat.completions.create.return_value = mock_response
-    mock_openai.return_value = mock_client
+async def test_openai_llm_openai_chat_completion():
+    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
+        mock_client = MagicMock()
+        mock_openai.return_value = mock_client
+        mock_client.chat.completions.create.return_value.choices = [MagicMock(message=MagicMock(content='response'))]
+        llm = OpenAI_llm(message='Test message')
+        result = await llm._OpenAI_Chat_Completion()
+        assert result == 'response'
+        assert mock_client.chat.completions.create.called

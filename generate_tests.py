@@ -555,7 +555,7 @@ def run_each_pytest_function_individually(
     # logger.info(f"test_cases_str - \n{test_cases_str}\n")
     test_cases = extract_test_functions(test_cases_str)
 
-    success_test_cases = ""
+    success_test_cases = f"{import_statements}\n{pytest_fixture}"
     for idx, test_case in enumerate(test_cases, start=1):
         passed = 0
         count = 0
@@ -580,7 +580,7 @@ def run_each_pytest_function_individually(
                     provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, 
                     temperature
                 )
-                full_test_code = f"{import_statements}\n{pytest_fixture}\n{proposed_test_code}\n"
+                full_test_code = f"{import_statements}\n{proposed_test_code}\n"
                 logger.info(f"TEST CASE {idx} Retry {count}")
                 logger.info(f"---------------")
                 logger.info(f"\n{full_test_code}")
