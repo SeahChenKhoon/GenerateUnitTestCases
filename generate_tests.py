@@ -204,12 +204,17 @@ def _get_python_files(directory: str) -> List[Path]:
     return list(Path(directory).rglob("*.py"))
 
 
-def extract_function_and_class_names(code: str):
-    # Match def and async def at any indentation level (including top-level)
-    function_names = re.findall(r'^\s*(?:async\s+)?def\s+([a-zA-Z][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE)
+def extract_function_and_class_names(code: str) -> List[str]:
+    # Match top-level (not indented) functions that do NOT start with '_'
+    function_names = re.findall(
+        r'^(?:async\s+)?def\s+([a-zA-Z][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE
+    )
 
-    # Match class definitions at any indentation level
-    class_names = re.findall(r'^\s*class\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*[:\(]', code, re.MULTILINE)
+    # Match class names (top-level)
+    class_names = re.findall(
+        r'^class\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*[:\(]', code, re.MULTILINE
+    )
+
     return sorted(set(function_names + class_names))
 
 def update_relative_imports(code: str, file_path: str) -> str:
@@ -603,7 +608,6 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
 
     try:
         source_code = source_code_path.read_text(encoding="utf-8")
-        logger.info(f"source_code - {source_code}")
         function_names = extract_function_and_class_names(source_code)
         if not function_names:
             logger.warning(f"No public functions found in {source_code_path}. Skipping test generation.\n")
