@@ -558,6 +558,7 @@ def run_each_pytest_function_individually(
     test_cases = extract_test_functions(test_cases_str)
 
     initial_template = f"{import_statements}\n{pytest_fixture}"
+    success_test_cases = ""
     for idx, test_case in enumerate(test_cases, start=1):
         passed = 0
         count = 0
