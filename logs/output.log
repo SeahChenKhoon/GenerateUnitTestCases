@@ -1,48 +1,110 @@
-2025-04-15 11:19:51,703 - INFO - Loading environment variables...
-2025-04-15 11:19:52,062 - INFO - [1mStart Processing file: theory_evaluation\llm_handler.py[0m
-2025-04-15 11:20:02,881 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 11:20:06,666 - INFO - pytest_fixture - 
-@pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
-        yield mock_openai
+2025-04-15 11:23:01,864 - INFO - Loading environment variables...
+2025-04-15 11:23:02,209 - INFO - [1mStart Processing file: theory_evaluation\llm_handler.py[0m
+2025-04-15 11:23:18,317 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 11:23:26,609 - INFO - pytest_fixture - 
+@pytest.mark.asyncio
+async def test_openai_llm_initialization():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai, \
+         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
+         patch.dict(os.environ, {'AZURE_OPENAI_ENDPOINT_SWEDEN': 'test_endpoint', 'AZURE_OPENAI_API_VERSION': 'v1', 'OPENAI_API_KEY': 'test_key'}):
+        
+        llm = OpenAI_llm(useAzureOpenAI=True)
+        assert llm.azure_endpoint == 'test_endpoint'
+        assert llm.api_version == 'v1'
+        assert hasattr(llm, 'client')
+        assert mock_azure_openai.called
 
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai:
-        yield mock_azure_openai
+        llm = OpenAI_llm(useAzureOpenAI=False)
+        assert hasattr(llm, 'client')
+        assert mock_openai.called
 
-@pytest.fixture
-def mock_env_vars(monkeypatch):
-    monkeypatch.setenv("AZURE_OPENAI_ENDPOINT_SWEDEN", "test_endpoint")
-    monkeypatch.setenv("AZURE_OPENAI_API_VERSION", "test_version")
-    monkeypatch.setenv("AZURE_OPENAI_API_KEY_SWEDEN", "test_api_key")
-    monkeypatch.setenv("OPENAI_API_KEY", "test_openai_key")
-    monkeypatch.setenv("AZURE_OPENAI_DEPLOYMENT_NAME", "test_deployment_name")
-    monkeypatch.setenv("OPENAI_DEPLOYMENT_NAME", "test_openai_deployment_name")
+@pytest.mark.asyncio
+async def test_openai_json_completion():
+    mock_response = MagicMock()
+    mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to life, the universe, and everything."})
+    
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=AsyncMock) as mock_client:
+        mock_client.chat.completions.create.return_value = mock_response
+        
+        llm = OpenAI_llm()
+        result = await llm._OpenAI_JSON_Completion()
+        assert result == {"answer": "42", "explanation": "The answer to life, the universe, and everything."}
 
-2025-04-15 11:20:14,665 - ERROR - Failed processing theory_evaluation\llm_handler.py: expected string or bytes-like object, got 'NoneType'
-2025-04-15 11:20:14,666 - INFO - [1mEnd Processing file: theory_evaluation\llm_handler.py[0m
+@pytest.mark.asyncio
+async def test_openai_streaming():
+    mock_chunk = MagicMock()
+    mock_chunk.choices[0].delta.content = "streaming content"
+    
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=AsyncMock) as mock_client:
+        mock_client.chat.completions.create.return_value = [mock_chunk]
+        
+        llm = OpenAI_llm(output="stream")
+        result = [chunk async for chunk in llm._OpenAI_Streaming()]
+        assert result == ["streaming content"]
 
-2025-04-15 11:20:14,666 - INFO - [1mStart Processing file: theory_evaluation\llm_utils.py[0m
-2025-04-15 11:20:19,661 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 11:20:21,354 - INFO - pytest_fixture - 
+@pytest.mark.asyncio
+async def test_openai_chat_completion():
+    mock_response = MagicMock()
+    mock_response.choices[0].message.content = "Chat completion content"
+    
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=AsyncMock) as mock_client:
+        mock_client.chat.completions.create.return_value = mock_response
+        
+        llm = OpenAI_llm()
+        result = await llm._OpenAI_Chat_Completion()
+        assert result == "Chat completion content"
+
+@pytest.mark.asyncio
+async def test_execute_text_generation():
+    mock_response = MagicMock()
+    mock_response.choices[0].message.content = "Generated text"
+    
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=AsyncMock) as mock_client:
+        mock_client.chat.completions.create.return_value = mock_response
+        
+        llm = OpenAI_llm(mode="text_generation")
+        result = [response async for response in llm.execute()]
+        assert result == ["Generated text"]
+
+@pytest.mark.asyncio
+async def test_execute_vision():
+    mock_response = MagicMock()
+    mock_response.choices[0].message.content = "Vision response"
+    
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=AsyncMock) as mock_client:
+        mock_client.chat.completions.create.return_value = mock_response
+        
+        llm = OpenAI_llm(mode="vision", image_input="test_image")
+        result = [response async for response in llm.execute()]
+        assert result == ["Vision response"]
+
+2025-04-15 11:23:37,702 - INFO - test_cases_str - 
+None
+
+2025-04-15 11:23:37,703 - ERROR - Failed processing theory_evaluation\llm_handler.py: expected string or bytes-like object, got 'NoneType'
+2025-04-15 11:23:37,704 - INFO - [1mEnd Processing file: theory_evaluation\llm_handler.py[0m
+
+2025-04-15 11:23:37,705 - INFO - [1mStart Processing file: theory_evaluation\llm_utils.py[0m
+2025-04-15 11:23:43,674 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 11:23:44,912 - INFO - pytest_fixture - 
 @pytest.fixture
 def mock_open_files():
     prompt_content = "Hello, {$name}!"
-    config_content = "name: TestName"
-    settings_content = "setting: TestSetting"
-    m_open = mock_open(read_data=prompt_content)
-    m_open.side_effect = [
-        mock_open(read_data=config_content).return_value,
-        mock_open(read_data=prompt_content).return_value,
-        mock_open(read_data=settings_content).return_value,
-    ]
-    return m_open
+    config_content = "name: World"
+    settings_content = "setting: value"
+    mock_files = {
+        "./theory_evaluation/evaluator/prompts/test_agent/config.yaml": config_content,
+        "./theory_evaluation/evaluator/prompts/test_agent/prompt.txt": prompt_content,
+        "./theory_evaluation/evaluator/prompts/test_agent/llm_settings.yaml": settings_content,
+    }
+    return mock_files
 
-2025-04-15 11:20:24,060 - ERROR - Failed processing theory_evaluation\llm_utils.py: expected string or bytes-like object, got 'NoneType'
-2025-04-15 11:20:24,060 - INFO - [1mEnd Processing file: theory_evaluation\llm_utils.py[0m
+2025-04-15 11:23:48,165 - INFO - test_cases_str - 
+None
 
-2025-04-15 11:20:24,061 - INFO - [1mStart Processing file: theory_evaluation\__init__.py[0m
-2025-04-15 11:20:24,062 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
+2025-04-15 11:23:48,166 - ERROR - Failed processing theory_evaluation\llm_utils.py: expected string or bytes-like object, got 'NoneType'
+2025-04-15 11:23:48,166 - INFO - [1mEnd Processing file: theory_evaluation\llm_utils.py[0m
+
+2025-04-15 11:23:48,166 - INFO - [1mStart Processing file: theory_evaluation\__init__.py[0m
+2025-04-15 11:23:48,167 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
 
