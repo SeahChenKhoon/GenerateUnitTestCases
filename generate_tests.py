@@ -210,7 +210,8 @@ def extract_function_and_class_names(code: str):
 
     # Match class definitions at any indentation level
     class_names = re.findall(r'^\s*class\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE)
-
+    logger.info("Hello World")
+    logger.info(class_names)
     return sorted(set(function_names + class_names))
 
 def update_relative_imports(code: str, file_path: str) -> str:
