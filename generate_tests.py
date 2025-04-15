@@ -566,7 +566,7 @@ def run_each_pytest_function_individually(
                 passed, test_case_error = run_single_test_file(temp_file)
                 if passed:
                     initial_template = f"{import_statements}\n{pytest_fixture}"
-                    import_statements = "\n" + identify_import_statements(provider, model_arg, llm_import_prompt, import_statements, test_case, 
+                    import_statements = "\n" + identify_import_statements(provider, model_arg, llm_new_import_prompt, import_statements, test_case, 
                     temperature)
                     logger.info(f"New import Statements {count + 1} - \n{import_statements}")
                 logger.info(f"Test Result {count + 1}- {passed}")
