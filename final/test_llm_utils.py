@@ -5,10 +5,10 @@ import yaml
 def test_initialise_prompt():
     agent = "test_agent"
     config_path = "./theory_evaluation/evaluator/prompts"
-    config_yaml = "key: value"
-    prompt_txt = "This is a {$key} prompt."
+    mock_config_values = {"placeholder1": "value1", "placeholder2": "value2"}
+    mock_prompt_structure = "This is a {$placeholder1} and {$placeholder2} test."
 
 def test_initialise_settings():
     agent = "test_agent"
     config_path = "./theory_evaluation/evaluator/prompts"
-    settings_yaml = "key: value"
+    mock_llm_settings = {"setting1": "value1", "setting2": "value2"}

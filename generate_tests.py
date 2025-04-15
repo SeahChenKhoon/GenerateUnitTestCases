@@ -566,8 +566,8 @@ def run_each_pytest_function_individually(
             save_test_case_to_temp_file(import_statements, test_case, temp_file)
             passed, test_case_error = run_single_test_file(temp_file)
 
-            logger.info(f"passed {count + 1}- {passed}")
-            logger.info(f"test_case_error {count + 1} - {test_case_error}")
+            logger.info(f"Test Result {count + 1}- {passed}")
+            logger.info(f"Test Error {count + 1} - {test_case_error}")
 
             max_retries = 2
             while count < max_retries and not passed:
@@ -580,13 +580,13 @@ def run_each_pytest_function_individually(
                     provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, 
                     temperature
                 )
-                logger.info(f"proposed_test_case {count + 1}- {proposed_test_case}")
+                logger.info(f"proposed_test_case {count + 1}-\n{proposed_test_case}")
 
                 save_test_case_to_temp_file(import_statements, test_case, temp_file)
                 passed, test_case_error = run_single_test_file(temp_file)
 
-                logger.info(f"passed {count + 1}- {passed}")
-                logger.info(f"test_case_error {count + 1} - {test_case_error}")
+                logger.info(f"Test Result {count + 1}- {passed}")
+                logger.info(f"Test Error {count + 1} - {test_case_error}")
 
             if passed:
                 success_test_cases += "\n" + test_case + "\n"
