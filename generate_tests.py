@@ -557,28 +557,28 @@ def run_each_pytest_function_individually(
 ) -> str:
     # Extract each test function body individually
     pytest_fixture = extract_pytest_fixture(provider, model_arg, llm_pytest_fixture_prompt, test_code, temperature)
-    logger.info(f"pytest_fixture - \n{pytest_fixture}\n")
+    # logger.info(f"pytest_fixture - \n{pytest_fixture}\n")
     test_cases_str = extract_test_cases_from_code(provider, model_arg, llm_test_cases_prompt, test_code, temperature)
-    logger.info(f"test_cases_str - \n{test_cases_str}\n")
+    # logger.info(f"test_cases_str - \n{test_cases_str}\n")
     test_cases = extract_test_functions(test_cases_str)
 
     success_test_cases = ""
     for idx, test_case in enumerate(test_cases, start=1):
-    #     passed = 0
+        passed = 0
         count = 0
-        full_test_code = f"{import_statements}\n{pytest_fixture}\n{test_case}\n"
+        full_test_code = f"{import_statements}\n{pytest_fixture}\n\n{test_case}\n"
         logger.info(f"\n")
         logger.info(f"TEST CASE {idx} Retry {count}")
         logger.info(f"---------------")
         logger.info(f"\n{full_test_code}")
         logger.info(f"---------------")
-    #     try:
+        try:
             
-    #         save_test_case_to_temp_file(full_test_code, temp_file)
-    #         passed, test_case_error = run_single_test_file(temp_file)
+            save_test_case_to_temp_file(full_test_code, temp_file)
+            passed, test_case_error = run_single_test_file(temp_file)
 
-    #         logger.info(f"Test Result {count + 1}- {passed}")
-    #         logger.info(f"Test Error {count + 1} - {test_case_error}")
+            logger.info(f"Test Result {count + 1}- {passed}")
+            logger.info(f"Test Error {count + 1} - {test_case_error}")
 
     #         max_retries = 2
     #         while count < max_retries and not passed:
@@ -607,8 +607,8 @@ def run_each_pytest_function_individually(
     #         else:
     #             logger.info(f"Failed after all retries for test case {idx}")
 
-    #     except Exception as e:
-    #         logger.exception(f"Exception occurred while processing test case {idx}: {e}")
+        except Exception as e:
+            logger.exception(f"Exception occurred while processing test case {idx}: {e}")
 
     return success_test_cases
 
