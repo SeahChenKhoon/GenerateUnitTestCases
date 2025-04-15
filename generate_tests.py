@@ -113,8 +113,8 @@ def _load_env_variables() -> Dict[str, Any]:
         "llm_import_prompt": os.getenv("LLM_IMPORT_PROMPT"),
         "llm_new_import_prompt": os.getenv("LLM_NEW_IMPORT_PROMPT"),
         "llm_resolve_prompt": os.getenv("LLM_RESOLVE_PROMPT"),
-        "llm_pytest_fixture_prompt": os.getenv("LLM_PYTEST_FIXTURE_PROMPT")
-        
+        "llm_pytest_fixture_prompt": os.getenv("LLM_PYTEST_FIXTURE_PROMPT"),
+        "llm_test_cases_prompt": os.getenv("LLM_TEST_CASES_PROMPT")
     }
 
 
@@ -455,31 +455,15 @@ def save_test_file(src_dir: Path, test_dir: Path, original_path: Path, test_code
     return test_path
 
 
-def extract_test_cases_from_code(test_code: str) -> List[str]:
-    """
-    Extracts each full test case (with decorators and body) from a test file's code.
-
-    A test case is defined as any top-level function whose name starts with `test_`,
-    optionally preceded by one or more decorators.
-
-    Args:
-        test_code (str): The raw test file source code.
-
-    Returns:
-        List[str]: A list of full test function blocks as strings.
-    """
-    pattern = re.compile(
-        r"""
-        (                                   # Capture the entire function + decorators
-            (?:@[\w\.]+\s*(?:\([^\n]*\))?\n)*  # Optional decorators
-            def\s+test_[\w_]+\s*\(.*?\):       # The function signature
-            (?:\n(?:[ \t]+.+))+                # The indented body lines
-        )
-        """,
-        re.VERBOSE | re.MULTILINE
+def extract_test_cases_from_code(provider, model_arg, llm_test_cases_prompt, test_code, 
+                    temperature):
+    logger.info(f"Hello World 1")
+    formatted_prompt = llm_test_cases_prompt.format(
+        unit_test_file=test_code
     )
-    return pattern.findall(test_code)
-
+    logger.info(f"Hello World 1 - formatted_prompt - {formatted_prompt}")
+    response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
+    return strip_markdown_fences(response.choices[0].message.content.strip())
 
 def save_test_case_to_temp_file(full_test_code: str, temp_path: Path) -> None:
     temp_path.write_text(full_test_code, encoding="utf-8")
@@ -541,7 +525,6 @@ def extract_pytest_fixture(provider, model_arg, llm_pytest_fixture_prompt, test_
     formatted_prompt = llm_pytest_fixture_prompt.format(
         unit_test_file=test_code
     )
-    logger.info(f"Hello World 1 - formatted_prompt - {formatted_prompt}")
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
     return strip_markdown_fences(response.choices[0].message.content.strip())
     
@@ -552,6 +535,7 @@ def run_each_pytest_function_individually(
     llm_resolve_prompt,
     llm_new_import_prompt, 
     llm_pytest_fixture_prompt,
+    llm_test_cases_prompt,
     import_statements,
     source_code: str,
     test_code: str,
@@ -559,13 +543,13 @@ def run_each_pytest_function_individually(
 ) -> str:
     # Extract each test function body individually
     pytest_fixture = extract_pytest_fixture(provider, model_arg, llm_pytest_fixture_prompt, test_code, temperature)
-    logger.info(f"pytest_fixture - {pytest_fixture}")
-    test_cases = extract_test_cases_from_code(test_code)
+    test_cases = extract_test_cases_from_code(provider, model_arg, llm_test_cases_prompt, test_code, temperature)
+
     success_test_cases = ""
     for idx, test_case in enumerate(test_cases, start=1):
         passed = 0
         count = 0
-        full_test_code = f"{import_statements}\n{test_case}\n"
+        full_test_code = f"{import_statements}\n{pytest_fixture}\n{test_case}\n"
         logger.info(f"\n")
         logger.info(f"TEST CASE {idx} Retry {count}")
         logger.info(f"---------------")
@@ -586,7 +570,7 @@ def run_each_pytest_function_individually(
                     provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, 
                     temperature
                 )
-                full_test_code = f"{import_statements}\n{proposed_test_code}\n"
+                full_test_code = f"{import_statements}\n{pytest_fixture}\n{proposed_test_code}\n"
                 logger.info(f"TEST CASE {idx} Retry {count}")
                 logger.info(f"---------------")
                 logger.info(f"\n{full_test_code}")
@@ -643,6 +627,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
 
             test_code = run_each_pytest_function_individually(client, model_arg, temperature, 
                                                               env_vars["llm_resolve_prompt"], env_vars["llm_new_import_prompt"], env_vars["llm_pytest_fixture_prompt"],
+                                                              env_vars["llm_test_cases_prompt"],
                                                               import_statements, source_code, test_code, Path(env_vars["temp_file"]))
         
             if test_code:
