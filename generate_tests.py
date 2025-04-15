@@ -457,9 +457,11 @@ def save_test_file(src_dir: Path, test_dir: Path, original_path: Path, test_code
 
 def extract_test_cases_from_code(provider, model_arg, llm_test_cases_prompt, test_code, 
                     temperature):
+    
     formatted_prompt = llm_test_cases_prompt.format(
         unit_test_file=test_code
     )
+    logger.info(f"llm_test_cases_prompt - {formatted_prompt}")
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
     strip_markdown_fences(response.choices[0].message.content.strip())
     return 

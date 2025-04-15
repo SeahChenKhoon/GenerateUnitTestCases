@@ -1,46 +1,47 @@
-2025-04-15 11:28:51,769 - INFO - Loading environment variables...
-2025-04-15 11:28:52,079 - INFO - [1mStart Processing file: theory_evaluation\llm_handler.py[0m
-2025-04-15 11:29:05,499 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 11:29:06,579 - INFO - pytest_fixture - 
+2025-04-15 11:32:08,303 - INFO - Loading environment variables...
+2025-04-15 11:32:08,839 - INFO - [1mStart Processing file: theory_evaluation\llm_handler.py[0m
+2025-04-15 11:32:22,077 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 11:32:23,245 - INFO - pytest_fixture - 
 @pytest.fixture
-def mock_openai_client():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
-         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
-        yield mock_azure, mock_openai
+def mock_openai():
+    with patch('theory_evaluation.llm_handler.OpenAI') as mock:
+        yield mock
 
-2025-04-15 11:29:13,625 - INFO - test_cases_str - 
+@pytest.fixture
+def mock_azure_openai():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock:
+        yield mock
+
+2025-04-15 11:32:30,887 - INFO - test_cases_str - 
 None
 
-2025-04-15 11:29:13,627 - ERROR - Failed processing theory_evaluation\llm_handler.py: expected string or bytes-like object, got 'NoneType'
-2025-04-15 11:29:13,630 - INFO - [1mEnd Processing file: theory_evaluation\llm_handler.py[0m
+2025-04-15 11:32:30,889 - ERROR - Failed processing theory_evaluation\llm_handler.py: expected string or bytes-like object, got 'NoneType'
+2025-04-15 11:32:30,893 - INFO - [1mEnd Processing file: theory_evaluation\llm_handler.py[0m
 
-2025-04-15 11:29:13,631 - INFO - [1mStart Processing file: theory_evaluation\llm_utils.py[0m
-2025-04-15 11:29:19,037 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 11:29:20,519 - INFO - pytest_fixture - 
+2025-04-15 11:32:30,893 - INFO - [1mStart Processing file: theory_evaluation\llm_utils.py[0m
+2025-04-15 11:32:36,657 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 11:32:38,207 - INFO - pytest_fixture - 
 @pytest.fixture
-def mock_open_files():
-    prompt_content = "Hello, {$name}!"
-    config_content = "name: World"
-    settings_content = "setting1: value1"
+def mock_open_file():
+    with patch("builtins.open", mock_open(read_data="data")) as mock_file:
+        yield mock_file
 
-    def open_side_effect(file_path, mode='r'):
-        if "prompt.txt" in file_path:
-            return mock_open(read_data=prompt_content).return_value
-        elif "config.yaml" in file_path:
-            return mock_open(read_data=config_content).return_value
-        elif "llm_settings.yaml" in file_path:
-            return mock_open(read_data=settings_content).return_value
-        else:
-            raise FileNotFoundError
+@pytest.fixture
+def mock_yaml_load():
+    with patch("yaml.load", return_value={"key": "value"}) as mock_yaml:
+        yield mock_yaml
 
-    return open_side_effect
+@pytest.fixture
+def mock_yaml_safe_load():
+    with patch("yaml.safe_load", return_value={"key": "value"}) as mock_yaml_safe:
+        yield mock_yaml_safe
 
-2025-04-15 11:29:24,753 - INFO - test_cases_str - 
+2025-04-15 11:32:50,380 - INFO - test_cases_str - 
 None
 
-2025-04-15 11:29:24,753 - ERROR - Failed processing theory_evaluation\llm_utils.py: expected string or bytes-like object, got 'NoneType'
-2025-04-15 11:29:24,753 - INFO - [1mEnd Processing file: theory_evaluation\llm_utils.py[0m
+2025-04-15 11:32:50,380 - ERROR - Failed processing theory_evaluation\llm_utils.py: expected string or bytes-like object, got 'NoneType'
+2025-04-15 11:32:50,381 - INFO - [1mEnd Processing file: theory_evaluation\llm_utils.py[0m
 
-2025-04-15 11:29:24,754 - INFO - [1mStart Processing file: theory_evaluation\__init__.py[0m
-2025-04-15 11:29:24,755 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
+2025-04-15 11:32:50,381 - INFO - [1mStart Processing file: theory_evaluation\__init__.py[0m
+2025-04-15 11:32:50,381 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
 
