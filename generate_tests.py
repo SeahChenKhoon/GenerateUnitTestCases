@@ -31,8 +31,6 @@ if logger.hasHandlers():
 # Add the file handler
 logger.addHandler(file_handler)
 
-BOLD = "\033[1m"
-RESET = "\033[0m"
 
 def _initialize_llm(env_vars: dict) -> Tuple[Union[OpenAI, AzureOpenAI], str]:
     """
@@ -348,7 +346,7 @@ def get_chat_completion(provider: Any, model: str, prompt: str, temperature: flo
         temperature=temperature,
     )
 
-def identify_new_import(provider, model_arg, llm_new_import_prompt, import_statements, full_test_code, source_code, 
+def identify_new_import(provider, model_arg, llm_new_import_prompt, import_statements, full_test_code, 
                     temperature):
 
     formatted_prompt = llm_new_import_prompt.format(
@@ -593,6 +591,8 @@ def run_each_pytest_function_individually(
                 passed, test_case_error = run_single_test_file(temp_file)
                 if passed:
                     initial_template = f"{import_statements}\n{pytest_fixture}"
+                    import_statements += "\n" + identify_new_import(provider, model_arg, llm_new_import_prompt, import_statements, test_case, 
+                    temperature)
                     logger.info(f"New import Statements {count + 1}- {import_statements}")
                 logger.info(f"Test Result {count + 1}- {passed}")
                 logger.info(f"Test Error {count + 1} - \n{test_case_error}")
@@ -609,7 +609,7 @@ def run_each_pytest_function_individually(
 
 
 def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg: str, env_vars: dict) -> None:
-    logger.info(f"{BOLD}Start Processing file: {source_code_path}{RESET}")
+    logger.info(f"Start Processing file: {source_code_path}")
 
     try:
         source_code = source_code_path.read_text(encoding="utf-8")
@@ -653,7 +653,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
     except Exception as e:
         logger.error(f"Failed processing {source_code_path}: {e}")
 
-    logger.info(f"{BOLD}End Processing file: {source_code_path}{RESET}\n")
+    logger.info(f"End Processing file: {source_code_path}\n")
 
 
 def main() -> NoReturn:
