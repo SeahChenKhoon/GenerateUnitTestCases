@@ -358,18 +358,7 @@ def identify_new_import(provider, model_arg, llm_new_import_prompt, import_state
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
 def generate_import_statement(function_names: List[str], source_code_path: str) -> str:
-    """
-    Generates a Python import statement for the given function/class names from a source file path,
-    excluding any names prefixed with an underscore (_) and any functions defined within a class.
-
-    Args:
-        function_names (List[str]): A list of function or class names to import.
-        source_code_path (str): Path to the source file, e.g., 'theory_evaluation/models.py'.
-
-    Returns:
-        str: A valid Python import statement.
-    """
-    # Read the source code
+    logger.info(f"function_names - {function_names}")
     source_path = Path(source_code_path)
     if not source_path.exists():
         raise FileNotFoundError(f"{source_code_path} does not exist.")
