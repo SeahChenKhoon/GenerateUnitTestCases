@@ -556,6 +556,7 @@ def run_each_pytest_function_individually(
     test_cases = extract_test_functions(test_cases_str)
 
     success_test_cases = ""
+    initial_template = ""
     for idx, test_case in enumerate(test_cases, start=1):
         passed = 0
         count = 0

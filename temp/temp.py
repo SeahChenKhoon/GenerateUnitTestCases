@@ -5,16 +5,12 @@ import os
 from openai import AzureOpenAI, OpenAI
 
 import pytest
-from unittest.mock import patch
-@pytest.fixture
-def mock_openai_client():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
-         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
-        yield mock_azure, mock_openai
+
 
 @pytest.mark.asyncio
-async def test_execute_vision(mock_openai_client):
-    _, mock_openai = mock_openai_client
-    mock_response = AsyncMock()
-    mock_response.choices[0].message.content = "vision response"
-    mock_openai.return_value.chat.completions.create.return_value = mock_response
+async def test_execute_vision_mode():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', return_value=AsyncMock(__aiter__=lambda s: iter(["Test response"]))) as mock_run:
+        llm = OpenAI_llm(message="Test message", mode="vision", image_input="image_data")
+        result = [response async for response in llm.execute()]
+        assert result == ["Test response"]
+        assert mock_run.called
