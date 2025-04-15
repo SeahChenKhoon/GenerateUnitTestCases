@@ -1,13 +1,14 @@
-2025-04-15 10:36:31,522 - INFO - Loading environment variables...
-2025-04-15 10:36:31,841 - INFO - [1mStart Processing file: theory_evaluation\llm_handler.py[0m
-2025-04-15 10:36:44,293 - ERROR - Failed processing theory_evaluation\llm_handler.py: 'llm_pytest_fixture'
-2025-04-15 10:36:44,293 - INFO - [1mEnd Processing file: theory_evaluation\llm_handler.py[0m
+2025-04-15 10:38:33,690 - INFO - Loading environment variables...
+2025-04-15 10:38:34,051 - INFO - [1mStart Processing file: theory_evaluation\llm_handler.py[0m
+2025-04-15 10:38:47,111 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 10:38:47,116 - ERROR - Failed processing theory_evaluation\llm_handler.py: 'llm_pytest_fixture'
+2025-04-15 10:38:47,117 - INFO - [1mEnd Processing file: theory_evaluation\llm_handler.py[0m
 
-2025-04-15 10:36:44,294 - INFO - [1mStart Processing file: theory_evaluation\llm_utils.py[0m
-2025-04-15 10:36:49,829 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 10:36:49,834 - ERROR - Failed processing theory_evaluation\llm_utils.py: 'llm_pytest_fixture'
-2025-04-15 10:36:49,834 - INFO - [1mEnd Processing file: theory_evaluation\llm_utils.py[0m
+2025-04-15 10:38:47,117 - INFO - [1mStart Processing file: theory_evaluation\llm_utils.py[0m
+2025-04-15 10:38:52,919 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 10:38:52,923 - ERROR - Failed processing theory_evaluation\llm_utils.py: 'llm_pytest_fixture'
+2025-04-15 10:38:52,924 - INFO - [1mEnd Processing file: theory_evaluation\llm_utils.py[0m
 
-2025-04-15 10:36:49,835 - INFO - [1mStart Processing file: theory_evaluation\__init__.py[0m
-2025-04-15 10:36:49,836 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
+2025-04-15 10:38:52,924 - INFO - [1mStart Processing file: theory_evaluation\__init__.py[0m
+2025-04-15 10:38:52,925 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
 
