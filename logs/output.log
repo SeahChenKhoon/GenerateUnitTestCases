@@ -1,384 +1,466 @@
-2025-04-15 08:59:57,502 - INFO - Loading environment variables...
-2025-04-15 08:59:57,826 - INFO - [1mStart Processing file: theory_evaluation\llm_handler.py[0m
-2025-04-15 09:00:06,610 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 09:00:06,616 - INFO - 
+2025-04-15 09:04:47,564 - INFO - Loading environment variables...
+2025-04-15 09:04:47,875 - INFO - [1mStart Processing file: theory_evaluation\llm_handler.py[0m
+2025-04-15 09:04:58,129 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 09:04:58,135 - INFO - 
 
-2025-04-15 09:00:06,616 - INFO - TEST CASE 1 Retry 0
-2025-04-15 09:00:06,616 - INFO - ---------------
-2025-04-15 09:00:06,616 - INFO - 
+2025-04-15 09:04:58,136 - INFO - TEST CASE 1 Retry 0
+2025-04-15 09:04:58,136 - INFO - ---------------
+2025-04-15 09:04:58,136 - INFO - 
 import asyncio
 import json
 import os
 
 from openai import AzureOpenAI, OpenAI
-def test_openai_llm_initialization():
-    llm = OpenAI_llm(
-        useAzureOpenAI=True,
-        azure_endpoint="https://example.com",
-        message="Test message",
-        image_input=None,
-        api_version="v1",
-        model_name="test-model",
-        max_retries=3,
-        output="json",
-        mode="text_generation",
-        config={"temperature": 0.5},
-        verbose=True
-    )
-    assert llm.message == "Test message"
-    assert llm.azure_endpoint == "https://example.com"
-    assert llm.api_version == "v1"
-    assert llm.model_name == "test-model"
-    assert llm.max_retries == 3
-    assert llm.output == "json"
-    assert llm.mode == "text_generation"
-    assert llm.config == {"temperature": 0.5}
-    assert llm.verbose is True
-
-2025-04-15 09:00:06,619 - INFO - ---------------
-2025-04-15 09:00:08,613 - INFO - Test Result 1- False
-2025-04-15 09:00:08,614 - INFO - Test Error 1 - F                                                                        [100%]
-================================== FAILURES ===================================
-_______________________ test_openai_llm_initialization ________________________
-temp\temp.py:7: in test_openai_llm_initialization
-    llm = OpenAI_llm(
-E   NameError: name 'OpenAI_llm' is not defined
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_openai_llm_initialization - NameError: name 'OpenAI...
-1 failed in 1.07s
-2025-04-15 09:00:11,365 - INFO - TEST CASE 1 Retry 1
-2025-04-15 09:00:11,366 - INFO - ---------------
-2025-04-15 09:00:11,366 - INFO - 
-from llm_handler import OpenAI_llm
 
 def test_openai_llm_initialization():
-    llm = OpenAI_llm(
-        useAzureOpenAI=True,
-        azure_endpoint="https://example.com",
-        message="Test message",
-        image_input=None,
-        api_version="v1",
-        model_name="test-model",
-        max_retries=3,
-        output="json",
-        mode="text_generation",
-        config={"temperature": 0.5},
-        verbose=True
-    )
-    assert llm.message == "Test message"
-    assert llm.azure_endpoint == "https://example.com"
-    assert llm.api_version == "v1"
-    assert llm.model_name == "test-model"
-    assert llm.max_retries == 3
-    assert llm.output == "json"
-    assert llm.mode == "text_generation"
-    assert llm.config == {"temperature": 0.5}
-    assert llm.verbose is True
-2025-04-15 09:00:11,366 - INFO - ---------------
-2025-04-15 09:00:12,051 - INFO - Test Result 2- False
-2025-04-15 09:00:12,051 - INFO - Test Error 2 - =================================== ERRORS ====================================
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
+         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
+         patch('theory_evaluation.llm_handler.os.getenv', return_value='mock_value'):
+
+2025-04-15 09:04:58,139 - INFO - ---------------
+2025-04-15 09:04:59,005 - INFO - Test Result 1- False
+2025-04-15 09:04:59,005 - INFO - Test Error 1 - =================================== ERRORS ====================================
 ________________________ ERROR collecting temp/temp.py ________________________
-ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
 C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
     return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:1: in <module>
-    from llm_handler import OpenAI_llm
-E   ModuleNotFoundError: No module named 'llm_handler'
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.13s
-2025-04-15 09:00:14,713 - INFO - TEST CASE 1 Retry 2
-2025-04-15 09:00:14,714 - INFO - ---------------
-2025-04-15 09:00:14,714 - INFO - 
-from llm_handler import OpenAI_llm
-
-def test_openai_llm_initialization():
-    llm = OpenAI_llm(
-        useAzureOpenAI=True,
-        azure_endpoint="https://example.com",
-        message="Test message",
-        image_input=None,
-        api_version="v1",
-        model_name="test-model",
-        max_retries=3,
-        output="json",
-        mode="text_generation",
-        config={"temperature": 0.5},
-        verbose=True
-    )
-    assert llm.message == "Test message"
-    assert llm.azure_endpoint == "https://example.com"
-    assert llm.api_version == "v1"
-    assert llm.model_name == "test-model"
-    assert llm.max_retries == 3
-    assert llm.output == "json"
-    assert llm.mode == "text_generation"
-    assert llm.config == {"temperature": 0.5}
-    assert llm.verbose is True
-2025-04-15 09:00:14,714 - INFO - ---------------
-2025-04-15 09:00:15,499 - INFO - Test Result 3- False
-2025-04-15 09:00:15,500 - INFO - Test Error 3 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:1: in <module>
-    from llm_handler import OpenAI_llm
-E   ModuleNotFoundError: No module named 'llm_handler'
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.18s
-2025-04-15 09:00:15,500 - INFO - Failed after all retries for test case 1
-2025-04-15 09:00:15,500 - INFO - 
-
-2025-04-15 09:00:15,500 - INFO - TEST CASE 2 Retry 0
-2025-04-15 09:00:15,500 - INFO - ---------------
-2025-04-15 09:00:15,500 - INFO - 
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-def test_openai_json_completion():
-    llm = OpenAI_llm(message="Test message", output="json")
-    mock_response = MagicMock()
-    mock_response.choices = [MagicMock()]
-    mock_response.choices[0].message.content = '{"key": "value"}'
-
-2025-04-15 09:00:15,500 - INFO - ---------------
-2025-04-15 09:00:17,382 - INFO - Test Result 1- False
-2025-04-15 09:00:17,383 - INFO - Test Error 1 - F                                                                        [100%]
-================================== FAILURES ===================================
-_________________________ test_openai_json_completion _________________________
-temp\temp.py:7: in test_openai_json_completion
-    llm = OpenAI_llm(message="Test message", output="json")
-E   NameError: name 'OpenAI_llm' is not defined
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_openai_json_completion - NameError: name 'OpenAI_ll...
-1 failed in 1.14s
-2025-04-15 09:00:18,635 - INFO - TEST CASE 2 Retry 1
-2025-04-15 09:00:18,636 - INFO - ---------------
-2025-04-15 09:00:18,636 - INFO - 
-from llm_handler import OpenAI_llm
-from unittest.mock import MagicMock
-
-def test_openai_json_completion():
-    llm = OpenAI_llm(message="Test message", output="json")
-    mock_response = MagicMock()
-    mock_response.choices = [MagicMock()]
-    mock_response.choices[0].message.content = '{"key": "value"}'
-2025-04-15 09:00:18,636 - INFO - ---------------
-2025-04-15 09:00:19,791 - INFO - Test Result 2- False
-2025-04-15 09:00:19,791 - INFO - Test Error 2 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:1: in <module>
-    from llm_handler import OpenAI_llm
-E   ModuleNotFoundError: No module named 'llm_handler'
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.24s
-2025-04-15 09:00:21,510 - INFO - TEST CASE 2 Retry 2
-2025-04-15 09:00:21,510 - INFO - ---------------
-2025-04-15 09:00:21,511 - INFO - 
-from unittest.mock import MagicMock, patch
-from llm_handler import OpenAI_llm
-
-@patch('llm_handler.OpenAI_llm._OpenAI_JSON_Completion')
-def test_openai_json_completion(mock_openai_json_completion):
-    llm = OpenAI_llm(message="Test message", output="json")
-    mock_response = MagicMock()
-    mock_response.choices = [MagicMock()]
-    mock_response.choices[0].message.content = '{"key": "value"}'
-    mock_openai_json_completion.return_value = mock_response
-    result = llm.execute()
-    assert result == '{"key": "value"}'
-2025-04-15 09:00:21,511 - INFO - ---------------
-2025-04-15 09:00:22,653 - INFO - Test Result 3- False
-2025-04-15 09:00:22,653 - INFO - Test Error 3 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:2: in <module>
-    from llm_handler import OpenAI_llm
-E   ModuleNotFoundError: No module named 'llm_handler'
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.42s
-2025-04-15 09:00:22,653 - INFO - Failed after all retries for test case 2
-2025-04-15 09:00:22,653 - INFO - 
-
-2025-04-15 09:00:22,653 - INFO - TEST CASE 3 Retry 0
-2025-04-15 09:00:22,653 - INFO - ---------------
-2025-04-15 09:00:22,653 - INFO - 
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-def test_openai_streaming():
-    llm = OpenAI_llm(message="Test message", output="stream")
-    mock_chunk = MagicMock()
-    mock_chunk.choices = [MagicMock()]
-    mock_chunk.choices[0].delta.content = "streamed content"
-
-2025-04-15 09:00:22,653 - INFO - ---------------
-2025-04-15 09:00:25,323 - INFO - Test Result 1- False
-2025-04-15 09:00:25,324 - INFO - Test Error 1 - F                                                                        [100%]
-================================== FAILURES ===================================
-____________________________ test_openai_streaming ____________________________
-temp\temp.py:7: in test_openai_streaming
-    llm = OpenAI_llm(message="Test message", output="stream")
-E   NameError: name 'OpenAI_llm' is not defined
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_openai_streaming - NameError: name 'OpenAI_llm' is ...
-1 failed in 1.61s
-2025-04-15 09:00:26,552 - INFO - TEST CASE 3 Retry 1
-2025-04-15 09:00:26,552 - INFO - ---------------
-2025-04-15 09:00:26,553 - INFO - 
-from llm_handler import OpenAI_llm
-from unittest.mock import MagicMock
-
-def test_openai_streaming():
-    llm = OpenAI_llm(message="Test message", output="stream")
-    mock_chunk = MagicMock()
-    mock_chunk.choices = [MagicMock()]
-    mock_chunk.choices[0].delta.content = "streamed content"
-2025-04-15 09:00:26,553 - INFO - ---------------
-2025-04-15 09:00:27,699 - INFO - Test Result 2- False
-2025-04-15 09:00:27,699 - INFO - Test Error 2 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:1: in <module>
-    from llm_handler import OpenAI_llm
-E   ModuleNotFoundError: No module named 'llm_handler'
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.32s
-2025-04-15 09:00:29,231 - INFO - TEST CASE 3 Retry 2
-2025-04-15 09:00:29,231 - INFO - ---------------
-2025-04-15 09:00:29,231 - INFO - 
-import sys
-import os
-from unittest.mock import MagicMock
-
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from llm_handler import OpenAI_llm
-
-def test_openai_streaming():
-    llm = OpenAI_llm(message="Test message", output="stream")
-    mock_chunk = MagicMock()
-    mock_chunk.choices = [MagicMock()]
-    mock_chunk.choices[0].delta.content = "streamed content"
-2025-04-15 09:00:29,232 - INFO - ---------------
-2025-04-15 09:00:30,335 - INFO - Test Result 3- False
-2025-04-15 09:00:30,335 - INFO - Test Error 3 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:6: in <module>
-    from llm_handler import OpenAI_llm
-E   ModuleNotFoundError: No module named 'llm_handler'
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.31s
-2025-04-15 09:00:30,335 - INFO - Failed after all retries for test case 3
-2025-04-15 09:00:30,335 - INFO - 
-
-2025-04-15 09:00:30,335 - INFO - TEST CASE 4 Retry 0
-2025-04-15 09:00:30,335 - INFO - ---------------
-2025-04-15 09:00:30,335 - INFO - 
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-def test_openai_chat_completion():
-    llm = OpenAI_llm(message="Test message")
-    mock_response = MagicMock()
-    mock_response.choices = [MagicMock()]
-    mock_response.choices[0].message.content = "completed content"
-
-2025-04-15 09:00:30,335 - INFO - ---------------
-2025-04-15 09:00:32,132 - INFO - Test Result 1- False
-2025-04-15 09:00:32,132 - INFO - Test Error 1 - F                                                                        [100%]
-================================== FAILURES ===================================
-_________________________ test_openai_chat_completion _________________________
-temp\temp.py:7: in test_openai_chat_completion
-    llm = OpenAI_llm(message="Test message")
-E   NameError: name 'OpenAI_llm' is not defined
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_openai_chat_completion - NameError: name 'OpenAI_ll...
-1 failed in 1.20s
-2025-04-15 09:00:35,271 - INFO - TEST CASE 4 Retry 1
-2025-04-15 09:00:35,272 - INFO - ---------------
-2025-04-15 09:00:35,272 - INFO - 
-from llm_handler import OpenAI_llm
-from unittest.mock import MagicMock
-
-def test_openai_chat_completion():
-    llm = OpenAI_llm(message="Test message")
-    mock_response = MagicMock()
-    mock_response.choices = [MagicMock()]
-    mock_response.choices[0].message.content = "completed content"
-2025-04-15 09:00:35,272 - INFO - ---------------
-2025-04-15 09:00:36,164 - INFO - Test Result 2- False
-2025-04-15 09:00:36,164 - INFO - Test Error 2 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:1: in <module>
-    from llm_handler import OpenAI_llm
-E   ModuleNotFoundError: No module named 'llm_handler'
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 10
+E       patch('theory_evaluation.llm_handler.os.getenv', return_value='mock_value'):
+E                                                                                   ^
+E   IndentationError: expected an indented block after 'with' statement on line 8
 =========================== short test summary info ===========================
 ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
 1 error in 0.22s
-2025-04-15 09:00:37,945 - INFO - TEST CASE 4 Retry 2
-2025-04-15 09:00:37,946 - INFO - ---------------
-2025-04-15 09:00:37,946 - INFO - 
-from unittest.mock import MagicMock, patch
-from llm_handler import OpenAI_llm
+2025-04-15 09:05:00,840 - INFO - TEST CASE 1 Retry 1
+2025-04-15 09:05:00,840 - INFO - ---------------
+2025-04-15 09:05:00,840 - INFO - 
+from unittest.mock import patch
 
-@patch('llm_handler.OpenAI_llm')
-def test_openai_chat_completion(mock_openai_llm):
-    llm = mock_openai_llm(message="Test message")
-    mock_response = MagicMock()
-    mock_response.choices = [MagicMock()]
-    mock_response.choices[0].message.content = "completed content"
-    llm.client.chat.completions.create.return_value = mock_response
-    response = llm._OpenAI_Chat_Completion()
-    assert response == "completed content"
-2025-04-15 09:00:37,946 - INFO - ---------------
-2025-04-15 09:00:39,083 - INFO - Test Result 3- False
-2025-04-15 09:00:39,084 - INFO - Test Error 3 - =================================== ERRORS ====================================
+def test_openai_llm_initialization():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
+         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
+         patch('theory_evaluation.llm_handler.os.getenv', return_value='mock_value'):
+        pass
+2025-04-15 09:05:00,840 - INFO - ---------------
+2025-04-15 09:05:03,310 - INFO - Test Result 2- True
+2025-04-15 09:05:03,311 - INFO - Test Error 2 - 
+.                                                                        [100%]
+1 passed in 1.57s
+2025-04-15 09:05:03,311 - INFO - 
+
+2025-04-15 09:05:03,311 - INFO - TEST CASE 2 Retry 0
+2025-04-15 09:05:03,311 - INFO - ---------------
+2025-04-15 09:05:03,311 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+def test_openai_json_completion():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = '{"answer": "42", "explanation": "The answer to life."}'
+        mock_client.chat.completions.create.return_value = mock_response
+
+2025-04-15 09:05:03,311 - INFO - ---------------
+2025-04-15 09:05:05,959 - INFO - Test Result 1- False
+2025-04-15 09:05:05,959 - INFO - Test Error 1 - F                                                                        [100%]
+================================== FAILURES ===================================
+_________________________ test_openai_json_completion _________________________
+temp\temp.py:8: in test_openai_json_completion
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
+E   NameError: name 'patch' is not defined
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_openai_json_completion - NameError: name 'patch' is...
+1 failed in 1.69s
+2025-04-15 09:05:07,949 - INFO - TEST CASE 2 Retry 1
+2025-04-15 09:05:07,949 - INFO - ---------------
+2025-04-15 09:05:07,949 - INFO - 
+from unittest.mock import patch, MagicMock
+
+def test_openai_json_completion():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = '{"answer": "42", "explanation": "The answer to life."}'
+        mock_client.chat.completions.create.return_value = mock_response
+2025-04-15 09:05:07,950 - INFO - ---------------
+2025-04-15 09:05:09,987 - INFO - Test Result 2- False
+2025-04-15 09:05:09,987 - INFO - Test Error 2 - 
+F                                                                        [100%]
+================================== FAILURES ===================================
+_________________________ test_openai_json_completion _________________________
+temp\temp.py:4: in test_openai_json_completion
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1495: in __enter__
+    original, local = self.get_original()
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1465: in get_original
+    raise AttributeError(
+E   AttributeError: <class 'theory_evaluation.llm_handler.OpenAI_llm'> does not have the attribute 'client'
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_openai_json_completion - AttributeError: <class 'th...
+1 failed in 1.25s
+2025-04-15 09:05:11,515 - INFO - TEST CASE 2 Retry 2
+2025-04-15 09:05:11,516 - INFO - ---------------
+2025-04-15 09:05:11,516 - INFO - 
+from unittest.mock import patch, MagicMock
+
+def test_openai_json_completion():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', create=True) as mock_client:
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = '{"answer": "42", "explanation": "The answer to life."}'
+        mock_client.chat.completions.create.return_value = mock_response
+2025-04-15 09:05:11,516 - INFO - ---------------
+2025-04-15 09:05:13,227 - INFO - Test Result 3- True
+2025-04-15 09:05:13,227 - INFO - Test Error 3 - 
+.                                                                        [100%]
+1 passed in 1.03s
+2025-04-15 09:05:13,227 - INFO - 
+
+2025-04-15 09:05:13,227 - INFO - TEST CASE 3 Retry 0
+2025-04-15 09:05:13,227 - INFO - ---------------
+2025-04-15 09:05:13,227 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+def test_openai_streaming():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
+        mock_stream = MagicMock()
+        mock_chunk = MagicMock()
+        mock_chunk.choices[0].delta.content = "streamed content"
+        mock_stream.__iter__.return_value = [mock_chunk]
+        mock_client.chat.completions.create.return_value = mock_stream
+
+2025-04-15 09:05:13,227 - INFO - ---------------
+2025-04-15 09:05:15,166 - INFO - Test Result 1- False
+2025-04-15 09:05:15,166 - INFO - Test Error 1 - F                                                                        [100%]
+================================== FAILURES ===================================
+____________________________ test_openai_streaming ____________________________
+temp\temp.py:8: in test_openai_streaming
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
+E   NameError: name 'patch' is not defined
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_openai_streaming - NameError: name 'patch' is not d...
+1 failed in 1.17s
+2025-04-15 09:05:16,566 - INFO - TEST CASE 3 Retry 1
+2025-04-15 09:05:16,566 - INFO - ---------------
+2025-04-15 09:05:16,566 - INFO - 
+from unittest.mock import patch, MagicMock
+
+def test_openai_streaming():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
+        mock_stream = MagicMock()
+        mock_chunk = MagicMock()
+        mock_chunk.choices[0].delta.content = "streamed content"
+        mock_stream.__iter__.return_value = [mock_chunk]
+        mock_client.chat.completions.create.return_value = mock_stream
+2025-04-15 09:05:16,567 - INFO - ---------------
+2025-04-15 09:05:18,478 - INFO - Test Result 2- False
+2025-04-15 09:05:18,479 - INFO - Test Error 2 - 
+F                                                                        [100%]
+================================== FAILURES ===================================
+____________________________ test_openai_streaming ____________________________
+temp\temp.py:4: in test_openai_streaming
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1495: in __enter__
+    original, local = self.get_original()
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1465: in get_original
+    raise AttributeError(
+E   AttributeError: <class 'theory_evaluation.llm_handler.OpenAI_llm'> does not have the attribute 'client'
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_openai_streaming - AttributeError: <class 'theory_e...
+1 failed in 1.20s
+2025-04-15 09:05:21,288 - INFO - TEST CASE 3 Retry 2
+2025-04-15 09:05:21,288 - INFO - ---------------
+2025-04-15 09:05:21,288 - INFO - 
+from unittest.mock import patch, MagicMock
+from theory_evaluation.llm_handler import OpenAI_llm
+
+def test_openai_streaming():
+    with patch.object(OpenAI_llm, 'client', create=True) as mock_client:
+        mock_stream = MagicMock()
+        mock_chunk = MagicMock()
+        mock_chunk.choices[0].delta.content = "streamed content"
+        mock_stream.__iter__.return_value = [mock_chunk]
+        mock_client.chat.completions.create.return_value = mock_stream
+2025-04-15 09:05:21,289 - INFO - ---------------
+2025-04-15 09:05:23,705 - INFO - Test Result 3- True
+2025-04-15 09:05:23,705 - INFO - Test Error 3 - 
+.                                                                        [100%]
+1 passed in 1.50s
+2025-04-15 09:05:23,705 - INFO - 
+
+2025-04-15 09:05:23,705 - INFO - TEST CASE 4 Retry 0
+2025-04-15 09:05:23,705 - INFO - ---------------
+2025-04-15 09:05:23,705 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+def test_openai_chat_completion():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = "Chat completion content"
+        mock_client.chat.completions.create.return_value = mock_response
+
+2025-04-15 09:05:23,705 - INFO - ---------------
+2025-04-15 09:05:26,026 - INFO - Test Result 1- False
+2025-04-15 09:05:26,027 - INFO - Test Error 1 - F                                                                        [100%]
+================================== FAILURES ===================================
+_________________________ test_openai_chat_completion _________________________
+temp\temp.py:8: in test_openai_chat_completion
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
+E   NameError: name 'patch' is not defined
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_openai_chat_completion - NameError: name 'patch' is...
+1 failed in 1.34s
+2025-04-15 09:05:27,185 - INFO - TEST CASE 4 Retry 1
+2025-04-15 09:05:27,186 - INFO - ---------------
+2025-04-15 09:05:27,186 - INFO - 
+from unittest.mock import patch, MagicMock
+
+def test_openai_chat_completion():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = "Chat completion content"
+        mock_client.chat.completions.create.return_value = mock_response
+2025-04-15 09:05:27,186 - INFO - ---------------
+2025-04-15 09:05:29,066 - INFO - Test Result 2- False
+2025-04-15 09:05:29,066 - INFO - Test Error 2 - 
+F                                                                        [100%]
+================================== FAILURES ===================================
+_________________________ test_openai_chat_completion _________________________
+temp\temp.py:4: in test_openai_chat_completion
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1495: in __enter__
+    original, local = self.get_original()
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1465: in get_original
+    raise AttributeError(
+E   AttributeError: <class 'theory_evaluation.llm_handler.OpenAI_llm'> does not have the attribute 'client'
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_openai_chat_completion - AttributeError: <class 'th...
+1 failed in 1.14s
+2025-04-15 09:05:30,866 - INFO - TEST CASE 4 Retry 2
+2025-04-15 09:05:30,867 - INFO - ---------------
+2025-04-15 09:05:30,867 - INFO - 
+from unittest.mock import patch, MagicMock
+from theory_evaluation.llm_handler import OpenAI_llm
+
+def test_openai_chat_completion():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=MagicMock) as mock_client:
+        mock_response = MagicMock()
+        mock_response.choices = [MagicMock()]
+        mock_response.choices[0].message.content = "Chat completion content"
+        mock_client.chat.completions.create.return_value = mock_response
+        
+        llm = OpenAI_llm()
+        response = llm.client.chat.completions.create()
+        
+        assert response.choices[0].message.content == "Chat completion content"
+2025-04-15 09:05:30,867 - INFO - ---------------
+2025-04-15 09:05:33,032 - INFO - Test Result 3- False
+2025-04-15 09:05:33,032 - INFO - Test Error 3 - 
+F                                                                        [100%]
+================================== FAILURES ===================================
+_________________________ test_openai_chat_completion _________________________
+temp\temp.py:5: in test_openai_chat_completion
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=MagicMock) as mock_client:
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1495: in __enter__
+    original, local = self.get_original()
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1465: in get_original
+    raise AttributeError(
+E   AttributeError: <class 'theory_evaluation.llm_handler.OpenAI_llm'> does not have the attribute 'client'
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_openai_chat_completion - AttributeError: <class 'th...
+1 failed in 1.32s
+2025-04-15 09:05:33,033 - INFO - Failed after all retries for test case 4
+2025-04-15 09:05:33,033 - INFO - 
+
+2025-04-15 09:05:33,033 - INFO - TEST CASE 5 Retry 0
+2025-04-15 09:05:33,033 - INFO - ---------------
+2025-04-15 09:05:33,033 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+def test_execute_text_generation():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm._run') as mock_run:
+        mock_run.return_value.__aiter__.return_value = ["response content"]
+
+2025-04-15 09:05:33,033 - INFO - ---------------
+2025-04-15 09:05:34,949 - INFO - Test Result 1- False
+2025-04-15 09:05:34,949 - INFO - Test Error 1 - F                                                                        [100%]
+================================== FAILURES ===================================
+________________________ test_execute_text_generation _________________________
+temp\temp.py:8: in test_execute_text_generation
+    with patch('theory_evaluation.llm_handler.OpenAI_llm._run') as mock_run:
+E   NameError: name 'patch' is not defined
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_execute_text_generation - NameError: name 'patch' i...
+1 failed in 1.18s
+2025-04-15 09:05:35,863 - INFO - TEST CASE 5 Retry 1
+2025-04-15 09:05:35,863 - INFO - ---------------
+2025-04-15 09:05:35,863 - INFO - 
+from unittest.mock import patch
+
+def test_execute_text_generation():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm._run') as mock_run:
+        mock_run.return_value.__aiter__.return_value = ["response content"]
+2025-04-15 09:05:35,864 - INFO - ---------------
+2025-04-15 09:05:37,801 - INFO - Test Result 2- True
+2025-04-15 09:05:37,801 - INFO - Test Error 2 - 
+.                                                                        [100%]
+1 passed in 1.09s
+2025-04-15 09:05:37,801 - INFO - 
+
+2025-04-15 09:05:37,801 - INFO - TEST CASE 6 Retry 0
+2025-04-15 09:05:37,801 - INFO - ---------------
+2025-04-15 09:05:37,801 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+def test_execute_vision():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm._run') as mock_run:
+        mock_run.return_value.__aiter__.return_value = ["response content"]
+
+2025-04-15 09:05:37,801 - INFO - ---------------
+2025-04-15 09:05:39,850 - INFO - Test Result 1- False
+2025-04-15 09:05:39,850 - INFO - Test Error 1 - F                                                                        [100%]
+================================== FAILURES ===================================
+_____________________________ test_execute_vision _____________________________
+temp\temp.py:8: in test_execute_vision
+    with patch('theory_evaluation.llm_handler.OpenAI_llm._run') as mock_run:
+E   NameError: name 'patch' is not defined
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_execute_vision - NameError: name 'patch' is not def...
+1 failed in 1.23s
+2025-04-15 09:05:41,110 - INFO - TEST CASE 6 Retry 1
+2025-04-15 09:05:41,110 - INFO - ---------------
+2025-04-15 09:05:41,110 - INFO - 
+from unittest.mock import patch
+
+def test_execute_vision():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm._run') as mock_run:
+        mock_run.return_value.__aiter__.return_value = ["response content"]
+2025-04-15 09:05:41,110 - INFO - ---------------
+2025-04-15 09:05:43,342 - INFO - Test Result 2- True
+2025-04-15 09:05:43,342 - INFO - Test Error 2 - 
+.                                                                        [100%]
+1 passed in 1.40s
+2025-04-15 09:05:43,344 - INFO - [1mEnd Processing file: theory_evaluation\llm_handler.py[0m
+
+2025-04-15 09:05:43,344 - INFO - [1mStart Processing file: theory_evaluation\llm_utils.py[0m
+2025-04-15 09:05:51,261 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 09:05:51,266 - INFO - 
+
+2025-04-15 09:05:51,267 - INFO - TEST CASE 1 Retry 0
+2025-04-15 09:05:51,267 - INFO - ---------------
+2025-04-15 09:05:51,267 - INFO - 
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+def test_initialise_prompt_success():
+    agent = "test_agent"
+    config_values = {'key1': 'value1', 'key2': 'value2'}
+    prompt_structure = "This is a {$key1} and {$key2} test."
+
+2025-04-15 09:05:51,267 - INFO - ---------------
+2025-04-15 09:05:52,025 - INFO - Test Result 1- True
+2025-04-15 09:05:52,025 - INFO - Test Error 1 - .                                                                        [100%]
+1 passed in 0.08s
+2025-04-15 09:05:52,025 - INFO - 
+
+2025-04-15 09:05:52,025 - INFO - TEST CASE 2 Retry 0
+2025-04-15 09:05:52,026 - INFO - ---------------
+2025-04-15 09:05:52,026 - INFO - 
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+def test_initialise_prompt_file_not_found():
+    agent = "non_existent_agent"
+    with patch('theory_evaluation.llm_utils.open', side_effect=FileNotFoundError):
+        result = initialise_prompt(agent)
+        assert result is None
+
+2025-04-15 09:05:52,026 - INFO - ---------------
+2025-04-15 09:05:52,641 - INFO - Test Result 1- False
+2025-04-15 09:05:52,641 - INFO - Test Error 1 - F                                                                        [100%]
+================================== FAILURES ===================================
+____________________ test_initialise_prompt_file_not_found ____________________
+temp\temp.py:7: in test_initialise_prompt_file_not_found
+    with patch('theory_evaluation.llm_utils.open', side_effect=FileNotFoundError):
+E   NameError: name 'patch' is not defined
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_initialise_prompt_file_not_found - NameError: name ...
+1 failed in 0.18s
+2025-04-15 09:05:53,713 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 09:05:53,714 - INFO - TEST CASE 2 Retry 1
+2025-04-15 09:05:53,714 - INFO - ---------------
+2025-04-15 09:05:53,714 - INFO - 
+from unittest.mock import patch
+
+def test_initialise_prompt_file_not_found():
+    agent = "non_existent_agent"
+    with patch('builtins.open', side_effect=FileNotFoundError):
+        result = initialise_prompt(agent)
+        assert result is None
+2025-04-15 09:05:53,714 - INFO - ---------------
+2025-04-15 09:05:54,374 - INFO - Test Result 2- False
+2025-04-15 09:05:54,375 - INFO - Test Error 2 - 
+F                                                                        [100%]
+================================== FAILURES ===================================
+____________________ test_initialise_prompt_file_not_found ____________________
+temp\temp.py:6: in test_initialise_prompt_file_not_found
+    result = initialise_prompt(agent)
+E   NameError: name 'initialise_prompt' is not defined
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_initialise_prompt_file_not_found - NameError: name ...
+1 failed in 0.12s
+2025-04-15 09:05:55,481 - INFO - TEST CASE 2 Retry 2
+2025-04-15 09:05:55,481 - INFO - ---------------
+2025-04-15 09:05:55,482 - INFO - 
+from unittest.mock import patch
+from theory_evaluation.evaluator.prompts import initialise_prompt
+
+def test_initialise_prompt_file_not_found():
+    agent = "non_existent_agent"
+    with patch('theory_evaluation.evaluator.prompts.open', side_effect=FileNotFoundError):
+        result = initialise_prompt(agent)
+        assert result is None
+2025-04-15 09:05:55,482 - INFO - ---------------
+2025-04-15 09:05:56,389 - INFO - Test Result 3- False
+2025-04-15 09:05:56,389 - INFO - Test Error 3 - 
+=================================== ERRORS ====================================
 ________________________ ERROR collecting temp/temp.py ________________________
 ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
 Hint: make sure your test modules/packages have valid Python names.
@@ -386,247 +468,111 @@ Traceback:
 C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
     return _bootstrap._gcd_import(name[level:], package, level)
 temp\temp.py:2: in <module>
-    from llm_handler import OpenAI_llm
-E   ModuleNotFoundError: No module named 'llm_handler'
+    from theory_evaluation.evaluator.prompts import initialise_prompt
+E   ModuleNotFoundError: No module named 'theory_evaluation.evaluator'
 =========================== short test summary info ===========================
 ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.35s
-2025-04-15 09:00:39,084 - INFO - Failed after all retries for test case 4
-2025-04-15 09:00:39,084 - INFO - 
+1 error in 0.34s
+2025-04-15 09:05:56,389 - INFO - Failed after all retries for test case 2
+2025-04-15 09:05:56,389 - INFO - 
 
-2025-04-15 09:00:39,084 - INFO - TEST CASE 5 Retry 0
-2025-04-15 09:00:39,084 - INFO - ---------------
-2025-04-15 09:00:39,084 - INFO - 
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-def test_execute_text_generation():
-    llm = OpenAI_llm(message="Test message", mode="text_generation", output="json")
-    mock_content = {"key": "value"}
-
-2025-04-15 09:00:39,084 - INFO - ---------------
-2025-04-15 09:00:41,587 - INFO - Test Result 1- False
-2025-04-15 09:00:41,587 - INFO - Test Error 1 - F                                                                        [100%]
-================================== FAILURES ===================================
-________________________ test_execute_text_generation _________________________
-temp\temp.py:7: in test_execute_text_generation
-    llm = OpenAI_llm(message="Test message", mode="text_generation", output="json")
-E   NameError: name 'OpenAI_llm' is not defined
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_execute_text_generation - NameError: name 'OpenAI_l...
-1 failed in 1.70s
-2025-04-15 09:00:42,620 - INFO - TEST CASE 5 Retry 1
-2025-04-15 09:00:42,620 - INFO - ---------------
-2025-04-15 09:00:42,621 - INFO - 
-from llm_handler import OpenAI_llm
-
-def test_execute_text_generation():
-    llm = OpenAI_llm(message="Test message", mode="text_generation", output="json")
-    mock_content = {"key": "value"}
-2025-04-15 09:00:42,621 - INFO - ---------------
-2025-04-15 09:00:43,740 - INFO - Test Result 2- False
-2025-04-15 09:00:43,740 - INFO - Test Error 2 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:1: in <module>
-    from llm_handler import OpenAI_llm
-E   ModuleNotFoundError: No module named 'llm_handler'
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.28s
-2025-04-15 09:00:44,933 - INFO - TEST CASE 5 Retry 2
-2025-04-15 09:00:44,934 - INFO - ---------------
-2025-04-15 09:00:44,934 - INFO - 
-from llm_handler import OpenAI_llm
-
-def test_execute_text_generation():
-    llm = OpenAI_llm(message="Test message", mode="text_generation", output="json")
-    mock_content = {"key": "value"}
-    # Add logic to simulate and test the behavior of the execute method here.
-2025-04-15 09:00:44,934 - INFO - ---------------
-2025-04-15 09:00:46,010 - INFO - Test Result 3- False
-2025-04-15 09:00:46,010 - INFO - Test Error 3 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:1: in <module>
-    from llm_handler import OpenAI_llm
-E   ModuleNotFoundError: No module named 'llm_handler'
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.24s
-2025-04-15 09:00:46,010 - INFO - Failed after all retries for test case 5
-2025-04-15 09:00:46,010 - INFO - 
-
-2025-04-15 09:00:46,010 - INFO - TEST CASE 6 Retry 0
-2025-04-15 09:00:46,010 - INFO - ---------------
-2025-04-15 09:00:46,010 - INFO - 
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-def test_execute_vision():
-    llm = OpenAI_llm(message="Test message", mode="vision", output="json", image_input="base64image")
-    mock_content = {"key": "value"}
-
-2025-04-15 09:00:46,010 - INFO - ---------------
-2025-04-15 09:00:47,788 - INFO - Test Result 1- False
-2025-04-15 09:00:47,788 - INFO - Test Error 1 - F                                                                        [100%]
-================================== FAILURES ===================================
-_____________________________ test_execute_vision _____________________________
-temp\temp.py:7: in test_execute_vision
-    llm = OpenAI_llm(message="Test message", mode="vision", output="json", image_input="base64image")
-E   NameError: name 'OpenAI_llm' is not defined
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_execute_vision - NameError: name 'OpenAI_llm' is no...
-1 failed in 1.10s
-2025-04-15 09:00:49,043 - INFO - TEST CASE 6 Retry 1
-2025-04-15 09:00:49,044 - INFO - ---------------
-2025-04-15 09:00:49,044 - INFO - 
-from llm_handler import OpenAI_llm
-
-def test_execute_vision():
-    llm = OpenAI_llm(message="Test message", mode="vision", output="json", image_input="base64image")
-    mock_content = {"key": "value"}
-2025-04-15 09:00:49,044 - INFO - ---------------
-2025-04-15 09:00:49,917 - INFO - Test Result 2- False
-2025-04-15 09:00:49,917 - INFO - Test Error 2 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:1: in <module>
-    from llm_handler import OpenAI_llm
-E   ModuleNotFoundError: No module named 'llm_handler'
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.23s
-2025-04-15 09:00:51,021 - INFO - TEST CASE 6 Retry 2
-2025-04-15 09:00:51,021 - INFO - ---------------
-2025-04-15 09:00:51,021 - INFO - 
-from llm_handler import OpenAI_llm
-
-def test_execute_vision():
-    llm = OpenAI_llm(message="Test message", mode="vision", output="json", image_input="base64image")
-    mock_content = {"key": "value"}
-2025-04-15 09:00:51,022 - INFO - ---------------
-2025-04-15 09:00:52,199 - INFO - Test Result 3- False
-2025-04-15 09:00:52,199 - INFO - Test Error 3 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:1: in <module>
-    from llm_handler import OpenAI_llm
-E   ModuleNotFoundError: No module named 'llm_handler'
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.29s
-2025-04-15 09:00:52,199 - INFO - Failed after all retries for test case 6
-2025-04-15 09:00:52,199 - INFO - [1mEnd Processing file: theory_evaluation\llm_handler.py[0m
-
-2025-04-15 09:00:52,199 - INFO - [1mStart Processing file: theory_evaluation\llm_utils.py[0m
-2025-04-15 09:00:58,795 - INFO - 
-
-2025-04-15 09:00:58,796 - INFO - TEST CASE 1 Retry 0
-2025-04-15 09:00:58,796 - INFO - ---------------
-2025-04-15 09:00:58,796 - INFO - 
+2025-04-15 09:05:56,389 - INFO - TEST CASE 3 Retry 0
+2025-04-15 09:05:56,389 - INFO - ---------------
+2025-04-15 09:05:56,389 - INFO - 
 import os
 import re
 import yaml
-def test_initialise_prompt_success():
-    agent = "test_agent"
-    config_yaml = "placeholder_value: test_value"
-    prompt_txt = "This is a {$placeholder_value} test."
-
-2025-04-15 09:00:58,796 - INFO - ---------------
-2025-04-15 09:00:59,595 - INFO - Test Result 1- True
-2025-04-15 09:00:59,595 - INFO - Test Error 1 - .                                                                        [100%]
-1 passed in 0.09s
-2025-04-15 09:00:59,595 - INFO - 
-
-2025-04-15 09:00:59,595 - INFO - TEST CASE 2 Retry 0
-2025-04-15 09:00:59,596 - INFO - ---------------
-2025-04-15 09:00:59,596 - INFO - 
-import os
-import re
-import yaml
-def test_initialise_prompt_missing_placeholder():
-    agent = "test_agent"
-    config_yaml = "another_value: test_value"
-    prompt_txt = "This is a {$placeholder_value} test."
-
-2025-04-15 09:00:59,596 - INFO - ---------------
-2025-04-15 09:01:00,480 - INFO - Test Result 1- True
-2025-04-15 09:01:00,480 - INFO - Test Error 1 - .                                                                        [100%]
-1 passed in 0.19s
-2025-04-15 09:01:00,481 - INFO - 
-
-2025-04-15 09:01:00,481 - INFO - TEST CASE 3 Retry 0
-2025-04-15 09:01:00,481 - INFO - ---------------
-2025-04-15 09:01:00,481 - INFO - 
-import os
-import re
-import yaml
-def test_initialise_prompt_exception():
-    agent = "test_agent"
-
-2025-04-15 09:01:00,481 - INFO - ---------------
-2025-04-15 09:01:01,274 - INFO - Test Result 1- True
-2025-04-15 09:01:01,274 - INFO - Test Error 1 - .                                                                        [100%]
-1 passed in 0.16s
-2025-04-15 09:01:01,274 - INFO - 
-
-2025-04-15 09:01:01,274 - INFO - TEST CASE 4 Retry 0
-2025-04-15 09:01:01,274 - INFO - ---------------
-2025-04-15 09:01:01,274 - INFO - 
-import os
-import re
-import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 def test_initialise_settings_success():
     agent = "test_agent"
-    llm_settings_yaml = "setting_key: setting_value"
+    settings_data = {'setting1': 'value1', 'setting2': 'value2'}
 
-2025-04-15 09:01:01,274 - INFO - ---------------
-2025-04-15 09:01:02,150 - INFO - Test Result 1- True
-2025-04-15 09:01:02,150 - INFO - Test Error 1 - .                                                                        [100%]
+2025-04-15 09:05:56,389 - INFO - ---------------
+2025-04-15 09:05:57,072 - INFO - Test Result 1- True
+2025-04-15 09:05:57,072 - INFO - Test Error 1 - .                                                                        [100%]
 1 passed in 0.16s
-2025-04-15 09:01:02,150 - INFO - 
+2025-04-15 09:05:57,072 - INFO - 
 
-2025-04-15 09:01:02,150 - INFO - TEST CASE 5 Retry 0
-2025-04-15 09:01:02,150 - INFO - ---------------
-2025-04-15 09:01:02,150 - INFO - 
+2025-04-15 09:05:57,072 - INFO - TEST CASE 4 Retry 0
+2025-04-15 09:05:57,072 - INFO - ---------------
+2025-04-15 09:05:57,072 - INFO - 
 import os
 import re
 import yaml
-def test_initialise_settings_exception():
-    agent = "test_agent"
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+def test_initialise_settings_file_not_found():
+    agent = "non_existent_agent"
+    with patch('theory_evaluation.llm_utils.open', side_effect=FileNotFoundError):
+        result = initialise_settings(agent)
+        assert result is None
 
-2025-04-15 09:01:02,150 - INFO - ---------------
-2025-04-15 09:01:03,078 - INFO - Test Result 1- True
-2025-04-15 09:01:03,078 - INFO - Test Error 1 - .                                                                        [100%]
-1 passed in 0.21s
-2025-04-15 09:01:03,079 - INFO - [1mEnd Processing file: theory_evaluation\llm_utils.py[0m
+2025-04-15 09:05:57,072 - INFO - ---------------
+2025-04-15 09:05:57,887 - INFO - Test Result 1- False
+2025-04-15 09:05:57,887 - INFO - Test Error 1 - F                                                                        [100%]
+================================== FAILURES ===================================
+___________________ test_initialise_settings_file_not_found ___________________
+temp\temp.py:7: in test_initialise_settings_file_not_found
+    with patch('theory_evaluation.llm_utils.open', side_effect=FileNotFoundError):
+E   NameError: name 'patch' is not defined
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_initialise_settings_file_not_found - NameError: nam...
+1 failed in 0.21s
+2025-04-15 09:05:58,930 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 09:05:58,930 - INFO - TEST CASE 4 Retry 1
+2025-04-15 09:05:58,931 - INFO - ---------------
+2025-04-15 09:05:58,931 - INFO - 
+from unittest.mock import patch
 
-2025-04-15 09:01:03,079 - INFO - [1mStart Processing file: theory_evaluation\__init__.py[0m
-2025-04-15 09:01:03,079 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
+def test_initialise_settings_file_not_found():
+    agent = "non_existent_agent"
+    with patch('builtins.open', side_effect=FileNotFoundError):
+        result = initialise_settings(agent)
+        assert result is None
+2025-04-15 09:05:58,931 - INFO - ---------------
+2025-04-15 09:05:59,746 - INFO - Test Result 2- False
+2025-04-15 09:05:59,746 - INFO - Test Error 2 - 
+F                                                                        [100%]
+================================== FAILURES ===================================
+___________________ test_initialise_settings_file_not_found ___________________
+temp\temp.py:6: in test_initialise_settings_file_not_found
+    result = initialise_settings(agent)
+E   NameError: name 'initialise_settings' is not defined
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_initialise_settings_file_not_found - NameError: nam...
+1 failed in 0.23s
+2025-04-15 09:06:00,806 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 09:06:00,807 - INFO - TEST CASE 4 Retry 2
+2025-04-15 09:06:00,808 - INFO - ---------------
+2025-04-15 09:06:00,808 - INFO - 
+from unittest.mock import patch
+from theory_evaluation.evaluator.prompts import initialise_settings
+
+def test_initialise_settings_file_not_found():
+    agent = "non_existent_agent"
+    with patch('theory_evaluation.evaluator.prompts.open', side_effect=FileNotFoundError):
+        result = initialise_settings(agent)
+        assert result is None
+2025-04-15 09:06:00,808 - INFO - ---------------
+2025-04-15 09:06:01,768 - INFO - Test Result 3- False
+2025-04-15 09:06:01,768 - INFO - Test Error 3 - 
+=================================== ERRORS ====================================
+________________________ ERROR collecting temp/temp.py ________________________
+ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+temp\temp.py:2: in <module>
+    from theory_evaluation.evaluator.prompts import initialise_settings
+E   ModuleNotFoundError: No module named 'theory_evaluation.evaluator'
+=========================== short test summary info ===========================
+ERROR temp/temp.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.30s
+2025-04-15 09:06:01,768 - INFO - Failed after all retries for test case 4
+2025-04-15 09:06:01,769 - INFO - [1mEnd Processing file: theory_evaluation\llm_utils.py[0m
+
+2025-04-15 09:06:01,769 - INFO - [1mStart Processing file: theory_evaluation\__init__.py[0m
+2025-04-15 09:06:01,769 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
 

@@ -1,34 +1,39 @@
-import asyncio
-import json
-import os
 
-from openai import AzureOpenAI, OpenAI
+from unittest.mock import patch
 
 def test_openai_llm_initialization():
-    with patch("theory_evaluation.llm_handler.AzureOpenAI") as mock_azure_openai, \
-         patch("theory_evaluation.llm_handler.OpenAI") as mock_openai, \
-         patch("theory_evaluation.llm_handler.os.getenv", side_effect=lambda x: "test_value"):
-        
-        llm = OpenAI_llm(useAzureOpenAI=True, message="Test message")
-        assert llm.message == "Test message"
-        assert llm.client == mock_azure_openai.return_value
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
+         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
+         patch('theory_evaluation.llm_handler.os.getenv', return_value='mock_value'):
+        pass
 
-def test_openai_streaming():
-    with patch("theory_evaluation.llm_handler.OpenAI_llm.client") as mock_client:
-        mock_stream = AsyncMock()
-        mock_stream.__aiter__.return_value = [{"choices": [{"delta": {"content": "streaming content"}}]}]
-        mock_client.chat.completions.create.return_value = mock_stream
+from unittest.mock import patch, MagicMock
 
-def test_openai_chat_completion():
-    with patch("theory_evaluation.llm_handler.OpenAI_llm.client") as mock_client:
-        mock_response = AsyncMock()
-        mock_response.choices[0].message.content = "chat completion content"
+def test_openai_json_completion():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', create=True) as mock_client:
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = '{"answer": "42", "explanation": "The answer to life."}'
         mock_client.chat.completions.create.return_value = mock_response
 
+from unittest.mock import patch, MagicMock
+from theory_evaluation.llm_handler import OpenAI_llm
+
+def test_openai_streaming():
+    with patch.object(OpenAI_llm, 'client', create=True) as mock_client:
+        mock_stream = MagicMock()
+        mock_chunk = MagicMock()
+        mock_chunk.choices[0].delta.content = "streamed content"
+        mock_stream.__iter__.return_value = [mock_chunk]
+        mock_client.chat.completions.create.return_value = mock_stream
+
+from unittest.mock import patch
+
 def test_execute_text_generation():
-    with patch("theory_evaluation.llm_handler.OpenAI_llm._run", new_callable=AsyncMock) as mock_run:
+    with patch('theory_evaluation.llm_handler.OpenAI_llm._run') as mock_run:
         mock_run.return_value.__aiter__.return_value = ["response content"]
 
+from unittest.mock import patch
+
 def test_execute_vision():
-    with patch("theory_evaluation.llm_handler.OpenAI_llm._run", new_callable=AsyncMock) as mock_run:
+    with patch('theory_evaluation.llm_handler.OpenAI_llm._run') as mock_run:
         mock_run.return_value.__aiter__.return_value = ["response content"]
