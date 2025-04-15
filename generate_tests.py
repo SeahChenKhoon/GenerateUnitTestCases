@@ -555,7 +555,6 @@ def run_each_pytest_function_individually(
     test_cases_str = extract_test_cases_from_code(provider, model_arg, llm_test_cases_prompt, test_code, temperature)
     if "pytest" in test_code:
         import_statements += "\nimport pytest"
-    # logger.info(f"test_cases_str - \n{test_cases_str}\n")
     test_cases = extract_test_functions(test_cases_str)
 
     success_test_cases = f"{import_statements}\n{pytest_fixture}"
@@ -592,7 +591,7 @@ def run_each_pytest_function_individually(
                 save_test_case_to_temp_file(full_test_code, temp_file)
                 passed, test_case_error = run_single_test_file(temp_file)
                 if passed:
-                    import_statements = identify_new_import(provider, model_arg, llm_new_import_prompt, import_statements, full_test_code, source_code, 
+                    import_statements += identify_new_import(provider, model_arg, llm_new_import_prompt, import_statements, full_test_code, source_code, 
                     temperature)
                     logger.info(f"New import Statements {count + 1}- {import_statements}")
                 logger.info(f"Test Result {count + 1}- {passed}")

@@ -1,18 +1,17 @@
 import os
 import re
 import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settingsimport pytest
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
 @pytest.fixture
-def mock_open_file():
-    with patch("builtins.open", mock_open()) as mock_file:
-        yield mock_file
-
-@pytest.fixture
-def mock_yaml_load():
-    with patch("yaml.load") as mock_yaml:
-        yield mock_yaml
-
-@pytest.fixture
-def mock_yaml_safe_load():
-    with patch("yaml.safe_load") as mock_yaml_safe:
-        yield mock_yaml_safe
+def mock_open_files():
+    prompt_content = "Hello, {$name}!"
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
+    m_open = mock_open(read_data=prompt_content)
+    m_open.side_effect = [
+        mock_open(read_data=config_content).return_value,
+        mock_open(read_data=prompt_content).return_value,
+        mock_open(read_data=settings_content).return_value,
+    ]
+    return m_open
