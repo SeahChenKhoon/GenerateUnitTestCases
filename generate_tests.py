@@ -457,12 +457,27 @@ def save_test_file(src_dir: Path, test_dir: Path, original_path: Path, test_code
 
 def extract_test_cases_from_code(provider, model_arg, llm_test_cases_prompt, test_code, 
                     temperature):
-    logger.info(f"Hello World 1")
     formatted_prompt = llm_test_cases_prompt.format(
         unit_test_file=test_code
     )
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
-    return strip_markdown_fences(response.choices[0].message.content.strip())
+    strip_markdown_fences(response.choices[0].message.content.strip())
+    return 
+
+def extract_test_functions(code: str) -> List[str]:
+    """
+    Extracts all test functions (including decorators like @pytest.mark.asyncio)
+    from the provided Python source code and returns them as a list of strings.
+    """
+    # Pattern to match each @pytest.mark.asyncio async def test_xxx(...) with its full body
+    pattern = re.compile(
+        r'(@pytest\.mark\.asyncio\s*\n)?'                      # Optional @pytest.mark.asyncio
+        r'async def\s+test_[\w_]+\s*\([^)]*\):'                # Test function definition
+        r'(?:\n(?: {4}|\t).+)+',                               # Indented function body
+        re.MULTILINE
+    )
+
+    return [match.group().strip() for match in pattern.finditer(code)]
 
 def save_test_case_to_temp_file(full_test_code: str, temp_path: Path) -> None:
     temp_path.write_text(full_test_code, encoding="utf-8")
@@ -520,7 +535,6 @@ logger = logging.getLogger(__name__)
     
 def extract_pytest_fixture(provider, model_arg, llm_pytest_fixture_prompt, test_code, 
                     temperature):
-    logger.info(f"Hello World 1")
     formatted_prompt = llm_pytest_fixture_prompt.format(
         unit_test_file=test_code
     )
@@ -543,19 +557,18 @@ def run_each_pytest_function_individually(
     # Extract each test function body individually
     pytest_fixture = extract_pytest_fixture(provider, model_arg, llm_pytest_fixture_prompt, test_code, temperature)
     logger.info(f"pytest_fixture - \n{pytest_fixture}\n")
-    test_cases = extract_test_cases_from_code(provider, model_arg, llm_test_cases_prompt, test_code, temperature)
-    logger.info(f"test_cases - \n{test_cases}\n")
+    test_cases = extract_test_functions(extract_test_cases_from_code(provider, model_arg, llm_test_cases_prompt, test_code, temperature))
 
     success_test_cases = ""
-    # for idx, test_case in enumerate(test_cases, start=1):
+    for idx, test_case in enumerate(test_cases, start=1):
     #     passed = 0
     #     count = 0
-    #     full_test_code = f"{import_statements}\n{pytest_fixture}\n{test_case}\n"
-    #     logger.info(f"\n")
-    #     logger.info(f"TEST CASE {idx} Retry {count}")
-    #     logger.info(f"---------------")
-    #     logger.info(f"\n{full_test_code}")
-    #     logger.info(f"---------------")
+        full_test_code = f"{import_statements}\n{pytest_fixture}\n{test_case}\n"
+        logger.info(f"\n")
+        logger.info(f"TEST CASE {idx} Retry {count}")
+        logger.info(f"---------------")
+        logger.info(f"\n{full_test_code}")
+        logger.info(f"---------------")
     #     try:
             
     #         save_test_case_to_temp_file(full_test_code, temp_file)

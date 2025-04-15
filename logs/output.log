@@ -1,229 +1,129 @@
-2025-04-15 11:02:58,645 - INFO - Loading environment variables...
-2025-04-15 11:02:58,957 - INFO - [1mStart Processing file: theory_evaluation\llm_handler.py[0m
-2025-04-15 11:03:10,541 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 11:03:10,546 - INFO - Hello World 1
-2025-04-15 11:03:14,255 - INFO - pytest_fixture - 
+2025-04-15 11:05:12,771 - INFO - Loading environment variables...
+2025-04-15 11:05:13,145 - INFO - [1mStart Processing file: theory_evaluation\llm_handler.py[0m
+2025-04-15 11:05:24,407 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 11:05:24,413 - INFO - Hello World 1
+2025-04-15 11:05:25,678 - INFO - pytest_fixture - 
 @pytest.fixture
-def mock_env_vars():
-    with patch("theory_evaluation.llm_handler.os.getenv", side_effect=lambda key: f"mock_{key}"):
-        yield
-
-@pytest.fixture
-def mock_openai_llm_client():
-    with patch("theory_evaluation.llm_handler.OpenAI_llm.client", new_callable=AsyncMock) as mock_client:
-        yield mock_client
+def mock_openai_client():
+    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
+        yield mock_openai
 
 @pytest.fixture
-def mock_openai_llm_run():
-    with patch("theory_evaluation.llm_handler.OpenAI_llm._run", new_callable=AsyncMock) as mock_run:
-        yield mock_run
+def mock_azure_openai_client():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai:
+        yield mock_azure_openai
 
-2025-04-15 11:03:14,258 - INFO - Hello World 1
-2025-04-15 11:03:22,750 - INFO - pytest_fixture - 
-import asyncio
-import json
-import os
-import pytest
-from unittest.mock import patch, AsyncMock
-from theory_evaluation.llm_handler import OpenAI_llm, DEFAULT_MESSAGE, DEFAULT_CONFIG
+2025-04-15 11:05:25,679 - INFO - Hello World 1
+2025-04-15 11:05:37,255 - INFO - test_cases - 
+@pytest.mark.asyncio
+async def test_openai_llm_initialization(mock_openai_client):
+    llm = OpenAI_llm(message="Test message", useAzureOpenAI=False)
+    assert llm.message == "Test message"
+    assert llm.client == mock_openai_client.return_value
 
 @pytest.mark.asyncio
-async def test_openai_llm_initialization():
-    with patch("theory_evaluation.llm_handler.AzureOpenAI") as mock_azure_openai, \
-         patch("theory_evaluation.llm_handler.OpenAI") as mock_openai, \
-         patch("theory_evaluation.llm_handler.os.getenv", side_effect=lambda key: f"mock_{key}"):
-        
-        llm = OpenAI_llm(
-            useAzureOpenAI=True,
-            message=DEFAULT_MESSAGE,
-            output="json",
-            mode="text_generation",
-            verbose=True
-        )
-        
-        assert llm.message == DEFAULT_MESSAGE
-        assert llm.output == "json"
-        assert llm.mode == "text_generation"
-        assert llm.verbose is True
-        assert hasattr(llm, "client")
-        assert mock_azure_openai.called
+async def test_azure_openai_llm_initialization(mock_azure_openai_client):
+    llm = OpenAI_llm(message="Test message", useAzureOpenAI=True)
+    assert llm.message == "Test message"
+    assert llm.client == mock_azure_openai_client.return_value
 
 @pytest.mark.asyncio
-async def test_openai_llm_openai_json_completion():
-    with patch("theory_evaluation.llm_handler.OpenAI_llm.client", new_callable=AsyncMock) as mock_client:
-        mock_client.chat.completions.create.return_value.choices = [
-            AsyncMock(message=AsyncMock(content=json.dumps({"answer": "42", "explanation": "The answer to life"})))
-        ]
-        
-        llm = OpenAI_llm(message=DEFAULT_MESSAGE)
-        result = await llm._OpenAI_JSON_Completion(messages=[{"role": "system", "content": DEFAULT_MESSAGE}])
-        
-        assert result == {"answer": "42", "explanation": "The answer to life"}
+async def test_openai_json_completion(mock_openai_client):
+    mock_response = AsyncMock()
+    mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to everything."})
+    mock_openai_client.return_value.chat.completions.create.return_value = mock_response
+
+    llm = OpenAI_llm(message="Test message", useAzureOpenAI=False)
+    result = await llm._OpenAI_JSON_Completion()
+    assert result == {"answer": "42", "explanation": "The answer to everything."}
 
 @pytest.mark.asyncio
-async def test_openai_llm_openai_streaming():
-    with patch("theory_evaluation.llm_handler.OpenAI_llm.client", new_callable=AsyncMock) as mock_client:
-        mock_client.chat.completions.create.return_value = [
-            AsyncMock(choices=[AsyncMock(delta=AsyncMock(content="streaming content"))])
-        ]
-        
-        llm = OpenAI_llm(message=DEFAULT_MESSAGE, output="stream")
-        result = [chunk async for chunk in llm._OpenAI_Streaming(messages=[{"role": "system", "content": DEFAULT_MESSAGE}])]
-        
-        assert result == ["streaming content"]
+async def test_openai_streaming(mock_openai_client):
+    mock_stream = AsyncMock()
+    mock_chunk = AsyncMock()
+    mock_chunk.choices[0].delta.content = "streaming content"
+    mock_stream.__aiter__.return_value = [mock_chunk]
+    mock_openai_client.return_value.chat.completions.create.return_value = mock_stream
+
+    llm = OpenAI_llm(message="Test message", useAzureOpenAI=False, output="stream")
+    result = [chunk async for chunk in llm._OpenAI_Streaming()]
+    assert result == ["streaming content"]
 
 @pytest.mark.asyncio
-async def test_openai_llm_openai_chat_completion():
-    with patch("theory_evaluation.llm_handler.OpenAI_llm.client", new_callable=AsyncMock) as mock_client:
-        mock_client.chat.completions.create.return_value.choices = [
-            AsyncMock(message=AsyncMock(content="chat completion content"))
-        ]
-        
-        llm = OpenAI_llm(message=DEFAULT_MESSAGE)
-        result = await llm._OpenAI_Chat_Completion(messages=[{"role": "system", "content": DEFAULT_MESSAGE}])
-        
-        assert result == "chat completion content"
+async def test_openai_chat_completion(mock_openai_client):
+    mock_response = AsyncMock()
+    mock_response.choices[0].message.content = "Chat completion content"
+    mock_openai_client.return_value.chat.completions.create.return_value = mock_response
+
+    llm = OpenAI_llm(message="Test message", useAzureOpenAI=False)
+    result = await llm._OpenAI_Chat_Completion()
+    assert result == "Chat completion content"
 
 @pytest.mark.asyncio
-async def test_openai_llm_execute_text_generation():
-    with patch("theory_evaluation.llm_handler.OpenAI_llm._run", new_callable=AsyncMock) as mock_run:
-        mock_run.return_value = AsyncMock(__aiter__=lambda s: iter(["response content"]))
-        
-        llm = OpenAI_llm(message=DEFAULT_MESSAGE, output="json", mode="text_generation")
-        result = [response async for response in llm.execute()]
-        
-        assert result == ["response content"]
+async def test_execute_text_generation(mock_openai_client):
+    mock_response = AsyncMock()
+    mock_response.choices[0].message.content = "Generated text"
+    mock_openai_client.return_value.chat.completions.create.return_value = mock_response
+
+    llm = OpenAI_llm(message="Test message", useAzureOpenAI=False, output=None)
+    result = [response async for response in llm.execute()]
+    assert result == ["Generated text"]
 
 @pytest.mark.asyncio
-async def test_openai_llm_execute_vision():
-    with patch("theory_evaluation.llm_handler.OpenAI_llm._run", new_callable=AsyncMock) as mock_run:
-        mock_run.return_value = AsyncMock(__aiter__=lambda s: iter(["vision response content"]))
-        
-        llm = OpenAI_llm(message=DEFAULT_MESSAGE, output="json", mode="vision", image_input="mock_image_data")
-        result = [response async for response in llm.execute()]
-        
-        assert result == ["vision response content"]
+async def test_execute_vision(mock_openai_client):
+    mock_response = AsyncMock()
+    mock_response.choices[0].message.content = "Vision response"
+    mock_openai_client.return_value.chat.completions.create.return_value = mock_response
 
-2025-04-15 11:03:22,750 - INFO - [1mEnd Processing file: theory_evaluation\llm_handler.py[0m
+    llm = OpenAI_llm(message="Test message", useAzureOpenAI=False, mode="vision", image_input="image_data")
+    result = [response async for response in llm.execute()]
+    assert result == ["Vision response"]
 
-2025-04-15 11:03:22,751 - INFO - [1mStart Processing file: theory_evaluation\llm_utils.py[0m
-2025-04-15 11:03:29,660 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 11:03:29,667 - INFO - Hello World 1
-2025-04-15 11:03:36,977 - INFO - pytest_fixture - 
-import pytest
-from unittest.mock import patch, mock_open
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+2025-04-15 11:05:37,258 - INFO - [1mEnd Processing file: theory_evaluation\llm_handler.py[0m
 
+2025-04-15 11:05:37,258 - INFO - [1mStart Processing file: theory_evaluation\llm_utils.py[0m
+2025-04-15 11:05:42,761 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 11:05:42,767 - INFO - Hello World 1
+2025-04-15 11:05:44,206 - INFO - pytest_fixture - 
 @pytest.fixture
-def mock_open_file():
-    def _mock_open_file(file_data):
-        return patch("theory_evaluation.llm_utils.open", mock_open(read_data=file_data))
-    return _mock_open_file
+def mock_open_files():
+    prompt_content = "This is a prompt with a {$placeholder}."
+    config_content = "placeholder: value"
+    settings_content = "setting_key: setting_value"
+    
+    m_open = mock_open(read_data=prompt_content)
+    m_open.side_effect = [
+        mock_open(read_data=config_content).return_value,
+        mock_open(read_data=prompt_content).return_value,
+        mock_open(read_data=settings_content).return_value
+    ]
+    return m_open
 
-def test_initialise_prompt_success(mock_open_file):
-    agent = "test_agent"
-    config_yaml = "key: value"
-    prompt_txt = "This is a {$key} test."
-    expected_prompt = "This is a value test."
+2025-04-15 11:05:44,207 - INFO - Hello World 1
+2025-04-15 11:05:46,909 - INFO - test_cases - 
+@patch('theory_evaluation.llm_utils.open', new_callable=mock_open_files)
+@patch('theory_evaluation.llm_utils.yaml.load', side_effect=lambda x, Loader: {'placeholder': 'value'})
+def test_initialise_prompt(mock_yaml_load, mock_open):
+    result = initialise_prompt('test_agent')
+    expected_prompt = "This is a prompt with a value."
+    assert result == expected_prompt
+    mock_open.assert_has_calls([
+        patch('theory_evaluation.llm_utils.open', mock_open).call(f"./theory_evaluation/evaluator/prompts/test_agent/config.yaml"),
+        patch('theory_evaluation.llm_utils.open', mock_open).call(f"./theory_evaluation/evaluator/prompts/test_agent/prompt.txt", "r")
+    ])
+    assert mock_yaml_load.called
 
-    with mock_open_file(config_yaml) as mock_file:
-        with mock_open_file(prompt_txt) as mock_prompt_file:
-            result = initialise_prompt(agent)
-            assert result == expected_prompt
-            mock_file.assert_called_once_with(f"./theory_evaluation/evaluator/prompts/{agent}/config.yaml")
-            mock_prompt_file.assert_called_once_with(f"./theory_evaluation/evaluator/prompts/{agent}/prompt.txt", "r")
+@patch('theory_evaluation.llm_utils.open', new_callable=mock_open)
+@patch('theory_evaluation.llm_utils.yaml.safe_load', return_value={'setting_key': 'setting_value'})
+def test_initialise_settings(mock_yaml_safe_load, mock_open):
+    result = initialise_settings('test_agent')
+    expected_settings = {'setting_key': 'setting_value'}
+    assert result == expected_settings
+    mock_open.assert_called_once_with(f"./theory_evaluation/evaluator/prompts/test_agent/llm_settings.yaml")
+    assert mock_yaml_safe_load.called
 
-def test_initialise_prompt_missing_placeholder(mock_open_file):
-    agent = "test_agent"
-    config_yaml = "key: value"
-    prompt_txt = "This is a {$missing_key} test."
-    expected_prompt = "This is a {$missing_key} test."
+2025-04-15 11:05:46,909 - INFO - [1mEnd Processing file: theory_evaluation\llm_utils.py[0m
 
-    with mock_open_file(config_yaml) as mock_file:
-        with mock_open_file(prompt_txt) as mock_prompt_file:
-            result = initialise_prompt(agent)
-            assert result == expected_prompt
-            mock_file.assert_called_once_with(f"./theory_evaluation/evaluator/prompts/{agent}/config.yaml")
-            mock_prompt_file.assert_called_once_with(f"./theory_evaluation/evaluator/prompts/{agent}/prompt.txt", "r")
-
-def test_initialise_prompt_file_not_found():
-    agent = "test_agent"
-
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_prompt(agent)
-        assert result is None
-
-def test_initialise_settings_success(mock_open_file):
-    agent = "test_agent"
-    settings_yaml = "key: value"
-    expected_settings = {"key": "value"}
-
-    with mock_open_file(settings_yaml) as mock_file:
-        result = initialise_settings(agent)
-        assert result == expected_settings
-        mock_file.assert_called_once_with(f"./theory_evaluation/evaluator/prompts/{agent}/llm_settings.yaml")
-
-def test_initialise_settings_file_not_found():
-    agent = "test_agent"
-
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_settings(agent)
-        assert result is None
-
-2025-04-15 11:03:36,977 - INFO - Hello World 1
-2025-04-15 11:03:42,408 - INFO - pytest_fixture - 
-def test_initialise_prompt_success():
-    agent = "test_agent"
-    config_yaml = "key: value"
-    prompt_txt = "This is a {$key} test."
-    expected_prompt = "This is a value test."
-
-    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=config_yaml)) as mock_file:
-        with patch("theory_evaluation.llm_utils.open", mock_open(read_data=prompt_txt)) as mock_prompt_file:
-            result = initialise_prompt(agent)
-            assert result == expected_prompt
-            mock_file.assert_called_once_with(f"./theory_evaluation/evaluator/prompts/{agent}/config.yaml")
-            mock_prompt_file.assert_called_once_with(f"./theory_evaluation/evaluator/prompts/{agent}/prompt.txt", "r")
-
-def test_initialise_prompt_missing_placeholder():
-    agent = "test_agent"
-    config_yaml = "key: value"
-    prompt_txt = "This is a {$missing_key} test."
-    expected_prompt = "This is a {$missing_key} test."
-
-    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=config_yaml)) as mock_file:
-        with patch("theory_evaluation.llm_utils.open", mock_open(read_data=prompt_txt)) as mock_prompt_file:
-            result = initialise_prompt(agent)
-            assert result == expected_prompt
-            mock_file.assert_called_once_with(f"./theory_evaluation/evaluator/prompts/{agent}/config.yaml")
-            mock_prompt_file.assert_called_once_with(f"./theory_evaluation/evaluator/prompts/{agent}/prompt.txt", "r")
-
-def test_initialise_prompt_file_not_found():
-    agent = "test_agent"
-
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_prompt(agent)
-        assert result is None
-
-def test_initialise_settings_success():
-    agent = "test_agent"
-    settings_yaml = "key: value"
-    expected_settings = {"key": "value"}
-
-    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=settings_yaml)) as mock_file:
-        result = initialise_settings(agent)
-        assert result == expected_settings
-        mock_file.assert_called_once_with(f"./theory_evaluation/evaluator/prompts/{agent}/llm_settings.yaml")
-
-def test_initialise_settings_file_not_found():
-    agent = "test_agent"
-
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_settings(agent)
-        assert result is None
-
-2025-04-15 11:03:42,409 - INFO - [1mEnd Processing file: theory_evaluation\llm_utils.py[0m
-
-2025-04-15 11:03:42,409 - INFO - [1mStart Processing file: theory_evaluation\__init__.py[0m
-2025-04-15 11:03:42,410 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
+2025-04-15 11:05:46,909 - INFO - [1mStart Processing file: theory_evaluation\__init__.py[0m
+2025-04-15 11:05:46,910 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
 
