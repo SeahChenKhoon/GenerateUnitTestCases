@@ -2,7 +2,8 @@ import os
 import re
 import yaml
 
-def test_initialise_settings():
+def test_initialise_settings_file_not_found():
     agent = "test_agent"
-    config_path = "./theory_evaluation/evaluator/prompts"
-    mock_llm_settings = {"setting1": "value1", "setting2": "value2"}
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_settings(agent)
+        assert result is None

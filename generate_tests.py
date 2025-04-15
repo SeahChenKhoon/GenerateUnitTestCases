@@ -558,7 +558,7 @@ def run_each_pytest_function_individually(
         passed = 0
         count = 0
         logger.info(f"\n")
-        logger.info(f"TEST CASE {idx} Retry {count + 1}")
+        logger.info(f"TEST CASE {idx} Retry {count}")
         logger.info(f"---------------")
         logger.info(f"{test_case}")
         logger.info(f"---------------")
@@ -572,7 +572,7 @@ def run_each_pytest_function_individually(
             max_retries = 2
             while count < max_retries and not passed:
                 count += 1
-                logger.info(f"TEST CASE {idx} Retry {count + 1}")
+                logger.info(f"TEST CASE {idx} Retry {count}")
                 logger.info(f"---------------")
                 logger.info(f"{test_case}")
                 logger.info(f"---------------")
@@ -582,7 +582,7 @@ def run_each_pytest_function_individually(
                 )
                 logger.info(f"proposed_test_case {count + 1}-\n{proposed_test_case}")
 
-                save_test_case_to_temp_file(import_statements, test_case, temp_file)
+                save_test_case_to_temp_file(import_statements, proposed_test_case, temp_file)
                 passed, test_case_error = run_single_test_file(temp_file)
 
                 logger.info(f"Test Result {count + 1}- {passed}")
