@@ -206,7 +206,7 @@ def _get_python_files(directory: str) -> List[Path]:
 
 def extract_function_and_class_names(code: str):
     # Match def and async def at any indentation level (including top-level)
-    function_names = re.findall(r'^\s*(?:async\s+)?def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE)
+    function_names = re.findall(r'^\s*(?:async\s+)?def\s+([a-zA-Z][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE)
 
     # Match class definitions at any indentation level
     class_names = re.findall(r'^\s*class\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*[:\(]', code, re.MULTILINE)
