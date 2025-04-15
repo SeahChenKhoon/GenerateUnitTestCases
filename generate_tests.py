@@ -565,30 +565,30 @@ def run_each_pytest_function_individually(
             max_retries = 2
             while count < max_retries and not passed:
                 count += 1
-                proposed_test_case = resolve_unit_test(
+                full_test_code = resolve_unit_test(
                     provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, 
                     temperature
                 )
                 logger.info(f"TEST CASE {idx} Retry {count}")
                 logger.info(f"---------------")
-                logger.info(f"\n{proposed_test_case}")
+                logger.info(f"\n{full_test_code}")
                 logger.info(f"---------------")
 
-                save_test_case_to_temp_file(proposed_test_case, temp_file)
+                save_test_case_to_temp_file(full_test_code, temp_file)
                 passed, test_case_error = run_single_test_file(temp_file)
 
                 logger.info(f"Test Result {count + 1}- {passed}")
                 logger.info(f"Test Error {count + 1} - {test_case_error}")
 
             if passed:
-                success_test_cases += "\n" + test_case + "\n"
+                success_test_cases += "\n" + full_test_code + "\n"
             else:
                 logger.info(f"Failed after all retries for test case {idx}")
 
         except Exception as e:
             logger.exception(f"Exception occurred while processing test case {idx}: {e}")
 
-    return import_statements + "\n" + success_test_cases
+    return success_test_cases
 
 
 def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg: str, env_vars: dict) -> None:

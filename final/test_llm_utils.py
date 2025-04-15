@@ -4,14 +4,11 @@ import yaml
 
 def test_initialise_prompt_success():
     agent = "test_agent"
-    config_values = {"placeholder": "value"}
-    prompt_structure = "This is a {$placeholder} test."
-
-def test_initialise_prompt_no_placeholder():
-    agent = "test_agent"
-    config_values = {}
-    prompt_structure = "This is a test."
+    config_yaml = "key: value"
+    prompt_txt = "Hello, {$key}!"
+    expected_prompt = "Hello, value!"
 
 def test_initialise_settings_success():
     agent = "test_agent"
-    llm_settings = {"setting": "value"}
+    llm_settings_yaml = "setting_key: setting_value"
+    expected_settings = {"setting_key": "setting_value"}

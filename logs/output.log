@@ -1,190 +1,121 @@
-2025-04-15 08:52:17,996 - INFO - Loading environment variables...
-2025-04-15 08:52:18,316 - INFO - [1mStart Processing file: theory_evaluation\llm_handler.py[0m
-2025-04-15 08:52:30,411 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 08:52:30,417 - INFO - 
+2025-04-15 08:56:09,718 - INFO - Loading environment variables...
+2025-04-15 08:56:10,075 - INFO - [1mStart Processing file: theory_evaluation\llm_handler.py[0m
+2025-04-15 08:56:22,729 - INFO - 
 
-2025-04-15 08:52:30,417 - INFO - TEST CASE 1 Retry 0
-2025-04-15 08:52:30,417 - INFO - ---------------
-2025-04-15 08:52:30,418 - INFO - 
+2025-04-15 08:56:22,730 - INFO - TEST CASE 1 Retry 0
+2025-04-15 08:56:22,730 - INFO - ---------------
+2025-04-15 08:56:22,731 - INFO - 
 import asyncio
 import json
 import os
 
 from openai import AzureOpenAI, OpenAI
 def test_openai_llm_initialization():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai, \
-         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
-         patch('os.getenv', side_effect=lambda key: f"mock_{key}"):
+    with patch("theory_evaluation.llm_handler.AzureOpenAI") as mock_azure_openai, \
+         patch("theory_evaluation.llm_handler.OpenAI") as mock_openai, \
+         patch("theory_evaluation.llm_handler.os.getenv", side_effect=lambda x: "test_value"):
         
-        llm = OpenAI_llm(useAzureOpenAI=True)
-        assert llm.azure_endpoint == "mock_AZURE_OPENAI_ENDPOINT_SWEDEN"
-        assert llm.api_version == "mock_AZURE_OPENAI_API_VERSION"
+        llm = OpenAI_llm(useAzureOpenAI=True, message="Test message")
+        assert llm.message == "Test message"
         assert llm.client == mock_azure_openai.return_value
-        assert llm.model_name == "mock_AZURE_OPENAI_DEPLOYMENT_NAME"
 
-2025-04-15 08:52:30,421 - INFO - ---------------
-2025-04-15 08:52:32,685 - INFO - Test Result 1- False
-2025-04-15 08:52:32,685 - INFO - Test Error 1 - F                                                                        [100%]
+2025-04-15 08:56:22,733 - INFO - ---------------
+2025-04-15 08:56:26,087 - INFO - Test Result 1- False
+2025-04-15 08:56:26,088 - INFO - Test Error 1 - F                                                                        [100%]
 ================================== FAILURES ===================================
 _______________________ test_openai_llm_initialization ________________________
 temp\temp.py:7: in test_openai_llm_initialization
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai, \
+    with patch("theory_evaluation.llm_handler.AzureOpenAI") as mock_azure_openai, \
 E   NameError: name 'patch' is not defined
 =========================== short test summary info ===========================
 FAILED temp/temp.py::test_openai_llm_initialization - NameError: name 'patch'...
-1 failed in 1.45s
-2025-04-15 08:52:32,685 - INFO - TEST CASE 1 Retry 1
-2025-04-15 08:52:32,685 - INFO - ---------------
-2025-04-15 08:52:32,685 - INFO - 
-def test_openai_llm_initialization():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai, \
-         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
-         patch('os.getenv', side_effect=lambda key: f"mock_{key}"):
-        
-        llm = OpenAI_llm(useAzureOpenAI=True)
-        assert llm.azure_endpoint == "mock_AZURE_OPENAI_ENDPOINT_SWEDEN"
-        assert llm.api_version == "mock_AZURE_OPENAI_API_VERSION"
-        assert llm.client == mock_azure_openai.return_value
-        assert llm.model_name == "mock_AZURE_OPENAI_DEPLOYMENT_NAME"
-2025-04-15 08:52:32,685 - INFO - ---------------
-2025-04-15 08:52:34,724 - INFO - proposed_test_case 2-
+1 failed in 1.87s
+2025-04-15 08:56:28,357 - INFO - TEST CASE 1 Retry 1
+2025-04-15 08:56:28,357 - INFO - ---------------
+2025-04-15 08:56:28,357 - INFO - 
 from unittest.mock import patch
 
 def test_openai_llm_initialization():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai, \
-         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
-         patch('os.getenv', side_effect=lambda key: f"mock_{key}"):
+    with patch("theory_evaluation.llm_handler.AzureOpenAI") as mock_azure_openai, \
+         patch("theory_evaluation.llm_handler.OpenAI") as mock_openai, \
+         patch("theory_evaluation.llm_handler.os.getenv", side_effect=lambda x: "test_value"):
         
-        llm = OpenAI_llm(useAzureOpenAI=True)
-        assert llm.azure_endpoint == "mock_AZURE_OPENAI_ENDPOINT_SWEDEN"
-        assert llm.api_version == "mock_AZURE_OPENAI_API_VERSION"
+        llm = OpenAI_llm(useAzureOpenAI=True, message="Test message")
+        assert llm.message == "Test message"
         assert llm.client == mock_azure_openai.return_value
-        assert llm.model_name == "mock_AZURE_OPENAI_DEPLOYMENT_NAME"
-2025-04-15 08:52:36,681 - INFO - Test Result 2- False
-2025-04-15 08:52:36,681 - INFO - Test Error 2 - F                                                                        [100%]
+2025-04-15 08:56:28,358 - INFO - ---------------
+2025-04-15 08:56:30,361 - INFO - Test Result 2- False
+2025-04-15 08:56:30,361 - INFO - Test Error 2 - F                                                                        [100%]
 ================================== FAILURES ===================================
 _______________________ test_openai_llm_initialization ________________________
 temp\temp.py:8: in test_openai_llm_initialization
-    llm = OpenAI_llm(useAzureOpenAI=True)
+    llm = OpenAI_llm(useAzureOpenAI=True, message="Test message")
 E   NameError: name 'OpenAI_llm' is not defined
 =========================== short test summary info ===========================
 FAILED temp/temp.py::test_openai_llm_initialization - NameError: name 'OpenAI...
-1 failed in 1.13s
-2025-04-15 08:52:36,681 - INFO - TEST CASE 1 Retry 2
-2025-04-15 08:52:36,681 - INFO - ---------------
-2025-04-15 08:52:36,681 - INFO - 
-def test_openai_llm_initialization():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai, \
-         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
-         patch('os.getenv', side_effect=lambda key: f"mock_{key}"):
-        
-        llm = OpenAI_llm(useAzureOpenAI=True)
-        assert llm.azure_endpoint == "mock_AZURE_OPENAI_ENDPOINT_SWEDEN"
-        assert llm.api_version == "mock_AZURE_OPENAI_API_VERSION"
-        assert llm.client == mock_azure_openai.return_value
-        assert llm.model_name == "mock_AZURE_OPENAI_DEPLOYMENT_NAME"
-2025-04-15 08:52:36,681 - INFO - ---------------
-2025-04-15 08:52:39,305 - INFO - proposed_test_case 3-
+1 failed in 1.20s
+2025-04-15 08:56:32,136 - INFO - TEST CASE 1 Retry 2
+2025-04-15 08:56:32,136 - INFO - ---------------
+2025-04-15 08:56:32,136 - INFO - 
 from unittest.mock import patch
 from theory_evaluation.llm_handler import OpenAI_llm
 
 def test_openai_llm_initialization():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai, \
-         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
-         patch('os.getenv', side_effect=lambda key: f"mock_{key}"):
+    with patch("theory_evaluation.llm_handler.AzureOpenAI") as mock_azure_openai, \
+         patch("theory_evaluation.llm_handler.OpenAI") as mock_openai, \
+         patch("theory_evaluation.llm_handler.os.getenv", side_effect=lambda x: "test_value"):
         
-        llm = OpenAI_llm(useAzureOpenAI=True)
-        assert llm.azure_endpoint == "mock_AZURE_OPENAI_ENDPOINT_SWEDEN"
-        assert llm.api_version == "mock_AZURE_OPENAI_API_VERSION"
+        llm = OpenAI_llm(useAzureOpenAI=True, message="Test message")
+        assert llm.message == "Test message"
         assert llm.client == mock_azure_openai.return_value
-        assert llm.model_name == "mock_AZURE_OPENAI_DEPLOYMENT_NAME"
-2025-04-15 08:52:41,058 - INFO - Test Result 3- True
-2025-04-15 08:52:41,058 - INFO - Test Error 3 - .                                                                        [100%]
-1 passed in 1.06s
-2025-04-15 08:52:41,058 - INFO - 
+2025-04-15 08:56:32,137 - INFO - ---------------
+2025-04-15 08:56:34,078 - INFO - Test Result 3- True
+2025-04-15 08:56:34,078 - INFO - Test Error 3 - .                                                                        [100%]
+1 passed in 1.18s
+2025-04-15 08:56:34,078 - INFO - 
 
-2025-04-15 08:52:41,058 - INFO - TEST CASE 2 Retry 0
-2025-04-15 08:52:41,058 - INFO - ---------------
-2025-04-15 08:52:41,059 - INFO - 
+2025-04-15 08:56:34,078 - INFO - TEST CASE 2 Retry 0
+2025-04-15 08:56:34,078 - INFO - ---------------
+2025-04-15 08:56:34,078 - INFO - 
 import asyncio
 import json
 import os
 
 from openai import AzureOpenAI, OpenAI
 def test_openai_json_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=AsyncMock) as mock_client:
+    with patch("theory_evaluation.llm_handler.OpenAI_llm.client") as mock_client:
         mock_response = AsyncMock()
         mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to life"})
         mock_client.chat.completions.create.return_value = mock_response
 
-2025-04-15 08:52:41,059 - INFO - ---------------
-2025-04-15 08:52:43,361 - INFO - Test Result 1- False
-2025-04-15 08:52:43,362 - INFO - Test Error 1 - F                                                                        [100%]
+2025-04-15 08:56:34,078 - INFO - ---------------
+2025-04-15 08:56:36,085 - INFO - Test Result 1- False
+2025-04-15 08:56:36,085 - INFO - Test Error 1 - F                                                                        [100%]
 ================================== FAILURES ===================================
 _________________________ test_openai_json_completion _________________________
 temp\temp.py:7: in test_openai_json_completion
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=AsyncMock) as mock_client:
+    with patch("theory_evaluation.llm_handler.OpenAI_llm.client") as mock_client:
 E   NameError: name 'patch' is not defined
 =========================== short test summary info ===========================
 FAILED temp/temp.py::test_openai_json_completion - NameError: name 'patch' is...
-1 failed in 1.34s
-2025-04-15 08:52:43,362 - INFO - TEST CASE 2 Retry 1
-2025-04-15 08:52:43,362 - INFO - ---------------
-2025-04-15 08:52:43,362 - INFO - 
-def test_openai_json_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=AsyncMock) as mock_client:
-        mock_response = AsyncMock()
-        mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to life"})
-        mock_client.chat.completions.create.return_value = mock_response
-2025-04-15 08:52:43,362 - INFO - ---------------
-2025-04-15 08:52:44,747 - INFO - proposed_test_case 2-
-from unittest.mock import patch, AsyncMock
-import json
-
-def test_openai_json_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=AsyncMock) as mock_client:
-        mock_response = AsyncMock()
-        mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to life"})
-        mock_client.chat.completions.create.return_value = mock_response
-2025-04-15 08:52:46,670 - INFO - Test Result 2- False
-2025-04-15 08:52:46,670 - INFO - Test Error 2 - F                                                                        [100%]
-================================== FAILURES ===================================
-_________________________ test_openai_json_completion _________________________
-temp\temp.py:5: in test_openai_json_completion
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=AsyncMock) as mock_client:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1495: in __enter__
-    original, local = self.get_original()
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1465: in get_original
-    raise AttributeError(
-E   AttributeError: <class 'theory_evaluation.llm_handler.OpenAI_llm'> does not have the attribute 'client'
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_openai_json_completion - AttributeError: <class 'th...
-1 failed in 1.11s
-2025-04-15 08:52:46,670 - INFO - TEST CASE 2 Retry 2
-2025-04-15 08:52:46,670 - INFO - ---------------
-2025-04-15 08:52:46,670 - INFO - 
-def test_openai_json_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=AsyncMock) as mock_client:
-        mock_response = AsyncMock()
-        mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to life"})
-        mock_client.chat.completions.create.return_value = mock_response
-2025-04-15 08:52:46,670 - INFO - ---------------
-2025-04-15 08:52:48,477 - INFO - proposed_test_case 3-
+1 failed in 1.32s
+2025-04-15 08:56:37,861 - INFO - TEST CASE 2 Retry 1
+2025-04-15 08:56:37,862 - INFO - ---------------
+2025-04-15 08:56:37,862 - INFO - 
 from unittest.mock import patch, AsyncMock
 
 def test_openai_json_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=property) as mock_client_property:
-        mock_client = AsyncMock()
-        mock_client_property.return_value = mock_client
+    with patch("theory_evaluation.llm_handler.OpenAI_llm.client") as mock_client:
         mock_response = AsyncMock()
         mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to life"})
         mock_client.chat.completions.create.return_value = mock_response
-2025-04-15 08:52:50,601 - INFO - Test Result 3- False
-2025-04-15 08:52:50,601 - INFO - Test Error 3 - F                                                                        [100%]
+2025-04-15 08:56:37,862 - INFO - ---------------
+2025-04-15 08:56:39,926 - INFO - Test Result 2- False
+2025-04-15 08:56:39,926 - INFO - Test Error 2 - F                                                                        [100%]
 ================================== FAILURES ===================================
 _________________________ test_openai_json_completion _________________________
 temp\temp.py:4: in test_openai_json_completion
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=property) as mock_client_property:
+    with patch("theory_evaluation.llm_handler.OpenAI_llm.client") as mock_client:
 C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1495: in __enter__
     original, local = self.get_original()
 C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1465: in get_original
@@ -192,58 +123,73 @@ C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1465:
 E   AttributeError: <class 'theory_evaluation.llm_handler.OpenAI_llm'> does not have the attribute 'client'
 =========================== short test summary info ===========================
 FAILED temp/temp.py::test_openai_json_completion - AttributeError: <class 'th...
-1 failed in 1.18s
-2025-04-15 08:52:50,602 - INFO - Failed after all retries for test case 2
-2025-04-15 08:52:50,602 - INFO - 
+1 failed in 1.22s
+2025-04-15 08:56:41,214 - INFO - TEST CASE 2 Retry 2
+2025-04-15 08:56:41,215 - INFO - ---------------
+2025-04-15 08:56:41,215 - INFO - 
+from unittest.mock import patch, AsyncMock
 
-2025-04-15 08:52:50,602 - INFO - TEST CASE 3 Retry 0
-2025-04-15 08:52:50,602 - INFO - ---------------
-2025-04-15 08:52:50,602 - INFO - 
+def test_openai_json_completion():
+    with patch("theory_evaluation.llm_handler.OpenAI_llm.client", create=True) as mock_client:
+        mock_response = AsyncMock()
+        mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to life"})
+        mock_client.chat.completions.create.return_value = mock_response
+2025-04-15 08:56:41,216 - INFO - ---------------
+2025-04-15 08:56:43,545 - INFO - Test Result 3- False
+2025-04-15 08:56:43,546 - INFO - Test Error 3 - F                                                                        [100%]
+================================== FAILURES ===================================
+_________________________ test_openai_json_completion _________________________
+temp\temp.py:6: in test_openai_json_completion
+    mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to life"})
+E   NameError: name 'json' is not defined. Did you forget to import 'json'?
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_openai_json_completion - NameError: name 'json' is ...
+1 failed in 1.38s
+2025-04-15 08:56:43,546 - INFO - Failed after all retries for test case 2
+2025-04-15 08:56:43,546 - INFO - 
+
+2025-04-15 08:56:43,546 - INFO - TEST CASE 3 Retry 0
+2025-04-15 08:56:43,546 - INFO - ---------------
+2025-04-15 08:56:43,546 - INFO - 
 import asyncio
 import json
 import os
 
 from openai import AzureOpenAI, OpenAI
 def test_openai_streaming():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=AsyncMock) as mock_client:
-        mock_chunk = AsyncMock()
-        mock_chunk.choices[0].delta.content = "streaming content"
-        mock_client.chat.completions.create.return_value = [mock_chunk]
+    with patch("theory_evaluation.llm_handler.OpenAI_llm.client") as mock_client:
+        mock_stream = AsyncMock()
+        mock_stream.__aiter__.return_value = [{"choices": [{"delta": {"content": "streaming content"}}]}]
+        mock_client.chat.completions.create.return_value = mock_stream
 
-2025-04-15 08:52:50,602 - INFO - ---------------
-2025-04-15 08:52:52,816 - INFO - Test Result 1- False
-2025-04-15 08:52:52,816 - INFO - Test Error 1 - F                                                                        [100%]
+2025-04-15 08:56:43,546 - INFO - ---------------
+2025-04-15 08:56:46,146 - INFO - Test Result 1- False
+2025-04-15 08:56:46,146 - INFO - Test Error 1 - F                                                                        [100%]
 ================================== FAILURES ===================================
 ____________________________ test_openai_streaming ____________________________
 temp\temp.py:7: in test_openai_streaming
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=AsyncMock) as mock_client:
+    with patch("theory_evaluation.llm_handler.OpenAI_llm.client") as mock_client:
 E   NameError: name 'patch' is not defined
 =========================== short test summary info ===========================
 FAILED temp/temp.py::test_openai_streaming - NameError: name 'patch' is not d...
-1 failed in 1.37s
-2025-04-15 08:52:52,817 - INFO - TEST CASE 3 Retry 1
-2025-04-15 08:52:52,817 - INFO - ---------------
-2025-04-15 08:52:52,817 - INFO - 
-def test_openai_streaming():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=AsyncMock) as mock_client:
-        mock_chunk = AsyncMock()
-        mock_chunk.choices[0].delta.content = "streaming content"
-        mock_client.chat.completions.create.return_value = [mock_chunk]
-2025-04-15 08:52:52,817 - INFO - ---------------
-2025-04-15 08:52:54,382 - INFO - proposed_test_case 2-
+1 failed in 1.64s
+2025-04-15 08:56:47,442 - INFO - TEST CASE 3 Retry 1
+2025-04-15 08:56:47,442 - INFO - ---------------
+2025-04-15 08:56:47,442 - INFO - 
 from unittest.mock import patch, AsyncMock
 
 def test_openai_streaming():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=AsyncMock) as mock_client:
-        mock_chunk = AsyncMock()
-        mock_chunk.choices[0].delta.content = "streaming content"
-        mock_client.chat.completions.create.return_value = [mock_chunk]
-2025-04-15 08:52:56,359 - INFO - Test Result 2- False
-2025-04-15 08:52:56,359 - INFO - Test Error 2 - F                                                                        [100%]
+    with patch("theory_evaluation.llm_handler.OpenAI_llm.client") as mock_client:
+        mock_stream = AsyncMock()
+        mock_stream.__aiter__.return_value = [{"choices": [{"delta": {"content": "streaming content"}}]}]
+        mock_client.chat.completions.create.return_value = mock_stream
+2025-04-15 08:56:47,442 - INFO - ---------------
+2025-04-15 08:56:49,775 - INFO - Test Result 2- False
+2025-04-15 08:56:49,776 - INFO - Test Error 2 - F                                                                        [100%]
 ================================== FAILURES ===================================
 ____________________________ test_openai_streaming ____________________________
 temp\temp.py:4: in test_openai_streaming
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=AsyncMock) as mock_client:
+    with patch("theory_evaluation.llm_handler.OpenAI_llm.client") as mock_client:
 C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1495: in __enter__
     original, local = self.get_original()
 C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1465: in get_original
@@ -251,91 +197,66 @@ C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1465:
 E   AttributeError: <class 'theory_evaluation.llm_handler.OpenAI_llm'> does not have the attribute 'client'
 =========================== short test summary info ===========================
 FAILED temp/temp.py::test_openai_streaming - AttributeError: <class 'theory_e...
-1 failed in 1.23s
-2025-04-15 08:52:56,359 - INFO - TEST CASE 3 Retry 2
-2025-04-15 08:52:56,359 - INFO - ---------------
-2025-04-15 08:52:56,359 - INFO - 
-def test_openai_streaming():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=AsyncMock) as mock_client:
-        mock_chunk = AsyncMock()
-        mock_chunk.choices[0].delta.content = "streaming content"
-        mock_client.chat.completions.create.return_value = [mock_chunk]
-2025-04-15 08:52:56,359 - INFO - ---------------
-2025-04-15 08:52:57,787 - INFO - proposed_test_case 3-
-import unittest
+1 failed in 1.42s
+2025-04-15 08:56:51,318 - INFO - TEST CASE 3 Retry 2
+2025-04-15 08:56:51,318 - INFO - ---------------
+2025-04-15 08:56:51,318 - INFO - 
 from unittest.mock import patch, AsyncMock
 from theory_evaluation.llm_handler import OpenAI_llm
 
 def test_openai_streaming():
-    with patch.object(OpenAI_llm, 'client', new_callable=AsyncMock) as mock_client:
-        mock_chunk = AsyncMock()
-        mock_chunk.choices[0].delta.content = "streaming content"
-        mock_client.chat.completions.create.return_value = [mock_chunk]
-2025-04-15 08:53:00,086 - INFO - Test Result 3- False
-2025-04-15 08:53:00,086 - INFO - Test Error 3 - F                                                                        [100%]
-================================== FAILURES ===================================
-____________________________ test_openai_streaming ____________________________
-temp\temp.py:6: in test_openai_streaming
-    with patch.object(OpenAI_llm, 'client', new_callable=AsyncMock) as mock_client:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1495: in __enter__
-    original, local = self.get_original()
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1465: in get_original
-    raise AttributeError(
-E   AttributeError: <class 'theory_evaluation.llm_handler.OpenAI_llm'> does not have the attribute 'client'
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_openai_streaming - AttributeError: <class 'theory_e...
-1 failed in 1.34s
-2025-04-15 08:53:00,087 - INFO - Failed after all retries for test case 3
-2025-04-15 08:53:00,087 - INFO - 
+    with patch.object(OpenAI_llm, 'client', create=True) as mock_client:
+        mock_stream = AsyncMock()
+        mock_stream.__aiter__.return_value = [{"choices": [{"delta": {"content": "streaming content"}}]}]
+        mock_client.chat.completions.create.return_value = mock_stream
+2025-04-15 08:56:51,318 - INFO - ---------------
+2025-04-15 08:56:53,374 - INFO - Test Result 3- True
+2025-04-15 08:56:53,374 - INFO - Test Error 3 - .                                                                        [100%]
+1 passed in 1.25s
+2025-04-15 08:56:53,374 - INFO - 
 
-2025-04-15 08:53:00,087 - INFO - TEST CASE 4 Retry 0
-2025-04-15 08:53:00,087 - INFO - ---------------
-2025-04-15 08:53:00,087 - INFO - 
+2025-04-15 08:56:53,374 - INFO - TEST CASE 4 Retry 0
+2025-04-15 08:56:53,374 - INFO - ---------------
+2025-04-15 08:56:53,374 - INFO - 
 import asyncio
 import json
 import os
 
 from openai import AzureOpenAI, OpenAI
 def test_openai_chat_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=AsyncMock) as mock_client:
+    with patch("theory_evaluation.llm_handler.OpenAI_llm.client") as mock_client:
         mock_response = AsyncMock()
         mock_response.choices[0].message.content = "chat completion content"
         mock_client.chat.completions.create.return_value = mock_response
 
-2025-04-15 08:53:00,088 - INFO - ---------------
-2025-04-15 08:53:01,988 - INFO - Test Result 1- False
-2025-04-15 08:53:01,988 - INFO - Test Error 1 - F                                                                        [100%]
+2025-04-15 08:56:53,374 - INFO - ---------------
+2025-04-15 08:56:55,861 - INFO - Test Result 1- False
+2025-04-15 08:56:55,862 - INFO - Test Error 1 - F                                                                        [100%]
 ================================== FAILURES ===================================
 _________________________ test_openai_chat_completion _________________________
 temp\temp.py:7: in test_openai_chat_completion
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=AsyncMock) as mock_client:
+    with patch("theory_evaluation.llm_handler.OpenAI_llm.client") as mock_client:
 E   NameError: name 'patch' is not defined
 =========================== short test summary info ===========================
 FAILED temp/temp.py::test_openai_chat_completion - NameError: name 'patch' is...
-1 failed in 1.15s
-2025-04-15 08:53:01,988 - INFO - TEST CASE 4 Retry 1
-2025-04-15 08:53:01,988 - INFO - ---------------
-2025-04-15 08:53:01,988 - INFO - 
-def test_openai_chat_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=AsyncMock) as mock_client:
-        mock_response = AsyncMock()
-        mock_response.choices[0].message.content = "chat completion content"
-        mock_client.chat.completions.create.return_value = mock_response
-2025-04-15 08:53:01,988 - INFO - ---------------
-2025-04-15 08:53:03,189 - INFO - proposed_test_case 2-
+1 failed in 1.29s
+2025-04-15 08:56:57,094 - INFO - TEST CASE 4 Retry 1
+2025-04-15 08:56:57,094 - INFO - ---------------
+2025-04-15 08:56:57,094 - INFO - 
 from unittest.mock import patch, AsyncMock
 
 def test_openai_chat_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=AsyncMock) as mock_client:
+    with patch("theory_evaluation.llm_handler.OpenAI_llm.client") as mock_client:
         mock_response = AsyncMock()
         mock_response.choices[0].message.content = "chat completion content"
         mock_client.chat.completions.create.return_value = mock_response
-2025-04-15 08:53:05,492 - INFO - Test Result 2- False
-2025-04-15 08:53:05,492 - INFO - Test Error 2 - F                                                                        [100%]
+2025-04-15 08:56:57,094 - INFO - ---------------
+2025-04-15 08:56:59,524 - INFO - Test Result 2- False
+2025-04-15 08:56:59,525 - INFO - Test Error 2 - F                                                                        [100%]
 ================================== FAILURES ===================================
 _________________________ test_openai_chat_completion _________________________
 temp\temp.py:4: in test_openai_chat_completion
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=AsyncMock) as mock_client:
+    with patch("theory_evaluation.llm_handler.OpenAI_llm.client") as mock_client:
 C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1495: in __enter__
     original, local = self.get_original()
 C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1465: in get_original
@@ -343,358 +264,283 @@ C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1465:
 E   AttributeError: <class 'theory_evaluation.llm_handler.OpenAI_llm'> does not have the attribute 'client'
 =========================== short test summary info ===========================
 FAILED temp/temp.py::test_openai_chat_completion - AttributeError: <class 'th...
-1 failed in 1.42s
-2025-04-15 08:53:05,492 - INFO - TEST CASE 4 Retry 2
-2025-04-15 08:53:05,492 - INFO - ---------------
-2025-04-15 08:53:05,492 - INFO - 
-def test_openai_chat_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=AsyncMock) as mock_client:
-        mock_response = AsyncMock()
-        mock_response.choices[0].message.content = "chat completion content"
-        mock_client.chat.completions.create.return_value = mock_response
-2025-04-15 08:53:05,492 - INFO - ---------------
-2025-04-15 08:53:06,795 - INFO - proposed_test_case 3-
+1 failed in 1.57s
+2025-04-15 08:57:00,879 - INFO - TEST CASE 4 Retry 2
+2025-04-15 08:57:00,880 - INFO - ---------------
+2025-04-15 08:57:00,880 - INFO - 
 from unittest.mock import patch, AsyncMock
+from theory_evaluation.llm_handler import OpenAI_llm
 
 def test_openai_chat_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=AsyncMock) as mock_client:
+    with patch.object(OpenAI_llm, 'client', create=True) as mock_client:
         mock_response = AsyncMock()
-        mock_response.choices = [AsyncMock()]
         mock_response.choices[0].message.content = "chat completion content"
         mock_client.chat.completions.create.return_value = mock_response
-2025-04-15 08:53:09,429 - INFO - Test Result 3- False
-2025-04-15 08:53:09,429 - INFO - Test Error 3 - F                                                                        [100%]
-================================== FAILURES ===================================
-_________________________ test_openai_chat_completion _________________________
-temp\temp.py:4: in test_openai_chat_completion
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=AsyncMock) as mock_client:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1495: in __enter__
-    original, local = self.get_original()
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1465: in get_original
-    raise AttributeError(
-E   AttributeError: <class 'theory_evaluation.llm_handler.OpenAI_llm'> does not have the attribute 'client'
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_openai_chat_completion - AttributeError: <class 'th...
-1 failed in 1.86s
-2025-04-15 08:53:09,429 - INFO - Failed after all retries for test case 4
-2025-04-15 08:53:09,429 - INFO - 
+2025-04-15 08:57:00,880 - INFO - ---------------
+2025-04-15 08:57:03,262 - INFO - Test Result 3- True
+2025-04-15 08:57:03,263 - INFO - Test Error 3 - .                                                                        [100%]
+1 passed in 1.25s
+2025-04-15 08:57:03,263 - INFO - 
 
-2025-04-15 08:53:09,429 - INFO - TEST CASE 5 Retry 0
-2025-04-15 08:53:09,429 - INFO - ---------------
-2025-04-15 08:53:09,429 - INFO - 
+2025-04-15 08:57:03,263 - INFO - TEST CASE 5 Retry 0
+2025-04-15 08:57:03,263 - INFO - ---------------
+2025-04-15 08:57:03,263 - INFO - 
 import asyncio
 import json
 import os
 
 from openai import AzureOpenAI, OpenAI
 def test_execute_text_generation():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
-        mock_run.return_value = AsyncMock()
+    with patch("theory_evaluation.llm_handler.OpenAI_llm._run", new_callable=AsyncMock) as mock_run:
         mock_run.return_value.__aiter__.return_value = ["response content"]
 
-2025-04-15 08:53:09,429 - INFO - ---------------
-2025-04-15 08:53:11,967 - INFO - Test Result 1- False
-2025-04-15 08:53:11,967 - INFO - Test Error 1 - F                                                                        [100%]
+2025-04-15 08:57:03,264 - INFO - ---------------
+2025-04-15 08:57:05,788 - INFO - Test Result 1- False
+2025-04-15 08:57:05,788 - INFO - Test Error 1 - F                                                                        [100%]
 ================================== FAILURES ===================================
 ________________________ test_execute_text_generation _________________________
 temp\temp.py:7: in test_execute_text_generation
-    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
+    with patch("theory_evaluation.llm_handler.OpenAI_llm._run", new_callable=AsyncMock) as mock_run:
 E   NameError: name 'patch' is not defined
 =========================== short test summary info ===========================
 FAILED temp/temp.py::test_execute_text_generation - NameError: name 'patch' i...
-1 failed in 1.63s
-2025-04-15 08:53:11,967 - INFO - TEST CASE 5 Retry 1
-2025-04-15 08:53:11,968 - INFO - ---------------
-2025-04-15 08:53:11,968 - INFO - 
-def test_execute_text_generation():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
-        mock_run.return_value = AsyncMock()
-        mock_run.return_value.__aiter__.return_value = ["response content"]
-2025-04-15 08:53:11,968 - INFO - ---------------
-2025-04-15 08:53:16,106 - INFO - proposed_test_case 2-
+1 failed in 1.47s
+2025-04-15 08:57:06,886 - INFO - TEST CASE 5 Retry 1
+2025-04-15 08:57:06,887 - INFO - ---------------
+2025-04-15 08:57:06,887 - INFO - 
 from unittest.mock import patch, AsyncMock
 
 def test_execute_text_generation():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
-        mock_run.return_value = AsyncMock()
+    with patch("theory_evaluation.llm_handler.OpenAI_llm._run", new_callable=AsyncMock) as mock_run:
         mock_run.return_value.__aiter__.return_value = ["response content"]
-2025-04-15 08:53:18,093 - INFO - Test Result 2- True
-2025-04-15 08:53:18,094 - INFO - Test Error 2 - .                                                                        [100%]
-1 passed in 1.15s
-2025-04-15 08:53:18,094 - INFO - 
+2025-04-15 08:57:06,887 - INFO - ---------------
+2025-04-15 08:57:09,088 - INFO - Test Result 2- True
+2025-04-15 08:57:09,088 - INFO - Test Error 2 - .                                                                        [100%]
+1 passed in 1.12s
+2025-04-15 08:57:09,088 - INFO - 
 
-2025-04-15 08:53:18,094 - INFO - TEST CASE 6 Retry 0
-2025-04-15 08:53:18,094 - INFO - ---------------
-2025-04-15 08:53:18,094 - INFO - 
+2025-04-15 08:57:09,088 - INFO - TEST CASE 6 Retry 0
+2025-04-15 08:57:09,088 - INFO - ---------------
+2025-04-15 08:57:09,088 - INFO - 
 import asyncio
 import json
 import os
 
 from openai import AzureOpenAI, OpenAI
 def test_execute_vision():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
-        mock_run.return_value = AsyncMock()
+    with patch("theory_evaluation.llm_handler.OpenAI_llm._run", new_callable=AsyncMock) as mock_run:
         mock_run.return_value.__aiter__.return_value = ["response content"]
 
-2025-04-15 08:53:18,094 - INFO - ---------------
-2025-04-15 08:53:20,448 - INFO - Test Result 1- False
-2025-04-15 08:53:20,449 - INFO - Test Error 1 - F                                                                        [100%]
+2025-04-15 08:57:09,088 - INFO - ---------------
+2025-04-15 08:57:11,041 - INFO - Test Result 1- False
+2025-04-15 08:57:11,041 - INFO - Test Error 1 - F                                                                        [100%]
 ================================== FAILURES ===================================
 _____________________________ test_execute_vision _____________________________
 temp\temp.py:7: in test_execute_vision
-    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
+    with patch("theory_evaluation.llm_handler.OpenAI_llm._run", new_callable=AsyncMock) as mock_run:
 E   NameError: name 'patch' is not defined
 =========================== short test summary info ===========================
 FAILED temp/temp.py::test_execute_vision - NameError: name 'patch' is not def...
-1 failed in 1.42s
-2025-04-15 08:53:20,449 - INFO - TEST CASE 6 Retry 1
-2025-04-15 08:53:20,449 - INFO - ---------------
-2025-04-15 08:53:20,449 - INFO - 
-def test_execute_vision():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
-        mock_run.return_value = AsyncMock()
-        mock_run.return_value.__aiter__.return_value = ["response content"]
-2025-04-15 08:53:20,449 - INFO - ---------------
-2025-04-15 08:53:21,551 - INFO - proposed_test_case 2-
+1 failed in 1.19s
+2025-04-15 08:57:12,184 - INFO - TEST CASE 6 Retry 1
+2025-04-15 08:57:12,184 - INFO - ---------------
+2025-04-15 08:57:12,184 - INFO - 
 from unittest.mock import patch, AsyncMock
 
 def test_execute_vision():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
-        mock_run.return_value = AsyncMock()
+    with patch("theory_evaluation.llm_handler.OpenAI_llm._run", new_callable=AsyncMock) as mock_run:
         mock_run.return_value.__aiter__.return_value = ["response content"]
-2025-04-15 08:53:23,445 - INFO - Test Result 2- True
-2025-04-15 08:53:23,445 - INFO - Test Error 2 - .                                                                        [100%]
+2025-04-15 08:57:12,184 - INFO - ---------------
+2025-04-15 08:57:14,163 - INFO - Test Result 2- True
+2025-04-15 08:57:14,163 - INFO - Test Error 2 - .                                                                        [100%]
 1 passed in 1.12s
-2025-04-15 08:53:23,447 - INFO - [1mEnd Processing file: theory_evaluation\llm_handler.py[0m
+2025-04-15 08:57:14,169 - INFO - [1mEnd Processing file: theory_evaluation\llm_handler.py[0m
 
-2025-04-15 08:53:23,447 - INFO - [1mStart Processing file: theory_evaluation\llm_utils.py[0m
-2025-04-15 08:53:33,243 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 08:53:33,247 - INFO - 
+2025-04-15 08:57:14,169 - INFO - [1mStart Processing file: theory_evaluation\llm_utils.py[0m
+2025-04-15 08:57:19,813 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 08:57:19,818 - INFO - 
 
-2025-04-15 08:53:33,248 - INFO - TEST CASE 1 Retry 0
-2025-04-15 08:53:33,248 - INFO - ---------------
-2025-04-15 08:53:33,248 - INFO - 
+2025-04-15 08:57:19,818 - INFO - TEST CASE 1 Retry 0
+2025-04-15 08:57:19,818 - INFO - ---------------
+2025-04-15 08:57:19,819 - INFO - 
 import os
 import re
 import yaml
 def test_initialise_prompt_success():
     agent = "test_agent"
-    config_values = {"placeholder": "value"}
-    prompt_structure = "This is a {$placeholder} test."
+    config_yaml = "key: value"
+    prompt_txt = "Hello, {$key}!"
+    expected_prompt = "Hello, value!"
 
-2025-04-15 08:53:33,248 - INFO - ---------------
-2025-04-15 08:53:34,257 - INFO - Test Result 1- True
-2025-04-15 08:53:34,257 - INFO - Test Error 1 - .                                                                        [100%]
-1 passed in 0.16s
-2025-04-15 08:53:34,257 - INFO - 
+2025-04-15 08:57:19,819 - INFO - ---------------
+2025-04-15 08:57:20,664 - INFO - Test Result 1- True
+2025-04-15 08:57:20,664 - INFO - Test Error 1 - .                                                                        [100%]
+1 passed in 0.07s
+2025-04-15 08:57:20,664 - INFO - 
 
-2025-04-15 08:53:34,258 - INFO - TEST CASE 2 Retry 0
-2025-04-15 08:53:34,258 - INFO - ---------------
-2025-04-15 08:53:34,258 - INFO - 
+2025-04-15 08:57:20,664 - INFO - TEST CASE 2 Retry 0
+2025-04-15 08:57:20,664 - INFO - ---------------
+2025-04-15 08:57:20,664 - INFO - 
 import os
 import re
 import yaml
-def test_initialise_prompt_no_placeholder():
+def test_initialise_prompt_no_config_path():
     agent = "test_agent"
-    config_values = {}
-    prompt_structure = "This is a test."
-
-2025-04-15 08:53:34,258 - INFO - ---------------
-2025-04-15 08:53:35,059 - INFO - Test Result 1- True
-2025-04-15 08:53:35,060 - INFO - Test Error 1 - .                                                                        [100%]
-1 passed in 0.16s
-2025-04-15 08:53:35,060 - INFO - 
-
-2025-04-15 08:53:35,060 - INFO - TEST CASE 3 Retry 0
-2025-04-15 08:53:35,060 - INFO - ---------------
-2025-04-15 08:53:35,060 - INFO - 
-import os
-import re
-import yaml
-def test_initialise_prompt_exception():
-    agent = "test_agent"
-    with patch("theory_evaluation.llm_utils.open", side_effect=Exception("File not found")):
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
         result = initialise_prompt(agent)
         assert result is None
 
-2025-04-15 08:53:35,060 - INFO - ---------------
-2025-04-15 08:53:35,765 - INFO - Test Result 1- False
-2025-04-15 08:53:35,766 - INFO - Test Error 1 - F                                                                        [100%]
+2025-04-15 08:57:20,664 - INFO - ---------------
+2025-04-15 08:57:21,441 - INFO - Test Result 1- False
+2025-04-15 08:57:21,442 - INFO - Test Error 1 - F                                                                        [100%]
 ================================== FAILURES ===================================
-______________________ test_initialise_prompt_exception _______________________
-temp\temp.py:6: in test_initialise_prompt_exception
-    with patch("theory_evaluation.llm_utils.open", side_effect=Exception("File not found")):
+____________________ test_initialise_prompt_no_config_path ____________________
+temp\temp.py:6: in test_initialise_prompt_no_config_path
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
 E   NameError: name 'patch' is not defined
 =========================== short test summary info ===========================
-FAILED temp/temp.py::test_initialise_prompt_exception - NameError: name 'patc...
-1 failed in 0.21s
-2025-04-15 08:53:35,766 - INFO - TEST CASE 3 Retry 1
-2025-04-15 08:53:35,766 - INFO - ---------------
-2025-04-15 08:53:35,766 - INFO - 
-def test_initialise_prompt_exception():
-    agent = "test_agent"
-    with patch("theory_evaluation.llm_utils.open", side_effect=Exception("File not found")):
-        result = initialise_prompt(agent)
-        assert result is None
-2025-04-15 08:53:35,766 - INFO - ---------------
-2025-04-15 08:53:36,856 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 08:53:36,856 - INFO - proposed_test_case 2-
+FAILED temp/temp.py::test_initialise_prompt_no_config_path - NameError: name ...
+1 failed in 0.16s
+2025-04-15 08:57:22,434 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 08:57:22,435 - INFO - TEST CASE 2 Retry 1
+2025-04-15 08:57:22,435 - INFO - ---------------
+2025-04-15 08:57:22,435 - INFO - 
 from unittest.mock import patch
 
-def test_initialise_prompt_exception():
+def test_initialise_prompt_no_config_path():
     agent = "test_agent"
-    with patch("builtins.open", side_effect=Exception("File not found")):
+    with patch("builtins.open", side_effect=FileNotFoundError):
         result = initialise_prompt(agent)
         assert result is None
-2025-04-15 08:53:37,823 - INFO - Test Result 2- False
-2025-04-15 08:53:37,823 - INFO - Test Error 2 - F                                                                        [100%]
+2025-04-15 08:57:22,435 - INFO - ---------------
+2025-04-15 08:57:23,536 - INFO - Test Result 2- False
+2025-04-15 08:57:23,537 - INFO - Test Error 2 - F                                                                        [100%]
 ================================== FAILURES ===================================
-______________________ test_initialise_prompt_exception _______________________
-temp\temp.py:6: in test_initialise_prompt_exception
+____________________ test_initialise_prompt_no_config_path ____________________
+temp\temp.py:6: in test_initialise_prompt_no_config_path
     result = initialise_prompt(agent)
 E   NameError: name 'initialise_prompt' is not defined
 =========================== short test summary info ===========================
-FAILED temp/temp.py::test_initialise_prompt_exception - NameError: name 'init...
-1 failed in 0.29s
-2025-04-15 08:53:37,823 - INFO - TEST CASE 3 Retry 2
-2025-04-15 08:53:37,823 - INFO - ---------------
-2025-04-15 08:53:37,823 - INFO - 
-def test_initialise_prompt_exception():
-    agent = "test_agent"
-    with patch("theory_evaluation.llm_utils.open", side_effect=Exception("File not found")):
-        result = initialise_prompt(agent)
-        assert result is None
-2025-04-15 08:53:37,824 - INFO - ---------------
-2025-04-15 08:53:38,864 - INFO - proposed_test_case 3-
-from unittest.mock import patch
-from temp import initialise_prompt
+FAILED temp/temp.py::test_initialise_prompt_no_config_path - NameError: name ...
+1 failed in 0.31s
+2025-04-15 08:57:24,648 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 08:57:24,649 - INFO - TEST CASE 2 Retry 2
+2025-04-15 08:57:24,649 - INFO - ---------------
+2025-04-15 08:57:24,649 - INFO - 
+from theory_evaluation.evaluator.prompts import initialise_prompt
 
-def test_initialise_prompt_exception():
+def test_initialise_prompt_no_config_path():
     agent = "test_agent"
-    with patch("theory_evaluation.llm_utils.open", side_effect=Exception("File not found")):
+    with patch("theory_evaluation.evaluator.prompts.open", side_effect=FileNotFoundError):
         result = initialise_prompt(agent)
         assert result is None
-2025-04-15 08:53:39,897 - INFO - Test Result 3- False
-2025-04-15 08:53:39,897 - INFO - Test Error 3 - =================================== ERRORS ====================================
+2025-04-15 08:57:24,649 - INFO - ---------------
+2025-04-15 08:57:25,447 - INFO - Test Result 3- False
+2025-04-15 08:57:25,448 - INFO - Test Error 3 - =================================== ERRORS ====================================
 ________________________ ERROR collecting temp/temp.py ________________________
 ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
 Hint: make sure your test modules/packages have valid Python names.
 Traceback:
 C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
     return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:2: in <module>
-    from temp import initialise_prompt
-E   ImportError: cannot import name 'initialise_prompt' from partially initialized module 'temp' (most likely due to a circular import) (C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py)
+temp\temp.py:1: in <module>
+    from theory_evaluation.evaluator.prompts import initialise_prompt
+E   ModuleNotFoundError: No module named 'theory_evaluation.evaluator'
 =========================== short test summary info ===========================
 ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.32s
-2025-04-15 08:53:39,897 - INFO - Failed after all retries for test case 3
-2025-04-15 08:53:39,897 - INFO - 
+1 error in 0.20s
+2025-04-15 08:57:25,448 - INFO - Failed after all retries for test case 2
+2025-04-15 08:57:25,448 - INFO - 
 
-2025-04-15 08:53:39,897 - INFO - TEST CASE 4 Retry 0
-2025-04-15 08:53:39,897 - INFO - ---------------
-2025-04-15 08:53:39,897 - INFO - 
+2025-04-15 08:57:25,448 - INFO - TEST CASE 3 Retry 0
+2025-04-15 08:57:25,448 - INFO - ---------------
+2025-04-15 08:57:25,448 - INFO - 
 import os
 import re
 import yaml
 def test_initialise_settings_success():
     agent = "test_agent"
-    llm_settings = {"setting": "value"}
+    llm_settings_yaml = "setting_key: setting_value"
+    expected_settings = {"setting_key": "setting_value"}
 
-2025-04-15 08:53:39,897 - INFO - ---------------
-2025-04-15 08:53:40,592 - INFO - Test Result 1- True
-2025-04-15 08:53:40,592 - INFO - Test Error 1 - .                                                                        [100%]
-1 passed in 0.13s
-2025-04-15 08:53:40,592 - INFO - 
+2025-04-15 08:57:25,448 - INFO - ---------------
+2025-04-15 08:57:26,441 - INFO - Test Result 1- True
+2025-04-15 08:57:26,442 - INFO - Test Error 1 - .                                                                        [100%]
+1 passed in 0.19s
+2025-04-15 08:57:26,442 - INFO - 
 
-2025-04-15 08:53:40,592 - INFO - TEST CASE 5 Retry 0
-2025-04-15 08:53:40,592 - INFO - ---------------
-2025-04-15 08:53:40,592 - INFO - 
+2025-04-15 08:57:26,442 - INFO - TEST CASE 4 Retry 0
+2025-04-15 08:57:26,442 - INFO - ---------------
+2025-04-15 08:57:26,442 - INFO - 
 import os
 import re
 import yaml
-def test_initialise_settings_exception():
+def test_initialise_settings_no_config_path():
     agent = "test_agent"
-    with patch("theory_evaluation.llm_utils.open", side_effect=Exception("File not found")):
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
         result = initialise_settings(agent)
         assert result is None
 
-2025-04-15 08:53:40,592 - INFO - ---------------
-2025-04-15 08:53:41,376 - INFO - Test Result 1- False
-2025-04-15 08:53:41,376 - INFO - Test Error 1 - F                                                                        [100%]
+2025-04-15 08:57:26,442 - INFO - ---------------
+2025-04-15 08:57:27,292 - INFO - Test Result 1- False
+2025-04-15 08:57:27,292 - INFO - Test Error 1 - F                                                                        [100%]
 ================================== FAILURES ===================================
-_____________________ test_initialise_settings_exception ______________________
-temp\temp.py:6: in test_initialise_settings_exception
-    with patch("theory_evaluation.llm_utils.open", side_effect=Exception("File not found")):
+___________________ test_initialise_settings_no_config_path ___________________
+temp\temp.py:6: in test_initialise_settings_no_config_path
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
 E   NameError: name 'patch' is not defined
 =========================== short test summary info ===========================
-FAILED temp/temp.py::test_initialise_settings_exception - NameError: name 'pa...
-1 failed in 0.19s
-2025-04-15 08:53:41,376 - INFO - TEST CASE 5 Retry 1
-2025-04-15 08:53:41,376 - INFO - ---------------
-2025-04-15 08:53:41,376 - INFO - 
-def test_initialise_settings_exception():
-    agent = "test_agent"
-    with patch("theory_evaluation.llm_utils.open", side_effect=Exception("File not found")):
-        result = initialise_settings(agent)
-        assert result is None
-2025-04-15 08:53:41,376 - INFO - ---------------
-2025-04-15 08:53:42,451 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 08:53:42,452 - INFO - proposed_test_case 2-
+FAILED temp/temp.py::test_initialise_settings_no_config_path - NameError: nam...
+1 failed in 0.16s
+2025-04-15 08:57:28,326 - INFO - TEST CASE 4 Retry 1
+2025-04-15 08:57:28,327 - INFO - ---------------
+2025-04-15 08:57:28,327 - INFO - 
+import os
+import re
+import yaml
 from unittest.mock import patch
 
-def test_initialise_settings_exception():
+def test_initialise_settings_no_config_path():
     agent = "test_agent"
-    with patch("builtins.open", side_effect=Exception("File not found")):
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
         result = initialise_settings(agent)
         assert result is None
-2025-04-15 08:53:43,344 - INFO - Test Result 2- False
-2025-04-15 08:53:43,344 - INFO - Test Error 2 - F                                                                        [100%]
+2025-04-15 08:57:28,327 - INFO - ---------------
+2025-04-15 08:57:29,104 - INFO - Test Result 2- False
+2025-04-15 08:57:29,105 - INFO - Test Error 2 - F                                                                        [100%]
 ================================== FAILURES ===================================
-_____________________ test_initialise_settings_exception ______________________
-temp\temp.py:6: in test_initialise_settings_exception
+___________________ test_initialise_settings_no_config_path ___________________
+temp\temp.py:9: in test_initialise_settings_no_config_path
     result = initialise_settings(agent)
 E   NameError: name 'initialise_settings' is not defined
 =========================== short test summary info ===========================
-FAILED temp/temp.py::test_initialise_settings_exception - NameError: name 'in...
-1 failed in 0.31s
-2025-04-15 08:53:43,345 - INFO - TEST CASE 5 Retry 2
-2025-04-15 08:53:43,345 - INFO - ---------------
-2025-04-15 08:53:43,345 - INFO - 
-def test_initialise_settings_exception():
-    agent = "test_agent"
-    with patch("theory_evaluation.llm_utils.open", side_effect=Exception("File not found")):
-        result = initialise_settings(agent)
-        assert result is None
-2025-04-15 08:53:43,345 - INFO - ---------------
-2025-04-15 08:53:44,471 - INFO - proposed_test_case 3-
+FAILED temp/temp.py::test_initialise_settings_no_config_path - NameError: nam...
+1 failed in 0.21s
+2025-04-15 08:57:30,066 - INFO - TEST CASE 4 Retry 2
+2025-04-15 08:57:30,066 - INFO - ---------------
+2025-04-15 08:57:30,067 - INFO - 
 from unittest.mock import patch
-from theory_evaluation.evaluator.prompts import initialise_settings
 
-def test_initialise_settings_exception():
+def test_initialise_settings_no_config_path():
     agent = "test_agent"
-    with patch("theory_evaluation.evaluator.prompts.open", side_effect=Exception("File not found")):
+    with patch("builtins.open", side_effect=FileNotFoundError):
         result = initialise_settings(agent)
         assert result is None
-2025-04-15 08:53:45,266 - INFO - Test Result 3- False
-2025-04-15 08:53:45,266 - INFO - Test Error 3 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:2: in <module>
-    from theory_evaluation.evaluator.prompts import initialise_settings
-E   ModuleNotFoundError: No module named 'theory_evaluation.evaluator'
+2025-04-15 08:57:30,067 - INFO - ---------------
+2025-04-15 08:57:30,805 - INFO - Test Result 3- False
+2025-04-15 08:57:30,805 - INFO - Test Error 3 - F                                                                        [100%]
+================================== FAILURES ===================================
+___________________ test_initialise_settings_no_config_path ___________________
+temp\temp.py:6: in test_initialise_settings_no_config_path
+    result = initialise_settings(agent)
+E   NameError: name 'initialise_settings' is not defined
 =========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.22s
-2025-04-15 08:53:45,267 - INFO - Failed after all retries for test case 5
-2025-04-15 08:53:45,267 - INFO - [1mEnd Processing file: theory_evaluation\llm_utils.py[0m
+FAILED temp/temp.py::test_initialise_settings_no_config_path - NameError: nam...
+1 failed in 0.22s
+2025-04-15 08:57:30,806 - INFO - Failed after all retries for test case 4
+2025-04-15 08:57:30,806 - INFO - [1mEnd Processing file: theory_evaluation\llm_utils.py[0m
 
-2025-04-15 08:53:45,267 - INFO - [1mStart Processing file: theory_evaluation\__init__.py[0m
-2025-04-15 08:53:45,268 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
+2025-04-15 08:57:30,806 - INFO - [1mStart Processing file: theory_evaluation\__init__.py[0m
+2025-04-15 08:57:30,807 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
 
