@@ -361,36 +361,14 @@ def identify_new_import(provider, model_arg, llm_new_import_prompt, import_state
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
-def generate_import_statement(function_names: List[str], source_code_path: str) -> str:
-    logger.info(f"function_names - {function_names}")
-    source_path = Path(source_code_path)
-    if not source_path.exists():
-        raise FileNotFoundError(f"{source_code_path} does not exist.")
-    
-    code = source_path.read_text()
+def generate_import_statement(function_names: list[str], source_code_path: str) -> str:
+    # Convert file path to module path (e.g., theory_evaluation/llm_handler.py → theory_evaluation.llm_handler)
+    module_path = os.path.splitext(source_code_path.replace(os.sep, "."))[0]
 
-    # Match only top-level functions (not indented, so not in class) and classes
-    top_level_funcs = re.findall(r'^def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE)
-    top_level_async_funcs = re.findall(r'^async\s+def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE)
-    top_level_classes = re.findall(r'^class\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE)
+    # Join the function/class names
+    names_str = ", ".join(function_names)
 
-    declared_names = set(top_level_funcs + top_level_async_funcs + top_level_classes)
-
-    # Filter out any names that start with _
-    valid_declarations = {name for name in declared_names if not name.startswith("_")}
-
-    # Cross-check with provided function_names
-    valid_names = [name for name in function_names if name in valid_declarations]
-
-    if not valid_names:
-        return ""
-
-    # Convert file path to module path
-    module_path = source_code_path.replace("/", ".").replace("\\", ".")
-    if module_path.endswith(".py"):
-        module_path = module_path[:-3]
-
-    return f"from {module_path} import {', '.join(sorted(valid_names))}"
+    return f"from {module_path} import {names_str}"
 
 
 def _generate_unit_tests(
@@ -408,8 +386,6 @@ def _generate_unit_tests(
     import_statements = update_relative_imports(import_statements, source_code_path)
     logger.info(f"function_names - {function_names}")
     logger.info(f"source_code_path - {source_code_path}")
-    logger.info(generate_import_statement(function_names, source_code_path))
-
     import_statements += "\n" + generate_import_statement(function_names, source_code_path)
 
     formatted_prompt = llm_test_prompt.format(
