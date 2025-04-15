@@ -555,11 +555,11 @@ def run_each_pytest_function_individually(
         import_statements += "\nimport pytest"
     test_cases = extract_test_functions(test_cases_str)
 
-    initial_template = f"{import_statements}\n{pytest_fixture}"
     success_test_cases = ""
     for idx, test_case in enumerate(test_cases, start=1):
         passed = 0
         count = 0
+        initial_template = f"{import_statements}\n{pytest_fixture}"
         full_test_code = f"{initial_template}\n\n{test_case}\n"
         logger.info(f"\n")
         logger.info(f"TEST CASE {idx} Retry {count}")

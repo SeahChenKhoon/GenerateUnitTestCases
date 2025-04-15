@@ -1,11 +1,11 @@
-2025-04-15 14:50:04,651 - INFO - Loading environment variables...
-2025-04-15 14:50:04,987 - INFO - [1mStart Processing file: theory_evaluation\llm_handler.py[0m
-2025-04-15 14:50:18,603 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 14:50:29,087 - INFO - 
+2025-04-15 14:58:07,264 - INFO - Loading environment variables...
+2025-04-15 14:58:07,568 - INFO - Start Processing file: theory_evaluation\llm_handler.py
+2025-04-15 14:58:20,686 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 14:58:32,828 - INFO - 
 
-2025-04-15 14:50:29,088 - INFO - TEST CASE 1 Retry 0
-2025-04-15 14:50:29,088 - INFO - ---------------
-2025-04-15 14:50:29,089 - INFO - 
+2025-04-15 14:58:32,829 - INFO - TEST CASE 1 Retry 0
+2025-04-15 14:58:32,829 - INFO - ---------------
+2025-04-15 14:58:32,829 - INFO - 
 import asyncio
 import json
 import os
@@ -14,55 +14,41 @@ from openai import AzureOpenAI, OpenAI
 
 import pytest
 @pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
-        yield mock_openai
-
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI', autospec=True) as mock_azure_openai:
-        yield mock_azure_openai
-
-@pytest.fixture
-def mock_os_environ():
-    with patch.dict(os.environ, {
-        "AZURE_OPENAI_ENDPOINT_SWEDEN": "mock_endpoint",
-        "AZURE_OPENAI_API_KEY_SWEDEN": "mock_api_key",
-        "AZURE_OPENAI_API_VERSION": "mock_api_version",
-        "OPENAI_API_KEY": "mock_openai_api_key",
-        "AZURE_OPENAI_DEPLOYMENT_NAME": "mock_deployment_name",
-        "OPENAI_DEPLOYMENT_NAME": "mock_openai_deployment_name"
-    }):
-        yield
+def mock_openai_client():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
+         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
+        yield mock_azure, mock_openai
 
 @pytest.mark.asyncio
-async def test_openai_llm_initialization_with_azure(mock_azure_openai, mock_os_environ):
-    llm = OpenAI_llm(useAzureOpenAI=True)
-    assert llm.azure_endpoint == "mock_endpoint"
-    assert llm.api_version == "mock_api_version"
-    assert llm.model_name == "mock_deployment_name"
-    assert hasattr(llm.client, 'chat')
+async def test_openai_llm_initialization(mock_openai_client):
+    mock_azure, mock_openai = mock_openai_client
+    os.environ['AZURE_OPENAI_ENDPOINT_SWEDEN'] = 'test_endpoint'
+    os.environ['AZURE_OPENAI_API_KEY_SWEDEN'] = 'test_key'
+    os.environ['AZURE_OPENAI_API_VERSION'] = 'test_version'
+    os.environ['AZURE_OPENAI_DEPLOYMENT_NAME'] = 'test_deployment'
+    os.environ['OPENAI_API_KEY'] = 'test_openai_key'
+    os.environ['OPENAI_DEPLOYMENT_NAME'] = 'test_openai_deployment'
 
-2025-04-15 14:50:29,092 - INFO - ---------------
-2025-04-15 14:50:31,922 - INFO - Test Result 1- False
-2025-04-15 14:50:31,922 - INFO - Test Error 1 - E                                                                        [100%]
+2025-04-15 14:58:32,832 - INFO - ---------------
+2025-04-15 14:58:36,336 - INFO - Test Result 1- False
+2025-04-15 14:58:36,336 - INFO - Test Error 1 - E                                                                        [100%]
 =================================== ERRORS ====================================
-_________ ERROR at setup of test_openai_llm_initialization_with_azure _________
-temp\temp.py:15: in mock_azure_openai
-    with patch('theory_evaluation.llm_handler.AzureOpenAI', autospec=True) as mock_azure_openai:
+______________ ERROR at setup of test_openai_llm_initialization _______________
+temp\temp.py:10: in mock_openai_client
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
 E   NameError: name 'patch' is not defined
 ============================== warnings summary ===============================
-temp\temp.py:30
-  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:30: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+temp\temp.py:14
+  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:14: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
     @pytest.mark.asyncio
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
 =========================== short test summary info ===========================
-ERROR temp/temp.py::test_openai_llm_initialization_with_azure - NameError: na...
-1 warning, 1 error in 1.76s
-2025-04-15 14:50:36,594 - INFO - TEST CASE 1 Retry 1
-2025-04-15 14:50:36,594 - INFO - ---------------
-2025-04-15 14:50:36,594 - INFO - 
+ERROR temp/temp.py::test_openai_llm_initialization - NameError: name 'patch' ...
+1 warning, 1 error in 2.12s
+2025-04-15 14:58:39,163 - INFO - TEST CASE 1 Retry 1
+2025-04-15 14:58:39,163 - INFO - ---------------
+2025-04-15 14:58:39,164 - INFO - 
 import asyncio
 import json
 import os
@@ -71,59 +57,45 @@ from openai import AzureOpenAI, OpenAI
 
 import pytest
 @pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
-        yield mock_openai
-
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI', autospec=True) as mock_azure_openai:
-        yield mock_azure_openai
-
-@pytest.fixture
-def mock_os_environ():
-    with patch.dict(os.environ, {
-        "AZURE_OPENAI_ENDPOINT_SWEDEN": "mock_endpoint",
-        "AZURE_OPENAI_API_KEY_SWEDEN": "mock_api_key",
-        "AZURE_OPENAI_API_VERSION": "mock_api_version",
-        "OPENAI_API_KEY": "mock_openai_api_key",
-        "AZURE_OPENAI_DEPLOYMENT_NAME": "mock_deployment_name",
-        "OPENAI_DEPLOYMENT_NAME": "mock_openai_deployment_name"
-    }):
-        yield
+def mock_openai_client():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
+         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
+        yield mock_azure, mock_openai
+import os
 from unittest.mock import patch
+import pytest
 
 @pytest.mark.asyncio
-async def test_openai_llm_initialization_with_azure():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI', autospec=True) as mock_azure_openai:
-        with patch('os.getenv', side_effect=lambda key: {
-            "AZURE_OPENAI_ENDPOINT_SWEDEN": "mock_endpoint",
-            "AZURE_OPENAI_API_VERSION": "mock_api_version",
-            "AZURE_OPENAI_DEPLOYMENT_NAME": "mock_deployment_name"
-        }.get(key, None)):
-            llm = OpenAI_llm(useAzureOpenAI=True)
-            assert llm.azure_endpoint == "mock_endpoint"
-            assert llm.api_version == "mock_api_version"
-            assert llm.model_name == "mock_deployment_name"
-            assert hasattr(llm.client, 'chat')
+async def test_openai_llm_initialization(mock_openai_client):
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
+         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
+        mock_azure, mock_openai = mock_openai_client
+        os.environ['AZURE_OPENAI_ENDPOINT_SWEDEN'] = 'test_endpoint'
+        os.environ['AZURE_OPENAI_API_KEY_SWEDEN'] = 'test_key'
+        os.environ['AZURE_OPENAI_API_VERSION'] = 'test_version'
+        os.environ['AZURE_OPENAI_DEPLOYMENT_NAME'] = 'test_deployment'
+        os.environ['OPENAI_API_KEY'] = 'test_openai_key'
+        os.environ['OPENAI_DEPLOYMENT_NAME'] = 'test_openai_deployment'
 
-2025-04-15 14:50:36,594 - INFO - ---------------
-2025-04-15 14:50:38,361 - INFO - New import Statements 2- import asyncio
+2025-04-15 14:58:39,164 - INFO - ---------------
+2025-04-15 14:58:41,709 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 14:58:41,710 - INFO - New import Statements 2- import asyncio
 import json
 import os
 
 from openai import AzureOpenAI, OpenAI
 
 import pytest
-2025-04-15 14:50:38,361 - INFO - Test Result 2- True
-2025-04-15 14:50:38,361 - INFO - Test Error 2 - 
+from unittest.mock import patch
+2025-04-15 14:58:41,710 - INFO - Test Result 2- True
+2025-04-15 14:58:41,710 - INFO - Test Error 2 - 
 s                                                                        [100%]
 ============================== warnings summary ===============================
-temp\temp.py:31
-  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:31: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+temp\temp.py:17
+  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:17: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
     @pytest.mark.asyncio
 
-temp/temp.py::test_openai_llm_initialization_with_azure
+temp/temp.py::test_openai_llm_initialization
   C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:148: PytestUnhandledCoroutineWarning: async def functions are not natively supported and have been skipped.
   You need to install a suitable plugin for your async framework, for example:
     - anyio
@@ -134,12 +106,12 @@ temp/temp.py::test_openai_llm_initialization_with_azure
     warnings.warn(PytestUnhandledCoroutineWarning(msg.format(nodeid)))
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-1 skipped, 2 warnings in 1.08s
-2025-04-15 14:50:38,361 - INFO - 
+1 skipped, 2 warnings in 1.00s
+2025-04-15 14:58:41,711 - INFO - 
 
-2025-04-15 14:50:38,361 - INFO - TEST CASE 2 Retry 0
-2025-04-15 14:50:38,361 - INFO - ---------------
-2025-04-15 14:50:38,362 - INFO - 
+2025-04-15 14:58:41,711 - INFO - TEST CASE 2 Retry 0
+2025-04-15 14:58:41,711 - INFO - ---------------
+2025-04-15 14:58:41,711 - INFO - 
 import asyncio
 import json
 import os
@@ -148,178 +120,38 @@ from openai import AzureOpenAI, OpenAI
 
 import pytest
 @pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
-        yield mock_openai
-
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI', autospec=True) as mock_azure_openai:
-        yield mock_azure_openai
-
-@pytest.fixture
-def mock_os_environ():
-    with patch.dict(os.environ, {
-        "AZURE_OPENAI_ENDPOINT_SWEDEN": "mock_endpoint",
-        "AZURE_OPENAI_API_KEY_SWEDEN": "mock_api_key",
-        "AZURE_OPENAI_API_VERSION": "mock_api_version",
-        "OPENAI_API_KEY": "mock_openai_api_key",
-        "AZURE_OPENAI_DEPLOYMENT_NAME": "mock_deployment_name",
-        "OPENAI_DEPLOYMENT_NAME": "mock_openai_deployment_name"
-    }):
-        yield
+def mock_openai_client():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
+         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
+        yield mock_azure, mock_openai
 
 @pytest.mark.asyncio
-async def test_openai_llm_initialization_without_azure(mock_openai, mock_os_environ):
-    llm = OpenAI_llm(useAzureOpenAI=False)
-    assert llm.model_name == "mock_openai_deployment_name"
-    assert hasattr(llm.client, 'chat')
+async def test_openai_json_completion(mock_openai_client):
+    _, mock_openai = mock_openai_client
+    mock_response = AsyncMock()
+    mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "It's the answer."})
+    mock_openai.return_value.chat.completions.create.return_value = mock_response
 
-2025-04-15 14:50:38,362 - INFO - ---------------
-2025-04-15 14:50:40,551 - INFO - Test Result 1- False
-2025-04-15 14:50:40,551 - INFO - Test Error 1 - E                                                                        [100%]
-=================================== ERRORS ====================================
-_______ ERROR at setup of test_openai_llm_initialization_without_azure ________
-temp\temp.py:10: in mock_openai
-    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
-E   NameError: name 'patch' is not defined
-============================== warnings summary ===============================
-temp\temp.py:30
-  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:30: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
-    @pytest.mark.asyncio
-
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-=========================== short test summary info ===========================
-ERROR temp/temp.py::test_openai_llm_initialization_without_azure - NameError:...
-1 warning, 1 error in 1.25s
-2025-04-15 14:50:42,219 - INFO - TEST CASE 2 Retry 1
-2025-04-15 14:50:42,220 - INFO - ---------------
-2025-04-15 14:50:42,220 - INFO - 
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-import pytest
-@pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
-        yield mock_openai
-
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI', autospec=True) as mock_azure_openai:
-        yield mock_azure_openai
-
-@pytest.fixture
-def mock_os_environ():
-    with patch.dict(os.environ, {
-        "AZURE_OPENAI_ENDPOINT_SWEDEN": "mock_endpoint",
-        "AZURE_OPENAI_API_KEY_SWEDEN": "mock_api_key",
-        "AZURE_OPENAI_API_VERSION": "mock_api_version",
-        "OPENAI_API_KEY": "mock_openai_api_key",
-        "AZURE_OPENAI_DEPLOYMENT_NAME": "mock_deployment_name",
-        "OPENAI_DEPLOYMENT_NAME": "mock_openai_deployment_name"
-    }):
-        yield
-from unittest.mock import patch
-import pytest
-
-@pytest.mark.asyncio
-async def test_openai_llm_initialization_without_azure():
-    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
-        llm = OpenAI_llm(useAzureOpenAI=False)
-        assert llm.model_name == "mock_openai_deployment_name"
-        assert hasattr(llm.client, 'chat')
-
-2025-04-15 14:50:42,220 - INFO - ---------------
-2025-04-15 14:50:44,328 - INFO - New import Statements 2- import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-import pytest
-2025-04-15 14:50:44,329 - INFO - Test Result 2- True
-2025-04-15 14:50:44,329 - INFO - Test Error 2 - 
-s                                                                        [100%]
-============================== warnings summary ===============================
-temp\temp.py:32
-  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:32: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
-    @pytest.mark.asyncio
-
-temp/temp.py::test_openai_llm_initialization_without_azure
-  C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:148: PytestUnhandledCoroutineWarning: async def functions are not natively supported and have been skipped.
-  You need to install a suitable plugin for your async framework, for example:
-    - anyio
-    - pytest-asyncio
-    - pytest-tornasync
-    - pytest-trio
-    - pytest-twisted
-    warnings.warn(PytestUnhandledCoroutineWarning(msg.format(nodeid)))
-
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-1 skipped, 2 warnings in 1.17s
-2025-04-15 14:50:44,329 - INFO - 
-
-2025-04-15 14:50:44,329 - INFO - TEST CASE 3 Retry 0
-2025-04-15 14:50:44,329 - INFO - ---------------
-2025-04-15 14:50:44,329 - INFO - 
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-import pytest
-@pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
-        yield mock_openai
-
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI', autospec=True) as mock_azure_openai:
-        yield mock_azure_openai
-
-@pytest.fixture
-def mock_os_environ():
-    with patch.dict(os.environ, {
-        "AZURE_OPENAI_ENDPOINT_SWEDEN": "mock_endpoint",
-        "AZURE_OPENAI_API_KEY_SWEDEN": "mock_api_key",
-        "AZURE_OPENAI_API_VERSION": "mock_api_version",
-        "OPENAI_API_KEY": "mock_openai_api_key",
-        "AZURE_OPENAI_DEPLOYMENT_NAME": "mock_deployment_name",
-        "OPENAI_DEPLOYMENT_NAME": "mock_openai_deployment_name"
-    }):
-        yield
-
-@pytest.mark.asyncio
-async def test_openai_json_completion(mock_openai):
-    mock_client = mock_openai.return_value
-    mock_client.chat.completions.create.return_value = MagicMock(choices=[MagicMock(message=MagicMock(content=json.dumps({"answer": "42"})))])
-
-2025-04-15 14:50:44,329 - INFO - ---------------
-2025-04-15 14:50:46,657 - INFO - Test Result 1- False
-2025-04-15 14:50:46,657 - INFO - Test Error 1 - E                                                                        [100%]
+2025-04-15 14:58:41,711 - INFO - ---------------
+2025-04-15 14:58:43,767 - INFO - Test Result 1- False
+2025-04-15 14:58:43,768 - INFO - Test Error 1 - E                                                                        [100%]
 =================================== ERRORS ====================================
 ________________ ERROR at setup of test_openai_json_completion ________________
-temp\temp.py:10: in mock_openai
-    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
+temp\temp.py:10: in mock_openai_client
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
 E   NameError: name 'patch' is not defined
 ============================== warnings summary ===============================
-temp\temp.py:30
-  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:30: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+temp\temp.py:14
+  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:14: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
     @pytest.mark.asyncio
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
 =========================== short test summary info ===========================
 ERROR temp/temp.py::test_openai_json_completion - NameError: name 'patch' is ...
-1 warning, 1 error in 1.39s
-2025-04-15 14:50:52,638 - INFO - TEST CASE 3 Retry 1
-2025-04-15 14:50:52,639 - INFO - ---------------
-2025-04-15 14:50:52,639 - INFO - 
+1 warning, 1 error in 1.07s
+2025-04-15 14:58:45,657 - INFO - TEST CASE 2 Retry 1
+2025-04-15 14:58:45,658 - INFO - ---------------
+2025-04-15 14:58:45,658 - INFO - 
 import asyncio
 import json
 import os
@@ -328,55 +160,38 @@ from openai import AzureOpenAI, OpenAI
 
 import pytest
 @pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
-        yield mock_openai
-
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI', autospec=True) as mock_azure_openai:
-        yield mock_azure_openai
-
-@pytest.fixture
-def mock_os_environ():
-    with patch.dict(os.environ, {
-        "AZURE_OPENAI_ENDPOINT_SWEDEN": "mock_endpoint",
-        "AZURE_OPENAI_API_KEY_SWEDEN": "mock_api_key",
-        "AZURE_OPENAI_API_VERSION": "mock_api_version",
-        "OPENAI_API_KEY": "mock_openai_api_key",
-        "AZURE_OPENAI_DEPLOYMENT_NAME": "mock_deployment_name",
-        "OPENAI_DEPLOYMENT_NAME": "mock_openai_deployment_name"
-    }):
-        yield
-from unittest.mock import patch, MagicMock
-import json
+def mock_openai_client():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
+         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
+        yield mock_azure, mock_openai
 import pytest
+from unittest.mock import patch, AsyncMock
 
 @pytest.mark.asyncio
-async def test_openai_json_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
-        mock_client = mock_openai.return_value
-        mock_client.chat.completions.create.return_value = MagicMock(choices=[MagicMock(message=MagicMock(content=json.dumps({"answer": "42"})))])
+async def test_openai_json_completion(mock_openai_client):
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure:
+        _, mock_openai = mock_openai_client
+        mock_response = AsyncMock()
+        mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "It's the answer."})
+        mock_openai.return_value.chat.completions.create.return_value = mock_response
 
-        # Add your test logic here, for example:
-        # llm = OpenAI_llm(...)
-        # response = await llm._OpenAI_JSON_Completion(...)
-        # assert response == {"answer": "42"}
-
-2025-04-15 14:50:52,639 - INFO - ---------------
-2025-04-15 14:50:54,809 - INFO - New import Statements 2- import asyncio
+2025-04-15 14:58:45,658 - INFO - ---------------
+2025-04-15 14:58:48,425 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 14:58:48,426 - INFO - New import Statements 2- import asyncio
 import json
 import os
 
 from openai import AzureOpenAI, OpenAI
 
 import pytest
-2025-04-15 14:50:54,809 - INFO - Test Result 2- True
-2025-04-15 14:50:54,809 - INFO - Test Error 2 - 
+from unittest.mock import patch
+from unittest.mock import AsyncMock
+2025-04-15 14:58:48,426 - INFO - Test Result 2- True
+2025-04-15 14:58:48,426 - INFO - Test Error 2 - 
 s                                                                        [100%]
 ============================== warnings summary ===============================
-temp\temp.py:33
-  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:33: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+temp\temp.py:16
+  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:16: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
     @pytest.mark.asyncio
 
 temp/temp.py::test_openai_json_completion
@@ -390,12 +205,12 @@ temp/temp.py::test_openai_json_completion
     warnings.warn(PytestUnhandledCoroutineWarning(msg.format(nodeid)))
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-1 skipped, 2 warnings in 1.18s
-2025-04-15 14:50:54,809 - INFO - 
+1 skipped, 2 warnings in 1.34s
+2025-04-15 14:58:48,426 - INFO - 
 
-2025-04-15 14:50:54,809 - INFO - TEST CASE 4 Retry 0
-2025-04-15 14:50:54,809 - INFO - ---------------
-2025-04-15 14:50:54,809 - INFO - 
+2025-04-15 14:58:48,427 - INFO - TEST CASE 3 Retry 0
+2025-04-15 14:58:48,427 - INFO - ---------------
+2025-04-15 14:58:48,427 - INFO - 
 import asyncio
 import json
 import os
@@ -403,113 +218,26 @@ import os
 from openai import AzureOpenAI, OpenAI
 
 import pytest
+from unittest.mock import patch
 @pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
-        yield mock_openai
-
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI', autospec=True) as mock_azure_openai:
-        yield mock_azure_openai
-
-@pytest.fixture
-def mock_os_environ():
-    with patch.dict(os.environ, {
-        "AZURE_OPENAI_ENDPOINT_SWEDEN": "mock_endpoint",
-        "AZURE_OPENAI_API_KEY_SWEDEN": "mock_api_key",
-        "AZURE_OPENAI_API_VERSION": "mock_api_version",
-        "OPENAI_API_KEY": "mock_openai_api_key",
-        "AZURE_OPENAI_DEPLOYMENT_NAME": "mock_deployment_name",
-        "OPENAI_DEPLOYMENT_NAME": "mock_openai_deployment_name"
-    }):
-        yield
+def mock_openai_client():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
+         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
+        yield mock_azure, mock_openai
 
 @pytest.mark.asyncio
-async def test_openai_streaming(mock_openai):
-    mock_client = mock_openai.return_value
-    mock_stream = AsyncMock()
-    mock_stream.__aiter__.return_value = iter([MagicMock(choices=[MagicMock(delta=MagicMock(content="chunk"))])])
-    mock_client.chat.completions.create.return_value = mock_stream
+async def test_openai_streaming(mock_openai_client):
+    _, mock_openai = mock_openai_client
+    mock_chunk = AsyncMock()
+    mock_chunk.choices[0].delta.content = "streamed content"
+    mock_openai.return_value.chat.completions.create.return_value = [mock_chunk]
 
-2025-04-15 14:50:54,809 - INFO - ---------------
-2025-04-15 14:50:57,488 - INFO - Test Result 1- False
-2025-04-15 14:50:57,488 - INFO - Test Error 1 - E                                                                        [100%]
-=================================== ERRORS ====================================
-___________________ ERROR at setup of test_openai_streaming ___________________
-temp\temp.py:10: in mock_openai
-    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
-E   NameError: name 'patch' is not defined
+2025-04-15 14:58:48,427 - INFO - ---------------
+2025-04-15 14:58:51,367 - INFO - Test Result 1- True
+2025-04-15 14:58:51,367 - INFO - Test Error 1 - s                                                                        [100%]
 ============================== warnings summary ===============================
-temp\temp.py:30
-  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:30: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
-    @pytest.mark.asyncio
-
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-=========================== short test summary info ===========================
-ERROR temp/temp.py::test_openai_streaming - NameError: name 'patch' is not de...
-1 warning, 1 error in 1.56s
-2025-04-15 14:50:59,365 - INFO - TEST CASE 4 Retry 1
-2025-04-15 14:50:59,366 - INFO - ---------------
-2025-04-15 14:50:59,366 - INFO - 
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-import pytest
-@pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
-        yield mock_openai
-
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI', autospec=True) as mock_azure_openai:
-        yield mock_azure_openai
-
-@pytest.fixture
-def mock_os_environ():
-    with patch.dict(os.environ, {
-        "AZURE_OPENAI_ENDPOINT_SWEDEN": "mock_endpoint",
-        "AZURE_OPENAI_API_KEY_SWEDEN": "mock_api_key",
-        "AZURE_OPENAI_API_VERSION": "mock_api_version",
-        "OPENAI_API_KEY": "mock_openai_api_key",
-        "AZURE_OPENAI_DEPLOYMENT_NAME": "mock_deployment_name",
-        "OPENAI_DEPLOYMENT_NAME": "mock_openai_deployment_name"
-    }):
-        yield
-from unittest.mock import patch, AsyncMock, MagicMock
-import pytest
-
-@pytest.mark.asyncio
-async def test_openai_streaming():
-    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
-        mock_client = mock_openai.return_value
-        mock_stream = AsyncMock()
-        mock_stream.__aiter__.return_value = iter([MagicMock(choices=[MagicMock(delta=MagicMock(content="chunk"))])])
-        mock_client.chat.completions.create.return_value = mock_stream
-
-        # Add your test logic here, for example:
-        # llm = OpenAI_llm(...)
-        # async for token in llm.execute():
-        #     assert token == "chunk"
-
-2025-04-15 14:50:59,366 - INFO - ---------------
-2025-04-15 14:51:01,634 - INFO - New import Statements 2- import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-import pytest
-2025-04-15 14:51:01,634 - INFO - Test Result 2- True
-2025-04-15 14:51:01,635 - INFO - Test Error 2 - 
-s                                                                        [100%]
-============================== warnings summary ===============================
-temp\temp.py:32
-  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:32: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+temp\temp.py:15
+  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:15: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
     @pytest.mark.asyncio
 
 temp/temp.py::test_openai_streaming
@@ -523,12 +251,12 @@ temp/temp.py::test_openai_streaming
     warnings.warn(PytestUnhandledCoroutineWarning(msg.format(nodeid)))
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-1 skipped, 2 warnings in 1.35s
-2025-04-15 14:51:01,635 - INFO - 
+1 skipped, 2 warnings in 1.58s
+2025-04-15 14:58:51,367 - INFO - 
 
-2025-04-15 14:51:01,635 - INFO - TEST CASE 5 Retry 0
-2025-04-15 14:51:01,635 - INFO - ---------------
-2025-04-15 14:51:01,635 - INFO - 
+2025-04-15 14:58:51,367 - INFO - TEST CASE 4 Retry 0
+2025-04-15 14:58:51,367 - INFO - ---------------
+2025-04-15 14:58:51,367 - INFO - 
 import asyncio
 import json
 import os
@@ -536,105 +264,26 @@ import os
 from openai import AzureOpenAI, OpenAI
 
 import pytest
+from unittest.mock import patch
 @pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
-        yield mock_openai
-
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI', autospec=True) as mock_azure_openai:
-        yield mock_azure_openai
-
-@pytest.fixture
-def mock_os_environ():
-    with patch.dict(os.environ, {
-        "AZURE_OPENAI_ENDPOINT_SWEDEN": "mock_endpoint",
-        "AZURE_OPENAI_API_KEY_SWEDEN": "mock_api_key",
-        "AZURE_OPENAI_API_VERSION": "mock_api_version",
-        "OPENAI_API_KEY": "mock_openai_api_key",
-        "AZURE_OPENAI_DEPLOYMENT_NAME": "mock_deployment_name",
-        "OPENAI_DEPLOYMENT_NAME": "mock_openai_deployment_name"
-    }):
-        yield
+def mock_openai_client():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
+         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
+        yield mock_azure, mock_openai
 
 @pytest.mark.asyncio
-async def test_openai_chat_completion(mock_openai):
-    mock_client = mock_openai.return_value
-    mock_client.chat.completions.create.return_value = MagicMock(choices=[MagicMock(message=MagicMock(content="Hello"))])
+async def test_openai_chat_completion(mock_openai_client):
+    _, mock_openai = mock_openai_client
+    mock_response = AsyncMock()
+    mock_response.choices[0].message.content = "chat content"
+    mock_openai.return_value.chat.completions.create.return_value = mock_response
 
-2025-04-15 14:51:01,635 - INFO - ---------------
-2025-04-15 14:51:04,087 - INFO - Test Result 1- False
-2025-04-15 14:51:04,087 - INFO - Test Error 1 - E                                                                        [100%]
-=================================== ERRORS ====================================
-________________ ERROR at setup of test_openai_chat_completion ________________
-temp\temp.py:10: in mock_openai
-    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
-E   NameError: name 'patch' is not defined
+2025-04-15 14:58:51,367 - INFO - ---------------
+2025-04-15 14:58:53,636 - INFO - Test Result 1- True
+2025-04-15 14:58:53,636 - INFO - Test Error 1 - s                                                                        [100%]
 ============================== warnings summary ===============================
-temp\temp.py:30
-  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:30: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
-    @pytest.mark.asyncio
-
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-=========================== short test summary info ===========================
-ERROR temp/temp.py::test_openai_chat_completion - NameError: name 'patch' is ...
-1 warning, 1 error in 1.62s
-2025-04-15 14:51:05,847 - INFO - TEST CASE 5 Retry 1
-2025-04-15 14:51:05,848 - INFO - ---------------
-2025-04-15 14:51:05,848 - INFO - 
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-import pytest
-@pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
-        yield mock_openai
-
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI', autospec=True) as mock_azure_openai:
-        yield mock_azure_openai
-
-@pytest.fixture
-def mock_os_environ():
-    with patch.dict(os.environ, {
-        "AZURE_OPENAI_ENDPOINT_SWEDEN": "mock_endpoint",
-        "AZURE_OPENAI_API_KEY_SWEDEN": "mock_api_key",
-        "AZURE_OPENAI_API_VERSION": "mock_api_version",
-        "OPENAI_API_KEY": "mock_openai_api_key",
-        "AZURE_OPENAI_DEPLOYMENT_NAME": "mock_deployment_name",
-        "OPENAI_DEPLOYMENT_NAME": "mock_openai_deployment_name"
-    }):
-        yield
-from unittest.mock import patch, MagicMock
-import pytest
-
-@pytest.mark.asyncio
-async def test_openai_chat_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
-        mock_client = mock_openai.return_value
-        mock_client.chat.completions.create.return_value = MagicMock(choices=[MagicMock(message=MagicMock(content="Hello"))])
-        # Add your test logic here
-
-2025-04-15 14:51:05,848 - INFO - ---------------
-2025-04-15 14:51:08,077 - INFO - New import Statements 2- import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-import pytest
-2025-04-15 14:51:08,077 - INFO - Test Result 2- True
-2025-04-15 14:51:08,077 - INFO - Test Error 2 - 
-s                                                                        [100%]
-============================== warnings summary ===============================
-temp\temp.py:32
-  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:32: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+temp\temp.py:15
+  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:15: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
     @pytest.mark.asyncio
 
 temp/temp.py::test_openai_chat_completion
@@ -648,12 +297,12 @@ temp/temp.py::test_openai_chat_completion
     warnings.warn(PytestUnhandledCoroutineWarning(msg.format(nodeid)))
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-1 skipped, 2 warnings in 1.19s
-2025-04-15 14:51:08,077 - INFO - 
+1 skipped, 2 warnings in 1.50s
+2025-04-15 14:58:53,636 - INFO - 
 
-2025-04-15 14:51:08,077 - INFO - TEST CASE 6 Retry 0
-2025-04-15 14:51:08,077 - INFO - ---------------
-2025-04-15 14:51:08,078 - INFO - 
+2025-04-15 14:58:53,636 - INFO - TEST CASE 5 Retry 0
+2025-04-15 14:58:53,636 - INFO - ---------------
+2025-04-15 14:58:53,636 - INFO - 
 import asyncio
 import json
 import os
@@ -661,105 +310,26 @@ import os
 from openai import AzureOpenAI, OpenAI
 
 import pytest
+from unittest.mock import patch
 @pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
-        yield mock_openai
-
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI', autospec=True) as mock_azure_openai:
-        yield mock_azure_openai
-
-@pytest.fixture
-def mock_os_environ():
-    with patch.dict(os.environ, {
-        "AZURE_OPENAI_ENDPOINT_SWEDEN": "mock_endpoint",
-        "AZURE_OPENAI_API_KEY_SWEDEN": "mock_api_key",
-        "AZURE_OPENAI_API_VERSION": "mock_api_version",
-        "OPENAI_API_KEY": "mock_openai_api_key",
-        "AZURE_OPENAI_DEPLOYMENT_NAME": "mock_deployment_name",
-        "OPENAI_DEPLOYMENT_NAME": "mock_openai_deployment_name"
-    }):
-        yield
+def mock_openai_client():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
+         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
+        yield mock_azure, mock_openai
 
 @pytest.mark.asyncio
-async def test_execute_text_generation(mock_openai):
-    mock_client = mock_openai.return_value
-    mock_client.chat.completions.create.return_value = MagicMock(choices=[MagicMock(message=MagicMock(content="Hello"))])
+async def test_execute_text_generation(mock_openai_client):
+    _, mock_openai = mock_openai_client
+    mock_response = AsyncMock()
+    mock_response.choices[0].message.content = "generated text"
+    mock_openai.return_value.chat.completions.create.return_value = mock_response
 
-2025-04-15 14:51:08,078 - INFO - ---------------
-2025-04-15 14:51:10,229 - INFO - Test Result 1- False
-2025-04-15 14:51:10,230 - INFO - Test Error 1 - E                                                                        [100%]
-=================================== ERRORS ====================================
-_______________ ERROR at setup of test_execute_text_generation ________________
-temp\temp.py:10: in mock_openai
-    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
-E   NameError: name 'patch' is not defined
+2025-04-15 14:58:53,636 - INFO - ---------------
+2025-04-15 14:58:55,860 - INFO - Test Result 1- True
+2025-04-15 14:58:55,860 - INFO - Test Error 1 - s                                                                        [100%]
 ============================== warnings summary ===============================
-temp\temp.py:30
-  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:30: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
-    @pytest.mark.asyncio
-
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-=========================== short test summary info ===========================
-ERROR temp/temp.py::test_execute_text_generation - NameError: name 'patch' is...
-1 warning, 1 error in 1.37s
-2025-04-15 14:51:11,661 - INFO - TEST CASE 6 Retry 1
-2025-04-15 14:51:11,662 - INFO - ---------------
-2025-04-15 14:51:11,662 - INFO - 
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-import pytest
-@pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
-        yield mock_openai
-
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI', autospec=True) as mock_azure_openai:
-        yield mock_azure_openai
-
-@pytest.fixture
-def mock_os_environ():
-    with patch.dict(os.environ, {
-        "AZURE_OPENAI_ENDPOINT_SWEDEN": "mock_endpoint",
-        "AZURE_OPENAI_API_KEY_SWEDEN": "mock_api_key",
-        "AZURE_OPENAI_API_VERSION": "mock_api_version",
-        "OPENAI_API_KEY": "mock_openai_api_key",
-        "AZURE_OPENAI_DEPLOYMENT_NAME": "mock_deployment_name",
-        "OPENAI_DEPLOYMENT_NAME": "mock_openai_deployment_name"
-    }):
-        yield
-from unittest.mock import patch, MagicMock
-import pytest
-
-@pytest.mark.asyncio
-async def test_execute_text_generation():
-    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
-        mock_client = mock_openai.return_value
-        mock_client.chat.completions.create.return_value = MagicMock(choices=[MagicMock(message=MagicMock(content="Hello"))])
-        # Add your test logic here
-
-2025-04-15 14:51:11,663 - INFO - ---------------
-2025-04-15 14:51:13,533 - INFO - New import Statements 2- import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-import pytest
-2025-04-15 14:51:13,533 - INFO - Test Result 2- True
-2025-04-15 14:51:13,533 - INFO - Test Error 2 - 
-s                                                                        [100%]
-============================== warnings summary ===============================
-temp\temp.py:32
-  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:32: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+temp\temp.py:15
+  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:15: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
     @pytest.mark.asyncio
 
 temp/temp.py::test_execute_text_generation
@@ -773,12 +343,12 @@ temp/temp.py::test_execute_text_generation
     warnings.warn(PytestUnhandledCoroutineWarning(msg.format(nodeid)))
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-1 skipped, 2 warnings in 1.17s
-2025-04-15 14:51:13,534 - INFO - 
+1 skipped, 2 warnings in 1.28s
+2025-04-15 14:58:55,860 - INFO - 
 
-2025-04-15 14:51:13,534 - INFO - TEST CASE 7 Retry 0
-2025-04-15 14:51:13,534 - INFO - ---------------
-2025-04-15 14:51:13,536 - INFO - 
+2025-04-15 14:58:55,860 - INFO - TEST CASE 6 Retry 0
+2025-04-15 14:58:55,860 - INFO - ---------------
+2025-04-15 14:58:55,860 - INFO - 
 import asyncio
 import json
 import os
@@ -786,105 +356,26 @@ import os
 from openai import AzureOpenAI, OpenAI
 
 import pytest
+from unittest.mock import patch
 @pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
-        yield mock_openai
-
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI', autospec=True) as mock_azure_openai:
-        yield mock_azure_openai
-
-@pytest.fixture
-def mock_os_environ():
-    with patch.dict(os.environ, {
-        "AZURE_OPENAI_ENDPOINT_SWEDEN": "mock_endpoint",
-        "AZURE_OPENAI_API_KEY_SWEDEN": "mock_api_key",
-        "AZURE_OPENAI_API_VERSION": "mock_api_version",
-        "OPENAI_API_KEY": "mock_openai_api_key",
-        "AZURE_OPENAI_DEPLOYMENT_NAME": "mock_deployment_name",
-        "OPENAI_DEPLOYMENT_NAME": "mock_openai_deployment_name"
-    }):
-        yield
+def mock_openai_client():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
+         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
+        yield mock_azure, mock_openai
 
 @pytest.mark.asyncio
-async def test_execute_vision(mock_openai):
-    mock_client = mock_openai.return_value
-    mock_client.chat.completions.create.return_value = MagicMock(choices=[MagicMock(message=MagicMock(content="Image response"))])
+async def test_execute_vision(mock_openai_client):
+    _, mock_openai = mock_openai_client
+    mock_response = AsyncMock()
+    mock_response.choices[0].message.content = "vision response"
+    mock_openai.return_value.chat.completions.create.return_value = mock_response
 
-2025-04-15 14:51:13,536 - INFO - ---------------
-2025-04-15 14:51:15,684 - INFO - Test Result 1- False
-2025-04-15 14:51:15,684 - INFO - Test Error 1 - E                                                                        [100%]
-=================================== ERRORS ====================================
-____________________ ERROR at setup of test_execute_vision ____________________
-temp\temp.py:10: in mock_openai
-    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
-E   NameError: name 'patch' is not defined
+2025-04-15 14:58:55,860 - INFO - ---------------
+2025-04-15 14:58:58,386 - INFO - Test Result 1- True
+2025-04-15 14:58:58,386 - INFO - Test Error 1 - s                                                                        [100%]
 ============================== warnings summary ===============================
-temp\temp.py:30
-  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:30: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
-    @pytest.mark.asyncio
-
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-=========================== short test summary info ===========================
-ERROR temp/temp.py::test_execute_vision - NameError: name 'patch' is not defined
-1 warning, 1 error in 1.21s
-2025-04-15 14:51:17,805 - INFO - TEST CASE 7 Retry 1
-2025-04-15 14:51:17,806 - INFO - ---------------
-2025-04-15 14:51:17,806 - INFO - 
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-import pytest
-@pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
-        yield mock_openai
-
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI', autospec=True) as mock_azure_openai:
-        yield mock_azure_openai
-
-@pytest.fixture
-def mock_os_environ():
-    with patch.dict(os.environ, {
-        "AZURE_OPENAI_ENDPOINT_SWEDEN": "mock_endpoint",
-        "AZURE_OPENAI_API_KEY_SWEDEN": "mock_api_key",
-        "AZURE_OPENAI_API_VERSION": "mock_api_version",
-        "OPENAI_API_KEY": "mock_openai_api_key",
-        "AZURE_OPENAI_DEPLOYMENT_NAME": "mock_deployment_name",
-        "OPENAI_DEPLOYMENT_NAME": "mock_openai_deployment_name"
-    }):
-        yield
-from unittest.mock import patch, MagicMock
-import pytest
-
-@pytest.mark.asyncio
-async def test_execute_vision():
-    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
-        mock_client = mock_openai.return_value
-        mock_client.chat.completions.create.return_value = MagicMock(choices=[MagicMock(message=MagicMock(content="Image response"))])
-        # Add the rest of your test logic here
-
-2025-04-15 14:51:17,806 - INFO - ---------------
-2025-04-15 14:51:19,898 - INFO - New import Statements 2- import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-import pytest
-2025-04-15 14:51:19,898 - INFO - Test Result 2- True
-2025-04-15 14:51:19,898 - INFO - Test Error 2 - 
-s                                                                        [100%]
-============================== warnings summary ===============================
-temp\temp.py:32
-  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:32: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+temp\temp.py:15
+  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:15: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
     @pytest.mark.asyncio
 
 temp/temp.py::test_execute_vision
@@ -898,13 +389,13 @@ temp/temp.py::test_execute_vision
     warnings.warn(PytestUnhandledCoroutineWarning(msg.format(nodeid)))
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-1 skipped, 2 warnings in 1.20s
-2025-04-15 14:51:19,901 - INFO - [1mEnd Processing file: theory_evaluation\llm_handler.py[0m
+1 skipped, 2 warnings in 1.74s
+2025-04-15 14:58:58,387 - INFO - End Processing file: theory_evaluation\llm_handler.py
 
-2025-04-15 14:51:19,902 - INFO - [1mStart Processing file: theory_evaluation\llm_utils.py[0m
-2025-04-15 14:51:26,381 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 14:51:31,950 - INFO - [1mEnd Processing file: theory_evaluation\llm_utils.py[0m
+2025-04-15 14:58:58,387 - INFO - Start Processing file: theory_evaluation\llm_utils.py
+2025-04-15 14:59:07,363 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 14:59:16,408 - INFO - End Processing file: theory_evaluation\llm_utils.py
 
-2025-04-15 14:51:31,950 - INFO - [1mStart Processing file: theory_evaluation\__init__.py[0m
-2025-04-15 14:51:31,951 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
+2025-04-15 14:59:16,409 - INFO - Start Processing file: theory_evaluation\__init__.py
+2025-04-15 14:59:16,409 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
 
