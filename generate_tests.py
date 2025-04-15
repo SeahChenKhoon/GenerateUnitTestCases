@@ -550,6 +550,8 @@ def run_each_pytest_function_individually(
 ) -> str:
     # Extract each test function body individually
     pytest_fixture = extract_pytest_fixture(provider, model_arg, llm_pytest_fixture_prompt, test_code, temperature)
+    if pytest_fixture:
+        import_statements += "import pytest"
     # logger.info(f"pytest_fixture - \n{pytest_fixture}\n")
     test_cases_str = extract_test_cases_from_code(provider, model_arg, llm_test_cases_prompt, test_code, temperature)
     # logger.info(f"test_cases_str - \n{test_cases_str}\n")
