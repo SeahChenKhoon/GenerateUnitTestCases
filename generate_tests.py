@@ -562,7 +562,7 @@ def run_each_pytest_function_individually(
     success_test_cases = ""
     for idx, test_case in enumerate(test_cases, start=1):
     #     passed = 0
-    #     count = 0
+        count = 0
         full_test_code = f"{import_statements}\n{pytest_fixture}\n{test_case}\n"
         logger.info(f"\n")
         logger.info(f"TEST CASE {idx} Retry {count}")
