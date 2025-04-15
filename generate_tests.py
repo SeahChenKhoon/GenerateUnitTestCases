@@ -524,6 +524,8 @@ def run_each_pytest_function_individually(
     test_cases_str = extract_test_cases_from_code(provider, model_arg, llm_test_cases_prompt, test_code, temperature)
     if "pytest" in test_code and "import pytest" not in test_code:
         import_statements += "\nimport pytest"
+    else:
+        logger.info(f"Verify No pytest in test_code - {test_code}")
     test_cases = extract_test_functions(test_cases_str)
 
     success_test_cases = ""
