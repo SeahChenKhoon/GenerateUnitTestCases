@@ -1,21 +1,35 @@
-
-from unittest.mock import patch
 import asyncio
 import json
 import os
+
 from openai import AzureOpenAI, OpenAI
 from theory_evaluation.llm_handler import OpenAI_llm
 import pytest
+@pytest.fixture
+def mock_openai():
+    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
+        yield mock_openai
 
-from unittest.mock import MagicMock, patch
-from theory_evaluation.llm_handler import OpenAI_llm
+@pytest.fixture
+def mock_azure_openai():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI', autospec=True) as mock_azure_openai:
+        yield mock_azure_openai
+
+@pytest.fixture
+def mock_env_vars():
+    with patch.dict(os.environ, {
+        "AZURE_OPENAI_ENDPOINT_SWEDEN": "https://example.com",
+        "AZURE_OPENAI_API_VERSION": "v1",
+        "AZURE_OPENAI_API_KEY_SWEDEN": "fake_key",
+        "OPENAI_API_KEY": "fake_key",
+        "AZURE_OPENAI_DEPLOYMENT_NAME": "azure_model",
+        "OPENAI_DEPLOYMENT_NAME": "openai_model"
+    }):
+        yield
 
 @pytest.mark.asyncio
-async def test_openai_llm_execute_vision():
-    mock_response = MagicMock()
-    mock_response.choices[0].message.content = "vision response"
-    with patch.object(OpenAI_llm, "client", create=True) as mock_client:
-        mock_client.chat.completions.create.return_value = mock_response
-        llm = OpenAI_llm(message="Test message", mode="vision", image_input="mock_image")
-        async for response in llm.execute():
-            assert response == "vision response"
+async def test_execute_vision(mock_openai):
+    mock_client = mock_openai.return_value
+    mock_response = AsyncMock()
+    mock_response.choices[0].message.content = "Image analysis"
+    mock_client.chat.completions.create.return_value = mock_response

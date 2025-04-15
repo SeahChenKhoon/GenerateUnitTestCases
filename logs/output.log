@@ -1,0 +1,500 @@
+2025-04-15 17:21:40,628 - INFO - Loading environment variables...
+2025-04-15 17:21:40,938 - INFO - Start Processing file: theory_evaluation\llm_handler.py
+2025-04-15 17:21:52,540 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 17:22:04,772 - INFO - 
+
+2025-04-15 17:22:04,773 - INFO - TEST CASE 1 Retry 0
+2025-04-15 17:22:04,773 - INFO - ---------------
+2025-04-15 17:22:04,773 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+from theory_evaluation.llm_handler import OpenAI_llm
+import pytest
+@pytest.fixture
+def mock_openai():
+    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
+        yield mock_openai
+
+@pytest.fixture
+def mock_azure_openai():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI', autospec=True) as mock_azure_openai:
+        yield mock_azure_openai
+
+@pytest.fixture
+def mock_env_vars():
+    with patch.dict(os.environ, {
+        "AZURE_OPENAI_ENDPOINT_SWEDEN": "https://example.com",
+        "AZURE_OPENAI_API_VERSION": "v1",
+        "AZURE_OPENAI_API_KEY_SWEDEN": "fake_key",
+        "OPENAI_API_KEY": "fake_key",
+        "AZURE_OPENAI_DEPLOYMENT_NAME": "azure_model",
+        "OPENAI_DEPLOYMENT_NAME": "openai_model"
+    }):
+        yield
+
+@pytest.mark.asyncio
+async def test_openai_llm_initialization_with_azure(mock_azure_openai, mock_env_vars):
+    llm = OpenAI_llm(useAzureOpenAI=True)
+    assert llm.client == mock_azure_openai.return_value
+    assert llm.model_name == "azure_model"
+
+2025-04-15 17:22:04,776 - INFO - ---------------
+2025-04-15 17:22:06,430 - INFO - Test Result 1- False
+2025-04-15 17:22:06,430 - INFO - Test Error 1 - C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+E                                                                        [100%]
+=================================== ERRORS ====================================
+_________ ERROR at setup of test_openai_llm_initialization_with_azure _________
+temp\temp.py:15: in mock_azure_openai
+    with patch('theory_evaluation.llm_handler.AzureOpenAI', autospec=True) as mock_azure_openai:
+E   NameError: name 'patch' is not defined
+=========================== short test summary info ===========================
+ERROR temp/temp.py::test_openai_llm_initialization_with_azure - NameError: na...
+1 error in 0.96s
+2025-04-15 17:22:06,430 - ERROR - Exception occurred while processing test case 1: 'llm_resolve_prompt'
+Traceback (most recent call last):
+  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 556, in run_each_pytest_function_individually
+    test_case = resolve_unit_test(
+        provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code,
+        import_statements, temperature
+    )
+  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 483, in resolve_unit_test
+    formatted_prompt = llm_resolve_prompt.format(
+        test_case=test_case,
+    ...<2 lines>...
+        source_code=source_code
+    )
+KeyError: 'llm_resolve_prompt'
+2025-04-15 17:22:06,431 - INFO - 
+
+2025-04-15 17:22:06,431 - INFO - TEST CASE 2 Retry 0
+2025-04-15 17:22:06,431 - INFO - ---------------
+2025-04-15 17:22:06,431 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+from theory_evaluation.llm_handler import OpenAI_llm
+import pytest
+@pytest.fixture
+def mock_openai():
+    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
+        yield mock_openai
+
+@pytest.fixture
+def mock_azure_openai():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI', autospec=True) as mock_azure_openai:
+        yield mock_azure_openai
+
+@pytest.fixture
+def mock_env_vars():
+    with patch.dict(os.environ, {
+        "AZURE_OPENAI_ENDPOINT_SWEDEN": "https://example.com",
+        "AZURE_OPENAI_API_VERSION": "v1",
+        "AZURE_OPENAI_API_KEY_SWEDEN": "fake_key",
+        "OPENAI_API_KEY": "fake_key",
+        "AZURE_OPENAI_DEPLOYMENT_NAME": "azure_model",
+        "OPENAI_DEPLOYMENT_NAME": "openai_model"
+    }):
+        yield
+
+@pytest.mark.asyncio
+async def test_openai_llm_initialization_without_azure(mock_openai, mock_env_vars):
+    llm = OpenAI_llm(useAzureOpenAI=False)
+    assert llm.client == mock_openai.return_value
+    assert llm.model_name == "openai_model"
+
+2025-04-15 17:22:06,431 - INFO - ---------------
+2025-04-15 17:22:08,038 - INFO - Test Result 1- False
+2025-04-15 17:22:08,038 - INFO - Test Error 1 - C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+E                                                                        [100%]
+=================================== ERRORS ====================================
+_______ ERROR at setup of test_openai_llm_initialization_without_azure ________
+temp\temp.py:10: in mock_openai
+    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
+E   NameError: name 'patch' is not defined
+=========================== short test summary info ===========================
+ERROR temp/temp.py::test_openai_llm_initialization_without_azure - NameError:...
+1 error in 0.99s
+2025-04-15 17:22:08,038 - ERROR - Exception occurred while processing test case 2: 'llm_resolve_prompt'
+Traceback (most recent call last):
+  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 556, in run_each_pytest_function_individually
+    test_case = resolve_unit_test(
+        provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code,
+        import_statements, temperature
+    )
+  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 483, in resolve_unit_test
+    formatted_prompt = llm_resolve_prompt.format(
+        test_case=test_case,
+    ...<2 lines>...
+        source_code=source_code
+    )
+KeyError: 'llm_resolve_prompt'
+2025-04-15 17:22:08,039 - INFO - 
+
+2025-04-15 17:22:08,039 - INFO - TEST CASE 3 Retry 0
+2025-04-15 17:22:08,039 - INFO - ---------------
+2025-04-15 17:22:08,039 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+from theory_evaluation.llm_handler import OpenAI_llm
+import pytest
+@pytest.fixture
+def mock_openai():
+    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
+        yield mock_openai
+
+@pytest.fixture
+def mock_azure_openai():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI', autospec=True) as mock_azure_openai:
+        yield mock_azure_openai
+
+@pytest.fixture
+def mock_env_vars():
+    with patch.dict(os.environ, {
+        "AZURE_OPENAI_ENDPOINT_SWEDEN": "https://example.com",
+        "AZURE_OPENAI_API_VERSION": "v1",
+        "AZURE_OPENAI_API_KEY_SWEDEN": "fake_key",
+        "OPENAI_API_KEY": "fake_key",
+        "AZURE_OPENAI_DEPLOYMENT_NAME": "azure_model",
+        "OPENAI_DEPLOYMENT_NAME": "openai_model"
+    }):
+        yield
+
+@pytest.mark.asyncio
+async def test_openai_json_completion(mock_openai):
+    mock_client = mock_openai.return_value
+    mock_response = AsyncMock()
+    mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "2+2=4"})
+    mock_client.chat.completions.create.return_value = mock_response
+
+2025-04-15 17:22:08,039 - INFO - ---------------
+2025-04-15 17:22:09,719 - INFO - Test Result 1- False
+2025-04-15 17:22:09,719 - INFO - Test Error 1 - C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+E                                                                        [100%]
+=================================== ERRORS ====================================
+________________ ERROR at setup of test_openai_json_completion ________________
+temp\temp.py:10: in mock_openai
+    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
+E   NameError: name 'patch' is not defined
+=========================== short test summary info ===========================
+ERROR temp/temp.py::test_openai_json_completion - NameError: name 'patch' is ...
+1 error in 1.06s
+2025-04-15 17:22:09,719 - ERROR - Exception occurred while processing test case 3: 'llm_resolve_prompt'
+Traceback (most recent call last):
+  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 556, in run_each_pytest_function_individually
+    test_case = resolve_unit_test(
+        provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code,
+        import_statements, temperature
+    )
+  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 483, in resolve_unit_test
+    formatted_prompt = llm_resolve_prompt.format(
+        test_case=test_case,
+    ...<2 lines>...
+        source_code=source_code
+    )
+KeyError: 'llm_resolve_prompt'
+2025-04-15 17:22:09,720 - INFO - 
+
+2025-04-15 17:22:09,720 - INFO - TEST CASE 4 Retry 0
+2025-04-15 17:22:09,720 - INFO - ---------------
+2025-04-15 17:22:09,720 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+from theory_evaluation.llm_handler import OpenAI_llm
+import pytest
+@pytest.fixture
+def mock_openai():
+    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
+        yield mock_openai
+
+@pytest.fixture
+def mock_azure_openai():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI', autospec=True) as mock_azure_openai:
+        yield mock_azure_openai
+
+@pytest.fixture
+def mock_env_vars():
+    with patch.dict(os.environ, {
+        "AZURE_OPENAI_ENDPOINT_SWEDEN": "https://example.com",
+        "AZURE_OPENAI_API_VERSION": "v1",
+        "AZURE_OPENAI_API_KEY_SWEDEN": "fake_key",
+        "OPENAI_API_KEY": "fake_key",
+        "AZURE_OPENAI_DEPLOYMENT_NAME": "azure_model",
+        "OPENAI_DEPLOYMENT_NAME": "openai_model"
+    }):
+        yield
+
+@pytest.mark.asyncio
+async def test_openai_streaming(mock_openai):
+    mock_client = mock_openai.return_value
+    mock_stream = AsyncMock()
+    mock_stream.__aiter__.return_value = iter([{"choices": [{"delta": {"content": "Hello"}}]}])
+    mock_client.chat.completions.create.return_value = mock_stream
+
+2025-04-15 17:22:09,720 - INFO - ---------------
+2025-04-15 17:22:11,860 - INFO - Test Result 1- False
+2025-04-15 17:22:11,861 - INFO - Test Error 1 - C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+E                                                                        [100%]
+=================================== ERRORS ====================================
+___________________ ERROR at setup of test_openai_streaming ___________________
+temp\temp.py:10: in mock_openai
+    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
+E   NameError: name 'patch' is not defined
+=========================== short test summary info ===========================
+ERROR temp/temp.py::test_openai_streaming - NameError: name 'patch' is not de...
+1 error in 1.11s
+2025-04-15 17:22:11,861 - ERROR - Exception occurred while processing test case 4: 'llm_resolve_prompt'
+Traceback (most recent call last):
+  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 556, in run_each_pytest_function_individually
+    test_case = resolve_unit_test(
+        provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code,
+        import_statements, temperature
+    )
+  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 483, in resolve_unit_test
+    formatted_prompt = llm_resolve_prompt.format(
+        test_case=test_case,
+    ...<2 lines>...
+        source_code=source_code
+    )
+KeyError: 'llm_resolve_prompt'
+2025-04-15 17:22:11,862 - INFO - 
+
+2025-04-15 17:22:11,862 - INFO - TEST CASE 5 Retry 0
+2025-04-15 17:22:11,862 - INFO - ---------------
+2025-04-15 17:22:11,862 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+from theory_evaluation.llm_handler import OpenAI_llm
+import pytest
+@pytest.fixture
+def mock_openai():
+    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
+        yield mock_openai
+
+@pytest.fixture
+def mock_azure_openai():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI', autospec=True) as mock_azure_openai:
+        yield mock_azure_openai
+
+@pytest.fixture
+def mock_env_vars():
+    with patch.dict(os.environ, {
+        "AZURE_OPENAI_ENDPOINT_SWEDEN": "https://example.com",
+        "AZURE_OPENAI_API_VERSION": "v1",
+        "AZURE_OPENAI_API_KEY_SWEDEN": "fake_key",
+        "OPENAI_API_KEY": "fake_key",
+        "AZURE_OPENAI_DEPLOYMENT_NAME": "azure_model",
+        "OPENAI_DEPLOYMENT_NAME": "openai_model"
+    }):
+        yield
+
+@pytest.mark.asyncio
+async def test_openai_chat_completion(mock_openai):
+    mock_client = mock_openai.return_value
+    mock_response = AsyncMock()
+    mock_response.choices[0].message.content = "Hello, world!"
+    mock_client.chat.completions.create.return_value = mock_response
+
+2025-04-15 17:22:11,862 - INFO - ---------------
+2025-04-15 17:22:14,204 - INFO - Test Result 1- False
+2025-04-15 17:22:14,204 - INFO - Test Error 1 - C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+E                                                                        [100%]
+=================================== ERRORS ====================================
+________________ ERROR at setup of test_openai_chat_completion ________________
+temp\temp.py:10: in mock_openai
+    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
+E   NameError: name 'patch' is not defined
+=========================== short test summary info ===========================
+ERROR temp/temp.py::test_openai_chat_completion - NameError: name 'patch' is ...
+1 error in 1.33s
+2025-04-15 17:22:14,205 - ERROR - Exception occurred while processing test case 5: 'llm_resolve_prompt'
+Traceback (most recent call last):
+  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 556, in run_each_pytest_function_individually
+    test_case = resolve_unit_test(
+        provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code,
+        import_statements, temperature
+    )
+  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 483, in resolve_unit_test
+    formatted_prompt = llm_resolve_prompt.format(
+        test_case=test_case,
+    ...<2 lines>...
+        source_code=source_code
+    )
+KeyError: 'llm_resolve_prompt'
+2025-04-15 17:22:14,206 - INFO - 
+
+2025-04-15 17:22:14,206 - INFO - TEST CASE 6 Retry 0
+2025-04-15 17:22:14,206 - INFO - ---------------
+2025-04-15 17:22:14,206 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+from theory_evaluation.llm_handler import OpenAI_llm
+import pytest
+@pytest.fixture
+def mock_openai():
+    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
+        yield mock_openai
+
+@pytest.fixture
+def mock_azure_openai():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI', autospec=True) as mock_azure_openai:
+        yield mock_azure_openai
+
+@pytest.fixture
+def mock_env_vars():
+    with patch.dict(os.environ, {
+        "AZURE_OPENAI_ENDPOINT_SWEDEN": "https://example.com",
+        "AZURE_OPENAI_API_VERSION": "v1",
+        "AZURE_OPENAI_API_KEY_SWEDEN": "fake_key",
+        "OPENAI_API_KEY": "fake_key",
+        "AZURE_OPENAI_DEPLOYMENT_NAME": "azure_model",
+        "OPENAI_DEPLOYMENT_NAME": "openai_model"
+    }):
+        yield
+
+@pytest.mark.asyncio
+async def test_execute_text_generation(mock_openai):
+    mock_client = mock_openai.return_value
+    mock_response = AsyncMock()
+    mock_response.choices[0].message.content = "Generated text"
+    mock_client.chat.completions.create.return_value = mock_response
+
+2025-04-15 17:22:14,206 - INFO - ---------------
+2025-04-15 17:22:16,560 - INFO - Test Result 1- False
+2025-04-15 17:22:16,560 - INFO - Test Error 1 - C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+E                                                                        [100%]
+=================================== ERRORS ====================================
+_______________ ERROR at setup of test_execute_text_generation ________________
+temp\temp.py:10: in mock_openai
+    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
+E   NameError: name 'patch' is not defined
+=========================== short test summary info ===========================
+ERROR temp/temp.py::test_execute_text_generation - NameError: name 'patch' is...
+1 error in 1.15s
+2025-04-15 17:22:16,560 - ERROR - Exception occurred while processing test case 6: 'llm_resolve_prompt'
+Traceback (most recent call last):
+  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 556, in run_each_pytest_function_individually
+    test_case = resolve_unit_test(
+        provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code,
+        import_statements, temperature
+    )
+  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 483, in resolve_unit_test
+    formatted_prompt = llm_resolve_prompt.format(
+        test_case=test_case,
+    ...<2 lines>...
+        source_code=source_code
+    )
+KeyError: 'llm_resolve_prompt'
+2025-04-15 17:22:16,560 - INFO - 
+
+2025-04-15 17:22:16,560 - INFO - TEST CASE 7 Retry 0
+2025-04-15 17:22:16,561 - INFO - ---------------
+2025-04-15 17:22:16,561 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+from theory_evaluation.llm_handler import OpenAI_llm
+import pytest
+@pytest.fixture
+def mock_openai():
+    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
+        yield mock_openai
+
+@pytest.fixture
+def mock_azure_openai():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI', autospec=True) as mock_azure_openai:
+        yield mock_azure_openai
+
+@pytest.fixture
+def mock_env_vars():
+    with patch.dict(os.environ, {
+        "AZURE_OPENAI_ENDPOINT_SWEDEN": "https://example.com",
+        "AZURE_OPENAI_API_VERSION": "v1",
+        "AZURE_OPENAI_API_KEY_SWEDEN": "fake_key",
+        "OPENAI_API_KEY": "fake_key",
+        "AZURE_OPENAI_DEPLOYMENT_NAME": "azure_model",
+        "OPENAI_DEPLOYMENT_NAME": "openai_model"
+    }):
+        yield
+
+@pytest.mark.asyncio
+async def test_execute_vision(mock_openai):
+    mock_client = mock_openai.return_value
+    mock_response = AsyncMock()
+    mock_response.choices[0].message.content = "Image analysis"
+    mock_client.chat.completions.create.return_value = mock_response
+
+2025-04-15 17:22:16,561 - INFO - ---------------
+2025-04-15 17:22:18,410 - INFO - Test Result 1- False
+2025-04-15 17:22:18,410 - INFO - Test Error 1 - C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+E                                                                        [100%]
+=================================== ERRORS ====================================
+____________________ ERROR at setup of test_execute_vision ____________________
+temp\temp.py:10: in mock_openai
+    with patch('theory_evaluation.llm_handler.OpenAI', autospec=True) as mock_openai:
+E   NameError: name 'patch' is not defined
+=========================== short test summary info ===========================
+ERROR temp/temp.py::test_execute_vision - NameError: name 'patch' is not defined
+1 error in 0.96s
+2025-04-15 17:22:18,410 - ERROR - Exception occurred while processing test case 7: 'llm_resolve_prompt'
+Traceback (most recent call last):
+  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 556, in run_each_pytest_function_individually
+    test_case = resolve_unit_test(
+        provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code,
+        import_statements, temperature
+    )
+  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 483, in resolve_unit_test
+    formatted_prompt = llm_resolve_prompt.format(
+        test_case=test_case,
+    ...<2 lines>...
+        source_code=source_code
+    )
+KeyError: 'llm_resolve_prompt'
+2025-04-15 17:22:18,411 - INFO - End Processing file: theory_evaluation\llm_handler.py
+
+2025-04-15 17:22:18,411 - INFO - Start Processing file: theory_evaluation\llm_utils.py
+2025-04-15 17:22:24,471 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 17:22:29,257 - INFO - End Processing file: theory_evaluation\llm_utils.py
+
+2025-04-15 17:22:29,257 - INFO - Start Processing file: theory_evaluation\__init__.py
+2025-04-15 17:22:29,258 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
+
