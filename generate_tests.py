@@ -479,16 +479,7 @@ def extract_test_cases_from_code(test_code: str) -> List[str]:
     return pattern.findall(test_code)
 
 
-def save_test_case_to_temp_file(import_lines: str, test_func: str, temp_path: Path) -> None:
-    """
-    Combines import statements and a test function into one file and writes it to the given path.
-
-    Args:
-        import_lines (str): The import statements to include.
-        test_func (str): The test function code.
-        temp_path (Path): The full file path where the test code should be saved.
-    """
-    full_test_code = f"{import_lines}\n\n{test_func}\n"
+def save_test_case_to_temp_file(full_test_code: str, temp_path: Path) -> None:
     temp_path.write_text(full_test_code, encoding="utf-8")
 
 def run_single_test_file(temp_path: Path) -> Tuple[bool, str]:
@@ -557,13 +548,15 @@ def run_each_pytest_function_individually(
     for idx, test_case in enumerate(test_cases, start=1):
         passed = 0
         count = 0
+        full_test_code = f"{import_statements}\n{test_case}\n"
         logger.info(f"\n")
         logger.info(f"TEST CASE {idx} Retry {count}")
         logger.info(f"---------------")
-        logger.info(f"{test_case}")
+        logger.info(f"\n{full_test_code}")
         logger.info(f"---------------")
         try:
-            save_test_case_to_temp_file(import_statements, test_case, temp_file)
+            
+            save_test_case_to_temp_file(full_test_code, temp_file)
             passed, test_case_error = run_single_test_file(temp_file)
 
             logger.info(f"Test Result {count + 1}- {passed}")
@@ -574,7 +567,7 @@ def run_each_pytest_function_individually(
                 count += 1
                 logger.info(f"TEST CASE {idx} Retry {count}")
                 logger.info(f"---------------")
-                logger.info(f"{test_case}")
+                logger.info(f"\n{test_case}")
                 logger.info(f"---------------")
                 proposed_test_case = resolve_unit_test(
                     provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, 
@@ -582,7 +575,7 @@ def run_each_pytest_function_individually(
                 )
                 logger.info(f"proposed_test_case {count + 1}-\n{proposed_test_case}")
 
-                save_test_case_to_temp_file(import_statements, proposed_test_case, temp_file)
+                save_test_case_to_temp_file(proposed_test_case, temp_file)
                 passed, test_case_error = run_single_test_file(temp_file)
 
                 logger.info(f"Test Result {count + 1}- {passed}")

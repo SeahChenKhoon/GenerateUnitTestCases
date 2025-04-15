@@ -2,8 +2,6 @@ import os
 import re
 import yaml
 
-def test_initialise_settings_file_not_found():
+def test_initialise_settings():
     agent = "test_agent"
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_settings(agent)
-        assert result is None
+    llm_settings_content = '{"setting_key": "setting_value"}'

@@ -1,25 +1,23 @@
-2025-04-15 08:35:46,850 - INFO - Loading environment variables...
-2025-04-15 08:35:47,159 - INFO - [1mStart Processing file: theory_evaluation\llm_handler.py[0m
-2025-04-15 08:35:57,337 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 08:35:57,343 - INFO - 
+2025-04-15 08:38:50,611 - INFO - Loading environment variables...
+2025-04-15 08:38:50,980 - INFO - [1mStart Processing file: theory_evaluation\llm_handler.py[0m
+2025-04-15 08:39:00,970 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 08:39:00,976 - INFO - 
 
-2025-04-15 08:35:57,344 - INFO - TEST CASE 1 Retry 1
-2025-04-15 08:35:57,344 - INFO - ---------------
-2025-04-15 08:35:57,344 - INFO - def test_openai_llm_initialization():
+2025-04-15 08:39:00,977 - INFO - TEST CASE 1 Retry 0
+2025-04-15 08:39:00,977 - INFO - ---------------
+2025-04-15 08:39:00,977 - INFO - def test_openai_llm_initialization():
     with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai, \
          patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
-         patch('os.getenv', side_effect=lambda key: f"mock_{key}"):
+         patch('os.getenv', side_effect=lambda key: f'mock_{key}'):
         
         llm = OpenAI_llm(useAzureOpenAI=True)
         assert llm.client == mock_azure_openai.return_value
-        assert llm.azure_endpoint == "mock_AZURE_OPENAI_ENDPOINT_SWEDEN"
-        assert llm.api_version == "mock_AZURE_OPENAI_API_VERSION"
-        
-        llm = OpenAI_llm(useAzureOpenAI=False)
-        assert llm.client == mock_openai.return_value
-2025-04-15 08:35:57,347 - INFO - ---------------
-2025-04-15 08:35:59,365 - INFO - Test Result 1- False
-2025-04-15 08:35:59,366 - INFO - Test Error 1 - F                                                                        [100%]
+        assert llm.azure_endpoint == 'mock_AZURE_OPENAI_ENDPOINT_SWEDEN'
+        assert llm.api_version == 'mock_AZURE_OPENAI_API_VERSION'
+        assert llm.model_name == 'mock_AZURE_OPENAI_DEPLOYMENT_NAME'
+2025-04-15 08:39:00,980 - INFO - ---------------
+2025-04-15 08:39:03,181 - INFO - Test Result 1- False
+2025-04-15 08:39:03,181 - INFO - Test Error 1 - F                                                                        [100%]
 ================================== FAILURES ===================================
 _______________________ test_openai_llm_initialization ________________________
 temp\temp.py:8: in test_openai_llm_initialization
@@ -27,1099 +25,431 @@ temp\temp.py:8: in test_openai_llm_initialization
 E   NameError: name 'patch' is not defined
 =========================== short test summary info ===========================
 FAILED temp/temp.py::test_openai_llm_initialization - NameError: name 'patch'...
-1 failed in 1.13s
-2025-04-15 08:35:59,366 - INFO - TEST CASE 1 Retry 2
-2025-04-15 08:35:59,366 - INFO - ---------------
-2025-04-15 08:35:59,366 - INFO - def test_openai_llm_initialization():
+1 failed in 1.32s
+2025-04-15 08:39:03,181 - INFO - TEST CASE 1 Retry 1
+2025-04-15 08:39:03,181 - INFO - ---------------
+2025-04-15 08:39:03,181 - INFO - def test_openai_llm_initialization():
     with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai, \
          patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
-         patch('os.getenv', side_effect=lambda key: f"mock_{key}"):
+         patch('os.getenv', side_effect=lambda key: f'mock_{key}'):
         
         llm = OpenAI_llm(useAzureOpenAI=True)
         assert llm.client == mock_azure_openai.return_value
-        assert llm.azure_endpoint == "mock_AZURE_OPENAI_ENDPOINT_SWEDEN"
-        assert llm.api_version == "mock_AZURE_OPENAI_API_VERSION"
-        
-        llm = OpenAI_llm(useAzureOpenAI=False)
-        assert llm.client == mock_openai.return_value
-2025-04-15 08:35:59,366 - INFO - ---------------
-2025-04-15 08:36:01,752 - INFO - proposed_test_case 2-
+        assert llm.azure_endpoint == 'mock_AZURE_OPENAI_ENDPOINT_SWEDEN'
+        assert llm.api_version == 'mock_AZURE_OPENAI_API_VERSION'
+        assert llm.model_name == 'mock_AZURE_OPENAI_DEPLOYMENT_NAME'
+2025-04-15 08:39:03,181 - INFO - ---------------
+2025-04-15 08:39:05,459 - INFO - proposed_test_case 2-
 from unittest.mock import patch
 
 def test_openai_llm_initialization():
     with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai, \
          patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
-         patch('os.getenv', side_effect=lambda key: f"mock_{key}"):
+         patch('os.getenv', side_effect=lambda key: f'mock_{key}'):
         
         llm = OpenAI_llm(useAzureOpenAI=True)
         assert llm.client == mock_azure_openai.return_value
-        assert llm.azure_endpoint == "mock_AZURE_OPENAI_ENDPOINT_SWEDEN"
-        assert llm.api_version == "mock_AZURE_OPENAI_API_VERSION"
-        
-        llm = OpenAI_llm(useAzureOpenAI=False)
-        assert llm.client == mock_openai.return_value
-2025-04-15 08:36:03,784 - INFO - Test Result 2- False
-2025-04-15 08:36:03,784 - INFO - Test Error 2 - F                                                                        [100%]
+        assert llm.azure_endpoint == 'mock_AZURE_OPENAI_ENDPOINT_SWEDEN'
+        assert llm.api_version == 'mock_AZURE_OPENAI_API_VERSION'
+        assert llm.model_name == 'mock_AZURE_OPENAI_DEPLOYMENT_NAME'
+2025-04-15 08:39:07,511 - INFO - Test Result 2- False
+2025-04-15 08:39:07,511 - INFO - Test Error 2 - F                                                                        [100%]
 ================================== FAILURES ===================================
 _______________________ test_openai_llm_initialization ________________________
-temp\temp.py:8: in test_openai_llm_initialization
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai, \
-E   NameError: name 'patch' is not defined
+temp\temp.py:14: in test_openai_llm_initialization
+    llm = OpenAI_llm(useAzureOpenAI=True)
+E   NameError: name 'OpenAI_llm' is not defined
 =========================== short test summary info ===========================
-FAILED temp/temp.py::test_openai_llm_initialization - NameError: name 'patch'...
-1 failed in 1.04s
-2025-04-15 08:36:03,784 - INFO - TEST CASE 1 Retry 3
-2025-04-15 08:36:03,784 - INFO - ---------------
-2025-04-15 08:36:03,784 - INFO - def test_openai_llm_initialization():
+FAILED temp/temp.py::test_openai_llm_initialization - NameError: name 'OpenAI...
+1 failed in 1.33s
+2025-04-15 08:39:07,511 - INFO - TEST CASE 1 Retry 2
+2025-04-15 08:39:07,511 - INFO - ---------------
+2025-04-15 08:39:07,511 - INFO - def test_openai_llm_initialization():
     with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai, \
          patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
-         patch('os.getenv', side_effect=lambda key: f"mock_{key}"):
+         patch('os.getenv', side_effect=lambda key: f'mock_{key}'):
         
         llm = OpenAI_llm(useAzureOpenAI=True)
         assert llm.client == mock_azure_openai.return_value
-        assert llm.azure_endpoint == "mock_AZURE_OPENAI_ENDPOINT_SWEDEN"
-        assert llm.api_version == "mock_AZURE_OPENAI_API_VERSION"
-        
-        llm = OpenAI_llm(useAzureOpenAI=False)
-        assert llm.client == mock_openai.return_value
-2025-04-15 08:36:03,784 - INFO - ---------------
-2025-04-15 08:36:06,280 - INFO - proposed_test_case 3-
+        assert llm.azure_endpoint == 'mock_AZURE_OPENAI_ENDPOINT_SWEDEN'
+        assert llm.api_version == 'mock_AZURE_OPENAI_API_VERSION'
+        assert llm.model_name == 'mock_AZURE_OPENAI_DEPLOYMENT_NAME'
+2025-04-15 08:39:07,511 - INFO - ---------------
+2025-04-15 08:39:10,323 - INFO - proposed_test_case 3-
 from unittest.mock import patch
+from theory_evaluation.llm_handler import OpenAI_llm
 
 def test_openai_llm_initialization():
     with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai, \
          patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
-         patch('os.getenv', side_effect=lambda key: f"mock_{key}"):
+         patch('os.getenv', side_effect=lambda key: f'mock_{key}'):
         
         llm = OpenAI_llm(useAzureOpenAI=True)
         assert llm.client == mock_azure_openai.return_value
-        assert llm.azure_endpoint == "mock_AZURE_OPENAI_ENDPOINT_SWEDEN"
-        assert llm.api_version == "mock_AZURE_OPENAI_API_VERSION"
-        
-        llm = OpenAI_llm(useAzureOpenAI=False)
-        assert llm.client == mock_openai.return_value
-2025-04-15 08:36:08,285 - INFO - Test Result 3- False
-2025-04-15 08:36:08,285 - INFO - Test Error 3 - F                                                                        [100%]
+        assert llm.azure_endpoint == 'mock_AZURE_OPENAI_ENDPOINT_SWEDEN'
+        assert llm.api_version == 'mock_AZURE_OPENAI_API_VERSION'
+        assert llm.model_name == 'mock_AZURE_OPENAI_DEPLOYMENT_NAME'
+2025-04-15 08:39:11,963 - INFO - Test Result 3- True
+2025-04-15 08:39:11,963 - INFO - Test Error 3 - .                                                                        [100%]
+1 passed in 0.97s
+2025-04-15 08:39:11,963 - INFO - 
+
+2025-04-15 08:39:11,963 - INFO - TEST CASE 2 Retry 0
+2025-04-15 08:39:11,963 - INFO - ---------------
+2025-04-15 08:39:11,963 - INFO - def test_openai_json_completion():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
+        mock_response = AsyncMock()
+        mock_response.choices = [AsyncMock()]
+        mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to everything."})
+        mock_client.chat.completions.create.return_value = mock_response
+2025-04-15 08:39:11,963 - INFO - ---------------
+2025-04-15 08:39:14,110 - INFO - Test Result 1- False
+2025-04-15 08:39:14,110 - INFO - Test Error 1 - F                                                                        [100%]
 ================================== FAILURES ===================================
-_______________________ test_openai_llm_initialization ________________________
-temp\temp.py:8: in test_openai_llm_initialization
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai, \
+_________________________ test_openai_json_completion _________________________
+temp\temp.py:8: in test_openai_json_completion
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
 E   NameError: name 'patch' is not defined
 =========================== short test summary info ===========================
-FAILED temp/temp.py::test_openai_llm_initialization - NameError: name 'patch'...
+FAILED temp/temp.py::test_openai_json_completion - NameError: name 'patch' is...
+1 failed in 1.37s
+2025-04-15 08:39:14,110 - INFO - TEST CASE 2 Retry 1
+2025-04-15 08:39:14,110 - INFO - ---------------
+2025-04-15 08:39:14,110 - INFO - def test_openai_json_completion():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
+        mock_response = AsyncMock()
+        mock_response.choices = [AsyncMock()]
+        mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to everything."})
+        mock_client.chat.completions.create.return_value = mock_response
+2025-04-15 08:39:14,110 - INFO - ---------------
+2025-04-15 08:39:15,505 - INFO - proposed_test_case 2-
+from unittest.mock import patch, AsyncMock
+import json
+
+def test_openai_json_completion():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
+        mock_response = AsyncMock()
+        mock_response.choices = [AsyncMock()]
+        mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to everything."})
+        mock_client.chat.completions.create.return_value = mock_response
+2025-04-15 08:39:17,595 - INFO - Test Result 2- False
+2025-04-15 08:39:17,595 - INFO - Test Error 2 - F                                                                        [100%]
+================================== FAILURES ===================================
+_________________________ test_openai_json_completion _________________________
+temp\temp.py:11: in test_openai_json_completion
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1495: in __enter__
+    original, local = self.get_original()
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1465: in get_original
+    raise AttributeError(
+E   AttributeError: <class 'theory_evaluation.llm_handler.OpenAI_llm'> does not have the attribute 'client'
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_openai_json_completion - AttributeError: <class 'th...
+1 failed in 1.37s
+2025-04-15 08:39:17,595 - INFO - TEST CASE 2 Retry 2
+2025-04-15 08:39:17,595 - INFO - ---------------
+2025-04-15 08:39:17,595 - INFO - def test_openai_json_completion():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
+        mock_response = AsyncMock()
+        mock_response.choices = [AsyncMock()]
+        mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to everything."})
+        mock_client.chat.completions.create.return_value = mock_response
+2025-04-15 08:39:17,595 - INFO - ---------------
+2025-04-15 08:39:19,695 - INFO - proposed_test_case 3-
+import unittest
+from unittest.mock import patch, AsyncMock
+import json
+from theory_evaluation.llm_handler import OpenAI_llm
+
+def test_openai_json_completion():
+    with patch.object(OpenAI_llm, 'client', create=True) as mock_client:
+        mock_response = AsyncMock()
+        mock_response.choices = [AsyncMock()]
+        mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to everything."})
+        mock_client.chat.completions.create.return_value = mock_response
+
+        llm = OpenAI_llm()
+        result = asyncio.run(llm._OpenAI_JSON_Completion())
+        assert result == {"answer": "42", "explanation": "The answer to everything."}
+2025-04-15 08:39:22,346 - INFO - Test Result 3- False
+2025-04-15 08:39:22,346 - INFO - Test Error 3 - F                                                                        [100%]
+================================== FAILURES ===================================
+_________________________ test_openai_json_completion _________________________
+temp\temp.py:21: in test_openai_json_completion
+    assert result == {"answer": "42", "explanation": "The answer to everything."}
+E   AssertionError: assert None == {'answer': '42', 'explanation': 'The answer to everything.'}
+---------------------------- Captured stdout call -----------------------------
+Failed in _OpenAI_JSON_Completion: Missing required arguments; Expected either ('messages' and 'model') or ('messages', 'model' and 'stream') arguments to be given
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_openai_json_completion - AssertionError: assert Non...
+1 failed in 1.72s
+2025-04-15 08:39:22,346 - INFO - Failed after all retries for test case 2
+2025-04-15 08:39:22,346 - INFO - 
+
+2025-04-15 08:39:22,346 - INFO - TEST CASE 3 Retry 0
+2025-04-15 08:39:22,346 - INFO - ---------------
+2025-04-15 08:39:22,346 - INFO - def test_openai_streaming():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
+        mock_stream = AsyncMock()
+        mock_chunk = AsyncMock()
+        mock_chunk.choices = [AsyncMock()]
+        mock_chunk.choices[0].delta.content = "streamed content"
+        mock_stream.__aiter__.return_value = [mock_chunk]
+        mock_client.chat.completions.create.return_value = mock_stream
+2025-04-15 08:39:22,346 - INFO - ---------------
+2025-04-15 08:39:24,405 - INFO - Test Result 1- False
+2025-04-15 08:39:24,405 - INFO - Test Error 1 - F                                                                        [100%]
+================================== FAILURES ===================================
+____________________________ test_openai_streaming ____________________________
+temp\temp.py:8: in test_openai_streaming
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
+E   NameError: name 'patch' is not defined
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_openai_streaming - NameError: name 'patch' is not d...
+1 failed in 1.28s
+2025-04-15 08:39:24,405 - INFO - TEST CASE 3 Retry 1
+2025-04-15 08:39:24,405 - INFO - ---------------
+2025-04-15 08:39:24,405 - INFO - def test_openai_streaming():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
+        mock_stream = AsyncMock()
+        mock_chunk = AsyncMock()
+        mock_chunk.choices = [AsyncMock()]
+        mock_chunk.choices[0].delta.content = "streamed content"
+        mock_stream.__aiter__.return_value = [mock_chunk]
+        mock_client.chat.completions.create.return_value = mock_stream
+2025-04-15 08:39:24,405 - INFO - ---------------
+2025-04-15 08:39:25,855 - INFO - proposed_test_case 2-
+from unittest.mock import patch, AsyncMock
+
+def test_openai_streaming():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
+        mock_stream = AsyncMock()
+        mock_chunk = AsyncMock()
+        mock_chunk.choices = [AsyncMock()]
+        mock_chunk.choices[0].delta.content = "streamed content"
+        mock_stream.__aiter__.return_value = [mock_chunk]
+        mock_client.chat.completions.create.return_value = mock_stream
+2025-04-15 08:39:27,733 - INFO - Test Result 2- False
+2025-04-15 08:39:27,733 - INFO - Test Error 2 - F                                                                        [100%]
+================================== FAILURES ===================================
+____________________________ test_openai_streaming ____________________________
+temp\temp.py:10: in test_openai_streaming
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1495: in __enter__
+    original, local = self.get_original()
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1465: in get_original
+    raise AttributeError(
+E   AttributeError: <class 'theory_evaluation.llm_handler.OpenAI_llm'> does not have the attribute 'client'
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_openai_streaming - AttributeError: <class 'theory_e...
 1 failed in 1.13s
-2025-04-15 08:36:08,285 - INFO - Failed after all retries for test case 1
-2025-04-15 08:36:08,286 - INFO - 
-
-2025-04-15 08:36:08,286 - INFO - TEST CASE 2 Retry 1
-2025-04-15 08:36:08,286 - INFO - ---------------
-2025-04-15 08:36:08,286 - INFO - def test_openai_json_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
-        mock_response = AsyncMock()
-        mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to life."})
-        mock_openai.return_value.chat.completions.create.return_value = mock_response
-        
-        llm = OpenAI_llm()
-        result = await llm._OpenAI_JSON_Completion()
-        assert result == {"answer": "42", "explanation": "The answer to life."}
-2025-04-15 08:36:08,286 - INFO - ---------------
-2025-04-15 08:36:09,430 - INFO - Test Result 1- False
-2025-04-15 08:36:09,430 - INFO - Test Error 1 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
-    mod = import_path(
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
-    importlib.import_module(module_name)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-<frozen importlib._bootstrap>:1387: in _gcd_import
-    ???
-<frozen importlib._bootstrap>:1360: in _find_and_load
-    ???
-<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
-    ???
-<frozen importlib._bootstrap>:935: in _load_unlocked
-    ???
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:358: in _rewrite_test
-    co = compile(tree, strfn, "exec", dont_inherit=True)
-E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 14
-E       result = await llm._OpenAI_JSON_Completion()
-E                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-E   SyntaxError: 'await' outside async function
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.31s
-2025-04-15 08:36:09,430 - INFO - TEST CASE 2 Retry 2
-2025-04-15 08:36:09,430 - INFO - ---------------
-2025-04-15 08:36:09,430 - INFO - def test_openai_json_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
-        mock_response = AsyncMock()
-        mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to life."})
-        mock_openai.return_value.chat.completions.create.return_value = mock_response
-        
-        llm = OpenAI_llm()
-        result = await llm._OpenAI_JSON_Completion()
-        assert result == {"answer": "42", "explanation": "The answer to life."}
-2025-04-15 08:36:09,430 - INFO - ---------------
-2025-04-15 08:36:11,749 - INFO - proposed_test_case 2-
-import pytest
-from unittest.mock import patch, AsyncMock
-import json
-from theory_evaluation.llm_handler import OpenAI_llm
-
-@pytest.mark.asyncio
-async def test_openai_json_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
-        mock_response = AsyncMock()
-        mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to life."})
-        mock_openai.return_value.chat.completions.create.return_value = mock_response
-        
-        llm = OpenAI_llm()
-        result = await llm._OpenAI_JSON_Completion()
-        assert result == {"answer": "42", "explanation": "The answer to life."}
-2025-04-15 08:36:12,513 - INFO - Test Result 2- False
-2025-04-15 08:36:12,513 - INFO - Test Error 2 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
-    mod = import_path(
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
-    importlib.import_module(module_name)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-<frozen importlib._bootstrap>:1387: in _gcd_import
-    ???
-<frozen importlib._bootstrap>:1360: in _find_and_load
-    ???
-<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
-    ???
-<frozen importlib._bootstrap>:935: in _load_unlocked
-    ???
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:358: in _rewrite_test
-    co = compile(tree, strfn, "exec", dont_inherit=True)
-E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 14
-E       result = await llm._OpenAI_JSON_Completion()
-E                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-E   SyntaxError: 'await' outside async function
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.16s
-2025-04-15 08:36:12,513 - INFO - TEST CASE 2 Retry 3
-2025-04-15 08:36:12,513 - INFO - ---------------
-2025-04-15 08:36:12,513 - INFO - def test_openai_json_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
-        mock_response = AsyncMock()
-        mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to life."})
-        mock_openai.return_value.chat.completions.create.return_value = mock_response
-        
-        llm = OpenAI_llm()
-        result = await llm._OpenAI_JSON_Completion()
-        assert result == {"answer": "42", "explanation": "The answer to life."}
-2025-04-15 08:36:12,513 - INFO - ---------------
-2025-04-15 08:36:14,842 - INFO - proposed_test_case 3-
-import pytest
-import json
-from unittest.mock import patch, AsyncMock
-from theory_evaluation.llm_handler import OpenAI_llm
-
-@pytest.mark.asyncio
-async def test_openai_json_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
-        mock_response = AsyncMock()
-        mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to life."})
-        mock_openai.return_value.chat.completions.create.return_value = mock_response
-        
-        llm = OpenAI_llm()
-        result = await llm._OpenAI_JSON_Completion()
-        assert result == {"answer": "42", "explanation": "The answer to life."}
-2025-04-15 08:36:15,662 - INFO - Test Result 3- False
-2025-04-15 08:36:15,662 - INFO - Test Error 3 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
-    mod = import_path(
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
-    importlib.import_module(module_name)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-<frozen importlib._bootstrap>:1387: in _gcd_import
-    ???
-<frozen importlib._bootstrap>:1360: in _find_and_load
-    ???
-<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
-    ???
-<frozen importlib._bootstrap>:935: in _load_unlocked
-    ???
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:358: in _rewrite_test
-    co = compile(tree, strfn, "exec", dont_inherit=True)
-E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 14
-E       result = await llm._OpenAI_JSON_Completion()
-E                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-E   SyntaxError: 'await' outside async function
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.19s
-2025-04-15 08:36:15,662 - INFO - Failed after all retries for test case 2
-2025-04-15 08:36:15,663 - INFO - 
-
-2025-04-15 08:36:15,663 - INFO - TEST CASE 3 Retry 1
-2025-04-15 08:36:15,663 - INFO - ---------------
-2025-04-15 08:36:15,663 - INFO - def test_openai_streaming():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
+2025-04-15 08:39:27,733 - INFO - TEST CASE 3 Retry 2
+2025-04-15 08:39:27,733 - INFO - ---------------
+2025-04-15 08:39:27,733 - INFO - def test_openai_streaming():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
         mock_stream = AsyncMock()
         mock_chunk = AsyncMock()
-        mock_chunk.choices[0].delta.content = "streaming content"
+        mock_chunk.choices = [AsyncMock()]
+        mock_chunk.choices[0].delta.content = "streamed content"
         mock_stream.__aiter__.return_value = [mock_chunk]
-        mock_openai.return_value.chat.completions.create.return_value = mock_stream
-        
-        llm = OpenAI_llm(output="stream")
-        result = []
-        async for content in llm._OpenAI_Streaming():
-            result.append(content)
-        
-        assert result == ["streaming content"]
-2025-04-15 08:36:15,663 - INFO - ---------------
-2025-04-15 08:36:16,418 - INFO - Test Result 1- False
-2025-04-15 08:36:16,418 - INFO - Test Error 1 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
-    mod = import_path(
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
-    importlib.import_module(module_name)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-<frozen importlib._bootstrap>:1387: in _gcd_import
-    ???
-<frozen importlib._bootstrap>:1360: in _find_and_load
-    ???
-<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
-    ???
-<frozen importlib._bootstrap>:935: in _load_unlocked
-    ???
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:358: in _rewrite_test
-    co = compile(tree, strfn, "exec", dont_inherit=True)
-E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 17
-E       async for content in llm._OpenAI_Streaming():
-E       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-E   SyntaxError: 'async for' outside async function
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.24s
-2025-04-15 08:36:16,418 - INFO - TEST CASE 3 Retry 2
-2025-04-15 08:36:16,418 - INFO - ---------------
-2025-04-15 08:36:16,418 - INFO - def test_openai_streaming():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
+        mock_client.chat.completions.create.return_value = mock_stream
+2025-04-15 08:39:27,733 - INFO - ---------------
+2025-04-15 08:39:29,232 - INFO - proposed_test_case 3-
+from unittest.mock import patch, AsyncMock
+
+def test_openai_streaming():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=AsyncMock) as mock_client:
         mock_stream = AsyncMock()
         mock_chunk = AsyncMock()
-        mock_chunk.choices[0].delta.content = "streaming content"
+        mock_chunk.choices = [AsyncMock()]
+        mock_chunk.choices[0].delta.content = "streamed content"
         mock_stream.__aiter__.return_value = [mock_chunk]
-        mock_openai.return_value.chat.completions.create.return_value = mock_stream
-        
-        llm = OpenAI_llm(output="stream")
-        result = []
-        async for content in llm._OpenAI_Streaming():
-            result.append(content)
-        
-        assert result == ["streaming content"]
-2025-04-15 08:36:16,418 - INFO - ---------------
-2025-04-15 08:36:19,570 - INFO - proposed_test_case 2-
-import pytest
-from unittest.mock import patch, AsyncMock
-import asyncio
-
-@pytest.mark.asyncio
-async def test_openai_streaming():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
-        mock_stream = AsyncMock()
-        mock_chunk = AsyncMock()
-        mock_chunk.choices[0].delta.content = "streaming content"
-        mock_stream.__aiter__.return_value = [mock_chunk]
-        mock_openai.return_value.chat.completions.create.return_value = mock_stream
-        
-        llm = OpenAI_llm(output="stream")
-        result = []
-        async for content in llm._OpenAI_Streaming():
-            result.append(content)
-        
-        assert result == ["streaming content"]
-2025-04-15 08:36:20,475 - INFO - Test Result 2- False
-2025-04-15 08:36:20,475 - INFO - Test Error 2 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
-    mod = import_path(
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
-    importlib.import_module(module_name)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-<frozen importlib._bootstrap>:1387: in _gcd_import
-    ???
-<frozen importlib._bootstrap>:1360: in _find_and_load
-    ???
-<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
-    ???
-<frozen importlib._bootstrap>:935: in _load_unlocked
-    ???
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:358: in _rewrite_test
-    co = compile(tree, strfn, "exec", dont_inherit=True)
-E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 17
-E       async for content in llm._OpenAI_Streaming():
-E       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-E   SyntaxError: 'async for' outside async function
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.18s
-2025-04-15 08:36:20,475 - INFO - TEST CASE 3 Retry 3
-2025-04-15 08:36:20,475 - INFO - ---------------
-2025-04-15 08:36:20,475 - INFO - def test_openai_streaming():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
-        mock_stream = AsyncMock()
-        mock_chunk = AsyncMock()
-        mock_chunk.choices[0].delta.content = "streaming content"
-        mock_stream.__aiter__.return_value = [mock_chunk]
-        mock_openai.return_value.chat.completions.create.return_value = mock_stream
-        
-        llm = OpenAI_llm(output="stream")
-        result = []
-        async for content in llm._OpenAI_Streaming():
-            result.append(content)
-        
-        assert result == ["streaming content"]
-2025-04-15 08:36:20,475 - INFO - ---------------
-2025-04-15 08:36:22,757 - INFO - proposed_test_case 3-
-from unittest.mock import patch, AsyncMock
-import pytest
-import asyncio
-
-@pytest.mark.asyncio
-async def test_openai_streaming():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
-        mock_stream = AsyncMock()
-        mock_chunk = AsyncMock()
-        mock_chunk.choices[0].delta.content = "streaming content"
-        mock_stream.__aiter__.return_value = [mock_chunk]
-        mock_openai.return_value.chat.completions.create.return_value = mock_stream
-        
-        llm = OpenAI_llm(output="stream")
-        result = []
-        async for content in llm._OpenAI_Streaming():
-            result.append(content)
-        
-        assert result == ["streaming content"]
-2025-04-15 08:36:23,580 - INFO - Test Result 3- False
-2025-04-15 08:36:23,580 - INFO - Test Error 3 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
-    mod = import_path(
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
-    importlib.import_module(module_name)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-<frozen importlib._bootstrap>:1387: in _gcd_import
-    ???
-<frozen importlib._bootstrap>:1360: in _find_and_load
-    ???
-<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
-    ???
-<frozen importlib._bootstrap>:935: in _load_unlocked
-    ???
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:358: in _rewrite_test
-    co = compile(tree, strfn, "exec", dont_inherit=True)
-E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 17
-E       async for content in llm._OpenAI_Streaming():
-E       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-E   SyntaxError: 'async for' outside async function
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.22s
-2025-04-15 08:36:23,580 - INFO - Failed after all retries for test case 3
-2025-04-15 08:36:23,580 - INFO - 
-
-2025-04-15 08:36:23,580 - INFO - TEST CASE 4 Retry 1
-2025-04-15 08:36:23,580 - INFO - ---------------
-2025-04-15 08:36:23,580 - INFO - def test_openai_chat_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
-        mock_response = AsyncMock()
-        mock_response.choices[0].message.content = "Chat completion content"
-        mock_openai.return_value.chat.completions.create.return_value = mock_response
-        
-        llm = OpenAI_llm()
-        result = await llm._OpenAI_Chat_Completion()
-        assert result == "Chat completion content"
-2025-04-15 08:36:23,580 - INFO - ---------------
-2025-04-15 08:36:24,272 - INFO - Test Result 1- False
-2025-04-15 08:36:24,272 - INFO - Test Error 1 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
-    mod = import_path(
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
-    importlib.import_module(module_name)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-<frozen importlib._bootstrap>:1387: in _gcd_import
-    ???
-<frozen importlib._bootstrap>:1360: in _find_and_load
-    ???
-<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
-    ???
-<frozen importlib._bootstrap>:935: in _load_unlocked
-    ???
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:358: in _rewrite_test
-    co = compile(tree, strfn, "exec", dont_inherit=True)
-E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 14
-E       result = await llm._OpenAI_Chat_Completion()
-E                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-E   SyntaxError: 'await' outside async function
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.22s
-2025-04-15 08:36:24,272 - INFO - TEST CASE 4 Retry 2
-2025-04-15 08:36:24,272 - INFO - ---------------
-2025-04-15 08:36:24,272 - INFO - def test_openai_chat_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
-        mock_response = AsyncMock()
-        mock_response.choices[0].message.content = "Chat completion content"
-        mock_openai.return_value.chat.completions.create.return_value = mock_response
-        
-        llm = OpenAI_llm()
-        result = await llm._OpenAI_Chat_Completion()
-        assert result == "Chat completion content"
-2025-04-15 08:36:24,272 - INFO - ---------------
-2025-04-15 08:36:26,036 - INFO - proposed_test_case 2-
-from unittest.mock import patch, AsyncMock
-import pytest
-
-@pytest.mark.asyncio
-async def test_openai_chat_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
-        mock_response = AsyncMock()
-        mock_response.choices[0].message.content = "Chat completion content"
-        mock_openai.return_value.chat.completions.create.return_value = mock_response
-        
-        llm = OpenAI_llm()
-        result = await llm._OpenAI_Chat_Completion()
-        assert result == "Chat completion content"
-2025-04-15 08:36:26,876 - INFO - Test Result 2- False
-2025-04-15 08:36:26,876 - INFO - Test Error 2 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
-    mod = import_path(
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
-    importlib.import_module(module_name)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-<frozen importlib._bootstrap>:1387: in _gcd_import
-    ???
-<frozen importlib._bootstrap>:1360: in _find_and_load
-    ???
-<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
-    ???
-<frozen importlib._bootstrap>:935: in _load_unlocked
-    ???
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:358: in _rewrite_test
-    co = compile(tree, strfn, "exec", dont_inherit=True)
-E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 14
-E       result = await llm._OpenAI_Chat_Completion()
-E                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-E   SyntaxError: 'await' outside async function
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.18s
-2025-04-15 08:36:26,876 - INFO - TEST CASE 4 Retry 3
-2025-04-15 08:36:26,876 - INFO - ---------------
-2025-04-15 08:36:26,876 - INFO - def test_openai_chat_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
-        mock_response = AsyncMock()
-        mock_response.choices[0].message.content = "Chat completion content"
-        mock_openai.return_value.chat.completions.create.return_value = mock_response
-        
-        llm = OpenAI_llm()
-        result = await llm._OpenAI_Chat_Completion()
-        assert result == "Chat completion content"
-2025-04-15 08:36:26,876 - INFO - ---------------
-2025-04-15 08:36:30,173 - INFO - proposed_test_case 3-
-import pytest
-from unittest.mock import patch, AsyncMock
-import asyncio
-from theory_evaluation.llm_handler import OpenAI_llm
-
-@pytest.mark.asyncio
-async def test_openai_chat_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
-        mock_response = AsyncMock()
-        mock_response.choices[0].message.content = "Chat completion content"
-        mock_openai.return_value.chat.completions.create.return_value = mock_response
-        
-        llm = OpenAI_llm()
-        result = await llm._OpenAI_Chat_Completion()
-        assert result == "Chat completion content"
-2025-04-15 08:36:30,923 - INFO - Test Result 3- False
-2025-04-15 08:36:30,924 - INFO - Test Error 3 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
-    mod = import_path(
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
-    importlib.import_module(module_name)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-<frozen importlib._bootstrap>:1387: in _gcd_import
-    ???
-<frozen importlib._bootstrap>:1360: in _find_and_load
-    ???
-<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
-    ???
-<frozen importlib._bootstrap>:935: in _load_unlocked
-    ???
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:358: in _rewrite_test
-    co = compile(tree, strfn, "exec", dont_inherit=True)
-E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 14
-E       result = await llm._OpenAI_Chat_Completion()
-E                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-E   SyntaxError: 'await' outside async function
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.19s
-2025-04-15 08:36:30,924 - INFO - Failed after all retries for test case 4
-2025-04-15 08:36:30,924 - INFO - 
-
-2025-04-15 08:36:30,924 - INFO - TEST CASE 5 Retry 1
-2025-04-15 08:36:30,924 - INFO - ---------------
-2025-04-15 08:36:30,924 - INFO - def test_execute_text_generation():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
-        mock_run.return_value.__aiter__.return_value = ["response content"]
-        
-        llm = OpenAI_llm(mode="text_generation")
-        result = []
-        async for response in llm.execute():
-            result.append(response)
-        
-        assert result == ["response content"]
-2025-04-15 08:36:30,924 - INFO - ---------------
-2025-04-15 08:36:31,741 - INFO - Test Result 1- False
-2025-04-15 08:36:31,741 - INFO - Test Error 1 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
-    mod = import_path(
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
-    importlib.import_module(module_name)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-<frozen importlib._bootstrap>:1387: in _gcd_import
-    ???
-<frozen importlib._bootstrap>:1360: in _find_and_load
-    ???
-<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
-    ???
-<frozen importlib._bootstrap>:935: in _load_unlocked
-    ???
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:358: in _rewrite_test
-    co = compile(tree, strfn, "exec", dont_inherit=True)
-E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 13
-E       async for response in llm.execute():
-E       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-E   SyntaxError: 'async for' outside async function
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.25s
-2025-04-15 08:36:31,741 - INFO - TEST CASE 5 Retry 2
-2025-04-15 08:36:31,741 - INFO - ---------------
-2025-04-15 08:36:31,741 - INFO - def test_execute_text_generation():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
-        mock_run.return_value.__aiter__.return_value = ["response content"]
-        
-        llm = OpenAI_llm(mode="text_generation")
-        result = []
-        async for response in llm.execute():
-            result.append(response)
-        
-        assert result == ["response content"]
-2025-04-15 08:36:31,741 - INFO - ---------------
-2025-04-15 08:36:33,383 - INFO - proposed_test_case 2-
-import pytest
-import asyncio
-from unittest.mock import patch, AsyncMock
-from theory_evaluation.llm_handler import OpenAI_llm
-
-@pytest.mark.asyncio
-async def test_execute_text_generation():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
-        mock_run.return_value.__aiter__.return_value = ["response content"]
-        
-        llm = OpenAI_llm(mode="text_generation")
-        result = []
-        async for response in llm.execute():
-            result.append(response)
-        
-        assert result == ["response content"]
-2025-04-15 08:36:34,117 - INFO - Test Result 2- False
-2025-04-15 08:36:34,118 - INFO - Test Error 2 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
-    mod = import_path(
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
-    importlib.import_module(module_name)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-<frozen importlib._bootstrap>:1387: in _gcd_import
-    ???
-<frozen importlib._bootstrap>:1360: in _find_and_load
-    ???
-<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
-    ???
-<frozen importlib._bootstrap>:935: in _load_unlocked
-    ???
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:358: in _rewrite_test
-    co = compile(tree, strfn, "exec", dont_inherit=True)
-E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 13
-E       async for response in llm.execute():
-E       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-E   SyntaxError: 'async for' outside async function
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.19s
-2025-04-15 08:36:34,118 - INFO - TEST CASE 5 Retry 3
-2025-04-15 08:36:34,118 - INFO - ---------------
-2025-04-15 08:36:34,118 - INFO - def test_execute_text_generation():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
-        mock_run.return_value.__aiter__.return_value = ["response content"]
-        
-        llm = OpenAI_llm(mode="text_generation")
-        result = []
-        async for response in llm.execute():
-            result.append(response)
-        
-        assert result == ["response content"]
-2025-04-15 08:36:34,118 - INFO - ---------------
-2025-04-15 08:36:35,959 - INFO - proposed_test_case 3-
-from unittest.mock import patch, AsyncMock
-import pytest
-import asyncio
-
-@pytest.mark.asyncio
-async def test_execute_text_generation():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
-        mock_run.return_value.__aiter__.return_value = ["response content"]
-        
-        llm = OpenAI_llm(mode="text_generation")
-        result = []
-        async for response in llm.execute():
-            result.append(response)
-        
-        assert result == ["response content"]
-2025-04-15 08:36:36,818 - INFO - Test Result 3- False
-2025-04-15 08:36:36,819 - INFO - Test Error 3 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
-    mod = import_path(
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
-    importlib.import_module(module_name)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-<frozen importlib._bootstrap>:1387: in _gcd_import
-    ???
-<frozen importlib._bootstrap>:1360: in _find_and_load
-    ???
-<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
-    ???
-<frozen importlib._bootstrap>:935: in _load_unlocked
-    ???
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:358: in _rewrite_test
-    co = compile(tree, strfn, "exec", dont_inherit=True)
-E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 13
-E       async for response in llm.execute():
-E       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-E   SyntaxError: 'async for' outside async function
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.19s
-2025-04-15 08:36:36,819 - INFO - Failed after all retries for test case 5
-2025-04-15 08:36:36,819 - INFO - 
-
-2025-04-15 08:36:36,819 - INFO - TEST CASE 6 Retry 1
-2025-04-15 08:36:36,819 - INFO - ---------------
-2025-04-15 08:36:36,819 - INFO - def test_execute_vision():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
-        mock_run.return_value.__aiter__.return_value = ["response content"]
-        
-        llm = OpenAI_llm(mode="vision", image_input="mock_image_data")
-        result = []
-        async for response in llm.execute():
-            result.append(response)
-        
-        assert result == ["response content"]
-2025-04-15 08:36:36,819 - INFO - ---------------
-2025-04-15 08:36:37,695 - INFO - Test Result 1- False
-2025-04-15 08:36:37,695 - INFO - Test Error 1 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
-    mod = import_path(
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
-    importlib.import_module(module_name)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-<frozen importlib._bootstrap>:1387: in _gcd_import
-    ???
-<frozen importlib._bootstrap>:1360: in _find_and_load
-    ???
-<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
-    ???
-<frozen importlib._bootstrap>:935: in _load_unlocked
-    ???
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:358: in _rewrite_test
-    co = compile(tree, strfn, "exec", dont_inherit=True)
-E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 13
-E       async for response in llm.execute():
-E       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-E   SyntaxError: 'async for' outside async function
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.24s
-2025-04-15 08:36:37,695 - INFO - TEST CASE 6 Retry 2
-2025-04-15 08:36:37,695 - INFO - ---------------
-2025-04-15 08:36:37,695 - INFO - def test_execute_vision():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
-        mock_run.return_value.__aiter__.return_value = ["response content"]
-        
-        llm = OpenAI_llm(mode="vision", image_input="mock_image_data")
-        result = []
-        async for response in llm.execute():
-            result.append(response)
-        
-        assert result == ["response content"]
-2025-04-15 08:36:37,695 - INFO - ---------------
-2025-04-15 08:36:39,736 - INFO - proposed_test_case 2-
-from unittest.mock import patch, AsyncMock
-import pytest
-import asyncio
-
-@pytest.mark.asyncio
-async def test_execute_vision():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
-        mock_run.return_value.__aiter__.return_value = ["response content"]
-        
-        llm = OpenAI_llm(mode="vision", image_input="mock_image_data")
-        result = []
-        async for response in llm.execute():
-            result.append(response)
-        
-        assert result == ["response content"]
-2025-04-15 08:36:40,700 - INFO - Test Result 2- False
-2025-04-15 08:36:40,700 - INFO - Test Error 2 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
-    mod = import_path(
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
-    importlib.import_module(module_name)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-<frozen importlib._bootstrap>:1387: in _gcd_import
-    ???
-<frozen importlib._bootstrap>:1360: in _find_and_load
-    ???
-<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
-    ???
-<frozen importlib._bootstrap>:935: in _load_unlocked
-    ???
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:358: in _rewrite_test
-    co = compile(tree, strfn, "exec", dont_inherit=True)
-E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 13
-E       async for response in llm.execute():
-E       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-E   SyntaxError: 'async for' outside async function
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.27s
-2025-04-15 08:36:40,700 - INFO - TEST CASE 6 Retry 3
-2025-04-15 08:36:40,700 - INFO - ---------------
-2025-04-15 08:36:40,700 - INFO - def test_execute_vision():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
-        mock_run.return_value.__aiter__.return_value = ["response content"]
-        
-        llm = OpenAI_llm(mode="vision", image_input="mock_image_data")
-        result = []
-        async for response in llm.execute():
-            result.append(response)
-        
-        assert result == ["response content"]
-2025-04-15 08:36:40,701 - INFO - ---------------
-2025-04-15 08:36:42,514 - INFO - proposed_test_case 3-
-from unittest.mock import patch, AsyncMock
-import pytest
-import asyncio
-
-@pytest.mark.asyncio
-async def test_execute_vision():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
-        mock_run.return_value.__aiter__.return_value = ["response content"]
-        
-        llm = OpenAI_llm(mode="vision", image_input="mock_image_data")
-        result = []
-        async for response in llm.execute():
-            result.append(response)
-        
-        assert result == ["response content"]
-2025-04-15 08:36:43,252 - INFO - Test Result 3- False
-2025-04-15 08:36:43,252 - INFO - Test Error 3 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
-    mod = import_path(
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
-    importlib.import_module(module_name)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-<frozen importlib._bootstrap>:1387: in _gcd_import
-    ???
-<frozen importlib._bootstrap>:1360: in _find_and_load
-    ???
-<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
-    ???
-<frozen importlib._bootstrap>:935: in _load_unlocked
-    ???
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:358: in _rewrite_test
-    co = compile(tree, strfn, "exec", dont_inherit=True)
-E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 13
-E       async for response in llm.execute():
-E       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-E   SyntaxError: 'async for' outside async function
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.18s
-2025-04-15 08:36:43,253 - INFO - Failed after all retries for test case 6
-2025-04-15 08:36:43,254 - INFO - [1mEnd Processing file: theory_evaluation\llm_handler.py[0m
-
-2025-04-15 08:36:43,254 - INFO - [1mStart Processing file: theory_evaluation\llm_utils.py[0m
-2025-04-15 08:36:58,934 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 08:36:58,939 - INFO - 
-
-2025-04-15 08:36:58,940 - INFO - TEST CASE 1 Retry 1
-2025-04-15 08:36:58,940 - INFO - ---------------
-2025-04-15 08:36:58,940 - INFO - def test_initialise_prompt_success():
-    agent = "test_agent"
-    config_values = {'key1': 'value1', 'key2': 'value2'}
-    prompt_structure = "This is a {$key1} and {$key2} test."
-2025-04-15 08:36:58,940 - INFO - ---------------
-2025-04-15 08:36:59,734 - INFO - Test Result 1- True
-2025-04-15 08:36:59,734 - INFO - Test Error 1 - .                                                                        [100%]
-1 passed in 0.07s
-2025-04-15 08:36:59,734 - INFO - 
-
-2025-04-15 08:36:59,734 - INFO - TEST CASE 2 Retry 1
-2025-04-15 08:36:59,734 - INFO - ---------------
-2025-04-15 08:36:59,734 - INFO - def test_initialise_prompt_missing_placeholder():
-    agent = "test_agent"
-    config_values = {'key1': 'value1'}
-    prompt_structure = "This is a {$key1} and {$key2} test."
-2025-04-15 08:36:59,734 - INFO - ---------------
-2025-04-15 08:37:00,871 - INFO - Test Result 1- True
-2025-04-15 08:37:00,871 - INFO - Test Error 1 - .                                                                        [100%]
-1 passed in 0.24s
-2025-04-15 08:37:00,872 - INFO - 
-
-2025-04-15 08:37:00,872 - INFO - TEST CASE 3 Retry 1
-2025-04-15 08:37:00,872 - INFO - ---------------
-2025-04-15 08:37:00,872 - INFO - def test_initialise_prompt_file_not_found():
-    agent = "test_agent"
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_prompt(agent)
-        assert result is None
-2025-04-15 08:37:00,872 - INFO - ---------------
-2025-04-15 08:37:02,233 - INFO - Test Result 1- False
-2025-04-15 08:37:02,233 - INFO - Test Error 1 - F                                                                        [100%]
+        mock_client.chat.completions.create.return_value = mock_stream
+2025-04-15 08:39:31,182 - INFO - Test Result 3- False
+2025-04-15 08:39:31,183 - INFO - Test Error 3 - F                                                                        [100%]
 ================================== FAILURES ===================================
-____________________ test_initialise_prompt_file_not_found ____________________
-temp\temp.py:7: in test_initialise_prompt_file_not_found
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+____________________________ test_openai_streaming ____________________________
+temp\temp.py:10: in test_openai_streaming
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=AsyncMock) as mock_client:
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1495: in __enter__
+    original, local = self.get_original()
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1465: in get_original
+    raise AttributeError(
+E   AttributeError: <class 'theory_evaluation.llm_handler.OpenAI_llm'> does not have the attribute 'client'
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_openai_streaming - AttributeError: <class 'theory_e...
+1 failed in 1.30s
+2025-04-15 08:39:31,183 - INFO - Failed after all retries for test case 3
+2025-04-15 08:39:31,183 - INFO - 
+
+2025-04-15 08:39:31,183 - INFO - TEST CASE 4 Retry 0
+2025-04-15 08:39:31,183 - INFO - ---------------
+2025-04-15 08:39:31,183 - INFO - def test_openai_chat_completion():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
+        mock_response = AsyncMock()
+        mock_response.choices = [AsyncMock()]
+        mock_response.choices[0].message.content = "chat completion content"
+        mock_client.chat.completions.create.return_value = mock_response
+2025-04-15 08:39:31,183 - INFO - ---------------
+2025-04-15 08:39:32,872 - INFO - Test Result 1- False
+2025-04-15 08:39:32,872 - INFO - Test Error 1 - F                                                                        [100%]
+================================== FAILURES ===================================
+_________________________ test_openai_chat_completion _________________________
+temp\temp.py:8: in test_openai_chat_completion
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
 E   NameError: name 'patch' is not defined
 =========================== short test summary info ===========================
-FAILED temp/temp.py::test_initialise_prompt_file_not_found - NameError: name ...
-1 failed in 0.30s
-2025-04-15 08:37:02,233 - INFO - TEST CASE 3 Retry 2
-2025-04-15 08:37:02,234 - INFO - ---------------
-2025-04-15 08:37:02,234 - INFO - def test_initialise_prompt_file_not_found():
-    agent = "test_agent"
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_prompt(agent)
-        assert result is None
-2025-04-15 08:37:02,234 - INFO - ---------------
-2025-04-15 08:37:03,510 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 08:37:03,510 - INFO - proposed_test_case 2-
-from unittest.mock import patch
+FAILED temp/temp.py::test_openai_chat_completion - NameError: name 'patch' is...
+1 failed in 1.02s
+2025-04-15 08:39:32,872 - INFO - TEST CASE 4 Retry 1
+2025-04-15 08:39:32,873 - INFO - ---------------
+2025-04-15 08:39:32,873 - INFO - def test_openai_chat_completion():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
+        mock_response = AsyncMock()
+        mock_response.choices = [AsyncMock()]
+        mock_response.choices[0].message.content = "chat completion content"
+        mock_client.chat.completions.create.return_value = mock_response
+2025-04-15 08:39:32,873 - INFO - ---------------
+2025-04-15 08:39:34,361 - INFO - proposed_test_case 2-
+from unittest.mock import patch, AsyncMock
 
-def test_initialise_prompt_file_not_found():
-    agent = "test_agent"
-    with patch("builtins.open", side_effect=FileNotFoundError):
-        result = initialise_prompt(agent)
-        assert result is None
-2025-04-15 08:37:04,492 - INFO - Test Result 2- False
-2025-04-15 08:37:04,492 - INFO - Test Error 2 - F                                                                        [100%]
+def test_openai_chat_completion():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
+        mock_response = AsyncMock()
+        mock_response.choices = [AsyncMock()]
+        mock_response.choices[0].message.content = "chat completion content"
+        mock_client.chat.completions.create.return_value = mock_response
+2025-04-15 08:39:36,589 - INFO - Test Result 2- False
+2025-04-15 08:39:36,590 - INFO - Test Error 2 - F                                                                        [100%]
 ================================== FAILURES ===================================
-____________________ test_initialise_prompt_file_not_found ____________________
-temp\temp.py:7: in test_initialise_prompt_file_not_found
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+_________________________ test_openai_chat_completion _________________________
+temp\temp.py:10: in test_openai_chat_completion
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1495: in __enter__
+    original, local = self.get_original()
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1465: in get_original
+    raise AttributeError(
+E   AttributeError: <class 'theory_evaluation.llm_handler.OpenAI_llm'> does not have the attribute 'client'
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_openai_chat_completion - AttributeError: <class 'th...
+1 failed in 1.37s
+2025-04-15 08:39:36,590 - INFO - TEST CASE 4 Retry 2
+2025-04-15 08:39:36,590 - INFO - ---------------
+2025-04-15 08:39:36,590 - INFO - def test_openai_chat_completion():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
+        mock_response = AsyncMock()
+        mock_response.choices = [AsyncMock()]
+        mock_response.choices[0].message.content = "chat completion content"
+        mock_client.chat.completions.create.return_value = mock_response
+2025-04-15 08:39:36,590 - INFO - ---------------
+2025-04-15 08:39:38,119 - INFO - proposed_test_case 3-
+from unittest.mock import patch, AsyncMock
+from theory_evaluation.llm_handler import OpenAI_llm
+
+def test_openai_chat_completion():
+    with patch.object(OpenAI_llm, 'client', create=True) as mock_client:
+        mock_response = AsyncMock()
+        mock_response.choices = [AsyncMock()]
+        mock_response.choices[0].message.content = "chat completion content"
+        mock_client.chat.completions.create.return_value = mock_response
+2025-04-15 08:39:40,642 - INFO - Test Result 3- True
+2025-04-15 08:39:40,643 - INFO - Test Error 3 - .                                                                        [100%]
+1 passed in 1.64s
+2025-04-15 08:39:40,643 - INFO - 
+
+2025-04-15 08:39:40,643 - INFO - TEST CASE 5 Retry 0
+2025-04-15 08:39:40,643 - INFO - ---------------
+2025-04-15 08:39:40,643 - INFO - def test_execute_text_generation():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
+        mock_run.return_value.__aiter__.return_value = ["response content"]
+2025-04-15 08:39:40,643 - INFO - ---------------
+2025-04-15 08:39:42,907 - INFO - Test Result 1- False
+2025-04-15 08:39:42,907 - INFO - Test Error 1 - F                                                                        [100%]
+================================== FAILURES ===================================
+________________________ test_execute_text_generation _________________________
+temp\temp.py:8: in test_execute_text_generation
+    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
 E   NameError: name 'patch' is not defined
 =========================== short test summary info ===========================
-FAILED temp/temp.py::test_initialise_prompt_file_not_found - NameError: name ...
-1 failed in 0.08s
-2025-04-15 08:37:04,492 - INFO - TEST CASE 3 Retry 3
-2025-04-15 08:37:04,492 - INFO - ---------------
-2025-04-15 08:37:04,492 - INFO - def test_initialise_prompt_file_not_found():
-    agent = "test_agent"
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_prompt(agent)
-        assert result is None
-2025-04-15 08:37:04,492 - INFO - ---------------
-2025-04-15 08:37:05,814 - INFO - proposed_test_case 3-
-import os
-import re
-import yaml
-from unittest.mock import patch
+FAILED temp/temp.py::test_execute_text_generation - NameError: name 'patch' i...
+1 failed in 1.37s
+2025-04-15 08:39:42,907 - INFO - TEST CASE 5 Retry 1
+2025-04-15 08:39:42,907 - INFO - ---------------
+2025-04-15 08:39:42,907 - INFO - def test_execute_text_generation():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
+        mock_run.return_value.__aiter__.return_value = ["response content"]
+2025-04-15 08:39:42,907 - INFO - ---------------
+2025-04-15 08:39:44,154 - INFO - proposed_test_case 2-
+from unittest.mock import patch, AsyncMock
 
-def test_initialise_prompt_file_not_found():
-    agent = "test_agent"
-    with patch("builtins.open", side_effect=FileNotFoundError):
-        result = initialise_prompt(agent)
-        assert result is None
-2025-04-15 08:37:06,541 - INFO - Test Result 3- False
-2025-04-15 08:37:06,542 - INFO - Test Error 3 - F                                                                        [100%]
+def test_execute_text_generation():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
+        mock_run.return_value.__aiter__.return_value = ["response content"]
+2025-04-15 08:39:45,960 - INFO - Test Result 2- True
+2025-04-15 08:39:45,960 - INFO - Test Error 2 - .                                                                        [100%]
+1 passed in 1.03s
+2025-04-15 08:39:45,960 - INFO - 
+
+2025-04-15 08:39:45,960 - INFO - TEST CASE 6 Retry 0
+2025-04-15 08:39:45,960 - INFO - ---------------
+2025-04-15 08:39:45,960 - INFO - def test_execute_vision():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
+        mock_run.return_value.__aiter__.return_value = ["response content"]
+2025-04-15 08:39:45,961 - INFO - ---------------
+2025-04-15 08:39:48,003 - INFO - Test Result 1- False
+2025-04-15 08:39:48,003 - INFO - Test Error 1 - F                                                                        [100%]
 ================================== FAILURES ===================================
-____________________ test_initialise_prompt_file_not_found ____________________
-temp\temp.py:7: in test_initialise_prompt_file_not_found
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+_____________________________ test_execute_vision _____________________________
+temp\temp.py:8: in test_execute_vision
+    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
 E   NameError: name 'patch' is not defined
 =========================== short test summary info ===========================
-FAILED temp/temp.py::test_initialise_prompt_file_not_found - NameError: name ...
-1 failed in 0.09s
-2025-04-15 08:37:06,542 - INFO - Failed after all retries for test case 3
-2025-04-15 08:37:06,542 - INFO - 
+FAILED temp/temp.py::test_execute_vision - NameError: name 'patch' is not def...
+1 failed in 1.27s
+2025-04-15 08:39:48,003 - INFO - TEST CASE 6 Retry 1
+2025-04-15 08:39:48,003 - INFO - ---------------
+2025-04-15 08:39:48,004 - INFO - def test_execute_vision():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
+        mock_run.return_value.__aiter__.return_value = ["response content"]
+2025-04-15 08:39:48,004 - INFO - ---------------
+2025-04-15 08:39:49,153 - INFO - proposed_test_case 2-
+from unittest.mock import patch, AsyncMock
 
-2025-04-15 08:37:06,542 - INFO - TEST CASE 4 Retry 1
-2025-04-15 08:37:06,542 - INFO - ---------------
-2025-04-15 08:37:06,542 - INFO - def test_initialise_settings_success():
+def test_execute_vision():
+    with patch('theory_evaluation.llm_handler.OpenAI_llm._run', new_callable=AsyncMock) as mock_run:
+        mock_run.return_value.__aiter__.return_value = ["response content"]
+2025-04-15 08:39:51,004 - INFO - Test Result 2- True
+2025-04-15 08:39:51,004 - INFO - Test Error 2 - .                                                                        [100%]
+1 passed in 1.02s
+2025-04-15 08:39:51,005 - INFO - [1mEnd Processing file: theory_evaluation\llm_handler.py[0m
+
+2025-04-15 08:39:51,005 - INFO - [1mStart Processing file: theory_evaluation\llm_utils.py[0m
+2025-04-15 08:39:55,284 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 08:39:55,289 - INFO - 
+
+2025-04-15 08:39:55,290 - INFO - TEST CASE 1 Retry 0
+2025-04-15 08:39:55,291 - INFO - ---------------
+2025-04-15 08:39:55,291 - INFO - def test_initialise_prompt():
     agent = "test_agent"
-    settings_data = {'setting1': 'value1', 'setting2': 'value2'}
-2025-04-15 08:37:06,542 - INFO - ---------------
-2025-04-15 08:37:07,192 - INFO - Test Result 1- True
-2025-04-15 08:37:07,192 - INFO - Test Error 1 - .                                                                        [100%]
+    config_yaml_content = "key: value"
+    prompt_txt_content = "This is a {$key} prompt."
+2025-04-15 08:39:55,292 - INFO - ---------------
+2025-04-15 08:39:56,027 - INFO - Test Result 1- True
+2025-04-15 08:39:56,028 - INFO - Test Error 1 - .                                                                        [100%]
 1 passed in 0.14s
-2025-04-15 08:37:07,192 - INFO - 
+2025-04-15 08:39:56,028 - INFO - 
 
-2025-04-15 08:37:07,192 - INFO - TEST CASE 5 Retry 1
-2025-04-15 08:37:07,192 - INFO - ---------------
-2025-04-15 08:37:07,192 - INFO - def test_initialise_settings_file_not_found():
+2025-04-15 08:39:56,028 - INFO - TEST CASE 2 Retry 0
+2025-04-15 08:39:56,028 - INFO - ---------------
+2025-04-15 08:39:56,028 - INFO - def test_initialise_settings():
     agent = "test_agent"
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_settings(agent)
-        assert result is None
-2025-04-15 08:37:07,192 - INFO - ---------------
-2025-04-15 08:37:07,938 - INFO - Test Result 1- False
-2025-04-15 08:37:07,938 - INFO - Test Error 1 - F                                                                        [100%]
-================================== FAILURES ===================================
-___________________ test_initialise_settings_file_not_found ___________________
-temp\temp.py:7: in test_initialise_settings_file_not_found
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-E   NameError: name 'patch' is not defined
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_initialise_settings_file_not_found - NameError: nam...
-1 failed in 0.16s
-2025-04-15 08:37:07,938 - INFO - TEST CASE 5 Retry 2
-2025-04-15 08:37:07,938 - INFO - ---------------
-2025-04-15 08:37:07,938 - INFO - def test_initialise_settings_file_not_found():
-    agent = "test_agent"
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_settings(agent)
-        assert result is None
-2025-04-15 08:37:07,938 - INFO - ---------------
-2025-04-15 08:37:08,966 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 08:37:08,967 - INFO - proposed_test_case 2-
-from unittest.mock import patch
+    llm_settings_content = '{"setting_key": "setting_value"}'
+2025-04-15 08:39:56,028 - INFO - ---------------
+2025-04-15 08:39:56,674 - INFO - Test Result 1- True
+2025-04-15 08:39:56,674 - INFO - Test Error 1 - .                                                                        [100%]
+1 passed in 0.13s
+2025-04-15 08:39:56,675 - INFO - [1mEnd Processing file: theory_evaluation\llm_utils.py[0m
 
-def test_initialise_settings_file_not_found():
-    agent = "test_agent"
-    with patch("builtins.open", side_effect=FileNotFoundError):
-        result = initialise_settings(agent)
-        assert result is None
-2025-04-15 08:37:09,698 - INFO - Test Result 2- False
-2025-04-15 08:37:09,698 - INFO - Test Error 2 - F                                                                        [100%]
-================================== FAILURES ===================================
-___________________ test_initialise_settings_file_not_found ___________________
-temp\temp.py:7: in test_initialise_settings_file_not_found
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-E   NameError: name 'patch' is not defined
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_initialise_settings_file_not_found - NameError: nam...
-1 failed in 0.07s
-2025-04-15 08:37:09,698 - INFO - TEST CASE 5 Retry 3
-2025-04-15 08:37:09,698 - INFO - ---------------
-2025-04-15 08:37:09,698 - INFO - def test_initialise_settings_file_not_found():
-    agent = "test_agent"
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_settings(agent)
-        assert result is None
-2025-04-15 08:37:09,698 - INFO - ---------------
-2025-04-15 08:37:10,851 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 08:37:10,852 - INFO - proposed_test_case 3-
-from unittest.mock import patch
-
-def test_initialise_settings_file_not_found():
-    agent = "test_agent"
-    with patch("builtins.open", side_effect=FileNotFoundError):
-        result = initialise_settings(agent)
-        assert result is None
-2025-04-15 08:37:11,480 - INFO - Test Result 3- False
-2025-04-15 08:37:11,480 - INFO - Test Error 3 - F                                                                        [100%]
-================================== FAILURES ===================================
-___________________ test_initialise_settings_file_not_found ___________________
-temp\temp.py:7: in test_initialise_settings_file_not_found
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-E   NameError: name 'patch' is not defined
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_initialise_settings_file_not_found - NameError: nam...
-1 failed in 0.09s
-2025-04-15 08:37:11,480 - INFO - Failed after all retries for test case 5
-2025-04-15 08:37:11,482 - INFO - [1mEnd Processing file: theory_evaluation\llm_utils.py[0m
-
-2025-04-15 08:37:11,482 - INFO - [1mStart Processing file: theory_evaluation\__init__.py[0m
-2025-04-15 08:37:11,482 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
+2025-04-15 08:39:56,675 - INFO - [1mStart Processing file: theory_evaluation\__init__.py[0m
+2025-04-15 08:39:56,675 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
 

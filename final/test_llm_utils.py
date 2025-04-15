@@ -2,16 +2,11 @@ import os
 import re
 import yaml
 
-def test_initialise_prompt_success():
+def test_initialise_prompt():
     agent = "test_agent"
-    config_values = {'key1': 'value1', 'key2': 'value2'}
-    prompt_structure = "This is a {$key1} and {$key2} test."
+    config_yaml_content = "key: value"
+    prompt_txt_content = "This is a {$key} prompt."
 
-def test_initialise_prompt_missing_placeholder():
+def test_initialise_settings():
     agent = "test_agent"
-    config_values = {'key1': 'value1'}
-    prompt_structure = "This is a {$key1} and {$key2} test."
-
-def test_initialise_settings_success():
-    agent = "test_agent"
-    settings_data = {'setting1': 'value1', 'setting2': 'value2'}
+    llm_settings_content = '{"setting_key": "setting_value"}'
