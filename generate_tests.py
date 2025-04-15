@@ -413,7 +413,7 @@ def _generate_unit_tests(
     
     import_statements = extract_unique_imports(provider, model_arg, llm_import_prompt, source_code, temperature)
     import_statements = update_relative_imports(import_statements, source_code_path)
-    # import_statements += "\n" + generate_import_statement(function_names, source_code_path)
+    import_statements += "\n" + generate_import_statement(function_names, source_code_path)
 
     formatted_prompt = llm_test_prompt.format(
         file_content=source_code,
@@ -578,7 +578,7 @@ def run_each_pytest_function_individually(
                 passed, test_case_error = run_single_test_file(temp_file)
 
                 logger.info(f"Test Result {count + 1}- {passed}")
-                logger.info(f"Test Error {count + 1} - {test_case_error}")
+                logger.info(f"Test Error {count + 1} - \n{test_case_error}")
 
             if passed:
                 success_test_cases += "\n" + full_test_code + "\n"

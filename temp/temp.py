@@ -1,7 +1,5 @@
-from unittest.mock import patch
-
-def test_initialise_settings_no_config_path():
+import os
+import re
+import yaml
+def test_initialise_settings_exception():
     agent = "test_agent"
-    with patch("builtins.open", side_effect=FileNotFoundError):
-        result = initialise_settings(agent)
-        assert result is None
