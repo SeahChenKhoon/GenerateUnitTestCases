@@ -483,7 +483,7 @@ def resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_c
     formatted_prompt = llm_resolve_prompt.format(
         test_case=test_case,
         test_case_error=test_case_error,
-        import_statements=import_statements.
+        import_statements=import_statements,
         source_code=source_code
     )
     logger.info(f"formatted_prompt - {formatted_prompt}")
