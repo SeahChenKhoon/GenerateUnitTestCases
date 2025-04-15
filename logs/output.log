@@ -1,12 +1,13 @@
-2025-04-15 15:26:28,462 - INFO - Loading environment variables...
-2025-04-15 15:26:28,780 - INFO - Start Processing file: theory_evaluation\llm_handler.py
-2025-04-15 15:26:30,794 - INFO - function_names - ['_OpenAI_Chat_Completion', '_OpenAI_JSON_Completion', '_OpenAI_Streaming', '__init__', '_run', 'execute', 'main']
-2025-04-15 15:26:38,481 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 15:26:48,681 - INFO - 
+2025-04-15 15:31:31,172 - INFO - Loading environment variables...
+2025-04-15 15:31:31,482 - INFO - Start Processing file: theory_evaluation\llm_handler.py
+2025-04-15 15:31:31,483 - INFO - Hello World
+2025-04-15 15:31:31,483 - INFO - []
+2025-04-15 15:31:33,219 - INFO - function_names - ['_OpenAI_Chat_Completion', '_OpenAI_JSON_Completion', '_OpenAI_Streaming', '__init__', '_run', 'execute', 'main']
+2025-04-15 15:31:53,360 - INFO - 
 
-2025-04-15 15:26:48,682 - INFO - TEST CASE 1 Retry 0
-2025-04-15 15:26:48,682 - INFO - ---------------
-2025-04-15 15:26:48,682 - INFO - 
+2025-04-15 15:31:53,361 - INFO - TEST CASE 1 Retry 0
+2025-04-15 15:31:53,362 - INFO - ---------------
+2025-04-15 15:31:53,362 - INFO - 
 import asyncio
 import json
 import os
@@ -16,35 +17,41 @@ from openai import AzureOpenAI, OpenAI
 import pytest
 
 
-@pytest.mark.asyncio
 async def test_openai_llm_initialization():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
-         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
-         patch('os.getenv', side_effect=lambda key: f"mock_{key}"):
+    with patch("theory_evaluation.llm_handler.AzureOpenAI") as mock_azure_openai, \
+         patch("theory_evaluation.llm_handler.OpenAI") as mock_openai, \
+         patch("theory_evaluation.llm_handler.os.getenv", side_effect=lambda key: f"mock_{key}"):
         
         llm = OpenAI_llm(useAzureOpenAI=True, message="Test message")
         assert llm.message == "Test message"
-        assert llm.client == mock_azure.return_value
-        assert hasattr(llm.client, 'chat')
+        assert llm.client == mock_azure_openai.return_value
+        assert llm.model_name == "mock_AZURE_OPENAI_DEPLOYMENT_NAME"
 
-2025-04-15 15:26:48,685 - INFO - ---------------
-2025-04-15 15:26:50,648 - INFO - Test Result 1- False
-2025-04-15 15:26:50,648 - INFO - Test Error 1 - C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+2025-04-15 15:31:53,366 - INFO - ---------------
+2025-04-15 15:31:55,706 - INFO - Test Result 1- True
+2025-04-15 15:31:55,707 - INFO - Test Error 1 - C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-F                                                                        [100%]
-================================== FAILURES ===================================
-_______________________ test_openai_llm_initialization ________________________
-temp\temp.py:12: in test_openai_llm_initialization
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
-E   NameError: name 'patch' is not defined
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_openai_llm_initialization - NameError: name 'patch'...
-1 failed in 1.08s
-2025-04-15 15:26:53,604 - INFO - TEST CASE 1 Retry 1
-2025-04-15 15:26:53,605 - INFO - ---------------
-2025-04-15 15:26:53,605 - INFO - 
+s                                                                        [100%]
+============================== warnings summary ===============================
+temp/temp.py::test_openai_llm_initialization
+  C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:148: PytestUnhandledCoroutineWarning: async def functions are not natively supported and have been skipped.
+  You need to install a suitable plugin for your async framework, for example:
+    - anyio
+    - pytest-asyncio
+    - pytest-tornasync
+    - pytest-trio
+    - pytest-twisted
+    warnings.warn(PytestUnhandledCoroutineWarning(msg.format(nodeid)))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 skipped, 1 warning in 1.36s
+2025-04-15 15:31:55,707 - INFO - 
+
+2025-04-15 15:31:55,708 - INFO - TEST CASE 2 Retry 0
+2025-04-15 15:31:55,708 - INFO - ---------------
+2025-04-15 15:31:55,709 - INFO - 
 import asyncio
 import json
 import os
@@ -53,119 +60,38 @@ from openai import AzureOpenAI, OpenAI
 
 import pytest
 
-from unittest.mock import patch
 
-@pytest.mark.asyncio
-async def test_openai_llm_initialization():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
-         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
-         patch('os.getenv', side_effect=lambda key: f"mock_{key}"):
-        
-        llm = OpenAI_llm(useAzureOpenAI=True, message="Test message")
-        assert llm.message == "Test message"
-        assert llm.client == mock_azure.return_value
-        assert hasattr(llm.client, 'chat')
-
-2025-04-15 15:26:53,605 - INFO - ---------------
-2025-04-15 15:26:56,725 - INFO - Test Result 2- False
-2025-04-15 15:26:56,725 - INFO - Test Error 2 - 
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
-The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
-
-  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-F                                                                        [100%]
-================================== FAILURES ===================================
-_______________________ test_openai_llm_initialization ________________________
-temp\temp.py:17: in test_openai_llm_initialization
-    llm = OpenAI_llm(useAzureOpenAI=True, message="Test message")
-E   NameError: name 'OpenAI_llm' is not defined
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_openai_llm_initialization - NameError: name 'OpenAI...
-1 failed in 1.85s
-2025-04-15 15:26:58,658 - INFO - TEST CASE 1 Retry 2
-2025-04-15 15:26:58,659 - INFO - ---------------
-2025-04-15 15:26:58,659 - INFO - 
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-import pytest
-
-import pytest
-from unittest.mock import patch
-from theory_evaluation.llm_handler import OpenAI_llm
-
-@pytest.mark.asyncio
-async def test_openai_llm_initialization():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
-         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
-         patch('os.getenv', side_effect=lambda key: f"mock_{key}"):
-        
-        llm = OpenAI_llm(useAzureOpenAI=True, message="Test message")
-        assert llm.message == "Test message"
-        assert llm.client == mock_azure.return_value
-        assert hasattr(llm.client, 'chat')
-
-2025-04-15 15:26:58,659 - INFO - ---------------
-2025-04-15 15:27:01,830 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 15:27:01,830 - INFO - New import Statements 3- import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-import pytest
-from unittest.mock import patch
-from theory_evaluation.llm_handler import OpenAI_llm
-2025-04-15 15:27:01,830 - INFO - Test Result 3- True
-2025-04-15 15:27:01,831 - INFO - Test Error 3 - 
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
-The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
-
-  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-.                                                                        [100%]
-1 passed in 1.52s
-2025-04-15 15:27:01,831 - INFO - 
-
-2025-04-15 15:27:01,831 - INFO - TEST CASE 2 Retry 0
-2025-04-15 15:27:01,831 - INFO - ---------------
-2025-04-15 15:27:01,831 - INFO - 
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-import pytest
-from unittest.mock import patch
-from theory_evaluation.llm_handler import OpenAI_llm
-
-
-@pytest.mark.asyncio
 async def test_openai_json_completion():
-    mock_response = MagicMock()
-    mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to life."})
+    with patch("theory_evaluation.llm_handler.OpenAI_llm.client") as mock_client:
+        mock_response = AsyncMock()
+        mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to life"})
+        mock_client.chat.completions.create.return_value = mock_response
 
-2025-04-15 15:27:01,831 - INFO - ---------------
-2025-04-15 15:27:03,678 - INFO - Test Result 1- False
-2025-04-15 15:27:03,679 - INFO - Test Error 1 - C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+2025-04-15 15:31:55,709 - INFO - ---------------
+2025-04-15 15:31:58,159 - INFO - Test Result 1- True
+2025-04-15 15:31:58,159 - INFO - Test Error 1 - C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-F                                                                        [100%]
-================================== FAILURES ===================================
-_________________________ test_openai_json_completion _________________________
-temp\temp.py:14: in test_openai_json_completion
-    mock_response = MagicMock()
-E   NameError: name 'MagicMock' is not defined
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_openai_json_completion - NameError: name 'MagicMock...
-1 failed in 0.97s
-2025-04-15 15:27:06,011 - INFO - TEST CASE 2 Retry 1
-2025-04-15 15:27:06,012 - INFO - ---------------
-2025-04-15 15:27:06,012 - INFO - 
+s                                                                        [100%]
+============================== warnings summary ===============================
+temp/temp.py::test_openai_json_completion
+  C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:148: PytestUnhandledCoroutineWarning: async def functions are not natively supported and have been skipped.
+  You need to install a suitable plugin for your async framework, for example:
+    - anyio
+    - pytest-asyncio
+    - pytest-tornasync
+    - pytest-trio
+    - pytest-twisted
+    warnings.warn(PytestUnhandledCoroutineWarning(msg.format(nodeid)))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 skipped, 1 warning in 1.50s
+2025-04-15 15:31:58,161 - INFO - 
+
+2025-04-15 15:31:58,161 - INFO - TEST CASE 3 Retry 0
+2025-04-15 15:31:58,162 - INFO - ---------------
+2025-04-15 15:31:58,162 - INFO - 
 import asyncio
 import json
 import os
@@ -173,88 +99,41 @@ import os
 from openai import AzureOpenAI, OpenAI
 
 import pytest
-from unittest.mock import patch
-from theory_evaluation.llm_handler import OpenAI_llm
-
-from unittest.mock import MagicMock
-
-@pytest.mark.asyncio
-async def test_openai_json_completion():
-    mock_response = MagicMock()
-    mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to life."})
-    # Add additional test logic here as needed
-
-2025-04-15 15:27:06,012 - INFO - ---------------
-2025-04-15 15:27:14,494 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 15:27:14,494 - INFO - New import Statements 2- import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-import pytest
-from unittest.mock import patch
-from theory_evaluation.llm_handler import OpenAI_llm
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-import pytest
-from unittest.mock import patch, MagicMock
-from theory_evaluation.llm_handler import OpenAI_llm
-2025-04-15 15:27:14,495 - INFO - Test Result 2- True
-2025-04-15 15:27:14,495 - INFO - Test Error 2 - 
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
-The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
-
-  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-.                                                                        [100%]
-1 passed in 0.97s
-2025-04-15 15:27:14,495 - INFO - 
-
-2025-04-15 15:27:14,495 - INFO - TEST CASE 3 Retry 0
-2025-04-15 15:27:14,495 - INFO - ---------------
-2025-04-15 15:27:14,495 - INFO - 
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-import pytest
-from unittest.mock import patch
-from theory_evaluation.llm_handler import OpenAI_llm
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-import pytest
-from unittest.mock import patch, MagicMock
-from theory_evaluation.llm_handler import OpenAI_llm
 
 
-@pytest.mark.asyncio
 async def test_openai_streaming():
-    mock_chunk = MagicMock()
-    mock_chunk.choices[0].delta.content = "streaming content"
+    with patch("theory_evaluation.llm_handler.OpenAI_llm.client") as mock_client:
+        mock_stream = AsyncMock()
+        mock_chunk = AsyncMock()
+        mock_chunk.choices[0].delta.content = "streaming content"
+        mock_stream.__aiter__.return_value = [mock_chunk]
+        mock_client.chat.completions.create.return_value = mock_stream
 
-2025-04-15 15:27:14,495 - INFO - ---------------
-2025-04-15 15:27:16,492 - INFO - Test Result 1- True
-2025-04-15 15:27:16,492 - INFO - Test Error 1 - C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+2025-04-15 15:31:58,162 - INFO - ---------------
+2025-04-15 15:32:00,838 - INFO - Test Result 1- True
+2025-04-15 15:32:00,839 - INFO - Test Error 1 - C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-.                                                                        [100%]
-1 passed in 0.92s
-2025-04-15 15:27:16,493 - INFO - 
+s                                                                        [100%]
+============================== warnings summary ===============================
+temp/temp.py::test_openai_streaming
+  C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:148: PytestUnhandledCoroutineWarning: async def functions are not natively supported and have been skipped.
+  You need to install a suitable plugin for your async framework, for example:
+    - anyio
+    - pytest-asyncio
+    - pytest-tornasync
+    - pytest-trio
+    - pytest-twisted
+    warnings.warn(PytestUnhandledCoroutineWarning(msg.format(nodeid)))
 
-2025-04-15 15:27:16,493 - INFO - TEST CASE 4 Retry 0
-2025-04-15 15:27:16,493 - INFO - ---------------
-2025-04-15 15:27:16,493 - INFO - 
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 skipped, 1 warning in 1.57s
+2025-04-15 15:32:00,839 - INFO - 
+
+2025-04-15 15:32:00,840 - INFO - TEST CASE 4 Retry 0
+2025-04-15 15:32:00,840 - INFO - ---------------
+2025-04-15 15:32:00,840 - INFO - 
 import asyncio
 import json
 import os
@@ -262,37 +141,39 @@ import os
 from openai import AzureOpenAI, OpenAI
 
 import pytest
-from unittest.mock import patch
-from theory_evaluation.llm_handler import OpenAI_llm
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-import pytest
-from unittest.mock import patch, MagicMock
-from theory_evaluation.llm_handler import OpenAI_llm
 
 
-@pytest.mark.asyncio
 async def test_openai_chat_completion():
-    mock_response = MagicMock()
-    mock_response.choices[0].message.content = "Chat completion content"
+    with patch("theory_evaluation.llm_handler.OpenAI_llm.client") as mock_client:
+        mock_response = AsyncMock()
+        mock_response.choices[0].message.content = "chat completion content"
+        mock_client.chat.completions.create.return_value = mock_response
 
-2025-04-15 15:27:16,493 - INFO - ---------------
-2025-04-15 15:27:18,058 - INFO - Test Result 1- True
-2025-04-15 15:27:18,058 - INFO - Test Error 1 - C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+2025-04-15 15:32:00,840 - INFO - ---------------
+2025-04-15 15:32:03,662 - INFO - Test Result 1- True
+2025-04-15 15:32:03,662 - INFO - Test Error 1 - C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-.                                                                        [100%]
-1 passed in 0.88s
-2025-04-15 15:27:18,058 - INFO - 
+s                                                                        [100%]
+============================== warnings summary ===============================
+temp/temp.py::test_openai_chat_completion
+  C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:148: PytestUnhandledCoroutineWarning: async def functions are not natively supported and have been skipped.
+  You need to install a suitable plugin for your async framework, for example:
+    - anyio
+    - pytest-asyncio
+    - pytest-tornasync
+    - pytest-trio
+    - pytest-twisted
+    warnings.warn(PytestUnhandledCoroutineWarning(msg.format(nodeid)))
 
-2025-04-15 15:27:18,058 - INFO - TEST CASE 5 Retry 0
-2025-04-15 15:27:18,058 - INFO - ---------------
-2025-04-15 15:27:18,058 - INFO - 
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 skipped, 1 warning in 1.46s
+2025-04-15 15:32:03,663 - INFO - 
+
+2025-04-15 15:32:03,664 - INFO - TEST CASE 5 Retry 0
+2025-04-15 15:32:03,664 - INFO - ---------------
+2025-04-15 15:32:03,664 - INFO - 
 import asyncio
 import json
 import os
@@ -300,37 +181,37 @@ import os
 from openai import AzureOpenAI, OpenAI
 
 import pytest
-from unittest.mock import patch
-from theory_evaluation.llm_handler import OpenAI_llm
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-import pytest
-from unittest.mock import patch, MagicMock
-from theory_evaluation.llm_handler import OpenAI_llm
 
 
-@pytest.mark.asyncio
 async def test_execute_text_generation():
-    mock_response = MagicMock()
-    mock_response.choices[0].message.content = "Generated text"
+    with patch("theory_evaluation.llm_handler.OpenAI_llm._run", new_callable=AsyncMock) as mock_run:
+        mock_run.return_value.__aiter__.return_value = ["response content"]
 
-2025-04-15 15:27:18,058 - INFO - ---------------
-2025-04-15 15:27:19,514 - INFO - Test Result 1- True
-2025-04-15 15:27:19,514 - INFO - Test Error 1 - C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+2025-04-15 15:32:03,664 - INFO - ---------------
+2025-04-15 15:32:05,960 - INFO - Test Result 1- True
+2025-04-15 15:32:05,960 - INFO - Test Error 1 - C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-.                                                                        [100%]
-1 passed in 0.87s
-2025-04-15 15:27:19,514 - INFO - 
+s                                                                        [100%]
+============================== warnings summary ===============================
+temp/temp.py::test_execute_text_generation
+  C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:148: PytestUnhandledCoroutineWarning: async def functions are not natively supported and have been skipped.
+  You need to install a suitable plugin for your async framework, for example:
+    - anyio
+    - pytest-asyncio
+    - pytest-tornasync
+    - pytest-trio
+    - pytest-twisted
+    warnings.warn(PytestUnhandledCoroutineWarning(msg.format(nodeid)))
 
-2025-04-15 15:27:19,514 - INFO - TEST CASE 6 Retry 0
-2025-04-15 15:27:19,514 - INFO - ---------------
-2025-04-15 15:27:19,514 - INFO - 
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 skipped, 1 warning in 1.32s
+2025-04-15 15:32:05,961 - INFO - 
+
+2025-04-15 15:32:05,961 - INFO - TEST CASE 6 Retry 0
+2025-04-15 15:32:05,961 - INFO - ---------------
+2025-04-15 15:32:05,961 - INFO - 
 import asyncio
 import json
 import os
@@ -338,39 +219,43 @@ import os
 from openai import AzureOpenAI, OpenAI
 
 import pytest
-from unittest.mock import patch
-from theory_evaluation.llm_handler import OpenAI_llm
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-import pytest
-from unittest.mock import patch, MagicMock
-from theory_evaluation.llm_handler import OpenAI_llm
 
 
-@pytest.mark.asyncio
 async def test_execute_vision():
-    mock_response = MagicMock()
-    mock_response.choices[0].message.content = "Vision response"
+    with patch("theory_evaluation.llm_handler.OpenAI_llm._run", new_callable=AsyncMock) as mock_run:
+        mock_run.return_value.__aiter__.return_value = ["response content"]
 
-2025-04-15 15:27:19,514 - INFO - ---------------
-2025-04-15 15:27:20,997 - INFO - Test Result 1- True
-2025-04-15 15:27:20,997 - INFO - Test Error 1 - C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+2025-04-15 15:32:05,962 - INFO - ---------------
+2025-04-15 15:32:08,484 - INFO - Test Result 1- True
+2025-04-15 15:32:08,484 - INFO - Test Error 1 - C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-.                                                                        [100%]
-1 passed in 0.87s
-2025-04-15 15:27:20,999 - INFO - End Processing file: theory_evaluation\llm_handler.py
+s                                                                        [100%]
+============================== warnings summary ===============================
+temp/temp.py::test_execute_vision
+  C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:148: PytestUnhandledCoroutineWarning: async def functions are not natively supported and have been skipped.
+  You need to install a suitable plugin for your async framework, for example:
+    - anyio
+    - pytest-asyncio
+    - pytest-tornasync
+    - pytest-trio
+    - pytest-twisted
+    warnings.warn(PytestUnhandledCoroutineWarning(msg.format(nodeid)))
 
-2025-04-15 15:27:20,999 - INFO - Start Processing file: theory_evaluation\llm_utils.py
-2025-04-15 15:27:22,374 - INFO - function_names - ['initialise_prompt', 'initialise_settings']
-2025-04-15 15:27:34,151 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 15:27:44,039 - INFO - End Processing file: theory_evaluation\llm_utils.py
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 skipped, 1 warning in 1.53s
+2025-04-15 15:32:08,486 - INFO - End Processing file: theory_evaluation\llm_handler.py
 
-2025-04-15 15:27:44,039 - INFO - Start Processing file: theory_evaluation\__init__.py
-2025-04-15 15:27:44,040 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
+2025-04-15 15:32:08,486 - INFO - Start Processing file: theory_evaluation\llm_utils.py
+2025-04-15 15:32:08,487 - INFO - Hello World
+2025-04-15 15:32:08,488 - INFO - []
+2025-04-15 15:32:09,903 - INFO - function_names - ['initialise_prompt', 'initialise_settings']
+2025-04-15 15:32:13,914 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 15:32:18,229 - INFO - End Processing file: theory_evaluation\llm_utils.py
+
+2025-04-15 15:32:18,230 - INFO - Start Processing file: theory_evaluation\__init__.py
+2025-04-15 15:32:18,232 - INFO - Hello World
+2025-04-15 15:32:18,233 - INFO - []
+2025-04-15 15:32:18,233 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
 

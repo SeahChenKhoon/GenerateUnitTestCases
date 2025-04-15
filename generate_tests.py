@@ -604,6 +604,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
 
     try:
         source_code = source_code_path.read_text(encoding="utf-8")
+        logger.info(f"source_code - {source_code}")
         function_names = extract_function_and_class_names(source_code)
         if not function_names:
             logger.warning(f"No public functions found in {source_code_path}. Skipping test generation.\n")
