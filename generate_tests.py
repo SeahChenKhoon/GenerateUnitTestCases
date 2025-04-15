@@ -580,7 +580,7 @@ def run_each_pytest_function_individually(
                     provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, 
                     temperature
                 )
-                full_test_code = f"{import_statements}\n{proposed_test_code}\n"
+                full_test_code = f"{import_statements}\n{pytest_fixture}\n{proposed_test_code}\n"
                 logger.info(f"TEST CASE {idx} Retry {count}")
                 logger.info(f"---------------")
                 logger.info(f"\n{full_test_code}")
