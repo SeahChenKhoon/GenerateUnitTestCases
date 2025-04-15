@@ -103,3 +103,4 @@ $ uv pip install -r requirements.txt
 
 
 PYTHONPATH=. pytest ./temp/temp.py
+sh ./scripts/quick-commit.sh

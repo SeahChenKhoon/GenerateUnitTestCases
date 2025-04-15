@@ -640,7 +640,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
                 )
 
             test_code = run_each_pytest_function_individually(client, model_arg, temperature, 
-                                                              env_vars["llm_resolve_prompt"], env_vars["llm_new_import_prompt"], env_vars["llm_pytest_fixture"]
+                                                              env_vars["llm_resolve_prompt"], env_vars["llm_new_import_prompt"], env_vars["llm_pytest_fixture"],
                                                               import_statements, source_code, test_code, Path(env_vars["temp_file"]))
         
             if test_code:
