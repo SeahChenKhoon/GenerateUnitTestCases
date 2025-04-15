@@ -112,7 +112,8 @@ def _load_env_variables() -> Dict[str, Any]:
         "temperature": os.getenv("TEMPERATURE"),
         "llm_import_prompt": os.getenv("LLM_IMPORT_PROMPT"),
         "llm_new_import_prompt": os.getenv("LLM_NEW_IMPORT_PROMPT"),
-        "llm_resolve_prompt": os.getenv("LLM_RESOLVE_PROMPT")
+        "llm_resolve_prompt": os.getenv("LLM_RESOLVE_PROMPT"),
+        "llm_pytest_fixture_prompt": os.getenv("LLM_PYTEST_FIXTURE_PROMPT")
         
     }
 
@@ -533,18 +534,30 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+    
+def extract_pytest_fixture(provider, model_arg, llm_pytest_fixture_prompt, test_code, 
+                    temperature):
+    formatted_prompt = llm_pytest_fixture_prompt.format(
+        unit_test_file=test_code
+    )
+    response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
+    return strip_markdown_fences(response.choices[0].message.content.strip())
+    
 def run_each_pytest_function_individually(
     provider,
     model_arg,
     temperature,
     llm_resolve_prompt,
     llm_new_import_prompt, 
+    llm_pytest_fixture_prompt,
     import_statements,
     source_code: str,
     test_code: str,
     temp_file: Path
 ) -> str:
     # Extract each test function body individually
+    pytest_fixture = extract_pytest_fixture(test_code)
+    logger.info(f"pytest_fixture - {pytest_fixture}")
     test_cases = extract_test_cases_from_code(test_code)
     success_test_cases = ""
     for idx, test_case in enumerate(test_cases, start=1):
@@ -626,7 +639,9 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
                     test_code
                 )
 
-            test_code = run_each_pytest_function_individually(client, model_arg, temperature, env_vars["llm_resolve_prompt"], env_vars["llm_new_import_prompt"], import_statements, source_code, test_code, Path(env_vars["temp_file"]))
+            test_code = run_each_pytest_function_individually(client, model_arg, temperature, 
+                                                              env_vars["llm_resolve_prompt"], env_vars["llm_new_import_prompt"], env_vars["llm_pytest_fixture"]
+                                                              import_statements, source_code, test_code, Path(env_vars["temp_file"]))
         
             if test_code:
                 save_test_file(
