@@ -544,7 +544,7 @@ def run_each_pytest_function_individually(
     pytest_fixture = extract_pytest_fixture(provider, model_arg, llm_pytest_fixture_prompt, test_code, temperature)
     logger.info(f"pytest_fixture - \n{pytest_fixture}\n")
     test_cases = extract_test_cases_from_code(provider, model_arg, llm_test_cases_prompt, test_code, temperature)
-    logger.info(f"pytest_fixture - \n{test_cases}\n")
+    logger.info(f"test_cases - \n{test_cases}\n")
 
     success_test_cases = ""
     # for idx, test_case in enumerate(test_cases, start=1):
