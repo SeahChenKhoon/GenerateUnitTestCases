@@ -537,9 +537,11 @@ logger = logging.getLogger(__name__)
     
 def extract_pytest_fixture(provider, model_arg, llm_pytest_fixture_prompt, test_code, 
                     temperature):
+    logger.info(f"Hello World 1")
     formatted_prompt = llm_pytest_fixture_prompt.format(
         unit_test_file=test_code
     )
+    logger.info(f"Hello World 1 - formatted_prompt - {formatted_prompt}")
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
     return strip_markdown_fences(response.choices[0].message.content.strip())
     
