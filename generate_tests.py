@@ -478,11 +478,12 @@ def extract_unique_imports(provider, model_arg, llm_get_import_prompt, test_code
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
 
-def resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, temperature):
+def resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, import_statements, temperature):
     # Format the prompt using the provided template
     formatted_prompt = llm_resolve_prompt.format(
         test_case=test_case,
         test_case_error=test_case_error,
+        import_statements=import_statements.
         source_code=source_code
     )
     logger.info(f"formatted_prompt - {formatted_prompt}")
@@ -554,7 +555,7 @@ def run_each_pytest_function_individually(
                 count += 1
                 test_case = resolve_unit_test(
                     provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, 
-                    temperature
+                    import_statements, temperature
                 )
                 full_test_code = f"{initial_template}\n{test_case}\n"
                 logger.info(f"TEST CASE {idx} Retry {count}")
