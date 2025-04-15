@@ -556,7 +556,7 @@ def run_each_pytest_function_individually(
     temp_file: Path
 ) -> str:
     # Extract each test function body individually
-    pytest_fixture = extract_pytest_fixture(test_code)
+    pytest_fixture = extract_pytest_fixture(provider, model_arg, llm_pytest_fixture_prompt, test_code, temperature)
     logger.info(f"pytest_fixture - {pytest_fixture}")
     test_cases = extract_test_cases_from_code(test_code)
     success_test_cases = ""
