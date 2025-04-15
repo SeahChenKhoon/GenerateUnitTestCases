@@ -463,8 +463,7 @@ def extract_test_cases_from_code(provider, model_arg, llm_test_cases_prompt, tes
     )
     logger.info(f"llm_test_cases_prompt - {formatted_prompt}")
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
-    strip_markdown_fences(response.choices[0].message.content.strip())
-    return 
+    return strip_markdown_fences(response.choices[0].message.content.strip())
 
 def extract_test_functions(code: str) -> List[str]:
     """

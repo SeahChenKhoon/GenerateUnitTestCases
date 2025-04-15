@@ -1,47 +1,160 @@
-2025-04-15 11:32:08,303 - INFO - Loading environment variables...
-2025-04-15 11:32:08,839 - INFO - [1mStart Processing file: theory_evaluation\llm_handler.py[0m
-2025-04-15 11:32:22,077 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 11:32:23,245 - INFO - pytest_fixture - 
-@pytest.fixture
-def mock_openai():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock:
-        yield mock
+2025-04-15 13:42:43,071 - INFO - Loading environment variables...
+2025-04-15 13:42:43,489 - INFO - [1mStart Processing file: theory_evaluation\llm_handler.py[0m
+2025-04-15 13:42:55,526 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 13:42:56,162 - INFO - pytest_fixture - 
+No `@pytest.fixture` functions are present in the provided unit test file.
 
-@pytest.fixture
-def mock_azure_openai():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock:
-        yield mock
+2025-04-15 13:42:56,163 - INFO - llm_test_cases_prompt - Extract all unit test cases excluding pytest fixtures from the following:
+```
+import asyncio
+import json
+import os
+from unittest.mock import patch, AsyncMock
+import pytest
+from theory_evaluation.llm_handler import OpenAI_llm
 
-2025-04-15 11:32:30,887 - INFO - test_cases_str - 
+@pytest.mark.asyncio
+async def test_openai_llm_initialization():
+    with patch("theory_evaluation.llm_handler.AzureOpenAI") as mock_azure_openai, \
+         patch("theory_evaluation.llm_handler.OpenAI") as mock_openai, \
+         patch("os.getenv", side_effect=lambda key: f"mock_{key}"):
+        
+        llm = OpenAI_llm(useAzureOpenAI=True)
+        assert llm.client == mock_azure_openai.return_value
+        assert llm.azure_endpoint == "mock_AZURE_OPENAI_ENDPOINT_SWEDEN"
+        assert llm.api_version == "mock_AZURE_OPENAI_API_VERSION"
+        assert llm.model_name == "mock_AZURE_OPENAI_DEPLOYMENT_NAME"
+
+        llm = OpenAI_llm(useAzureOpenAI=False)
+        assert llm.client == mock_openai.return_value
+        assert llm.model_name == "mock_OPENAI_DEPLOYMENT_NAME"
+
+@pytest.mark.asyncio
+async def test_openai_json_completion():
+    with patch("theory_evaluation.llm_handler.OpenAI") as mock_openai:
+        mock_response = AsyncMock()
+        mock_response.choices[0].message.content = json.dumps({"answer": "42"})
+        mock_openai.return_value.chat.completions.create.return_value = mock_response
+
+        llm = OpenAI_llm()
+        result = await llm._OpenAI_JSON_Completion()
+        assert result == {"answer": "42"}
+
+@pytest.mark.asyncio
+async def test_openai_streaming():
+    with patch("theory_evaluation.llm_handler.OpenAI") as mock_openai:
+        mock_stream = AsyncMock()
+        mock_stream.__aiter__.return_value = [{"choices": [{"delta": {"content": "chunk"}}]}]
+        mock_openai.return_value.chat.completions.create.return_value = mock_stream
+
+        llm = OpenAI_llm(output="stream")
+        chunks = []
+        async for chunk in llm._OpenAI_Streaming():
+            chunks.append(chunk)
+        assert chunks == ["chunk"]
+
+@pytest.mark.asyncio
+async def test_openai_chat_completion():
+    with patch("theory_evaluation.llm_handler.OpenAI") as mock_openai:
+        mock_response = AsyncMock()
+        mock_response.choices[0].message.content = "Hello, world!"
+        mock_openai.return_value.chat.completions.create.return_value = mock_response
+
+        llm = OpenAI_llm()
+        result = await llm._OpenAI_Chat_Completion()
+        assert result == "Hello, world!"
+
+@pytest.mark.asyncio
+async def test_execute_text_generation():
+    with patch("theory_evaluation.llm_handler.OpenAI") as mock_openai:
+        mock_response = AsyncMock()
+        mock_response.choices[0].message.content = "Hello, world!"
+        mock_openai.return_value.chat.completions.create.return_value = mock_response
+
+        llm = OpenAI_llm(output=None)
+        responses = []
+        async for response in llm.execute():
+            responses.append(response)
+        assert responses == ["Hello, world!"]
+
+@pytest.mark.asyncio
+async def test_execute_vision():
+    with patch("theory_evaluation.llm_handler.OpenAI") as mock_openai:
+        mock_response = AsyncMock()
+        mock_response.choices[0].message.content = "Image processed"
+        mock_openai.return_value.chat.completions.create.return_value = mock_response
+
+        llm = OpenAI_llm(mode="vision", image_input="mock_image_data")
+        responses = []
+        async for response in llm.execute():
+            responses.append(response)
+        assert responses == ["Image processed"]
+```
+. Output only unit test cases. No Markdown formatting, explanations, or docstrings. Do NOT wrap your output in backticks
+2025-04-15 13:43:06,012 - INFO - test_cases_str - 
 None
 
-2025-04-15 11:32:30,889 - ERROR - Failed processing theory_evaluation\llm_handler.py: expected string or bytes-like object, got 'NoneType'
-2025-04-15 11:32:30,893 - INFO - [1mEnd Processing file: theory_evaluation\llm_handler.py[0m
+2025-04-15 13:43:06,015 - ERROR - Failed processing theory_evaluation\llm_handler.py: expected string or bytes-like object, got 'NoneType'
+2025-04-15 13:43:06,015 - INFO - [1mEnd Processing file: theory_evaluation\llm_handler.py[0m
 
-2025-04-15 11:32:30,893 - INFO - [1mStart Processing file: theory_evaluation\llm_utils.py[0m
-2025-04-15 11:32:36,657 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 11:32:38,207 - INFO - pytest_fixture - 
-@pytest.fixture
-def mock_open_file():
-    with patch("builtins.open", mock_open(read_data="data")) as mock_file:
-        yield mock_file
+2025-04-15 13:43:06,016 - INFO - [1mStart Processing file: theory_evaluation\llm_utils.py[0m
+2025-04-15 13:43:13,246 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 13:43:13,699 - INFO - pytest_fixture - 
 
-@pytest.fixture
-def mock_yaml_load():
-    with patch("yaml.load", return_value={"key": "value"}) as mock_yaml:
-        yield mock_yaml
 
-@pytest.fixture
-def mock_yaml_safe_load():
-    with patch("yaml.safe_load", return_value={"key": "value"}) as mock_yaml_safe:
-        yield mock_yaml_safe
+2025-04-15 13:43:13,700 - INFO - llm_test_cases_prompt - Extract all unit test cases excluding pytest fixtures from the following:
+```
+import os
+import pytest
+import yaml
+import re
+from unittest.mock import patch, mock_open
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 
-2025-04-15 11:32:50,380 - INFO - test_cases_str - 
+def test_initialise_prompt_success():
+    agent = "test_agent"
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key}."
+
+    with patch("builtins.open", mock_open(read_data=config_yaml)) as mock_file:
+        with patch("yaml.load", return_value={"key": "value"}):
+            with patch("re.finditer", return_value=re.finditer(r"\{\$(\w+)\}", prompt_txt)):
+                result = initialise_prompt(agent)
+                assert result == "This is a value."
+                mock_file.assert_has_calls([
+                    patch.call(f"./theory_evaluation/evaluator/prompts/{agent}/config.yaml"),
+                    patch.call(f"./theory_evaluation/evaluator/prompts/{agent}/prompt.txt", "r")
+                ])
+
+def test_initialise_prompt_file_not_found():
+    agent = "non_existent_agent"
+    with patch("builtins.open", side_effect=FileNotFoundError):
+        result = initialise_prompt(agent)
+        assert result is None
+
+def test_initialise_settings_success():
+    agent = "test_agent"
+    settings_yaml = "setting_key: setting_value"
+
+    with patch("builtins.open", mock_open(read_data=settings_yaml)) as mock_file:
+        with patch("yaml.safe_load", return_value={"setting_key": "setting_value"}):
+            result = initialise_settings(agent)
+            assert result == {"setting_key": "setting_value"}
+            mock_file.assert_called_once_with(f"./theory_evaluation/evaluator/prompts/{agent}/llm_settings.yaml")
+
+def test_initialise_settings_file_not_found():
+    agent = "non_existent_agent"
+    with patch("builtins.open", side_effect=FileNotFoundError):
+        result = initialise_settings(agent)
+        assert result is None
+```
+. Output only unit test cases. No Markdown formatting, explanations, or docstrings. Do NOT wrap your output in backticks
+2025-04-15 13:43:19,079 - INFO - test_cases_str - 
 None
 
-2025-04-15 11:32:50,380 - ERROR - Failed processing theory_evaluation\llm_utils.py: expected string or bytes-like object, got 'NoneType'
-2025-04-15 11:32:50,381 - INFO - [1mEnd Processing file: theory_evaluation\llm_utils.py[0m
+2025-04-15 13:43:19,080 - ERROR - Failed processing theory_evaluation\llm_utils.py: expected string or bytes-like object, got 'NoneType'
+2025-04-15 13:43:19,081 - INFO - [1mEnd Processing file: theory_evaluation\llm_utils.py[0m
 
-2025-04-15 11:32:50,381 - INFO - [1mStart Processing file: theory_evaluation\__init__.py[0m
-2025-04-15 11:32:50,381 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
+2025-04-15 13:43:19,081 - INFO - [1mStart Processing file: theory_evaluation\__init__.py[0m
+2025-04-15 13:43:19,083 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
 
