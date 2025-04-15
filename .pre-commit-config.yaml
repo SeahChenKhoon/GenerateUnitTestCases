@@ -19,6 +19,7 @@ repos:
         files: ^src/
         verbose: true
         always_run: true
+        env: VERBOSE_MODE: "1"
 
       # - id: run-tests
       #   name: Run All Pytest Tests

@@ -20,6 +20,15 @@ file_handler.setLevel(logging.INFO)
 file_formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
 file_handler.setFormatter(file_formatter)
 
+# Read the verbosity flag
+VERBOSE_MODE = os.getenv("VERBOSE_MODE") == "1"
+
+# Configure logging accordingly
+logging.basicConfig(
+    level=logging.DEBUG if VERBOSE_MODE else logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
+
 # Create logger
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
