@@ -1,18 +1,38 @@
-2025-04-15 11:13:41,586 - INFO - Loading environment variables...
-2025-04-15 11:13:41,918 - INFO - [1mStart Processing file: theory_evaluation\llm_handler.py[0m
-2025-04-15 11:13:51,058 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 11:13:52,130 - INFO - pytest_fixture - 
+2025-04-15 11:14:18,935 - INFO - Loading environment variables...
+2025-04-15 11:14:19,264 - INFO - [1mStart Processing file: theory_evaluation\llm_handler.py[0m
+2025-04-15 11:14:30,007 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 11:14:31,286 - INFO - pytest_fixture - 
 @pytest.fixture
-def mock_openai_client():
-    with patch('theory_evaluation.llm_handler.OpenAI') as mock_openai:
-        yield mock_openai
+def mock_openai():
+    with patch('theory_evaluation.llm_handler.OpenAI') as mock:
+        yield mock
 
 @pytest.fixture
-def mock_azure_openai_client():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai:
-        yield mock_azure_openai
+def mock_azure_openai():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock:
+        yield mock
 
-2025-04-15 11:13:59,161 - ERROR - Failed processing theory_evaluation\llm_handler.py: expected string or bytes-like object, got 'NoneType'
-2025-04-15 11:13:59,163 - INFO - [1mEnd Processing file: theory_evaluation\llm_handler.py[0m
+2025-04-15 11:14:38,827 - ERROR - Failed processing theory_evaluation\llm_handler.py: expected string or bytes-like object, got 'NoneType'
+2025-04-15 11:14:38,828 - INFO - [1mEnd Processing file: theory_evaluation\llm_handler.py[0m
 
-2025-04-15 11:13:59,164 - INFO - [1mStart Processing file: theory_evaluation\llm_utils.py[0m
+2025-04-15 11:14:38,831 - INFO - [1mStart Processing file: theory_evaluation\llm_utils.py[0m
+2025-04-15 11:14:43,574 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 11:14:44,662 - INFO - pytest_fixture - 
+@pytest.fixture
+def mock_config_values():
+    return {'placeholder1': 'value1', 'placeholder2': 'value2'}
+
+@pytest.fixture
+def mock_prompt_structure():
+    return "This is a {$placeholder1} and {$placeholder2} test."
+
+@pytest.fixture
+def mock_settings():
+    return {'setting1': 'value1', 'setting2': 'value2'}
+
+2025-04-15 11:14:48,352 - ERROR - Failed processing theory_evaluation\llm_utils.py: expected string or bytes-like object, got 'NoneType'
+2025-04-15 11:14:48,352 - INFO - [1mEnd Processing file: theory_evaluation\llm_utils.py[0m
+
+2025-04-15 11:14:48,352 - INFO - [1mStart Processing file: theory_evaluation\__init__.py[0m
+2025-04-15 11:14:48,353 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
+

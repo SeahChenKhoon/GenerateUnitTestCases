@@ -428,11 +428,11 @@ def _generate_unit_tests(
     return generated_test_code, import_statements
 
 
-def extract_test_functions(code: str) -> List[str]:
-    """
-    Extracts all top-level test function names from the given test code string.
-    """
-    return re.findall(r'^def\s+(test_\w+)\s*\(', code, re.MULTILINE)
+# def extract_test_functions(code: str) -> List[str]:
+#     """
+#     Extracts all top-level test function names from the given test code string.
+#     """
+#     return re.findall(r'^def\s+(test_\w+)\s*\(', code, re.MULTILINE)
 
 def save_test_file(src_dir: Path, test_dir: Path, original_path: Path, test_code: str) -> Path:
     """
