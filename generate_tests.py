@@ -248,6 +248,7 @@ def update_relative_imports(code: str, file_path: str) -> str:
         ValueError: If the number of relative import levels (e.g., '..', '...') exceeds
                     the depth of the file path.
     """
+    logger.debug(f"Update relative import start")
     file_path_obj = Path(file_path).with_suffix("")
     module_parts = list(file_path_obj.parts)
     pattern = re.compile(r"from\s+(\.+)([\w\.]*)\s+import\s+(\w+)")
@@ -269,7 +270,7 @@ def update_relative_imports(code: str, file_path: str) -> str:
 
         absolute_import = ".".join(base_parts)
         return f"from {absolute_import} import {imported_name}"
-
+    logger.debug(f"Update relative import complete")
     return pattern.sub(replacer, code)
 
 
@@ -390,7 +391,7 @@ def _generate_unit_tests(
     source_code: str,
     source_code_path: str
 ) -> str:
-    
+    logger.debug(f"Generate Unit Test Case starts")
     import_statements = extract_unique_imports(provider, model_arg, llm_import_prompt, source_code, temperature)
     import_statements = update_relative_imports(import_statements, source_code_path)
     import_statements += "\n" + generate_import_statement(function_names, source_code_path)
@@ -403,6 +404,7 @@ def _generate_unit_tests(
 
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
     generated_test_code = strip_markdown_fences(response.choices[0].message.content.strip())
+    logger.debug(f"Generate Unit Test Case complete")
     return generated_test_code, import_statements
 
 
@@ -478,12 +480,14 @@ def run_single_test_file(temp_path: Path) -> Tuple[bool, str]:
     return passed, result.stdout.strip()
 
 def extract_unique_imports(provider, model_arg, llm_get_import_prompt, test_code, temperature):
-        # Format the prompt using the provided template
+    # Format the prompt using the provided template
+    logger.debug(f"Extract unique import start")
     formatted_prompt = llm_get_import_prompt.format(
         python_code=test_code
     )
     
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
+    logger.debug(f"Extract unique import complete")
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
 
@@ -594,11 +598,13 @@ def run_each_pytest_function_individually(
 
 
 def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg: str, env_vars: dict) -> None:
-    logger.info(f"Start Processing file: {source_code_path}")
+    logger.debug(f"Start Processing file: {source_code_path}")
 
     try:
         source_code = source_code_path.read_text(encoding="utf-8")
+        logger.debug(f"Extraction of function and class start")
         function_names = extract_function_and_class_names(source_code)
+        logger.debug(f"extraction of function and class complete")
         if not function_names:
             logger.warning(f"No public functions found in {source_code_path}. Skipping test generation.\n")
             return
@@ -638,16 +644,20 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
     except Exception as e:
         logger.error(f"Failed processing {source_code_path}: {e}")
 
-    logger.info(f"End Processing file: {source_code_path}\n")
+    logger.debug(f"End Processing file: {source_code_path}\n")
 
 
 def main() -> NoReturn:
-    logger.info("Loading environment variables...")
-
     try:
+        logger.debug("Loading environment variables start")
         env_vars = _load_env_variables()
+        logger.debug("Loading environment variables completes")
+        logger.debug("Initialising of LLM start")
         client, model_arg = _initialize_llm(env_vars)
+        logger.debug("Initialising of LLM completes")
+        logger.debug("Getting python file starts")
         source_code_files = _get_python_files(env_vars["src_dir"])
+        logger.debug("Getting python file completes")
     except Exception as e:
         logger.error(f"Initialization failed: {e}")
         raise
