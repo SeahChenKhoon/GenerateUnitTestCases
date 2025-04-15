@@ -347,11 +347,12 @@ def get_chat_completion(provider: Any, model: str, prompt: str, temperature: flo
         temperature=temperature,
     )
 
-def identify_new_import(provider, model_arg, llm_new_import_prompt, test_case, import_statement, temperature):
-        # Format the prompt using the provided template
+def identify_new_import(provider, model_arg, llm_new_import_prompt, import_statements, full_test_code, source_code, 
+                    temperature):
+
     formatted_prompt = llm_new_import_prompt.format(
-        test_case=test_case,
-        import_statement=import_statement
+        test_case=full_test_code,
+        import_statement=import_statements
     )
     
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
@@ -537,6 +538,7 @@ def run_each_pytest_function_individually(
     model_arg,
     temperature,
     llm_resolve_prompt,
+    llm_new_import_prompt, 
     import_statements,
     source_code: str,
     test_code: str,
@@ -577,7 +579,10 @@ def run_each_pytest_function_individually(
 
                 save_test_case_to_temp_file(full_test_code, temp_file)
                 passed, test_case_error = run_single_test_file(temp_file)
-
+                if passed:
+                    import_statements = identify_new_import(provider, model_arg, llm_new_import_prompt, import_statements, full_test_code, source_code, 
+                    temperature)
+                    logger.info(f"New import Statements {count + 1}- {import_statements}")
                 logger.info(f"Test Result {count + 1}- {passed}")
                 logger.info(f"Test Error {count + 1} - \n{test_case_error}")
 
@@ -621,7 +626,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
                     test_code
                 )
 
-            test_code = run_each_pytest_function_individually(client, model_arg, temperature, env_vars["llm_resolve_prompt"], import_statements, source_code, test_code, Path(env_vars["temp_file"]))
+            test_code = run_each_pytest_function_individually(client, model_arg, temperature, env_vars["llm_resolve_prompt"], env_vars["llm_new_import_prompt"], import_statements, source_code, test_code, Path(env_vars["temp_file"]))
         
             if test_code:
                 save_test_file(

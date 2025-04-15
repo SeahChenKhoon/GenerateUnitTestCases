@@ -1,578 +1,709 @@
-2025-04-15 09:04:47,564 - INFO - Loading environment variables...
-2025-04-15 09:04:47,875 - INFO - [1mStart Processing file: theory_evaluation\llm_handler.py[0m
-2025-04-15 09:04:58,129 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 09:04:58,135 - INFO - 
+2025-04-15 09:16:57,576 - INFO - Loading environment variables...
+2025-04-15 09:16:57,937 - INFO - [1mStart Processing file: theory_evaluation\llm_handler.py[0m
+2025-04-15 09:17:09,095 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 09:17:09,101 - INFO - 
 
-2025-04-15 09:04:58,136 - INFO - TEST CASE 1 Retry 0
-2025-04-15 09:04:58,136 - INFO - ---------------
-2025-04-15 09:04:58,136 - INFO - 
+2025-04-15 09:17:09,101 - INFO - TEST CASE 1 Retry 0
+2025-04-15 09:17:09,101 - INFO - ---------------
+2025-04-15 09:17:09,102 - INFO - 
 import asyncio
 import json
 import os
 
 from openai import AzureOpenAI, OpenAI
 
-def test_openai_llm_initialization():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
-         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
-         patch('theory_evaluation.llm_handler.os.getenv', return_value='mock_value'):
+def test_openai_llm_initialization(mock_openai_client):
+    mock_azure, mock_openai = mock_openai_client
 
-2025-04-15 09:04:58,139 - INFO - ---------------
-2025-04-15 09:04:59,005 - INFO - Test Result 1- False
-2025-04-15 09:04:59,005 - INFO - Test Error 1 - =================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\python.py:493: in importtestmodule
-    mod = import_path(
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\pathlib.py:587: in import_path
-    importlib.import_module(module_name)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-<frozen importlib._bootstrap>:1387: in _gcd_import
-    ???
-<frozen importlib._bootstrap>:1360: in _find_and_load
-    ???
-<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
-    ???
-<frozen importlib._bootstrap>:935: in _load_unlocked
-    ???
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
-    tree = ast.parse(source, filename=strfn)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
-    return compile(source, filename, mode, flags,
-E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 10
-E       patch('theory_evaluation.llm_handler.os.getenv', return_value='mock_value'):
-E                                                                                   ^
-E   IndentationError: expected an indented block after 'with' statement on line 8
+2025-04-15 09:17:09,102 - INFO - ---------------
+2025-04-15 09:17:10,812 - INFO - Test Result 1- False
+2025-04-15 09:17:10,814 - INFO - Test Error 1 - E                                                                        [100%]
+=================================== ERRORS ====================================
+______________ ERROR at setup of test_openai_llm_initialization _______________
+file C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py, line 7
+  def test_openai_llm_initialization(mock_openai_client):
+E       fixture 'mock_openai_client' not found
+>       available fixtures: anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, doctest_namespace, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:7
 =========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.22s
-2025-04-15 09:05:00,840 - INFO - TEST CASE 1 Retry 1
-2025-04-15 09:05:00,840 - INFO - ---------------
-2025-04-15 09:05:00,840 - INFO - 
-from unittest.mock import patch
+ERROR temp/temp.py::test_openai_llm_initialization
+1 error in 1.01s
+2025-04-15 09:17:13,400 - INFO - TEST CASE 1 Retry 1
+2025-04-15 09:17:13,400 - INFO - ---------------
+2025-04-15 09:17:13,400 - INFO - 
+import asyncio
+import json
+import os
 
-def test_openai_llm_initialization():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
-         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
-         patch('theory_evaluation.llm_handler.os.getenv', return_value='mock_value'):
-        pass
-2025-04-15 09:05:00,840 - INFO - ---------------
-2025-04-15 09:05:03,310 - INFO - Test Result 2- True
-2025-04-15 09:05:03,311 - INFO - Test Error 2 - 
+from openai import AzureOpenAI, OpenAI
+
+import pytest
+from unittest.mock import MagicMock
+
+@pytest.fixture
+def mock_openai_client():
+    mock_azure = MagicMock()
+    mock_openai = MagicMock()
+    return mock_azure, mock_openai
+
+def test_openai_llm_initialization(mock_openai_client):
+    mock_azure, mock_openai = mock_openai_client
+    # Add assertions or test logic here
+
+2025-04-15 09:17:13,400 - INFO - ---------------
+2025-04-15 09:17:15,616 - INFO - Test Result 2- True
+2025-04-15 09:17:15,617 - INFO - Test Error 2 - 
 .                                                                        [100%]
-1 passed in 1.57s
-2025-04-15 09:05:03,311 - INFO - 
+1 passed in 1.37s
+2025-04-15 09:17:15,617 - INFO - 
 
-2025-04-15 09:05:03,311 - INFO - TEST CASE 2 Retry 0
-2025-04-15 09:05:03,311 - INFO - ---------------
-2025-04-15 09:05:03,311 - INFO - 
+2025-04-15 09:17:15,617 - INFO - TEST CASE 2 Retry 0
+2025-04-15 09:17:15,617 - INFO - ---------------
+2025-04-15 09:17:15,617 - INFO - 
 import asyncio
 import json
 import os
 
 from openai import AzureOpenAI, OpenAI
 
-def test_openai_json_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
-        mock_response = MagicMock()
-        mock_response.choices[0].message.content = '{"answer": "42", "explanation": "The answer to life."}'
-        mock_client.chat.completions.create.return_value = mock_response
+def test_openai_json_completion(mock_openai_client):
+    _, mock_openai = mock_openai_client
+    mock_response = MagicMock()
+    mock_response.choices = [MagicMock(message=MagicMock(content=json.dumps({"answer": "42", "explanation": "The answer is 42"})))]
+    mock_openai.return_value.chat.completions.create = AsyncMock(return_value=mock_response)
 
-2025-04-15 09:05:03,311 - INFO - ---------------
-2025-04-15 09:05:05,959 - INFO - Test Result 1- False
-2025-04-15 09:05:05,959 - INFO - Test Error 1 - F                                                                        [100%]
-================================== FAILURES ===================================
-_________________________ test_openai_json_completion _________________________
-temp\temp.py:8: in test_openai_json_completion
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
-E   NameError: name 'patch' is not defined
+2025-04-15 09:17:15,617 - INFO - ---------------
+2025-04-15 09:17:18,306 - INFO - Test Result 1- False
+2025-04-15 09:17:18,307 - INFO - Test Error 1 - E                                                                        [100%]
+=================================== ERRORS ====================================
+________________ ERROR at setup of test_openai_json_completion ________________
+file C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py, line 7
+  def test_openai_json_completion(mock_openai_client):
+E       fixture 'mock_openai_client' not found
+>       available fixtures: anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, doctest_namespace, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:7
 =========================== short test summary info ===========================
-FAILED temp/temp.py::test_openai_json_completion - NameError: name 'patch' is...
-1 failed in 1.69s
-2025-04-15 09:05:07,949 - INFO - TEST CASE 2 Retry 1
-2025-04-15 09:05:07,949 - INFO - ---------------
-2025-04-15 09:05:07,949 - INFO - 
-from unittest.mock import patch, MagicMock
+ERROR temp/temp.py::test_openai_json_completion
+1 error in 1.27s
+2025-04-15 09:17:20,053 - INFO - TEST CASE 2 Retry 1
+2025-04-15 09:17:20,054 - INFO - ---------------
+2025-04-15 09:17:20,054 - INFO - 
+import asyncio
+import json
+import os
 
-def test_openai_json_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
-        mock_response = MagicMock()
-        mock_response.choices[0].message.content = '{"answer": "42", "explanation": "The answer to life."}'
-        mock_client.chat.completions.create.return_value = mock_response
-2025-04-15 09:05:07,950 - INFO - ---------------
-2025-04-15 09:05:09,987 - INFO - Test Result 2- False
-2025-04-15 09:05:09,987 - INFO - Test Error 2 - 
-F                                                                        [100%]
-================================== FAILURES ===================================
-_________________________ test_openai_json_completion _________________________
-temp\temp.py:4: in test_openai_json_completion
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1495: in __enter__
-    original, local = self.get_original()
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1465: in get_original
-    raise AttributeError(
-E   AttributeError: <class 'theory_evaluation.llm_handler.OpenAI_llm'> does not have the attribute 'client'
+from openai import AzureOpenAI, OpenAI
+
+from unittest.mock import MagicMock, AsyncMock
+import pytest
+
+@pytest.fixture
+def mock_openai_client(mocker):
+    mock_openai = mocker.patch('openai.OpenAI')
+    return mocker, mock_openai
+
+def test_openai_json_completion(mock_openai_client):
+    _, mock_openai = mock_openai_client
+    mock_response = MagicMock()
+    mock_response.choices = [MagicMock(message=MagicMock(content=json.dumps({"answer": "42", "explanation": "The answer is 42"})))]
+    mock_openai.return_value.chat.completions.create = AsyncMock(return_value=mock_response)
+
+2025-04-15 09:17:20,054 - INFO - ---------------
+2025-04-15 09:17:22,268 - INFO - Test Result 2- False
+2025-04-15 09:17:22,268 - INFO - Test Error 2 - 
+E                                                                        [100%]
+=================================== ERRORS ====================================
+________________ ERROR at setup of test_openai_json_completion ________________
+file C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py, line 15
+  def test_openai_json_completion(mock_openai_client):
+file C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py, line 10
+  @pytest.fixture
+  def mock_openai_client(mocker):
+E       fixture 'mocker' not found
+>       available fixtures: anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, doctest_namespace, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, mock_openai_client, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:10
 =========================== short test summary info ===========================
-FAILED temp/temp.py::test_openai_json_completion - AttributeError: <class 'th...
-1 failed in 1.25s
-2025-04-15 09:05:11,515 - INFO - TEST CASE 2 Retry 2
-2025-04-15 09:05:11,516 - INFO - ---------------
-2025-04-15 09:05:11,516 - INFO - 
-from unittest.mock import patch, MagicMock
+ERROR temp/temp.py::test_openai_json_completion
+1 error in 1.36s
+2025-04-15 09:17:24,629 - INFO - TEST CASE 2 Retry 2
+2025-04-15 09:17:24,629 - INFO - ---------------
+2025-04-15 09:17:24,630 - INFO - 
+import asyncio
+import json
+import os
 
-def test_openai_json_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', create=True) as mock_client:
-        mock_response = MagicMock()
-        mock_response.choices[0].message.content = '{"answer": "42", "explanation": "The answer to life."}'
-        mock_client.chat.completions.create.return_value = mock_response
-2025-04-15 09:05:11,516 - INFO - ---------------
-2025-04-15 09:05:13,227 - INFO - Test Result 3- True
-2025-04-15 09:05:13,227 - INFO - Test Error 3 - 
+from openai import AzureOpenAI, OpenAI
+
+import pytest
+from unittest.mock import MagicMock, AsyncMock
+
+@pytest.fixture
+def mock_openai_client(mocker):
+    mock_openai = mocker.patch('openai.OpenAI')
+    return mocker, mock_openai
+
+def test_openai_json_completion(mock_openai_client):
+    _, mock_openai = mock_openai_client
+    mock_response = MagicMock()
+    mock_response.choices = [MagicMock(message=MagicMock(content=json.dumps({"answer": "42", "explanation": "The answer is 42"})))]
+    mock_openai.return_value.chat.completions.create = AsyncMock(return_value=mock_response)
+
+2025-04-15 09:17:24,630 - INFO - ---------------
+2025-04-15 09:17:26,623 - INFO - Test Result 3- False
+2025-04-15 09:17:26,623 - INFO - Test Error 3 - 
+E                                                                        [100%]
+=================================== ERRORS ====================================
+________________ ERROR at setup of test_openai_json_completion ________________
+file C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py, line 15
+  def test_openai_json_completion(mock_openai_client):
+file C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py, line 10
+  @pytest.fixture
+  def mock_openai_client(mocker):
+E       fixture 'mocker' not found
+>       available fixtures: anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, doctest_namespace, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, mock_openai_client, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:10
+=========================== short test summary info ===========================
+ERROR temp/temp.py::test_openai_json_completion
+1 error in 1.13s
+2025-04-15 09:17:26,623 - INFO - Failed after all retries for test case 2
+2025-04-15 09:17:26,623 - INFO - 
+
+2025-04-15 09:17:26,623 - INFO - TEST CASE 3 Retry 0
+2025-04-15 09:17:26,623 - INFO - ---------------
+2025-04-15 09:17:26,623 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+def test_openai_streaming(mock_openai_client):
+    _, mock_openai = mock_openai_client
+    mock_chunk = MagicMock()
+    mock_chunk.choices = [MagicMock(delta=MagicMock(content="streaming content"))]
+    mock_openai.return_value.chat.completions.create = AsyncMock(return_value=[mock_chunk])
+
+2025-04-15 09:17:26,623 - INFO - ---------------
+2025-04-15 09:17:28,379 - INFO - Test Result 1- False
+2025-04-15 09:17:28,379 - INFO - Test Error 1 - E                                                                        [100%]
+=================================== ERRORS ====================================
+___________________ ERROR at setup of test_openai_streaming ___________________
+file C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py, line 7
+  def test_openai_streaming(mock_openai_client):
+E       fixture 'mock_openai_client' not found
+>       available fixtures: anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, doctest_namespace, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:7
+=========================== short test summary info ===========================
+ERROR temp/temp.py::test_openai_streaming
+1 error in 1.08s
+2025-04-15 09:17:30,288 - INFO - TEST CASE 3 Retry 1
+2025-04-15 09:17:30,289 - INFO - ---------------
+2025-04-15 09:17:30,289 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import pytest
+from unittest.mock import MagicMock, AsyncMock
+
+@pytest.fixture
+def mock_openai_client(mocker):
+    mock_openai = mocker.patch('openai.OpenAI')
+    return None, mock_openai
+
+def test_openai_streaming(mock_openai_client):
+    _, mock_openai = mock_openai_client
+    mock_chunk = MagicMock()
+    mock_chunk.choices = [MagicMock(delta=MagicMock(content="streaming content"))]
+    mock_openai.return_value.chat.completions.create = AsyncMock(return_value=[mock_chunk])
+
+2025-04-15 09:17:30,289 - INFO - ---------------
+2025-04-15 09:17:32,154 - INFO - Test Result 2- False
+2025-04-15 09:17:32,155 - INFO - Test Error 2 - 
+E                                                                        [100%]
+=================================== ERRORS ====================================
+___________________ ERROR at setup of test_openai_streaming ___________________
+file C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py, line 15
+  def test_openai_streaming(mock_openai_client):
+file C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py, line 10
+  @pytest.fixture
+  def mock_openai_client(mocker):
+E       fixture 'mocker' not found
+>       available fixtures: anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, doctest_namespace, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, mock_openai_client, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:10
+=========================== short test summary info ===========================
+ERROR temp/temp.py::test_openai_streaming
+1 error in 1.08s
+2025-04-15 09:17:34,136 - INFO - TEST CASE 3 Retry 2
+2025-04-15 09:17:34,136 - INFO - ---------------
+2025-04-15 09:17:34,136 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import pytest
+from unittest.mock import MagicMock, AsyncMock
+
+@pytest.fixture
+def mock_openai_client(monkeypatch):
+    mock_openai = MagicMock()
+    monkeypatch.setattr('openai.OpenAI', mock_openai)
+    return monkeypatch, mock_openai
+
+def test_openai_streaming(mock_openai_client):
+    _, mock_openai = mock_openai_client
+    mock_chunk = MagicMock()
+    mock_chunk.choices = [MagicMock(delta=MagicMock(content="streaming content"))]
+    mock_openai.return_value.chat.completions.create = AsyncMock(return_value=[mock_chunk])
+
+2025-04-15 09:17:34,137 - INFO - ---------------
+2025-04-15 09:17:36,615 - INFO - Test Result 3- True
+2025-04-15 09:17:36,615 - INFO - Test Error 3 - 
 .                                                                        [100%]
-1 passed in 1.03s
-2025-04-15 09:05:13,227 - INFO - 
+1 passed in 1.67s
+2025-04-15 09:17:36,615 - INFO - 
 
-2025-04-15 09:05:13,227 - INFO - TEST CASE 3 Retry 0
-2025-04-15 09:05:13,227 - INFO - ---------------
-2025-04-15 09:05:13,227 - INFO - 
+2025-04-15 09:17:36,615 - INFO - TEST CASE 4 Retry 0
+2025-04-15 09:17:36,615 - INFO - ---------------
+2025-04-15 09:17:36,615 - INFO - 
 import asyncio
 import json
 import os
 
 from openai import AzureOpenAI, OpenAI
 
-def test_openai_streaming():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
-        mock_stream = MagicMock()
-        mock_chunk = MagicMock()
-        mock_chunk.choices[0].delta.content = "streamed content"
-        mock_stream.__iter__.return_value = [mock_chunk]
-        mock_client.chat.completions.create.return_value = mock_stream
+def test_openai_chat_completion(mock_openai_client):
+    _, mock_openai = mock_openai_client
+    mock_response = MagicMock()
+    mock_response.choices = [MagicMock(message=MagicMock(content="chat completion content"))]
+    mock_openai.return_value.chat.completions.create = AsyncMock(return_value=mock_response)
 
-2025-04-15 09:05:13,227 - INFO - ---------------
-2025-04-15 09:05:15,166 - INFO - Test Result 1- False
-2025-04-15 09:05:15,166 - INFO - Test Error 1 - F                                                                        [100%]
-================================== FAILURES ===================================
-____________________________ test_openai_streaming ____________________________
-temp\temp.py:8: in test_openai_streaming
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
-E   NameError: name 'patch' is not defined
+2025-04-15 09:17:36,615 - INFO - ---------------
+2025-04-15 09:17:39,355 - INFO - Test Result 1- False
+2025-04-15 09:17:39,355 - INFO - Test Error 1 - E                                                                        [100%]
+=================================== ERRORS ====================================
+________________ ERROR at setup of test_openai_chat_completion ________________
+file C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py, line 7
+  def test_openai_chat_completion(mock_openai_client):
+E       fixture 'mock_openai_client' not found
+>       available fixtures: anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, doctest_namespace, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:7
 =========================== short test summary info ===========================
-FAILED temp/temp.py::test_openai_streaming - NameError: name 'patch' is not d...
-1 failed in 1.17s
-2025-04-15 09:05:16,566 - INFO - TEST CASE 3 Retry 1
-2025-04-15 09:05:16,566 - INFO - ---------------
-2025-04-15 09:05:16,566 - INFO - 
-from unittest.mock import patch, MagicMock
+ERROR temp/temp.py::test_openai_chat_completion
+1 error in 1.61s
+2025-04-15 09:17:41,774 - INFO - TEST CASE 4 Retry 1
+2025-04-15 09:17:41,775 - INFO - ---------------
+2025-04-15 09:17:41,775 - INFO - 
+import asyncio
+import json
+import os
 
-def test_openai_streaming():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
-        mock_stream = MagicMock()
-        mock_chunk = MagicMock()
-        mock_chunk.choices[0].delta.content = "streamed content"
-        mock_stream.__iter__.return_value = [mock_chunk]
-        mock_client.chat.completions.create.return_value = mock_stream
-2025-04-15 09:05:16,567 - INFO - ---------------
-2025-04-15 09:05:18,478 - INFO - Test Result 2- False
-2025-04-15 09:05:18,479 - INFO - Test Error 2 - 
-F                                                                        [100%]
-================================== FAILURES ===================================
-____________________________ test_openai_streaming ____________________________
-temp\temp.py:4: in test_openai_streaming
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1495: in __enter__
-    original, local = self.get_original()
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1465: in get_original
-    raise AttributeError(
-E   AttributeError: <class 'theory_evaluation.llm_handler.OpenAI_llm'> does not have the attribute 'client'
+from openai import AzureOpenAI, OpenAI
+
+import pytest
+from unittest.mock import MagicMock, AsyncMock
+
+@pytest.fixture
+def mock_openai_client(mocker):
+    mock_openai = mocker.patch('openai.OpenAI')
+    return mocker, mock_openai
+
+def test_openai_chat_completion(mock_openai_client):
+    _, mock_openai = mock_openai_client
+    mock_response = MagicMock()
+    mock_response.choices = [MagicMock(message=MagicMock(content="chat completion content"))]
+    mock_openai.return_value.chat.completions.create = AsyncMock(return_value=mock_response)
+
+2025-04-15 09:17:41,776 - INFO - ---------------
+2025-04-15 09:17:43,854 - INFO - Test Result 2- False
+2025-04-15 09:17:43,854 - INFO - Test Error 2 - 
+E                                                                        [100%]
+=================================== ERRORS ====================================
+________________ ERROR at setup of test_openai_chat_completion ________________
+file C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py, line 15
+  def test_openai_chat_completion(mock_openai_client):
+file C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py, line 10
+  @pytest.fixture
+  def mock_openai_client(mocker):
+E       fixture 'mocker' not found
+>       available fixtures: anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, doctest_namespace, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, mock_openai_client, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:10
 =========================== short test summary info ===========================
-FAILED temp/temp.py::test_openai_streaming - AttributeError: <class 'theory_e...
-1 failed in 1.20s
-2025-04-15 09:05:21,288 - INFO - TEST CASE 3 Retry 2
-2025-04-15 09:05:21,288 - INFO - ---------------
-2025-04-15 09:05:21,288 - INFO - 
-from unittest.mock import patch, MagicMock
-from theory_evaluation.llm_handler import OpenAI_llm
+ERROR temp/temp.py::test_openai_chat_completion
+1 error in 1.11s
+2025-04-15 09:17:45,617 - INFO - TEST CASE 4 Retry 2
+2025-04-15 09:17:45,617 - INFO - ---------------
+2025-04-15 09:17:45,617 - INFO - 
+import asyncio
+import json
+import os
 
-def test_openai_streaming():
-    with patch.object(OpenAI_llm, 'client', create=True) as mock_client:
-        mock_stream = MagicMock()
-        mock_chunk = MagicMock()
-        mock_chunk.choices[0].delta.content = "streamed content"
-        mock_stream.__iter__.return_value = [mock_chunk]
-        mock_client.chat.completions.create.return_value = mock_stream
-2025-04-15 09:05:21,289 - INFO - ---------------
-2025-04-15 09:05:23,705 - INFO - Test Result 3- True
-2025-04-15 09:05:23,705 - INFO - Test Error 3 - 
+from openai import AzureOpenAI, OpenAI
+
+import pytest
+from unittest.mock import MagicMock, AsyncMock
+
+@pytest.fixture
+def mock_openai_client(mocker):
+    mock_openai = mocker.patch('openai.OpenAI')
+    return mock_openai
+
+def test_openai_chat_completion(mock_openai_client):
+    mock_openai = mock_openai_client
+    mock_response = MagicMock()
+    mock_response.choices = [MagicMock(message=MagicMock(content="chat completion content"))]
+    mock_openai.return_value.chat.completions.create = AsyncMock(return_value=mock_response)
+
+2025-04-15 09:17:45,617 - INFO - ---------------
+2025-04-15 09:17:47,336 - INFO - Test Result 3- False
+2025-04-15 09:17:47,336 - INFO - Test Error 3 - 
+E                                                                        [100%]
+=================================== ERRORS ====================================
+________________ ERROR at setup of test_openai_chat_completion ________________
+file C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py, line 15
+  def test_openai_chat_completion(mock_openai_client):
+file C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py, line 10
+  @pytest.fixture
+  def mock_openai_client(mocker):
+E       fixture 'mocker' not found
+>       available fixtures: anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, doctest_namespace, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, mock_openai_client, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:10
+=========================== short test summary info ===========================
+ERROR temp/temp.py::test_openai_chat_completion
+1 error in 0.97s
+2025-04-15 09:17:47,336 - INFO - Failed after all retries for test case 4
+2025-04-15 09:17:47,337 - INFO - 
+
+2025-04-15 09:17:47,337 - INFO - TEST CASE 5 Retry 0
+2025-04-15 09:17:47,337 - INFO - ---------------
+2025-04-15 09:17:47,337 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+def test_execute_text_generation(mock_openai_client):
+    _, mock_openai = mock_openai_client
+    mock_response = MagicMock()
+    mock_response.choices = [MagicMock(message=MagicMock(content="text generation content"))]
+    mock_openai.return_value.chat.completions.create = AsyncMock(return_value=mock_response)
+
+2025-04-15 09:17:47,337 - INFO - ---------------
+2025-04-15 09:17:49,148 - INFO - Test Result 1- False
+2025-04-15 09:17:49,148 - INFO - Test Error 1 - E                                                                        [100%]
+=================================== ERRORS ====================================
+_______________ ERROR at setup of test_execute_text_generation ________________
+file C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py, line 7
+  def test_execute_text_generation(mock_openai_client):
+E       fixture 'mock_openai_client' not found
+>       available fixtures: anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, doctest_namespace, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:7
+=========================== short test summary info ===========================
+ERROR temp/temp.py::test_execute_text_generation
+1 error in 1.06s
+2025-04-15 09:17:50,851 - INFO - TEST CASE 5 Retry 1
+2025-04-15 09:17:50,851 - INFO - ---------------
+2025-04-15 09:17:50,851 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+from unittest.mock import MagicMock, AsyncMock
+import pytest
+
+@pytest.fixture
+def mock_openai_client(mocker):
+    mock_openai = mocker.patch('openai.OpenAI')
+    return mocker, mock_openai
+
+def test_execute_text_generation(mock_openai_client):
+    _, mock_openai = mock_openai_client
+    mock_response = MagicMock()
+    mock_response.choices = [MagicMock(message=MagicMock(content="text generation content"))]
+    mock_openai.return_value.chat.completions.create = AsyncMock(return_value=mock_response)
+
+2025-04-15 09:17:50,851 - INFO - ---------------
+2025-04-15 09:17:52,755 - INFO - Test Result 2- False
+2025-04-15 09:17:52,756 - INFO - Test Error 2 - 
+E                                                                        [100%]
+=================================== ERRORS ====================================
+_______________ ERROR at setup of test_execute_text_generation ________________
+file C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py, line 15
+  def test_execute_text_generation(mock_openai_client):
+file C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py, line 10
+  @pytest.fixture
+  def mock_openai_client(mocker):
+E       fixture 'mocker' not found
+>       available fixtures: anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, doctest_namespace, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, mock_openai_client, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:10
+=========================== short test summary info ===========================
+ERROR temp/temp.py::test_execute_text_generation
+1 error in 1.08s
+2025-04-15 09:17:54,396 - INFO - TEST CASE 5 Retry 2
+2025-04-15 09:17:54,396 - INFO - ---------------
+2025-04-15 09:17:54,396 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import pytest
+from unittest.mock import MagicMock, AsyncMock
+
+@pytest.fixture
+def mock_openai_client(mocker):
+    mock_openai = mocker.patch('openai.OpenAI')
+    return mocker, mock_openai
+
+def test_execute_text_generation(mock_openai_client):
+    _, mock_openai = mock_openai_client
+    mock_response = MagicMock()
+    mock_response.choices = [MagicMock(message=MagicMock(content="text generation content"))]
+    mock_openai.return_value.chat.completions.create = AsyncMock(return_value=mock_response)
+
+2025-04-15 09:17:54,397 - INFO - ---------------
+2025-04-15 09:17:56,285 - INFO - Test Result 3- False
+2025-04-15 09:17:56,285 - INFO - Test Error 3 - 
+E                                                                        [100%]
+=================================== ERRORS ====================================
+_______________ ERROR at setup of test_execute_text_generation ________________
+file C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py, line 15
+  def test_execute_text_generation(mock_openai_client):
+file C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py, line 10
+  @pytest.fixture
+  def mock_openai_client(mocker):
+E       fixture 'mocker' not found
+>       available fixtures: anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, doctest_namespace, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, mock_openai_client, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:10
+=========================== short test summary info ===========================
+ERROR temp/temp.py::test_execute_text_generation
+1 error in 1.07s
+2025-04-15 09:17:56,285 - INFO - Failed after all retries for test case 5
+2025-04-15 09:17:56,285 - INFO - 
+
+2025-04-15 09:17:56,285 - INFO - TEST CASE 6 Retry 0
+2025-04-15 09:17:56,285 - INFO - ---------------
+2025-04-15 09:17:56,285 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+def test_execute_vision(mock_openai_client):
+    _, mock_openai = mock_openai_client
+    mock_response = MagicMock()
+    mock_response.choices = [MagicMock(message=MagicMock(content="vision content"))]
+    mock_openai.return_value.chat.completions.create = AsyncMock(return_value=mock_response)
+
+2025-04-15 09:17:56,285 - INFO - ---------------
+2025-04-15 09:17:58,622 - INFO - Test Result 1- False
+2025-04-15 09:17:58,622 - INFO - Test Error 1 - E                                                                        [100%]
+=================================== ERRORS ====================================
+____________________ ERROR at setup of test_execute_vision ____________________
+file C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py, line 7
+  def test_execute_vision(mock_openai_client):
+E       fixture 'mock_openai_client' not found
+>       available fixtures: anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, doctest_namespace, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:7
+=========================== short test summary info ===========================
+ERROR temp/temp.py::test_execute_vision
+1 error in 1.36s
+2025-04-15 09:18:00,321 - INFO - TEST CASE 6 Retry 1
+2025-04-15 09:18:00,322 - INFO - ---------------
+2025-04-15 09:18:00,322 - INFO - 
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+
+import pytest
+from unittest.mock import MagicMock, AsyncMock
+
+@pytest.fixture
+def mock_openai_client():
+    mock_openai = MagicMock()
+    return None, mock_openai
+
+def test_execute_vision(mock_openai_client):
+    _, mock_openai = mock_openai_client
+    mock_response = MagicMock()
+    mock_response.choices = [MagicMock(message=MagicMock(content="vision content"))]
+    mock_openai.return_value.chat.completions.create = AsyncMock(return_value=mock_response)
+
+2025-04-15 09:18:00,323 - INFO - ---------------
+2025-04-15 09:18:02,604 - INFO - Test Result 2- True
+2025-04-15 09:18:02,604 - INFO - Test Error 2 - 
 .                                                                        [100%]
-1 passed in 1.50s
-2025-04-15 09:05:23,705 - INFO - 
+1 passed in 1.14s
+2025-04-15 09:18:02,606 - INFO - [1mEnd Processing file: theory_evaluation\llm_handler.py[0m
 
-2025-04-15 09:05:23,705 - INFO - TEST CASE 4 Retry 0
-2025-04-15 09:05:23,705 - INFO - ---------------
-2025-04-15 09:05:23,705 - INFO - 
-import asyncio
-import json
-import os
+2025-04-15 09:18:02,606 - INFO - [1mStart Processing file: theory_evaluation\llm_utils.py[0m
+2025-04-15 09:18:07,391 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 09:18:07,395 - INFO - 
 
-from openai import AzureOpenAI, OpenAI
-
-def test_openai_chat_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
-        mock_response = MagicMock()
-        mock_response.choices[0].message.content = "Chat completion content"
-        mock_client.chat.completions.create.return_value = mock_response
-
-2025-04-15 09:05:23,705 - INFO - ---------------
-2025-04-15 09:05:26,026 - INFO - Test Result 1- False
-2025-04-15 09:05:26,027 - INFO - Test Error 1 - F                                                                        [100%]
-================================== FAILURES ===================================
-_________________________ test_openai_chat_completion _________________________
-temp\temp.py:8: in test_openai_chat_completion
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
-E   NameError: name 'patch' is not defined
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_openai_chat_completion - NameError: name 'patch' is...
-1 failed in 1.34s
-2025-04-15 09:05:27,185 - INFO - TEST CASE 4 Retry 1
-2025-04-15 09:05:27,186 - INFO - ---------------
-2025-04-15 09:05:27,186 - INFO - 
-from unittest.mock import patch, MagicMock
-
-def test_openai_chat_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
-        mock_response = MagicMock()
-        mock_response.choices[0].message.content = "Chat completion content"
-        mock_client.chat.completions.create.return_value = mock_response
-2025-04-15 09:05:27,186 - INFO - ---------------
-2025-04-15 09:05:29,066 - INFO - Test Result 2- False
-2025-04-15 09:05:29,066 - INFO - Test Error 2 - 
-F                                                                        [100%]
-================================== FAILURES ===================================
-_________________________ test_openai_chat_completion _________________________
-temp\temp.py:4: in test_openai_chat_completion
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client') as mock_client:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1495: in __enter__
-    original, local = self.get_original()
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1465: in get_original
-    raise AttributeError(
-E   AttributeError: <class 'theory_evaluation.llm_handler.OpenAI_llm'> does not have the attribute 'client'
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_openai_chat_completion - AttributeError: <class 'th...
-1 failed in 1.14s
-2025-04-15 09:05:30,866 - INFO - TEST CASE 4 Retry 2
-2025-04-15 09:05:30,867 - INFO - ---------------
-2025-04-15 09:05:30,867 - INFO - 
-from unittest.mock import patch, MagicMock
-from theory_evaluation.llm_handler import OpenAI_llm
-
-def test_openai_chat_completion():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=MagicMock) as mock_client:
-        mock_response = MagicMock()
-        mock_response.choices = [MagicMock()]
-        mock_response.choices[0].message.content = "Chat completion content"
-        mock_client.chat.completions.create.return_value = mock_response
-        
-        llm = OpenAI_llm()
-        response = llm.client.chat.completions.create()
-        
-        assert response.choices[0].message.content == "Chat completion content"
-2025-04-15 09:05:30,867 - INFO - ---------------
-2025-04-15 09:05:33,032 - INFO - Test Result 3- False
-2025-04-15 09:05:33,032 - INFO - Test Error 3 - 
-F                                                                        [100%]
-================================== FAILURES ===================================
-_________________________ test_openai_chat_completion _________________________
-temp\temp.py:5: in test_openai_chat_completion
-    with patch('theory_evaluation.llm_handler.OpenAI_llm.client', new_callable=MagicMock) as mock_client:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1495: in __enter__
-    original, local = self.get_original()
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1465: in get_original
-    raise AttributeError(
-E   AttributeError: <class 'theory_evaluation.llm_handler.OpenAI_llm'> does not have the attribute 'client'
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_openai_chat_completion - AttributeError: <class 'th...
-1 failed in 1.32s
-2025-04-15 09:05:33,033 - INFO - Failed after all retries for test case 4
-2025-04-15 09:05:33,033 - INFO - 
-
-2025-04-15 09:05:33,033 - INFO - TEST CASE 5 Retry 0
-2025-04-15 09:05:33,033 - INFO - ---------------
-2025-04-15 09:05:33,033 - INFO - 
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-def test_execute_text_generation():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm._run') as mock_run:
-        mock_run.return_value.__aiter__.return_value = ["response content"]
-
-2025-04-15 09:05:33,033 - INFO - ---------------
-2025-04-15 09:05:34,949 - INFO - Test Result 1- False
-2025-04-15 09:05:34,949 - INFO - Test Error 1 - F                                                                        [100%]
-================================== FAILURES ===================================
-________________________ test_execute_text_generation _________________________
-temp\temp.py:8: in test_execute_text_generation
-    with patch('theory_evaluation.llm_handler.OpenAI_llm._run') as mock_run:
-E   NameError: name 'patch' is not defined
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_execute_text_generation - NameError: name 'patch' i...
-1 failed in 1.18s
-2025-04-15 09:05:35,863 - INFO - TEST CASE 5 Retry 1
-2025-04-15 09:05:35,863 - INFO - ---------------
-2025-04-15 09:05:35,863 - INFO - 
-from unittest.mock import patch
-
-def test_execute_text_generation():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm._run') as mock_run:
-        mock_run.return_value.__aiter__.return_value = ["response content"]
-2025-04-15 09:05:35,864 - INFO - ---------------
-2025-04-15 09:05:37,801 - INFO - Test Result 2- True
-2025-04-15 09:05:37,801 - INFO - Test Error 2 - 
-.                                                                        [100%]
-1 passed in 1.09s
-2025-04-15 09:05:37,801 - INFO - 
-
-2025-04-15 09:05:37,801 - INFO - TEST CASE 6 Retry 0
-2025-04-15 09:05:37,801 - INFO - ---------------
-2025-04-15 09:05:37,801 - INFO - 
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-
-def test_execute_vision():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm._run') as mock_run:
-        mock_run.return_value.__aiter__.return_value = ["response content"]
-
-2025-04-15 09:05:37,801 - INFO - ---------------
-2025-04-15 09:05:39,850 - INFO - Test Result 1- False
-2025-04-15 09:05:39,850 - INFO - Test Error 1 - F                                                                        [100%]
-================================== FAILURES ===================================
-_____________________________ test_execute_vision _____________________________
-temp\temp.py:8: in test_execute_vision
-    with patch('theory_evaluation.llm_handler.OpenAI_llm._run') as mock_run:
-E   NameError: name 'patch' is not defined
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_execute_vision - NameError: name 'patch' is not def...
-1 failed in 1.23s
-2025-04-15 09:05:41,110 - INFO - TEST CASE 6 Retry 1
-2025-04-15 09:05:41,110 - INFO - ---------------
-2025-04-15 09:05:41,110 - INFO - 
-from unittest.mock import patch
-
-def test_execute_vision():
-    with patch('theory_evaluation.llm_handler.OpenAI_llm._run') as mock_run:
-        mock_run.return_value.__aiter__.return_value = ["response content"]
-2025-04-15 09:05:41,110 - INFO - ---------------
-2025-04-15 09:05:43,342 - INFO - Test Result 2- True
-2025-04-15 09:05:43,342 - INFO - Test Error 2 - 
-.                                                                        [100%]
-1 passed in 1.40s
-2025-04-15 09:05:43,344 - INFO - [1mEnd Processing file: theory_evaluation\llm_handler.py[0m
-
-2025-04-15 09:05:43,344 - INFO - [1mStart Processing file: theory_evaluation\llm_utils.py[0m
-2025-04-15 09:05:51,261 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 09:05:51,266 - INFO - 
-
-2025-04-15 09:05:51,267 - INFO - TEST CASE 1 Retry 0
-2025-04-15 09:05:51,267 - INFO - ---------------
-2025-04-15 09:05:51,267 - INFO - 
+2025-04-15 09:18:07,395 - INFO - TEST CASE 1 Retry 0
+2025-04-15 09:18:07,396 - INFO - ---------------
+2025-04-15 09:18:07,396 - INFO - 
 import os
 import re
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 def test_initialise_prompt_success():
     agent = "test_agent"
-    config_values = {'key1': 'value1', 'key2': 'value2'}
-    prompt_structure = "This is a {$key1} and {$key2} test."
+    prompt_content = "Hello, {$name}!"
+    config_content = "name: World"
 
-2025-04-15 09:05:51,267 - INFO - ---------------
-2025-04-15 09:05:52,025 - INFO - Test Result 1- True
-2025-04-15 09:05:52,025 - INFO - Test Error 1 - .                                                                        [100%]
-1 passed in 0.08s
-2025-04-15 09:05:52,025 - INFO - 
+2025-04-15 09:18:07,396 - INFO - ---------------
+2025-04-15 09:18:08,161 - INFO - Test Result 1- True
+2025-04-15 09:18:08,161 - INFO - Test Error 1 - .                                                                        [100%]
+1 passed in 0.14s
+2025-04-15 09:18:08,161 - INFO - 
 
-2025-04-15 09:05:52,025 - INFO - TEST CASE 2 Retry 0
-2025-04-15 09:05:52,026 - INFO - ---------------
-2025-04-15 09:05:52,026 - INFO - 
+2025-04-15 09:18:08,161 - INFO - TEST CASE 2 Retry 0
+2025-04-15 09:18:08,161 - INFO - ---------------
+2025-04-15 09:18:08,161 - INFO - 
 import os
 import re
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
-def test_initialise_prompt_file_not_found():
-    agent = "non_existent_agent"
-    with patch('theory_evaluation.llm_utils.open', side_effect=FileNotFoundError):
-        result = initialise_prompt(agent)
+def test_initialise_prompt_no_config_path():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt("non_existent_agent")
         assert result is None
 
-2025-04-15 09:05:52,026 - INFO - ---------------
-2025-04-15 09:05:52,641 - INFO - Test Result 1- False
-2025-04-15 09:05:52,641 - INFO - Test Error 1 - F                                                                        [100%]
+2025-04-15 09:18:08,161 - INFO - ---------------
+2025-04-15 09:18:08,761 - INFO - Test Result 1- False
+2025-04-15 09:18:08,761 - INFO - Test Error 1 - F                                                                        [100%]
 ================================== FAILURES ===================================
-____________________ test_initialise_prompt_file_not_found ____________________
-temp\temp.py:7: in test_initialise_prompt_file_not_found
-    with patch('theory_evaluation.llm_utils.open', side_effect=FileNotFoundError):
+____________________ test_initialise_prompt_no_config_path ____________________
+temp\temp.py:6: in test_initialise_prompt_no_config_path
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
 E   NameError: name 'patch' is not defined
 =========================== short test summary info ===========================
-FAILED temp/temp.py::test_initialise_prompt_file_not_found - NameError: name ...
-1 failed in 0.18s
-2025-04-15 09:05:53,713 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 09:05:53,714 - INFO - TEST CASE 2 Retry 1
-2025-04-15 09:05:53,714 - INFO - ---------------
-2025-04-15 09:05:53,714 - INFO - 
+FAILED temp/temp.py::test_initialise_prompt_no_config_path - NameError: name ...
+1 failed in 0.14s
+2025-04-15 09:18:09,891 - INFO - TEST CASE 2 Retry 1
+2025-04-15 09:18:09,891 - INFO - ---------------
+2025-04-15 09:18:09,892 - INFO - 
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import os
+import re
+import yaml
 from unittest.mock import patch
 
-def test_initialise_prompt_file_not_found():
-    agent = "non_existent_agent"
-    with patch('builtins.open', side_effect=FileNotFoundError):
-        result = initialise_prompt(agent)
+def test_initialise_prompt_no_config_path():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt("non_existent_agent")
         assert result is None
-2025-04-15 09:05:53,714 - INFO - ---------------
-2025-04-15 09:05:54,374 - INFO - Test Result 2- False
-2025-04-15 09:05:54,375 - INFO - Test Error 2 - 
-F                                                                        [100%]
-================================== FAILURES ===================================
-____________________ test_initialise_prompt_file_not_found ____________________
-temp\temp.py:6: in test_initialise_prompt_file_not_found
-    result = initialise_prompt(agent)
-E   NameError: name 'initialise_prompt' is not defined
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_initialise_prompt_file_not_found - NameError: name ...
-1 failed in 0.12s
-2025-04-15 09:05:55,481 - INFO - TEST CASE 2 Retry 2
-2025-04-15 09:05:55,481 - INFO - ---------------
-2025-04-15 09:05:55,482 - INFO - 
-from unittest.mock import patch
-from theory_evaluation.evaluator.prompts import initialise_prompt
 
-def test_initialise_prompt_file_not_found():
-    agent = "non_existent_agent"
-    with patch('theory_evaluation.evaluator.prompts.open', side_effect=FileNotFoundError):
-        result = initialise_prompt(agent)
-        assert result is None
-2025-04-15 09:05:55,482 - INFO - ---------------
-2025-04-15 09:05:56,389 - INFO - Test Result 3- False
-2025-04-15 09:05:56,389 - INFO - Test Error 3 - 
-=================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:2: in <module>
-    from theory_evaluation.evaluator.prompts import initialise_prompt
-E   ModuleNotFoundError: No module named 'theory_evaluation.evaluator'
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.34s
-2025-04-15 09:05:56,389 - INFO - Failed after all retries for test case 2
-2025-04-15 09:05:56,389 - INFO - 
+2025-04-15 09:18:09,892 - INFO - ---------------
+2025-04-15 09:18:10,804 - INFO - Test Result 2- True
+2025-04-15 09:18:10,804 - INFO - Test Error 2 - 
+.                                                                        [100%]
+1 passed in 0.22s
+2025-04-15 09:18:10,804 - INFO - 
 
-2025-04-15 09:05:56,389 - INFO - TEST CASE 3 Retry 0
-2025-04-15 09:05:56,389 - INFO - ---------------
-2025-04-15 09:05:56,389 - INFO - 
+2025-04-15 09:18:10,804 - INFO - TEST CASE 3 Retry 0
+2025-04-15 09:18:10,804 - INFO - ---------------
+2025-04-15 09:18:10,804 - INFO - 
 import os
 import re
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 def test_initialise_settings_success():
     agent = "test_agent"
-    settings_data = {'setting1': 'value1', 'setting2': 'value2'}
+    settings_content = "key: value"
 
-2025-04-15 09:05:56,389 - INFO - ---------------
-2025-04-15 09:05:57,072 - INFO - Test Result 1- True
-2025-04-15 09:05:57,072 - INFO - Test Error 1 - .                                                                        [100%]
-1 passed in 0.16s
-2025-04-15 09:05:57,072 - INFO - 
+2025-04-15 09:18:10,804 - INFO - ---------------
+2025-04-15 09:18:11,595 - INFO - Test Result 1- True
+2025-04-15 09:18:11,596 - INFO - Test Error 1 - .                                                                        [100%]
+1 passed in 0.19s
+2025-04-15 09:18:11,596 - INFO - 
 
-2025-04-15 09:05:57,072 - INFO - TEST CASE 4 Retry 0
-2025-04-15 09:05:57,072 - INFO - ---------------
-2025-04-15 09:05:57,072 - INFO - 
+2025-04-15 09:18:11,596 - INFO - TEST CASE 4 Retry 0
+2025-04-15 09:18:11,596 - INFO - ---------------
+2025-04-15 09:18:11,596 - INFO - 
 import os
 import re
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
-def test_initialise_settings_file_not_found():
-    agent = "non_existent_agent"
-    with patch('theory_evaluation.llm_utils.open', side_effect=FileNotFoundError):
-        result = initialise_settings(agent)
+def test_initialise_settings_no_config_path():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_settings("non_existent_agent")
         assert result is None
 
-2025-04-15 09:05:57,072 - INFO - ---------------
-2025-04-15 09:05:57,887 - INFO - Test Result 1- False
-2025-04-15 09:05:57,887 - INFO - Test Error 1 - F                                                                        [100%]
+2025-04-15 09:18:11,596 - INFO - ---------------
+2025-04-15 09:18:12,296 - INFO - Test Result 1- False
+2025-04-15 09:18:12,296 - INFO - Test Error 1 - F                                                                        [100%]
 ================================== FAILURES ===================================
-___________________ test_initialise_settings_file_not_found ___________________
-temp\temp.py:7: in test_initialise_settings_file_not_found
-    with patch('theory_evaluation.llm_utils.open', side_effect=FileNotFoundError):
+___________________ test_initialise_settings_no_config_path ___________________
+temp\temp.py:6: in test_initialise_settings_no_config_path
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
 E   NameError: name 'patch' is not defined
 =========================== short test summary info ===========================
-FAILED temp/temp.py::test_initialise_settings_file_not_found - NameError: nam...
-1 failed in 0.21s
-2025-04-15 09:05:58,930 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 09:05:58,930 - INFO - TEST CASE 4 Retry 1
-2025-04-15 09:05:58,931 - INFO - ---------------
-2025-04-15 09:05:58,931 - INFO - 
+FAILED temp/temp.py::test_initialise_settings_no_config_path - NameError: nam...
+1 failed in 0.17s
+2025-04-15 09:18:13,297 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-15 09:18:13,297 - INFO - TEST CASE 4 Retry 1
+2025-04-15 09:18:13,298 - INFO - ---------------
+2025-04-15 09:18:13,298 - INFO - 
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 from unittest.mock import patch
 
-def test_initialise_settings_file_not_found():
-    agent = "non_existent_agent"
-    with patch('builtins.open', side_effect=FileNotFoundError):
-        result = initialise_settings(agent)
+def test_initialise_settings_no_config_path():
+    with patch("builtins.open", side_effect=FileNotFoundError):
+        result = initialise_settings("non_existent_agent")
         assert result is None
-2025-04-15 09:05:58,931 - INFO - ---------------
-2025-04-15 09:05:59,746 - INFO - Test Result 2- False
-2025-04-15 09:05:59,746 - INFO - Test Error 2 - 
-F                                                                        [100%]
-================================== FAILURES ===================================
-___________________ test_initialise_settings_file_not_found ___________________
-temp\temp.py:6: in test_initialise_settings_file_not_found
-    result = initialise_settings(agent)
-E   NameError: name 'initialise_settings' is not defined
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_initialise_settings_file_not_found - NameError: nam...
-1 failed in 0.23s
-2025-04-15 09:06:00,806 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-15 09:06:00,807 - INFO - TEST CASE 4 Retry 2
-2025-04-15 09:06:00,808 - INFO - ---------------
-2025-04-15 09:06:00,808 - INFO - 
-from unittest.mock import patch
-from theory_evaluation.evaluator.prompts import initialise_settings
 
-def test_initialise_settings_file_not_found():
-    agent = "non_existent_agent"
-    with patch('theory_evaluation.evaluator.prompts.open', side_effect=FileNotFoundError):
-        result = initialise_settings(agent)
-        assert result is None
-2025-04-15 09:06:00,808 - INFO - ---------------
-2025-04-15 09:06:01,768 - INFO - Test Result 3- False
-2025-04-15 09:06:01,768 - INFO - Test Error 3 - 
-=================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:2: in <module>
-    from theory_evaluation.evaluator.prompts import initialise_settings
-E   ModuleNotFoundError: No module named 'theory_evaluation.evaluator'
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.30s
-2025-04-15 09:06:01,768 - INFO - Failed after all retries for test case 4
-2025-04-15 09:06:01,769 - INFO - [1mEnd Processing file: theory_evaluation\llm_utils.py[0m
+2025-04-15 09:18:13,298 - INFO - ---------------
+2025-04-15 09:18:14,193 - INFO - Test Result 2- True
+2025-04-15 09:18:14,193 - INFO - Test Error 2 - 
+.                                                                        [100%]
+1 passed in 0.21s
+2025-04-15 09:18:14,194 - INFO - [1mEnd Processing file: theory_evaluation\llm_utils.py[0m
 
-2025-04-15 09:06:01,769 - INFO - [1mStart Processing file: theory_evaluation\__init__.py[0m
-2025-04-15 09:06:01,769 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
+2025-04-15 09:18:14,194 - INFO - [1mStart Processing file: theory_evaluation\__init__.py[0m
+2025-04-15 09:18:14,195 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
 
