@@ -1,3 +1,3 @@
-2025-04-16 08:15:05,630 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-16 08:15:22,554 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
+2025-04-16 08:15:56,655 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-16 08:16:12,333 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
 

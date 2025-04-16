@@ -22,7 +22,7 @@ file_handler.setFormatter(file_formatter)
 
 # Read the verbosity flag
 VERBOSE_MODE = os.getenv("VERBOSE_MODE") == "1"
-print(f"VERBOSE_MODE - {VERBOSE_MODE}")
+print(f"os.getenv("VERBOSE_MODE") - {os.getenv("VERBOSE_MODE")}")
 # Configure logging accordingly
 logging.basicConfig(
     level=logging.DEBUG if VERBOSE_MODE else logging.INFO,
