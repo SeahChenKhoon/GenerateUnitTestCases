@@ -1,18 +1,17 @@
 
-import asyncio
-import json
-import os
 import pytest
-from unittest.mock import patch
-from openai import AzureOpenAI, OpenAI
-from theory_evaluation.llm_handler import OpenAI_llm
 
 
-from unittest.mock import patch
+from unittest.mock import MagicMock
 
 @pytest.mark.asyncio
-async def test_openai_llm_initialization():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
-         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
-         patch('theory_evaluation.llm_handler.os.getenv', return_value='test_value'):
-        pass
+async def test_openai_streaming():
+    mock_stream = [MagicMock(choices=[MagicMock(delta=MagicMock(content="chunk1"))]),
+                   MagicMock(choices=[MagicMock(delta=MagicMock(content="chunk2"))])]
+
+import pytest
+
+@pytest.mark.asyncio
+async def test_openai_chat_completion():
+    mock_response = MagicMock()
+    mock_response.choices[0].message.content = "response content"

@@ -364,7 +364,7 @@ def identify_import_statements(provider, model_arg, llm_new_import_prompt, impor
         test_case=full_test_code,
         import_statement=import_statements
     )
-    
+    logger.info(f"Consolidate import statements - {formatted_prompt}")
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
@@ -580,6 +580,7 @@ def run_each_pytest_function_individually(
                 passed, test_case_error = run_single_test_file(temp_file)
                 if passed:
                     initial_template = f"{import_statements}\n{pytest_fixture}"
+
                     import_statements = "\n" + identify_import_statements(provider, model_arg, llm_new_import_prompt, import_statements, test_case, 
                     temperature)
                     logger.info(f"New import Statements {count + 1} - \n{import_statements}")
