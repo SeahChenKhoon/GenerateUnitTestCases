@@ -590,6 +590,7 @@ def run_each_pytest_function_individually(
 
                 if passed:
                     success_test_cases += "\n" + test_case + "\n"
+                    logger.info(f"Test Case {idx} processed successfully")
                 else:
                     logger.info(f"Failed after all retries for test case {idx}")
 
