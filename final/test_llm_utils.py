@@ -3,32 +3,70 @@ import re
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 import pytest
+@pytest.fixture
+def mock_agent_config():
+    agent = "test_agent"
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} test."
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=config_yaml)) as mock_file:
+        with patch("theory_evaluation.llm_utils.open", mock_open(read_data=prompt_txt)) as mock_prompt_file:
+            yield agent, mock_file, mock_prompt_file
 
+@pytest.fixture
+def mock_agent_settings():
+    agent = "test_agent"
+    settings_yaml = "key: value"
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=settings_yaml)) as mock_file:
+        yield agent, mock_file
 import os
 import re
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 import pytest
+@pytest.fixture
+def mock_agent_config():
+    agent = "test_agent"
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} test."
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=config_yaml)) as mock_file:
+        with patch("theory_evaluation.llm_utils.open", mock_open(read_data=prompt_txt)) as mock_prompt_file:
+            yield agent, mock_file, mock_prompt_file
 
+@pytest.fixture
+def mock_agent_settings():
+    agent = "test_agent"
+    settings_yaml = "key: value"
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=settings_yaml)) as mock_file:
+        yield agent, mock_file
 def test_initialise_prompt_success():
     agent = "test_agent"
     config_yaml = "key: value"
-    prompt_txt = "This is a {$key} prompt."
-    expected_prompt = "This is a value prompt."
+    prompt_txt = "This is a {$key} test."
+    expected_prompt = "This is a value test."
 
 def test_initialise_prompt_missing_placeholder():
     agent = "test_agent"
     config_yaml = "key: value"
-    prompt_txt = "This is a {$missing_key} prompt."
-    expected_prompt = "This is a {$missing_key} prompt."
+    prompt_txt = "This is a {$missing_key} test."
+    expected_prompt = "This is a {$missing_key} test."
 
-def test_initialise_prompt_exception():
-    agent = "test_agent"
+from unittest.mock import patch
+
+def test_initialise_prompt_file_not_found():
+    agent = "non_existent_agent"
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt(agent)
+        assert result is None
 
 def test_initialise_settings_success():
     agent = "test_agent"
-    settings_yaml = "setting_key: setting_value"
-    expected_settings = {"setting_key": "setting_value"}
+    settings_yaml = "key: value"
+    expected_settings = {"key": "value"}
 
-def test_initialise_settings_exception():
-    agent = "test_agent"
+from unittest.mock import patch
+
+def test_initialise_settings_file_not_found():
+    agent = "non_existent_agent"
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_settings(agent)
+        assert result is None

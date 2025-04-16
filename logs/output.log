@@ -1,226 +1,490 @@
-2025-04-16 15:49:56,459 - INFO - Loading environment variables start
-2025-04-16 15:49:56,462 - INFO - Loading environment variables completes
-2025-04-16 15:49:56,463 - INFO - Initialising of LLM start
-2025-04-16 15:49:56,789 - INFO - Initialising of LLM completes
-2025-04-16 15:49:56,790 - INFO - Getting python file starts
-2025-04-16 15:49:56,790 - INFO - Getting python file completes
-2025-04-16 15:49:56,790 - INFO - 
+2025-04-16 15:55:52,597 - INFO - Loading environment variables start
+2025-04-16 15:55:52,671 - INFO - Loading environment variables completes
+2025-04-16 15:55:52,672 - INFO - Initialising of LLM start
+2025-04-16 15:55:53,171 - INFO - Initialising of LLM completes
+2025-04-16 15:55:53,171 - INFO - Getting python file starts
+2025-04-16 15:55:53,172 - INFO - Getting python file completes
+2025-04-16 15:55:53,172 - INFO - 
 Start Processing file: theory_evaluation\llm_utils.py
-2025-04-16 15:49:56,790 - INFO - Extraction of function and class start
-2025-04-16 15:49:56,791 - INFO - extraction of function and class complete
-2025-04-16 15:49:56,791 - INFO - Generate Unit Test Case starts
-2025-04-16 15:49:56,791 - INFO - Extract unique import start
-2025-04-16 15:49:58,559 - INFO - Extract unique import complete
-2025-04-16 15:49:58,559 - INFO - Update relative import start
-2025-04-16 15:49:58,560 - INFO - Update relative import complete
-2025-04-16 15:50:09,110 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-16 15:50:09,111 - INFO - Generate Unit Test Case complete
-2025-04-16 15:50:09,118 - INFO - run_each_pytest_function_individually start
-2025-04-16 15:50:15,151 - INFO - Number of test case to process - 5
-2025-04-16 15:50:15,152 - INFO - 
+2025-04-16 15:55:53,205 - INFO - Extraction of function and class start
+2025-04-16 15:55:53,206 - INFO - extraction of function and class complete
+2025-04-16 15:55:53,206 - INFO - Generate Unit Test Case starts
+2025-04-16 15:55:53,206 - INFO - Extract unique import start
+2025-04-16 15:55:55,087 - INFO - Extract unique import complete
+2025-04-16 15:55:55,087 - INFO - Update relative import start
+2025-04-16 15:55:55,089 - INFO - Update relative import complete
+2025-04-16 15:56:16,379 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-16 15:56:16,380 - INFO - Generate Unit Test Case complete
+2025-04-16 15:56:16,385 - INFO - run_each_pytest_function_individually start
+2025-04-16 15:56:28,559 - INFO - Number of test case to process - 5
+2025-04-16 15:56:28,559 - INFO - 
 
-2025-04-16 15:50:15,152 - INFO - TEST CASE 1 Retry 0
-2025-04-16 15:50:15,153 - INFO - ---------------
-2025-04-16 15:50:15,154 - INFO - 
+2025-04-16 15:56:28,559 - INFO - TEST CASE 1 Retry 0
+2025-04-16 15:56:28,559 - INFO - ---------------
+2025-04-16 15:56:28,559 - INFO - 
 import os
 import re
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 import pytest
+@pytest.fixture
+def mock_agent_config():
+    agent = "test_agent"
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} test."
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=config_yaml)) as mock_file:
+        with patch("theory_evaluation.llm_utils.open", mock_open(read_data=prompt_txt)) as mock_prompt_file:
+            yield agent, mock_file, mock_prompt_file
 
+@pytest.fixture
+def mock_agent_settings():
+    agent = "test_agent"
+    settings_yaml = "key: value"
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=settings_yaml)) as mock_file:
+        yield agent, mock_file
 
 def test_initialise_prompt_success():
     agent = "test_agent"
     config_yaml = "key: value"
-    prompt_txt = "This is a {$key} prompt."
-    expected_prompt = "This is a value prompt."
+    prompt_txt = "This is a {$key} test."
+    expected_prompt = "This is a value test."
 
-2025-04-16 15:50:15,155 - INFO - ---------------
-2025-04-16 15:50:16,001 - INFO - TEST CASE 1 Retry 0 - Result - Passed
-2025-04-16 15:50:16,002 - INFO - Success_test_cases - import os
+2025-04-16 15:56:28,559 - INFO - ---------------
+2025-04-16 15:56:29,762 - INFO - TEST CASE 1 Retry 0 - Result - Passed
+2025-04-16 15:56:29,762 - INFO - Success_test_cases - import os
 import re
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 import pytest
+@pytest.fixture
+def mock_agent_config():
+    agent = "test_agent"
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} test."
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=config_yaml)) as mock_file:
+        with patch("theory_evaluation.llm_utils.open", mock_open(read_data=prompt_txt)) as mock_prompt_file:
+            yield agent, mock_file, mock_prompt_file
 
+@pytest.fixture
+def mock_agent_settings():
+    agent = "test_agent"
+    settings_yaml = "key: value"
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=settings_yaml)) as mock_file:
+        yield agent, mock_file
 def test_initialise_prompt_success():
     agent = "test_agent"
     config_yaml = "key: value"
-    prompt_txt = "This is a {$key} prompt."
-    expected_prompt = "This is a value prompt."
+    prompt_txt = "This is a {$key} test."
+    expected_prompt = "This is a value test."
 
-2025-04-16 15:50:16,002 - INFO - Test Case 1 processed successfully
-2025-04-16 15:50:16,002 - INFO - 
+2025-04-16 15:56:29,762 - INFO - Test Case 1 processed successfully
+2025-04-16 15:56:29,762 - INFO - 
 
-2025-04-16 15:50:16,002 - INFO - TEST CASE 2 Retry 0
-2025-04-16 15:50:16,002 - INFO - ---------------
-2025-04-16 15:50:16,002 - INFO - 
+2025-04-16 15:56:29,762 - INFO - TEST CASE 2 Retry 0
+2025-04-16 15:56:29,762 - INFO - ---------------
+2025-04-16 15:56:29,762 - INFO - 
 import os
 import re
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 import pytest
+@pytest.fixture
+def mock_agent_config():
+    agent = "test_agent"
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} test."
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=config_yaml)) as mock_file:
+        with patch("theory_evaluation.llm_utils.open", mock_open(read_data=prompt_txt)) as mock_prompt_file:
+            yield agent, mock_file, mock_prompt_file
 
+@pytest.fixture
+def mock_agent_settings():
+    agent = "test_agent"
+    settings_yaml = "key: value"
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=settings_yaml)) as mock_file:
+        yield agent, mock_file
 
 def test_initialise_prompt_missing_placeholder():
     agent = "test_agent"
     config_yaml = "key: value"
-    prompt_txt = "This is a {$missing_key} prompt."
-    expected_prompt = "This is a {$missing_key} prompt."
+    prompt_txt = "This is a {$missing_key} test."
+    expected_prompt = "This is a {$missing_key} test."
 
-2025-04-16 15:50:16,002 - INFO - ---------------
-2025-04-16 15:50:16,979 - INFO - TEST CASE 2 Retry 0 - Result - Passed
-2025-04-16 15:50:16,980 - INFO - Success_test_cases - import os
+2025-04-16 15:56:29,763 - INFO - ---------------
+2025-04-16 15:56:30,551 - INFO - TEST CASE 2 Retry 0 - Result - Passed
+2025-04-16 15:56:30,551 - INFO - Success_test_cases - import os
 import re
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 import pytest
+@pytest.fixture
+def mock_agent_config():
+    agent = "test_agent"
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} test."
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=config_yaml)) as mock_file:
+        with patch("theory_evaluation.llm_utils.open", mock_open(read_data=prompt_txt)) as mock_prompt_file:
+            yield agent, mock_file, mock_prompt_file
 
+@pytest.fixture
+def mock_agent_settings():
+    agent = "test_agent"
+    settings_yaml = "key: value"
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=settings_yaml)) as mock_file:
+        yield agent, mock_file
 def test_initialise_prompt_success():
     agent = "test_agent"
     config_yaml = "key: value"
-    prompt_txt = "This is a {$key} prompt."
-    expected_prompt = "This is a value prompt."
+    prompt_txt = "This is a {$key} test."
+    expected_prompt = "This is a value test."
 
 def test_initialise_prompt_missing_placeholder():
     agent = "test_agent"
     config_yaml = "key: value"
-    prompt_txt = "This is a {$missing_key} prompt."
-    expected_prompt = "This is a {$missing_key} prompt."
+    prompt_txt = "This is a {$missing_key} test."
+    expected_prompt = "This is a {$missing_key} test."
 
-2025-04-16 15:50:16,980 - INFO - Test Case 2 processed successfully
-2025-04-16 15:50:16,980 - INFO - 
+2025-04-16 15:56:30,551 - INFO - Test Case 2 processed successfully
+2025-04-16 15:56:30,552 - INFO - 
 
-2025-04-16 15:50:16,980 - INFO - TEST CASE 3 Retry 0
-2025-04-16 15:50:16,980 - INFO - ---------------
-2025-04-16 15:50:16,980 - INFO - 
+2025-04-16 15:56:30,552 - INFO - TEST CASE 3 Retry 0
+2025-04-16 15:56:30,552 - INFO - ---------------
+2025-04-16 15:56:30,552 - INFO - 
 import os
 import re
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 import pytest
-
-
-def test_initialise_prompt_exception():
-    agent = "test_agent"
-
-2025-04-16 15:50:16,980 - INFO - ---------------
-2025-04-16 15:50:18,289 - INFO - TEST CASE 3 Retry 0 - Result - Passed
-2025-04-16 15:50:18,289 - INFO - Success_test_cases - import os
-import re
-import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
-import pytest
-
-def test_initialise_prompt_success():
+@pytest.fixture
+def mock_agent_config():
     agent = "test_agent"
     config_yaml = "key: value"
-    prompt_txt = "This is a {$key} prompt."
-    expected_prompt = "This is a value prompt."
+    prompt_txt = "This is a {$key} test."
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=config_yaml)) as mock_file:
+        with patch("theory_evaluation.llm_utils.open", mock_open(read_data=prompt_txt)) as mock_prompt_file:
+            yield agent, mock_file, mock_prompt_file
 
-def test_initialise_prompt_missing_placeholder():
+@pytest.fixture
+def mock_agent_settings():
     agent = "test_agent"
-    config_yaml = "key: value"
-    prompt_txt = "This is a {$missing_key} prompt."
-    expected_prompt = "This is a {$missing_key} prompt."
+    settings_yaml = "key: value"
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=settings_yaml)) as mock_file:
+        yield agent, mock_file
 
-def test_initialise_prompt_exception():
-    agent = "test_agent"
+def test_initialise_prompt_file_not_found():
+    agent = "non_existent_agent"
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt(agent)
+        assert result is None
 
-2025-04-16 15:50:18,290 - INFO - Test Case 3 processed successfully
-2025-04-16 15:50:18,290 - INFO - 
+2025-04-16 15:56:30,552 - INFO - ---------------
+2025-04-16 15:56:31,436 - INFO - TEST CASE 3 Retry 0 - Result - Failed
+2025-04-16 15:56:31,436 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
-2025-04-16 15:50:18,290 - INFO - TEST CASE 4 Retry 0
-2025-04-16 15:50:18,290 - INFO - ---------------
-2025-04-16 15:50:18,290 - INFO - 
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+____________________ test_initialise_prompt_file_not_found ____________________
+temp\temp.py:24: in test_initialise_prompt_file_not_found
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+E   NameError: name 'patch' is not defined
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_initialise_prompt_file_not_found - NameError: name ...
+1 failed in 0.13s
+2025-04-16 15:56:32,899 - INFO - 
+
+2025-04-16 15:56:32,899 - INFO - TEST CASE 3 Retry 1
+2025-04-16 15:56:32,900 - INFO - ---------------
+2025-04-16 15:56:32,900 - INFO - 
 import os
 import re
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 import pytest
+@pytest.fixture
+def mock_agent_config():
+    agent = "test_agent"
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} test."
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=config_yaml)) as mock_file:
+        with patch("theory_evaluation.llm_utils.open", mock_open(read_data=prompt_txt)) as mock_prompt_file:
+            yield agent, mock_file, mock_prompt_file
 
+@pytest.fixture
+def mock_agent_settings():
+    agent = "test_agent"
+    settings_yaml = "key: value"
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=settings_yaml)) as mock_file:
+        yield agent, mock_file
+
+from unittest.mock import patch
+
+def test_initialise_prompt_file_not_found():
+    agent = "non_existent_agent"
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt(agent)
+        assert result is None
+
+2025-04-16 15:56:32,900 - INFO - ---------------
+2025-04-16 15:56:33,852 - INFO - TEST CASE 3 Retry 1 - Result - Passed
+2025-04-16 15:56:33,852 - INFO - Success_test_cases - import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+@pytest.fixture
+def mock_agent_config():
+    agent = "test_agent"
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} test."
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=config_yaml)) as mock_file:
+        with patch("theory_evaluation.llm_utils.open", mock_open(read_data=prompt_txt)) as mock_prompt_file:
+            yield agent, mock_file, mock_prompt_file
+
+@pytest.fixture
+def mock_agent_settings():
+    agent = "test_agent"
+    settings_yaml = "key: value"
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=settings_yaml)) as mock_file:
+        yield agent, mock_file
+def test_initialise_prompt_success():
+    agent = "test_agent"
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} test."
+    expected_prompt = "This is a value test."
+
+def test_initialise_prompt_missing_placeholder():
+    agent = "test_agent"
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$missing_key} test."
+    expected_prompt = "This is a {$missing_key} test."
+
+from unittest.mock import patch
+
+def test_initialise_prompt_file_not_found():
+    agent = "non_existent_agent"
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt(agent)
+        assert result is None
+
+2025-04-16 15:56:33,853 - INFO - Test Case 3 processed successfully
+2025-04-16 15:56:33,853 - INFO - 
+
+2025-04-16 15:56:33,853 - INFO - TEST CASE 4 Retry 0
+2025-04-16 15:56:33,853 - INFO - ---------------
+2025-04-16 15:56:33,853 - INFO - 
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+@pytest.fixture
+def mock_agent_config():
+    agent = "test_agent"
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} test."
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=config_yaml)) as mock_file:
+        with patch("theory_evaluation.llm_utils.open", mock_open(read_data=prompt_txt)) as mock_prompt_file:
+            yield agent, mock_file, mock_prompt_file
+
+@pytest.fixture
+def mock_agent_settings():
+    agent = "test_agent"
+    settings_yaml = "key: value"
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=settings_yaml)) as mock_file:
+        yield agent, mock_file
 
 def test_initialise_settings_success():
     agent = "test_agent"
-    settings_yaml = "setting_key: setting_value"
-    expected_settings = {"setting_key": "setting_value"}
+    settings_yaml = "key: value"
+    expected_settings = {"key": "value"}
 
-2025-04-16 15:50:18,290 - INFO - ---------------
-2025-04-16 15:50:19,105 - INFO - TEST CASE 4 Retry 0 - Result - Passed
-2025-04-16 15:50:19,105 - INFO - Success_test_cases - import os
+2025-04-16 15:56:33,853 - INFO - ---------------
+2025-04-16 15:56:35,077 - INFO - TEST CASE 4 Retry 0 - Result - Passed
+2025-04-16 15:56:35,078 - INFO - Success_test_cases - import os
 import re
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 import pytest
+@pytest.fixture
+def mock_agent_config():
+    agent = "test_agent"
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} test."
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=config_yaml)) as mock_file:
+        with patch("theory_evaluation.llm_utils.open", mock_open(read_data=prompt_txt)) as mock_prompt_file:
+            yield agent, mock_file, mock_prompt_file
 
+@pytest.fixture
+def mock_agent_settings():
+    agent = "test_agent"
+    settings_yaml = "key: value"
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=settings_yaml)) as mock_file:
+        yield agent, mock_file
 def test_initialise_prompt_success():
     agent = "test_agent"
     config_yaml = "key: value"
-    prompt_txt = "This is a {$key} prompt."
-    expected_prompt = "This is a value prompt."
+    prompt_txt = "This is a {$key} test."
+    expected_prompt = "This is a value test."
 
 def test_initialise_prompt_missing_placeholder():
     agent = "test_agent"
     config_yaml = "key: value"
-    prompt_txt = "This is a {$missing_key} prompt."
-    expected_prompt = "This is a {$missing_key} prompt."
+    prompt_txt = "This is a {$missing_key} test."
+    expected_prompt = "This is a {$missing_key} test."
 
-def test_initialise_prompt_exception():
-    agent = "test_agent"
+from unittest.mock import patch
+
+def test_initialise_prompt_file_not_found():
+    agent = "non_existent_agent"
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt(agent)
+        assert result is None
 
 def test_initialise_settings_success():
     agent = "test_agent"
-    settings_yaml = "setting_key: setting_value"
-    expected_settings = {"setting_key": "setting_value"}
+    settings_yaml = "key: value"
+    expected_settings = {"key": "value"}
 
-2025-04-16 15:50:19,106 - INFO - Test Case 4 processed successfully
-2025-04-16 15:50:19,106 - INFO - 
+2025-04-16 15:56:35,078 - INFO - Test Case 4 processed successfully
+2025-04-16 15:56:35,078 - INFO - 
 
-2025-04-16 15:50:19,106 - INFO - TEST CASE 5 Retry 0
-2025-04-16 15:50:19,106 - INFO - ---------------
-2025-04-16 15:50:19,106 - INFO - 
+2025-04-16 15:56:35,078 - INFO - TEST CASE 5 Retry 0
+2025-04-16 15:56:35,078 - INFO - ---------------
+2025-04-16 15:56:35,078 - INFO - 
 import os
 import re
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 import pytest
-
-
-def test_initialise_settings_exception():
+@pytest.fixture
+def mock_agent_config():
     agent = "test_agent"
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} test."
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=config_yaml)) as mock_file:
+        with patch("theory_evaluation.llm_utils.open", mock_open(read_data=prompt_txt)) as mock_prompt_file:
+            yield agent, mock_file, mock_prompt_file
 
-2025-04-16 15:50:19,106 - INFO - ---------------
-2025-04-16 15:50:19,830 - INFO - TEST CASE 5 Retry 0 - Result - Passed
-2025-04-16 15:50:19,830 - INFO - Success_test_cases - import os
+@pytest.fixture
+def mock_agent_settings():
+    agent = "test_agent"
+    settings_yaml = "key: value"
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=settings_yaml)) as mock_file:
+        yield agent, mock_file
+
+def test_initialise_settings_file_not_found():
+    agent = "non_existent_agent"
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_settings(agent)
+        assert result is None
+
+2025-04-16 15:56:35,079 - INFO - ---------------
+2025-04-16 15:56:35,875 - INFO - TEST CASE 5 Retry 0 - Result - Failed
+2025-04-16 15:56:35,875 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+___________________ test_initialise_settings_file_not_found ___________________
+temp\temp.py:24: in test_initialise_settings_file_not_found
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+E   NameError: name 'patch' is not defined
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_initialise_settings_file_not_found - NameError: nam...
+1 failed in 0.10s
+2025-04-16 15:56:37,390 - INFO - 
+
+2025-04-16 15:56:37,391 - INFO - TEST CASE 5 Retry 1
+2025-04-16 15:56:37,391 - INFO - ---------------
+2025-04-16 15:56:37,391 - INFO - 
+import os
 import re
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 import pytest
+@pytest.fixture
+def mock_agent_config():
+    agent = "test_agent"
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} test."
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=config_yaml)) as mock_file:
+        with patch("theory_evaluation.llm_utils.open", mock_open(read_data=prompt_txt)) as mock_prompt_file:
+            yield agent, mock_file, mock_prompt_file
 
+@pytest.fixture
+def mock_agent_settings():
+    agent = "test_agent"
+    settings_yaml = "key: value"
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=settings_yaml)) as mock_file:
+        yield agent, mock_file
+
+from unittest.mock import patch
+
+def test_initialise_settings_file_not_found():
+    agent = "non_existent_agent"
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_settings(agent)
+        assert result is None
+
+2025-04-16 15:56:37,392 - INFO - ---------------
+2025-04-16 15:56:38,384 - INFO - TEST CASE 5 Retry 1 - Result - Passed
+2025-04-16 15:56:38,385 - INFO - Success_test_cases - import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+@pytest.fixture
+def mock_agent_config():
+    agent = "test_agent"
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} test."
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=config_yaml)) as mock_file:
+        with patch("theory_evaluation.llm_utils.open", mock_open(read_data=prompt_txt)) as mock_prompt_file:
+            yield agent, mock_file, mock_prompt_file
+
+@pytest.fixture
+def mock_agent_settings():
+    agent = "test_agent"
+    settings_yaml = "key: value"
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=settings_yaml)) as mock_file:
+        yield agent, mock_file
 def test_initialise_prompt_success():
     agent = "test_agent"
     config_yaml = "key: value"
-    prompt_txt = "This is a {$key} prompt."
-    expected_prompt = "This is a value prompt."
+    prompt_txt = "This is a {$key} test."
+    expected_prompt = "This is a value test."
 
 def test_initialise_prompt_missing_placeholder():
     agent = "test_agent"
     config_yaml = "key: value"
-    prompt_txt = "This is a {$missing_key} prompt."
-    expected_prompt = "This is a {$missing_key} prompt."
+    prompt_txt = "This is a {$missing_key} test."
+    expected_prompt = "This is a {$missing_key} test."
 
-def test_initialise_prompt_exception():
-    agent = "test_agent"
+from unittest.mock import patch
+
+def test_initialise_prompt_file_not_found():
+    agent = "non_existent_agent"
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt(agent)
+        assert result is None
 
 def test_initialise_settings_success():
     agent = "test_agent"
-    settings_yaml = "setting_key: setting_value"
-    expected_settings = {"setting_key": "setting_value"}
+    settings_yaml = "key: value"
+    expected_settings = {"key": "value"}
 
-def test_initialise_settings_exception():
-    agent = "test_agent"
+from unittest.mock import patch
 
-2025-04-16 15:50:19,830 - INFO - Test Case 5 processed successfully
-2025-04-16 15:50:19,830 - INFO - run_each_pytest_function_individually complete
-2025-04-16 15:50:19,831 - INFO - End Processing file: theory_evaluation\llm_utils.py
+def test_initialise_settings_file_not_found():
+    agent = "non_existent_agent"
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_settings(agent)
+        assert result is None
+
+2025-04-16 15:56:38,385 - INFO - Test Case 5 processed successfully
+2025-04-16 15:56:38,385 - INFO - run_each_pytest_function_individually complete
+2025-04-16 15:56:38,386 - INFO - End Processing file: theory_evaluation\llm_utils.py
 
