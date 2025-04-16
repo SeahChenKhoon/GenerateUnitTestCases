@@ -537,6 +537,7 @@ def run_each_pytest_function_individually(
                 logger.info(f"---------------")
                 save_test_case_to_temp_file(full_test_code, temp_file)
                 passed, test_case_error = run_single_test_file(temp_file)
+                count += 1
 
                 logger.info(f"TEST CASE {idx} Retry {count} - Result - {'Passed' if passed == 1 else 'Failed'}")
                 if not passed:
