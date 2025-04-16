@@ -1,27 +1,27 @@
-2025-04-16 09:36:51,376 - INFO - Loading environment variables start
-2025-04-16 09:36:51,380 - INFO - Loading environment variables completes
-2025-04-16 09:36:51,380 - INFO - Initialising of LLM start
-2025-04-16 09:36:51,694 - INFO - Initialising of LLM completes
-2025-04-16 09:36:51,694 - INFO - Getting python file starts
-2025-04-16 09:36:51,694 - INFO - Getting python file completes
-2025-04-16 09:36:51,695 - INFO - 
+2025-04-16 10:21:19,947 - INFO - Loading environment variables start
+2025-04-16 10:21:19,952 - INFO - Loading environment variables completes
+2025-04-16 10:21:19,952 - INFO - Initialising of LLM start
+2025-04-16 10:21:20,297 - INFO - Initialising of LLM completes
+2025-04-16 10:21:20,297 - INFO - Getting python file starts
+2025-04-16 10:21:20,298 - INFO - Getting python file completes
+2025-04-16 10:21:20,298 - INFO - 
 Start Processing file: theory_evaluation\llm_handler.py
-2025-04-16 09:36:51,695 - INFO - Extraction of function and class start
-2025-04-16 09:36:51,695 - INFO - extraction of function and class complete
-2025-04-16 09:36:51,695 - INFO - Generate Unit Test Case starts
-2025-04-16 09:36:51,695 - INFO - Extract unique import start
-2025-04-16 09:36:53,534 - INFO - Extract unique import complete
-2025-04-16 09:36:53,534 - INFO - Update relative import start
-2025-04-16 09:36:53,536 - INFO - Update relative import complete
-2025-04-16 09:37:04,629 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-16 09:37:04,629 - INFO - Generate Unit Test Case complete
-2025-04-16 09:37:04,635 - INFO - run_each_pytest_function_individually start
-2025-04-16 09:37:15,173 - INFO - Number of test case to process - 6
-2025-04-16 09:37:15,174 - INFO - 
+2025-04-16 10:21:20,298 - INFO - Extraction of function and class start
+2025-04-16 10:21:20,299 - INFO - extraction of function and class complete
+2025-04-16 10:21:20,299 - INFO - Generate Unit Test Case starts
+2025-04-16 10:21:20,299 - INFO - Extract unique import start
+2025-04-16 10:21:22,401 - INFO - Extract unique import complete
+2025-04-16 10:21:22,401 - INFO - Update relative import start
+2025-04-16 10:21:22,402 - INFO - Update relative import complete
+2025-04-16 10:21:30,649 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-16 10:21:30,649 - INFO - Generate Unit Test Case complete
+2025-04-16 10:21:30,654 - INFO - run_each_pytest_function_individually start
+2025-04-16 10:21:40,076 - INFO - Number of test case to process - 6
+2025-04-16 10:21:40,076 - INFO - 
 
-2025-04-16 09:37:15,174 - INFO - TEST CASE 1 Retry 0
-2025-04-16 09:37:15,174 - INFO - ---------------
-2025-04-16 09:37:15,174 - INFO - 
+2025-04-16 10:21:40,077 - INFO - TEST CASE 1 Retry 0
+2025-04-16 10:21:40,077 - INFO - ---------------
+2025-04-16 10:21:40,077 - INFO - 
 import asyncio
 import json
 import os
@@ -32,498 +32,513 @@ import pytest
 
 
 @pytest.mark.asyncio
-async def test_openai_llm_init():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai, \
+async def test_openai_llm_initialization():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
          patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
-         patch('os.getenv', return_value='mock_value'):
-        llm = OpenAI_llm(useAzureOpenAI=True)
-        assert llm.client == mock_azure_openai.return_value
+         patch('theory_evaluation.llm_handler.os.getenv', return_value='test_value'):
 
-2025-04-16 09:37:15,175 - INFO - ---------------
-2025-04-16 09:37:17,280 - INFO - Test Result 1- False
-2025-04-16 09:37:17,281 - INFO - Test Error 1 - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
-The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
-
-  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-F                                                                        [100%]
-================================== FAILURES ===================================
-____________________________ test_openai_llm_init _____________________________
-temp\temp.py:12: in test_openai_llm_init
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai, \
-E   NameError: name 'patch' is not defined
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_openai_llm_init - NameError: name 'patch' is not de...
-1 failed in 1.28s
-2025-04-16 09:37:18,778 - INFO - TEST CASE 1 Retry 1
-2025-04-16 09:37:18,779 - INFO - ---------------
-2025-04-16 09:37:18,780 - INFO - 
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-from theory_evaluation.llm_handler import OpenAI_llm
-import pytest
-
-
-# New Test Case
-from unittest.mock import patch
-
-@pytest.mark.asyncio
-async def test_openai_llm_init():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai, \
-         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
-         patch('os.getenv', return_value='mock_value'):
-        llm = OpenAI_llm(useAzureOpenAI=True)
-        assert llm.client == mock_azure_openai.return_value
-
-2025-04-16 09:37:18,780 - INFO - ---------------
-2025-04-16 09:37:21,191 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-16 09:37:21,192 - INFO - New import Statements 2 - 
-
-from unittest.mock import patch
-2025-04-16 09:37:21,192 - INFO - Test Result 2- True
-2025-04-16 09:37:21,193 - INFO - Test Error 2 - 
-c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
-The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
-
-  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-.                                                                        [100%]
-1 passed in 0.92s
-2025-04-16 09:37:21,193 - INFO - 
-
-2025-04-16 09:37:21,193 - INFO - TEST CASE 2 Retry 0
-2025-04-16 09:37:21,193 - INFO - ---------------
-2025-04-16 09:37:21,194 - INFO - 
-
-from unittest.mock import patch
-
-
-@pytest.mark.asyncio
-async def test_openai_json_completion():
-    mock_response = MagicMock()
-    mock_response.choices = [MagicMock()]
-    mock_response.choices[0].message.content = json.dumps({"key": "value"})
-
-2025-04-16 09:37:21,194 - INFO - ---------------
-2025-04-16 09:37:22,347 - INFO - Test Result 1- False
-2025-04-16 09:37:22,348 - INFO - Test Error 1 - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+2025-04-16 10:21:40,077 - INFO - ---------------
+2025-04-16 10:21:41,097 - INFO - Test Result 1 - Failed
+2025-04-16 10:21:41,097 - INFO - Test Error 1 - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
 
 =================================== ERRORS ====================================
 ________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:5: in <module>
-    @pytest.mark.asyncio
-E   NameError: name 'pytest' is not defined
-=========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.16s
-2025-04-16 09:37:24,240 - INFO - TEST CASE 2 Retry 1
-2025-04-16 09:37:24,240 - INFO - ---------------
-2025-04-16 09:37:24,241 - INFO - 
-
-from unittest.mock import patch
-
-
-# New Test Case
-import pytest
-import json
-from unittest.mock import MagicMock, patch
-
-@pytest.mark.asyncio
-async def test_openai_json_completion():
-    mock_response = MagicMock()
-    mock_response.choices = [MagicMock()]
-    mock_response.choices[0].message.content = json.dumps({"key": "value"})
-
-    with patch('llm_handler.OpenAI_llm.client.chat.completions.create', return_value=mock_response):
-        llm = OpenAI_llm(output="json")
-        result = await llm._OpenAI_JSON_Completion()
-        assert result == {"key": "value"}
-
-2025-04-16 09:37:24,241 - INFO - ---------------
-2025-04-16 09:37:25,368 - INFO - Test Result 2- False
-2025-04-16 09:37:25,368 - INFO - Test Error 2 - 
-c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
-The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
-
-  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-F                                                                        [100%]
-================================== FAILURES ===================================
-_________________________ test_openai_json_completion _________________________
-temp\temp.py:16: in test_openai_json_completion
-    with patch('llm_handler.OpenAI_llm.client.chat.completions.create', return_value=mock_response):
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1479: in __enter__
-    self.target = self.getter()
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\pkgutil.py:513: in resolve_name
-    mod = importlib.import_module(modname)
+.venv\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+.venv\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
 C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
     return _bootstrap._gcd_import(name[level:], package, level)
 <frozen importlib._bootstrap>:1387: in _gcd_import
     ???
 <frozen importlib._bootstrap>:1360: in _find_and_load
     ???
-<frozen importlib._bootstrap>:1324: in _find_and_load_unlocked
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
     ???
-E   ModuleNotFoundError: No module named 'llm_handler'
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_openai_json_completion - ModuleNotFoundError: No mo...
-1 failed in 0.27s
-2025-04-16 09:37:26,014 - INFO - TEST CASE 2 Retry 2
-2025-04-16 09:37:26,014 - INFO - ---------------
-2025-04-16 09:37:26,015 - INFO - 
-
-from unittest.mock import patch
-
-
-# New Test Case
-from llm_handler import OpenAI_llm
-
-2025-04-16 09:37:26,015 - INFO - ---------------
-2025-04-16 09:37:26,866 - INFO - Test Result 3- False
-2025-04-16 09:37:26,866 - INFO - Test Error 3 - 
-c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
-The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
-
-  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-
-=================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:6: in <module>
-    from llm_handler import OpenAI_llm
-E   ModuleNotFoundError: No module named 'llm_handler'
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+.venv\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+.venv\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 14
+E       patch('theory_evaluation.llm_handler.os.getenv', return_value='test_value'):
+E                                                                                   ^
+E   IndentationError: expected an indented block after 'with' statement on line 12
 =========================== short test summary info ===========================
 ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.15s
-2025-04-16 09:37:26,866 - INFO - Failed after all retries for test case 2
-2025-04-16 09:37:26,866 - INFO - 
+1 error in 0.26s
+2025-04-16 10:21:42,569 - INFO - TEST CASE 1 Retry 1
+2025-04-16 10:21:42,570 - INFO - ---------------
+2025-04-16 10:21:42,570 - INFO - 
+import asyncio
+import json
+import os
 
-2025-04-16 09:37:26,866 - INFO - TEST CASE 3 Retry 0
-2025-04-16 09:37:26,866 - INFO - ---------------
-2025-04-16 09:37:26,866 - INFO - 
-
-from unittest.mock import patch
-
-
-@pytest.mark.asyncio
-async def test_openai_streaming():
-    mock_chunk = MagicMock()
-    mock_chunk.choices = [MagicMock()]
-    mock_chunk.choices[0].delta.content = "streamed content"
-
-2025-04-16 09:37:26,866 - INFO - ---------------
-2025-04-16 09:37:27,746 - INFO - Test Result 1- False
-2025-04-16 09:37:27,746 - INFO - Test Error 1 - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
-The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
-
-  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-
-=================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:5: in <module>
-    @pytest.mark.asyncio
-E   NameError: name 'pytest' is not defined
-=========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.13s
-2025-04-16 09:37:28,953 - INFO - TEST CASE 3 Retry 1
-2025-04-16 09:37:28,954 - INFO - ---------------
-2025-04-16 09:37:28,954 - INFO - 
-
-from unittest.mock import patch
+from openai import AzureOpenAI, OpenAI
+from theory_evaluation.llm_handler import OpenAI_llm
+import pytest
 
 
 # New Test Case
-from unittest.mock import MagicMock
-import pytest
+from unittest.mock import patch
 
 @pytest.mark.asyncio
-async def test_openai_streaming():
-    mock_chunk = MagicMock()
-    mock_chunk.choices = [MagicMock()]
-    mock_chunk.choices[0].delta.content = "streamed content"
+async def test_openai_llm_initialization():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
+         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
+         patch('theory_evaluation.llm_handler.os.getenv', return_value='test_value'):
+        pass
 
-2025-04-16 09:37:28,954 - INFO - ---------------
-2025-04-16 09:37:30,455 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-16 09:37:30,455 - INFO - New import Statements 2 - 
+2025-04-16 10:21:42,570 - INFO - ---------------
+2025-04-16 10:21:45,358 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-16 10:21:45,359 - INFO - New import Statements 2 - 
 
+import asyncio
+import json
+import os
 import pytest
-from unittest.mock import MagicMock
-2025-04-16 09:37:30,456 - INFO - Test Result 2- True
-2025-04-16 09:37:30,456 - INFO - Test Error 2 - 
-c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
-The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+from unittest.mock import patch
+from openai import AzureOpenAI, OpenAI
+from theory_evaluation.llm_handler import OpenAI_llm
+2025-04-16 10:21:45,359 - INFO - Test Result 2 - Passed
+2025-04-16 10:21:45,359 - INFO - 
 
-  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-.                                                                        [100%]
-1 passed in 0.06s
-2025-04-16 09:37:30,456 - INFO - 
+2025-04-16 10:21:45,359 - INFO - TEST CASE 2 Retry 0
+2025-04-16 10:21:45,359 - INFO - ---------------
+2025-04-16 10:21:45,360 - INFO - 
 
-2025-04-16 09:37:30,456 - INFO - TEST CASE 4 Retry 0
-2025-04-16 09:37:30,456 - INFO - ---------------
-2025-04-16 09:37:30,457 - INFO - 
-
+import asyncio
+import json
+import os
 import pytest
-from unittest.mock import MagicMock
+from unittest.mock import patch
+from openai import AzureOpenAI, OpenAI
+from theory_evaluation.llm_handler import OpenAI_llm
 
 
 @pytest.mark.asyncio
-async def test_openai_chat_completion():
+async def test_openai_llm_openai_json_completion():
     mock_response = MagicMock()
     mock_response.choices = [MagicMock()]
-    mock_response.choices[0].message.content = "chat content"
+    mock_response.choices[0].message.content = '{"answer": "test", "explanation": "test explanation"}'
 
-2025-04-16 09:37:30,457 - INFO - ---------------
-2025-04-16 09:37:31,261 - INFO - Test Result 1- True
-2025-04-16 09:37:31,261 - INFO - Test Error 1 - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
-The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
-
-  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-.                                                                        [100%]
-1 passed in 0.09s
-2025-04-16 09:37:31,261 - INFO - 
-
-2025-04-16 09:37:31,261 - INFO - TEST CASE 5 Retry 0
-2025-04-16 09:37:31,261 - INFO - ---------------
-2025-04-16 09:37:31,261 - INFO - 
-
-import pytest
-from unittest.mock import MagicMock
-
-
-@pytest.mark.asyncio
-async def test_execute_text_generation():
-    with patch.object(OpenAI_llm, '__init__', return_value=None), \
-         patch.object(OpenAI_llm, '_run', return_value=AsyncMock(return_value=iter(["response"]))) as mock_run:
-        llm = OpenAI_llm()
-        llm.mode = "text_generation"
-        llm.message = "test message"
-        llm.model_name = "test_model"
-        llm.config = {}
-
-2025-04-16 09:37:31,261 - INFO - ---------------
-2025-04-16 09:37:32,105 - INFO - Test Result 1- False
-2025-04-16 09:37:32,105 - INFO - Test Error 1 - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+2025-04-16 10:21:45,360 - INFO - ---------------
+2025-04-16 10:21:47,517 - INFO - Test Result 1 - Failed
+2025-04-16 10:21:47,518 - INFO - Test Error 1 - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
 F                                                                        [100%]
 ================================== FAILURES ===================================
-________________________ test_execute_text_generation _________________________
-temp\temp.py:8: in test_execute_text_generation
-    with patch.object(OpenAI_llm, '__init__', return_value=None), \
-E   NameError: name 'patch' is not defined
+___________________ test_openai_llm_openai_json_completion ____________________
+temp\temp.py:13: in test_openai_llm_openai_json_completion
+    mock_response = MagicMock()
+E   NameError: name 'MagicMock' is not defined
 =========================== short test summary info ===========================
-FAILED temp/temp.py::test_execute_text_generation - NameError: name 'patch' i...
-1 failed in 0.10s
-2025-04-16 09:37:34,516 - INFO - TEST CASE 5 Retry 1
-2025-04-16 09:37:34,517 - INFO - ---------------
-2025-04-16 09:37:34,517 - INFO - 
+FAILED temp/temp.py::test_openai_llm_openai_json_completion - NameError: name...
+1 failed in 1.10s
+2025-04-16 10:21:48,122 - INFO - TEST CASE 2 Retry 1
+2025-04-16 10:21:48,122 - INFO - ---------------
+2025-04-16 10:21:48,122 - INFO - 
 
+import asyncio
+import json
+import os
 import pytest
-from unittest.mock import MagicMock
+from unittest.mock import patch
+from openai import AzureOpenAI, OpenAI
+from theory_evaluation.llm_handler import OpenAI_llm
 
 
 # New Test Case
-from unittest.mock import patch, AsyncMock
+from unittest.mock import MagicMock
+
+2025-04-16 10:21:48,123 - INFO - ---------------
+2025-04-16 10:21:50,054 - INFO - Test Result 2 - Failed
+2025-04-16 10:21:50,055 - INFO - Test Error 2 - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+
+no tests ran in 0.98s
+2025-04-16 10:21:50,628 - INFO - TEST CASE 2 Retry 2
+2025-04-16 10:21:50,629 - INFO - ---------------
+2025-04-16 10:21:50,629 - INFO - 
+
+import asyncio
+import json
+import os
+import pytest
+from unittest.mock import patch
+from openai import AzureOpenAI, OpenAI
+from theory_evaluation.llm_handler import OpenAI_llm
+
+
+# New Test Case
+import pytest_asyncio
+
+2025-04-16 10:21:50,629 - INFO - ---------------
+2025-04-16 10:21:52,776 - INFO - Test Result 3 - Failed
+2025-04-16 10:21:52,776 - INFO - Test Error 3 - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+
+no tests ran in 1.02s
+2025-04-16 10:21:52,776 - INFO - Failed after all retries for test case 2
+2025-04-16 10:21:52,777 - INFO - 
+
+2025-04-16 10:21:52,777 - INFO - TEST CASE 3 Retry 0
+2025-04-16 10:21:52,777 - INFO - ---------------
+2025-04-16 10:21:52,777 - INFO - 
+
+import asyncio
+import json
+import os
+import pytest
+from unittest.mock import patch
+from openai import AzureOpenAI, OpenAI
+from theory_evaluation.llm_handler import OpenAI_llm
+
 
 @pytest.mark.asyncio
-async def test_execute_text_generation():
-    with patch.object(OpenAI_llm, '__init__', return_value=None), \
-         patch.object(OpenAI_llm, '_run', return_value=AsyncMock(return_value=iter(["response"]))) as mock_run:
-        llm = OpenAI_llm()
-        llm.mode = "text_generation"
-        llm.message = "test message"
-        llm.model_name = "test_model"
-        llm.config = {}
-        responses = []
-        async for response in llm.execute():
-            responses.append(response)
-        assert responses == ["response"]
+async def test_openai_llm_openai_streaming():
+    mock_chunk = MagicMock()
+    mock_chunk.choices = [MagicMock()]
+    mock_chunk.choices[0].delta.content = 'test content'
 
-2025-04-16 09:37:34,517 - INFO - ---------------
-2025-04-16 09:37:35,410 - INFO - Test Result 2- False
-2025-04-16 09:37:35,410 - INFO - Test Error 2 - 
-c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+2025-04-16 10:21:52,777 - INFO - ---------------
+2025-04-16 10:21:55,145 - INFO - Test Result 1 - Failed
+2025-04-16 10:21:55,146 - INFO - Test Error 1 - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
 F                                                                        [100%]
 ================================== FAILURES ===================================
-________________________ test_execute_text_generation _________________________
-temp\temp.py:11: in test_execute_text_generation
-    with patch.object(OpenAI_llm, '__init__', return_value=None), \
-E   NameError: name 'OpenAI_llm' is not defined
+______________________ test_openai_llm_openai_streaming _______________________
+temp\temp.py:13: in test_openai_llm_openai_streaming
+    mock_chunk = MagicMock()
+E   NameError: name 'MagicMock' is not defined
 =========================== short test summary info ===========================
-FAILED temp/temp.py::test_execute_text_generation - NameError: name 'OpenAI_l...
-1 failed in 0.16s
-2025-04-16 09:37:37,420 - INFO - TEST CASE 5 Retry 2
-2025-04-16 09:37:37,421 - INFO - ---------------
-2025-04-16 09:37:37,421 - INFO - 
+FAILED temp/temp.py::test_openai_llm_openai_streaming - NameError: name 'Magi...
+1 failed in 1.47s
+2025-04-16 10:21:55,742 - INFO - TEST CASE 3 Retry 1
+2025-04-16 10:21:55,742 - INFO - ---------------
+2025-04-16 10:21:55,743 - INFO - 
 
+import asyncio
+import json
+import os
 import pytest
-from unittest.mock import MagicMock
+from unittest.mock import patch
+from openai import AzureOpenAI, OpenAI
+from theory_evaluation.llm_handler import OpenAI_llm
 
 
 # New Test Case
-import pytest
 from unittest.mock import MagicMock
-from llm_handler import OpenAI_llm
 
-@pytest.mark.asyncio
-async def test_execute_text_generation():
-    with patch.object(OpenAI_llm, '__init__', return_value=None), \
-         patch.object(OpenAI_llm, '_run', return_value=AsyncMock(return_value=iter(["response"]))) as mock_run:
-        llm = OpenAI_llm()
-        llm.mode = "text_generation"
-        llm.message = "test message"
-        llm.model_name = "test_model"
-        llm.config = {}
-        responses = []
-        async for response in llm.execute():
-            responses.append(response)
-        assert responses == ["response"]
-
-2025-04-16 09:37:37,421 - INFO - ---------------
-2025-04-16 09:37:38,251 - INFO - Test Result 3- False
-2025-04-16 09:37:38,251 - INFO - Test Error 3 - 
-c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+2025-04-16 10:21:55,743 - INFO - ---------------
+2025-04-16 10:21:57,834 - INFO - Test Result 2 - Failed
+2025-04-16 10:21:57,834 - INFO - Test Error 2 - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
 
-=================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:9: in <module>
-    from llm_handler import OpenAI_llm
-E   ModuleNotFoundError: No module named 'llm_handler'
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.14s
-2025-04-16 09:37:38,251 - INFO - Failed after all retries for test case 5
-2025-04-16 09:37:38,251 - INFO - 
+no tests ran in 1.06s
+2025-04-16 10:21:58,396 - INFO - TEST CASE 3 Retry 2
+2025-04-16 10:21:58,397 - INFO - ---------------
+2025-04-16 10:21:58,397 - INFO - 
 
-2025-04-16 09:37:38,252 - INFO - TEST CASE 6 Retry 0
-2025-04-16 09:37:38,252 - INFO - ---------------
-2025-04-16 09:37:38,252 - INFO - 
-
+import asyncio
+import json
+import os
 import pytest
-from unittest.mock import MagicMock
+from unittest.mock import patch
+from openai import AzureOpenAI, OpenAI
+from theory_evaluation.llm_handler import OpenAI_llm
+
+
+# New Test Case
+import pytest_asyncio
+
+2025-04-16 10:21:58,397 - INFO - ---------------
+2025-04-16 10:22:00,173 - INFO - Test Result 3 - Failed
+2025-04-16 10:22:00,173 - INFO - Test Error 3 - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+
+no tests ran in 0.90s
+2025-04-16 10:22:00,173 - INFO - Failed after all retries for test case 3
+2025-04-16 10:22:00,173 - INFO - 
+
+2025-04-16 10:22:00,173 - INFO - TEST CASE 4 Retry 0
+2025-04-16 10:22:00,173 - INFO - ---------------
+2025-04-16 10:22:00,173 - INFO - 
+
+import asyncio
+import json
+import os
+import pytest
+from unittest.mock import patch
+from openai import AzureOpenAI, OpenAI
+from theory_evaluation.llm_handler import OpenAI_llm
 
 
 @pytest.mark.asyncio
-async def test_execute_vision():
-    with patch.object(OpenAI_llm, '__init__', return_value=None), \
-         patch.object(OpenAI_llm, '_run', return_value=AsyncMock(return_value=iter(["response"]))) as mock_run:
-        llm = OpenAI_llm()
-        llm.mode = "vision"
-        llm.message = "test message"
-        llm.image_input = "image_data"
-        llm.model_name = "test_model"
-        llm.config = {}
+async def test_openai_llm_openai_chat_completion():
+    mock_response = MagicMock()
+    mock_response.choices = [MagicMock()]
+    mock_response.choices[0].message.content = 'test content'
 
-2025-04-16 09:37:38,252 - INFO - ---------------
-2025-04-16 09:37:38,950 - INFO - Test Result 1- False
-2025-04-16 09:37:38,950 - INFO - Test Error 1 - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+2025-04-16 10:22:00,173 - INFO - ---------------
+2025-04-16 10:22:02,111 - INFO - Test Result 1 - Failed
+2025-04-16 10:22:02,111 - INFO - Test Error 1 - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
 F                                                                        [100%]
 ================================== FAILURES ===================================
-_____________________________ test_execute_vision _____________________________
-temp\temp.py:8: in test_execute_vision
-    with patch.object(OpenAI_llm, '__init__', return_value=None), \
-E   NameError: name 'patch' is not defined
+___________________ test_openai_llm_openai_chat_completion ____________________
+temp\temp.py:13: in test_openai_llm_openai_chat_completion
+    mock_response = MagicMock()
+E   NameError: name 'MagicMock' is not defined
 =========================== short test summary info ===========================
-FAILED temp/temp.py::test_execute_vision - NameError: name 'patch' is not def...
-1 failed in 0.08s
-2025-04-16 09:37:39,593 - INFO - TEST CASE 6 Retry 1
-2025-04-16 09:37:39,594 - INFO - ---------------
-2025-04-16 09:37:39,594 - INFO - 
+FAILED temp/temp.py::test_openai_llm_openai_chat_completion - NameError: name...
+1 failed in 1.11s
+2025-04-16 10:22:02,582 - INFO - TEST CASE 4 Retry 1
+2025-04-16 10:22:02,582 - INFO - ---------------
+2025-04-16 10:22:02,582 - INFO - 
 
+import asyncio
+import json
+import os
 import pytest
-from unittest.mock import MagicMock
+from unittest.mock import patch
+from openai import AzureOpenAI, OpenAI
+from theory_evaluation.llm_handler import OpenAI_llm
 
 
 # New Test Case
-from unittest.mock import patch, AsyncMock
+from unittest.mock import MagicMock
 
-2025-04-16 09:37:39,594 - INFO - ---------------
-2025-04-16 09:37:40,327 - INFO - Test Result 2- False
-2025-04-16 09:37:40,327 - INFO - Test Error 2 - 
-c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+2025-04-16 10:22:02,582 - INFO - ---------------
+2025-04-16 10:22:04,270 - INFO - Test Result 2 - Failed
+2025-04-16 10:22:04,270 - INFO - Test Error 2 - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
 
-no tests ran in 0.02s
-2025-04-16 09:37:42,384 - INFO - TEST CASE 6 Retry 2
-2025-04-16 09:37:42,384 - INFO - ---------------
-2025-04-16 09:37:42,384 - INFO - 
+no tests ran in 0.89s
+2025-04-16 10:22:04,825 - INFO - TEST CASE 4 Retry 2
+2025-04-16 10:22:04,826 - INFO - ---------------
+2025-04-16 10:22:04,826 - INFO - 
 
+import asyncio
+import json
+import os
 import pytest
-from unittest.mock import MagicMock
+from unittest.mock import patch
+from openai import AzureOpenAI, OpenAI
+from theory_evaluation.llm_handler import OpenAI_llm
 
 
 # New Test Case
+import pytest_asyncio
+
+2025-04-16 10:22:04,826 - INFO - ---------------
+2025-04-16 10:22:06,684 - INFO - Test Result 3 - Failed
+2025-04-16 10:22:06,685 - INFO - Test Error 3 - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+
+no tests ran in 0.94s
+2025-04-16 10:22:06,685 - INFO - Failed after all retries for test case 4
+2025-04-16 10:22:06,685 - INFO - 
+
+2025-04-16 10:22:06,685 - INFO - TEST CASE 5 Retry 0
+2025-04-16 10:22:06,685 - INFO - ---------------
+2025-04-16 10:22:06,685 - INFO - 
+
+import asyncio
+import json
+import os
 import pytest
-from unittest.mock import MagicMock
+from unittest.mock import patch
+from openai import AzureOpenAI, OpenAI
+from theory_evaluation.llm_handler import OpenAI_llm
+
 
 @pytest.mark.asyncio
-async def test_OpenAI_llm_execute():
-    mock_client = MagicMock()
-    mock_client.chat.completions.create.return_value = AsyncMock()
-    mock_client.chat.completions.create.return_value.choices = [
-        MagicMock(message=MagicMock(content=json.dumps({"answer": "7", "explanation": "2+5 equals 7"})))
-    ]
+async def test_openai_llm_execute_text_generation():
+    mock_response = MagicMock()
+    mock_response.choices = [MagicMock()]
+    mock_response.choices[0].message.content = 'test content'
 
-    with patch('openai.OpenAI', return_value=mock_client):
-        llm = OpenAI_llm(message="What is 2+5?", output="json")
-        responses = []
-        async for response in llm.execute():
-            responses.append(response)
-
-    assert responses == [{"answer": "7", "explanation": "2+5 equals 7"}]
-
-2025-04-16 09:37:42,385 - INFO - ---------------
-2025-04-16 09:37:43,232 - INFO - Test Result 3- False
-2025-04-16 09:37:43,232 - INFO - Test Error 3 - 
-c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+2025-04-16 10:22:06,685 - INFO - ---------------
+2025-04-16 10:22:08,578 - INFO - Test Result 1 - Failed
+2025-04-16 10:22:08,578 - INFO - Test Error 1 - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
 F                                                                        [100%]
 ================================== FAILURES ===================================
-___________________________ test_OpenAI_llm_execute ___________________________
-temp\temp.py:13: in test_OpenAI_llm_execute
-    mock_client.chat.completions.create.return_value = AsyncMock()
-E   NameError: name 'AsyncMock' is not defined
+___________________ test_openai_llm_execute_text_generation ___________________
+temp\temp.py:13: in test_openai_llm_execute_text_generation
+    mock_response = MagicMock()
+E   NameError: name 'MagicMock' is not defined
 =========================== short test summary info ===========================
-FAILED temp/temp.py::test_OpenAI_llm_execute - NameError: name 'AsyncMock' is...
-1 failed in 0.09s
-2025-04-16 09:37:43,232 - INFO - Failed after all retries for test case 6
-2025-04-16 09:37:43,233 - INFO - run_each_pytest_function_individually complete
-2025-04-16 09:37:43,233 - INFO - End Processing file: theory_evaluation\llm_handler.py
+FAILED temp/temp.py::test_openai_llm_execute_text_generation - NameError: nam...
+1 failed in 1.05s
+2025-04-16 10:22:09,263 - INFO - TEST CASE 5 Retry 1
+2025-04-16 10:22:09,264 - INFO - ---------------
+2025-04-16 10:22:09,264 - INFO - 
 
-2025-04-16 09:37:43,233 - INFO - 
+import asyncio
+import json
+import os
+import pytest
+from unittest.mock import patch
+from openai import AzureOpenAI, OpenAI
+from theory_evaluation.llm_handler import OpenAI_llm
+
+
+# New Test Case
+from unittest.mock import MagicMock
+
+2025-04-16 10:22:09,264 - INFO - ---------------
+2025-04-16 10:22:11,600 - INFO - Test Result 2 - Failed
+2025-04-16 10:22:11,600 - INFO - Test Error 2 - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+
+no tests ran in 1.40s
+2025-04-16 10:22:12,072 - INFO - TEST CASE 5 Retry 2
+2025-04-16 10:22:12,072 - INFO - ---------------
+2025-04-16 10:22:12,072 - INFO - 
+
+import asyncio
+import json
+import os
+import pytest
+from unittest.mock import patch
+from openai import AzureOpenAI, OpenAI
+from theory_evaluation.llm_handler import OpenAI_llm
+
+
+# New Test Case
+import pytest_asyncio
+
+2025-04-16 10:22:12,072 - INFO - ---------------
+2025-04-16 10:22:14,123 - INFO - Test Result 3 - Failed
+2025-04-16 10:22:14,123 - INFO - Test Error 3 - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+
+no tests ran in 1.10s
+2025-04-16 10:22:14,123 - INFO - Failed after all retries for test case 5
+2025-04-16 10:22:14,123 - INFO - 
+
+2025-04-16 10:22:14,124 - INFO - TEST CASE 6 Retry 0
+2025-04-16 10:22:14,124 - INFO - ---------------
+2025-04-16 10:22:14,124 - INFO - 
+
+import asyncio
+import json
+import os
+import pytest
+from unittest.mock import patch
+from openai import AzureOpenAI, OpenAI
+from theory_evaluation.llm_handler import OpenAI_llm
+
+
+@pytest.mark.asyncio
+async def test_openai_llm_execute_vision():
+    mock_response = MagicMock()
+    mock_response.choices = [MagicMock()]
+    mock_response.choices[0].message.content = 'test content'
+
+2025-04-16 10:22:14,124 - INFO - ---------------
+2025-04-16 10:22:16,606 - INFO - Test Result 1 - Failed
+2025-04-16 10:22:16,606 - INFO - Test Error 1 - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+_______________________ test_openai_llm_execute_vision ________________________
+temp\temp.py:13: in test_openai_llm_execute_vision
+    mock_response = MagicMock()
+E   NameError: name 'MagicMock' is not defined
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_openai_llm_execute_vision - NameError: name 'MagicM...
+1 failed in 1.41s
+2025-04-16 10:22:17,246 - INFO - TEST CASE 6 Retry 1
+2025-04-16 10:22:17,246 - INFO - ---------------
+2025-04-16 10:22:17,246 - INFO - 
+
+import asyncio
+import json
+import os
+import pytest
+from unittest.mock import patch
+from openai import AzureOpenAI, OpenAI
+from theory_evaluation.llm_handler import OpenAI_llm
+
+
+# New Test Case
+from unittest.mock import MagicMock
+
+2025-04-16 10:22:17,247 - INFO - ---------------
+2025-04-16 10:22:19,132 - INFO - Test Result 2 - Failed
+2025-04-16 10:22:19,133 - INFO - Test Error 2 - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+
+no tests ran in 0.89s
+2025-04-16 10:22:19,689 - INFO - TEST CASE 6 Retry 2
+2025-04-16 10:22:19,690 - INFO - ---------------
+2025-04-16 10:22:19,690 - INFO - 
+
+import asyncio
+import json
+import os
+import pytest
+from unittest.mock import patch
+from openai import AzureOpenAI, OpenAI
+from theory_evaluation.llm_handler import OpenAI_llm
+
+
+# New Test Case
+import pytest_asyncio
+
+2025-04-16 10:22:19,690 - INFO - ---------------
+2025-04-16 10:22:21,539 - INFO - Test Result 3 - Failed
+2025-04-16 10:22:21,539 - INFO - Test Error 3 - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+
+no tests ran in 0.97s
+2025-04-16 10:22:21,539 - INFO - Failed after all retries for test case 6
+2025-04-16 10:22:21,540 - INFO - run_each_pytest_function_individually complete
+2025-04-16 10:22:21,541 - INFO - End Processing file: theory_evaluation\llm_handler.py
+
+2025-04-16 10:22:21,541 - INFO - 
 Start Processing file: theory_evaluation\__init__.py
-2025-04-16 09:37:43,234 - INFO - Extraction of function and class start
-2025-04-16 09:37:43,234 - INFO - extraction of function and class complete
-2025-04-16 09:37:43,234 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
+2025-04-16 10:22:21,541 - INFO - Extraction of function and class start
+2025-04-16 10:22:21,541 - INFO - extraction of function and class complete
+2025-04-16 10:22:21,541 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
 

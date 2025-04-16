@@ -559,7 +559,7 @@ def run_each_pytest_function_individually(
             save_test_case_to_temp_file(full_test_code, temp_file)
             passed, test_case_error = run_single_test_file(temp_file)
 
-            logger.info(f"Test Result {count + 1} - {'Passed' if passed == 1 else 'Failed'}")
+            logger.info(f"TEST CASE {idx} Retry {count} - Result - {'Passed' if passed == 1 else 'Failed'}")
             if not passed:
                 logger.info(f"Test Error {count + 1} - {test_case_error}")
 
@@ -583,17 +583,18 @@ def run_each_pytest_function_individually(
                     import_statements = "\n" + identify_import_statements(provider, model_arg, llm_new_import_prompt, import_statements, test_case, 
                     temperature)
                     logger.info(f"New import Statements {count + 1} - \n{import_statements}")
-                logger.info(f"Test Result {count + 1} - {'Passed' if passed == 1 else 'Failed'}")
+                logger.info(f"TEST CASE {idx} Retry {count} - Result - {'Passed' if passed == 1 else 'Failed'}")
                 if not passed:
                     logger.info(f"Test Error {count + 1} - {test_case_error}")
 
-            if passed:
-                success_test_cases += "\n" + test_case + "\n"
-            else:
-                logger.info(f"Failed after all retries for test case {idx}")
+                if passed:
+                    success_test_cases += "\n" + test_case + "\n"
+                else:
+                    logger.info(f"Failed after all retries for test case {idx}")
 
         except Exception as e:
             logger.exception(f"Exception occurred while processing test case {idx}: {e}")
+
     logger.info(f"run_each_pytest_function_individually complete")
     return initial_template + "\n" + success_test_cases
 
