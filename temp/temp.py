@@ -8,27 +8,24 @@ import pytest
 
 
 # New Test Case
-from unittest.mock import MagicMock, patch, PropertyMock
+from unittest.mock import patch, AsyncMock
 import pytest
 from theory_evaluation.llm_handler import OpenAI_llm
 
 @pytest.mark.asyncio
-async def test_openai_llm_execute_streaming():
-    mock_client = MagicMock()
-    type(mock_client).chat = PropertyMock(return_value=MagicMock())
-    mock_client.chat.completions.create.return_value = iter([
-        MagicMock(choices=[MagicMock(delta=MagicMock(content="streaming data"))]),
-        MagicMock(choices=[MagicMock(delta=MagicMock(content="more streaming data"))]),
-    ])
-    with patch.object(OpenAI_llm, 'client', new_callable=PropertyMock, return_value=mock_client):
+async def test_openai_llm_execute_vision():
+    with patch("theory_evaluation.llm_handler.OpenAI_llm._run", new_callable=AsyncMock) as mock_run:
+        mock_run.return_value.__aiter__.return_value = ["response1", "response2"]
+        
         llm = OpenAI_llm(
             message="Test message",
-            useAzureOpenAI=False,
-            output="stream",
-            mode="text_generation",
-            verbose=False,
+            mode="vision",
+            image_input="test_image_data",
+            output="stream"
         )
+        
         responses = []
         async for response in llm.execute():
             responses.append(response)
-        assert responses == ["streaming data", "more streaming data"]
+        
+        assert responses == ["response1", "response2"]

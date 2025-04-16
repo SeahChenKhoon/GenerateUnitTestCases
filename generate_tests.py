@@ -224,27 +224,6 @@ def extract_function_and_class_names(code: str) -> List[str]:
     return sorted(set(function_names + class_names))
 
 def update_relative_imports(code: str, file_path: str) -> str:
-    """
-    Converts relative import statements in Python code to absolute imports based on the file path.
-
-    This function detects imports like:
-        - from . import module
-        - from ..subpackage import something
-        - from ... import x
-
-    And rewrites them as absolute imports using the structure of the provided file path.
-
-    Args:
-        code (str): The Python source code containing relative import statements.
-        file_path (str): The full path to the Python file (e.g., 'project/module/file.py').
-
-    Returns:
-        str: The updated source code with relative imports converted to absolute imports.
-
-    Raises:
-        ValueError: If the number of relative import levels (e.g., '..', '...') exceeds
-                    the depth of the file path.
-    """
     logger.info(f"Update relative import start")
     file_path_obj = Path(file_path).with_suffix("")
     module_parts = list(file_path_obj.parts)
