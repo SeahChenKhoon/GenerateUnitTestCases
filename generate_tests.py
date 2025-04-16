@@ -524,24 +524,24 @@ def run_each_pytest_function_individually(
     success_test_cases = f"{import_statements}\n{pytest_fixture}"
     for idx, test_case in enumerate(test_cases, start=1):
         passed = 0
-        count = 0
+        retry_count = 0
         max_retries = 3
         initial_template = f"{import_statements}\n{pytest_fixture}"
         try:
-            while count < max_retries and not passed:
+            while retry_count < max_retries and not passed:
                 full_test_code = f"{initial_template}\n\n{test_case}\n"
                 logger.info(f"\n")
-                logger.info(f"TEST CASE {idx} Retry {count}")
+                logger.info(f"TEST CASE {idx} Retry {retry_count}")
                 logger.info(f"---------------")
                 logger.info(f"\n{full_test_code}")
                 logger.info(f"---------------")
                 save_test_case_to_temp_file(full_test_code, temp_file)
                 passed, test_case_error = run_single_test_file(temp_file)
-                count += 1
+                retry_count += 1
 
-                logger.info(f"TEST CASE {idx} Retry {count} - Result - {'Passed' if passed == 1 else 'Failed'}")
+                logger.info(f"TEST CASE {idx} Retry {retry_count} - Result - {'Passed' if passed == 1 else 'Failed'}")
                 if not passed:
-                    logger.info(f"Test Error {count + 1} - {test_case_error}")
+                    logger.info(f"Test Error - {test_case_error}")
             if passed:
                 success_test_cases += "\n" + test_case + "\n"
                 logger.info(f"Test Case {idx} processed successfully")
