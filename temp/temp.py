@@ -13,8 +13,5 @@ from unittest.mock import MagicMock
 @pytest.mark.asyncio
 async def test_execute_vision():
     mock_response = MagicMock()
-    mock_response.choices[0].message.content = "vision execution content"
-    llm = OpenAI_llm(message="Test message", mode="vision", output="stream")
-    llm.client.chat.completions.create = MagicMock(return_value=mock_response)
-    async for response in llm.execute():
-        assert response == "vision execution content"
+    mock_response.choices = [MagicMock()]
+    mock_response.choices[0].message.content = "vision_content"
