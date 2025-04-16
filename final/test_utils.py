@@ -10,6 +10,8 @@ from theory_evaluation import models
 from theory_evaluation.utils import delete_user_performance, get_db, get_marking_scheme, get_user_performance, init_db_session, manage_user_performance, validate_user
 import pytest
 @pytest.fixture
-def mock_session():
-    session = MagicMock()
-    return session
+def mock_db_session():
+    with patch('theory_evaluation.utils.get_db') as mock_get_db:
+        mock_session = MagicMock()
+        mock_get_db.return_value.__enter__.return_value = mock_session
+        yield mock_session

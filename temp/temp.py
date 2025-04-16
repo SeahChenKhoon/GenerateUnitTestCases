@@ -1,37 +1,30 @@
-from sqlalchemy.dialects.postgresql import JSONB, UUID
-from sqlalchemy import (
-    Column,
-    Integer,
-    String,
-    TIMESTAMP,
-    create_engine,
-    Float,
-    ForeignKey,
-    Text,
-    UniqueConstraint,
-)
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.sql import func
-import uuid
-from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
+import os
+import time
+import pydantic
+from uuid import UUID
+from sqlalchemy import create_engine, and_, desc
+from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy.exc import SQLAlchemyError, OperationalError
+from contextlib import contextmanager
+from theory_evaluation import models
+from theory_evaluation.utils import delete_user_performance, get_db, get_marking_scheme, get_user_performance, init_db_session, manage_user_performance, validate_user
 import pytest
-
+@pytest.fixture
+def mock_db_session():
+    with patch('theory_evaluation.utils.get_db') as mock_get_db:
+        mock_session = MagicMock()
+        mock_get_db.return_value.__enter__.return_value = mock_session
+        yield mock_session
 
 # New Test Case
-import pytest
-from sqlalchemy import inspect
-from theory_evaluation.models import TheoryEvalUserPerformance
+from unittest import mock
+from uuid import UUID
+from your_module import delete_user_performance  # Replace with the actual import path
 
-@pytest.fixture(scope="module")
-def setup_database():
-    # Setup code for the database if needed
-    pass
+def test_delete_user_performance_not_exists():
+    mock_db_session = mock.Mock()
+    mock_db_session.query.return_value.filter.return_value.all.return_value = []
 
-def test_theory_eval_user_performance_model_columns(setup_database):
-    inspector = inspect(TheoryEvalUserPerformance)
-    columns = [column.name for column in inspector.columns]
-    expected_columns = [
-        "id", "email", "question_id", "user_response", "llm_evaluation",
-        "llm_score", "user_grade", "user_attempts", "llm_evaluation_status", "timestamp"
-    ]
-    assert set(columns) == set(expected_columns)
+    with mock.patch('your_module.get_db', return_value=mock_db_session):
+        result = delete_user_performance(email="test@example.com", question_id=UUID("00000000-0000-0000-0000-000000000000"))
+        assert result is False
