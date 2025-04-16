@@ -542,6 +542,7 @@ def run_each_pytest_function_individually(
                 logger.info(f"TEST CASE {idx} Retry {retry_count} - Result - {'Passed' if passed == 1 else 'Failed'}")
                 if not passed:
                     logger.info(f"Test Error - {test_case_error}")
+                    test_case = resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, import_statements, temperature)
                 retry_count += 1
             if passed:
                 success_test_cases += "\n" + test_case + "\n"

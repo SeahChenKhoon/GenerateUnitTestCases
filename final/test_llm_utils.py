@@ -27,8 +27,8 @@ def test_initialise_prompt_exception():
 
 def test_initialise_settings_success():
     agent = "test_agent"
-    settings_yaml = "key: value"
-    expected_settings = {"key": "value"}
+    settings_yaml = "setting_key: setting_value"
+    expected_settings = {"setting_key": "setting_value"}
 
 def test_initialise_settings_exception():
     agent = "test_agent"
