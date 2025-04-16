@@ -528,6 +528,7 @@ def run_each_pytest_function_individually(
     test_code: str,
     temp_file: Path
 ) -> str:
+    logger.info(f"run_each_pytest_function_individually start")
     # Extract each test function body individually
     pytest_fixture = extract_pytest_fixture(provider, model_arg, llm_pytest_fixture_prompt, test_code, temperature)
 
@@ -590,12 +591,12 @@ def run_each_pytest_function_individually(
 
         except Exception as e:
             logger.exception(f"Exception occurred while processing test case {idx}: {e}")
-
+    logger.info(f"run_each_pytest_function_individually complete")
     return initial_template + "\n" + success_test_cases
 
 
 def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg: str, env_vars: dict) -> None:
-    logger.info(f"Start Processing file: {source_code_path}")
+    logger.info(f"\nStart Processing file: {source_code_path}")
 
     try:
         source_code = source_code_path.read_text(encoding="utf-8")
