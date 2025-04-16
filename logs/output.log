@@ -1,28 +1,134 @@
-2025-04-16 08:33:12,316 - INFO - Loading environment variables start
-2025-04-16 08:33:12,319 - INFO - Loading environment variables completes
-2025-04-16 08:33:12,319 - INFO - Initialising of LLM start
-2025-04-16 08:33:12,663 - INFO - Initialising of LLM completes
-2025-04-16 08:33:12,663 - INFO - Getting python file starts
-2025-04-16 08:33:12,663 - INFO - Getting python file completes
-2025-04-16 08:33:12,663 - INFO - 
+2025-04-16 08:34:52,875 - INFO - Loading environment variables start
+2025-04-16 08:34:52,879 - INFO - Loading environment variables completes
+2025-04-16 08:34:52,879 - INFO - Initialising of LLM start
+2025-04-16 08:34:53,227 - INFO - Initialising of LLM completes
+2025-04-16 08:34:53,227 - INFO - Getting python file starts
+2025-04-16 08:34:53,228 - INFO - Getting python file completes
+2025-04-16 08:34:53,228 - INFO - 
 Start Processing file: theory_evaluation\utils.py
-2025-04-16 08:33:12,664 - INFO - Extraction of function and class start
-2025-04-16 08:33:12,664 - INFO - extraction of function and class complete
-2025-04-16 08:33:12,664 - INFO - Generate Unit Test Case starts
-2025-04-16 08:33:12,664 - INFO - Extract unique import start
-2025-04-16 08:33:15,511 - INFO - Extract unique import complete
-2025-04-16 08:33:15,512 - INFO - Update relative import start
-2025-04-16 08:33:15,513 - INFO - Update relative import complete
-2025-04-16 08:33:41,977 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-16 08:33:41,979 - INFO - Generate Unit Test Case complete
-2025-04-16 08:33:41,987 - INFO - run_each_pytest_function_individually start
-2025-04-16 08:33:53,661 - INFO - Number of test case to process - 0
-2025-04-16 08:33:53,661 - INFO - run_each_pytest_function_individually complete
-2025-04-16 08:33:53,665 - INFO - End Processing file: theory_evaluation\utils.py
+2025-04-16 08:34:53,228 - INFO - Extraction of function and class start
+2025-04-16 08:34:53,229 - INFO - extraction of function and class complete
+2025-04-16 08:34:53,229 - INFO - Generate Unit Test Case starts
+2025-04-16 08:34:53,229 - INFO - Extract unique import start
+2025-04-16 08:34:57,231 - INFO - Extract unique import complete
+2025-04-16 08:34:57,232 - INFO - Update relative import start
+2025-04-16 08:34:57,233 - INFO - Update relative import complete
+2025-04-16 08:35:11,952 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-16 08:35:11,953 - INFO - Generate Unit Test Case complete
+2025-04-16 08:35:11,957 - INFO - run_each_pytest_function_individually start
+2025-04-16 08:35:24,243 - INFO - test_cases_str - def test_init_db_session(monkeypatch):
+    monkeypatch.setenv("DB_USER", "user")
+    monkeypatch.setenv("DB_PASSWORD", "password")
+    monkeypatch.setenv("DB_NAME", "dbname")
+    monkeypatch.setenv("DB_HOST", "localhost")
+    monkeypatch.setenv("DB_PORT", "5432")
+    monkeypatch.setenv("SSL_MODE", "require")
+    monkeypatch.setenv("ENVIRONMENT", "local")
 
-2025-04-16 08:33:53,665 - INFO - 
+    init_db_session()
+    assert hasattr(theory_evaluation.utils, "SessionLocal")
+
+def test_validate_user_exists(mock_db_session):
+    mock_user = MagicMock()
+    mock_user.email = "test@example.com"
+    mock_user.status = 1
+    mock_db_session.return_value.query.return_value.filter.return_value.first.return_value = mock_user
+
+    result = validate_user(pydantic.EmailStr("test@example.com"))
+    assert result is True
+
+def test_validate_user_not_exists(mock_db_session):
+    mock_db_session.return_value.query.return_value.filter.return_value.first.return_value = None
+
+    result = validate_user(pydantic.EmailStr("test@example.com"))
+    assert result is False
+
+def test_get_marking_scheme_exists(mock_db_session):
+    mock_curriculum = MagicMock()
+    mock_curriculum.question = "What is AI?"
+    mock_curriculum.marking_scheme = "Correct"
+    mock_curriculum.model_answer = "Artificial Intelligence"
+    mock_db_session.return_value.query.return_value.filter.return_value.first.return_value = mock_curriculum
+
+    question, marking_scheme, model_answer = get_marking_scheme(UUID("12345678-1234-5678-1234-567812345678"))
+    assert question == "What is AI?"
+    assert marking_scheme == "Correct"
+    assert model_answer == "Artificial Intelligence"
+
+def test_get_marking_scheme_not_exists(mock_db_session):
+    mock_db_session.return_value.query.return_value.filter.return_value.first.return_value = None
+
+    question, marking_scheme, model_answer = get_marking_scheme(UUID("12345678-1234-5678-1234-567812345678"))
+    assert question is None
+    assert marking_scheme is None
+    assert model_answer is None
+
+def test_get_user_performance_exists(mock_db_session):
+    mock_performance = MagicMock()
+    mock_performance.user_attempts = 1
+    mock_performance.llm_evaluation = "Good"
+    mock_performance.user_grade = "Pass"
+    mock_performance.llm_evaluation_status = 2
+    mock_db_session.return_value.query.return_value.filter.return_value.order_by.return_value.first.return_value = mock_performance
+
+    result = get_user_performance(pydantic.EmailStr("test@example.com"), UUID("12345678-1234-5678-1234-567812345678"))
+    assert result == (1, "Good", "Pass", 2)
+
+def test_get_user_performance_not_exists(mock_db_session):
+    mock_db_session.return_value.query.return_value.filter.return_value.order_by.return_value.first.return_value = None
+
+    result = get_user_performance(pydantic.EmailStr("test@example.com"), UUID("12345678-1234-5678-1234-567812345678"))
+    assert result == (0, "An unexpected error occurred. Please try again.", "No grade available.", 0)
+
+def test_manage_user_performance_create_attempt(mock_db_session):
+    mock_db_session.return_value.query.return_value.filter.return_value.order_by.return_value.first.return_value = None
+    mock_db_session.return_value.add.return_value = None
+
+    result = manage_user_performance(
+        mode=0,
+        email=pydantic.EmailStr("test@example.com"),
+        question_id=UUID("12345678-1234-5678-1234-567812345678"),
+        user_response="Response"
+    )
+    assert result is True
+
+def test_manage_user_performance_update_performance(mock_db_session):
+    mock_performance = MagicMock()
+    mock_db_session.return_value.query.return_value.filter.return_value.order_by.return_value.first.return_value = mock_performance
+
+    result = manage_user_performance(
+        mode=1,
+        email=pydantic.EmailStr("test@example.com"),
+        question_id=UUID("12345678-1234-5678-1234-567812345678"),
+        llm_evaluation="Excellent",
+        llm_score=10,
+        user_grade="Pass"
+    )
+    assert result is True
+    assert mock_performance.llm_evaluation == "Excellent"
+    assert mock_performance.llm_score == 10
+    assert mock_performance.user_grade == "Pass"
+
+def test_delete_user_performance_exists(mock_db_session):
+    mock_performance = MagicMock()
+    mock_db_session.return_value.query.return_value.filter.return_value.all.return_value = [mock_performance]
+
+    result = delete_user_performance(pydantic.EmailStr("test@example.com"), UUID("12345678-1234-5678-1234-567812345678"))
+    assert result is True
+    assert mock_db_session.return_value.delete.called
+
+def test_delete_user_performance_not_exists(mock_db_session):
+    mock_db_session.return_value.query.return_value.filter.return_value.all.return_value = []
+
+    result = delete_user_performance(pydantic.EmailStr("test@example.com"), UUID("12345678-1234-5678-1234-567812345678"))
+    assert result is False
+2025-04-16 08:35:24,245 - INFO - Number of test case to process - 0
+2025-04-16 08:35:24,246 - INFO - run_each_pytest_function_individually complete
+2025-04-16 08:35:24,250 - INFO - End Processing file: theory_evaluation\utils.py
+
+2025-04-16 08:35:24,250 - INFO - 
 Start Processing file: theory_evaluation\__init__.py
-2025-04-16 08:33:53,666 - INFO - Extraction of function and class start
-2025-04-16 08:33:53,666 - INFO - extraction of function and class complete
-2025-04-16 08:33:53,666 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
+2025-04-16 08:35:24,251 - INFO - Extraction of function and class start
+2025-04-16 08:35:24,251 - INFO - extraction of function and class complete
+2025-04-16 08:35:24,252 - WARNING - No public functions found in theory_evaluation\__init__.py. Skipping test generation.
 

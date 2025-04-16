@@ -443,7 +443,7 @@ def extract_test_functions(code: str) -> List[str]:
     # Pattern to match each @pytest.mark.asyncio async def test_xxx(...) with its full body
     pattern = re.compile(
         r'(@pytest\.mark\.asyncio\s*\n)?'                      # Optional @pytest.mark.asyncio
-        r'async def\s+test_[\w_]+\s*\([^)]*\):'                # Test function definition
+        r'(?:async\s+)?def\s+test_[\w_]+\s*\([^)]*\):'  # Function definition
         r'(?:\n(?: {4}|\t).+)+',                               # Indented function body
         re.MULTILINE
     )
