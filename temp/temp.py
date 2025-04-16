@@ -18,13 +18,20 @@ import pytest
 
 
 # New Test Case
+import pytest
 from sqlalchemy import inspect
-from theory_evaluation.models import Curriculum
+from theory_evaluation.models import TheoryEvalUserPerformance
 
-def test_curriculum_model_columns():
-    inspector = inspect(Curriculum)
+@pytest.fixture(scope="module")
+def setup_database():
+    # Setup code for the database if needed
+    pass
+
+def test_theory_eval_user_performance_model_columns(setup_database):
+    inspector = inspect(TheoryEvalUserPerformance)
     columns = [column.name for column in inspector.columns]
     expected_columns = [
-        "id", "question", "marking_scheme", "model_answer", "timestamp"
+        "id", "email", "question_id", "user_response", "llm_evaluation",
+        "llm_score", "user_grade", "user_attempts", "llm_evaluation_status", "timestamp"
     ]
     assert set(columns) == set(expected_columns)
