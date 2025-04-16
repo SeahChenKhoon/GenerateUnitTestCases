@@ -508,6 +508,7 @@ def run_each_pytest_function_individually(
     temp_file: Path
 ) -> str:
     logger.info(f"run_each_pytest_function_individually start")
+    initial_template = ""
     # Extract each test function body individually
     pytest_fixture = extract_pytest_fixture(provider, model_arg, llm_pytest_fixture_prompt, test_code, temperature)
 
