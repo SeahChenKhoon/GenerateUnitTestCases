@@ -563,7 +563,7 @@ def run_each_pytest_function_individually(
             if not passed:
                 logger.info(f"Test Error {count + 1} - {test_case_error}")
 
-            max_retries = 2
+            max_retries = 3
             while count < max_retries and not passed:
                 count += 1
                 test_case = resolve_unit_test(
