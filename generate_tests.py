@@ -510,13 +510,14 @@ def run_each_pytest_function_individually(
     logger.info(f"run_each_pytest_function_individually start")
     initial_template = ""
     passed_count = 0
-    total_test_case = len(test_cases)
+    
     # Extract each test function body individually
     pytest_fixture = extract_pytest_fixture(provider, model_arg, llm_pytest_fixture_prompt, test_code, temperature)
 
     # logger.info(f"pytest_fixture - \n{pytest_fixture}\n")
     test_cases_str = extract_test_cases_from_code(provider, model_arg, llm_test_cases_prompt, test_code, temperature)
     test_cases = extract_test_functions(test_cases_str)
+    total_test_case = len(test_cases)
     logger.info(f"Number of test case to process - {total_test_case}")
 
     if "pytest" in test_code and "import pytest" not in import_statements:
