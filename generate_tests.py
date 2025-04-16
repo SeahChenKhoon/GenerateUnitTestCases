@@ -521,54 +521,33 @@ def run_each_pytest_function_individually(
     else:
         logger.info(f"Verify No pytest in test_code - \n{test_code}")
 
-    success_test_cases = ""
-    initial_template = ""
+    success_test_cases = f"{import_statements}\n{pytest_fixture}"
     for idx, test_case in enumerate(test_cases, start=1):
         passed = 0
         count = 0
+        max_retries = 3
         initial_template = f"{import_statements}\n{pytest_fixture}"
-        full_test_code = f"{initial_template}\n\n{test_case}\n"
-        logger.info(f"\n")
-        logger.info(f"TEST CASE {idx} Retry {count}")
-        logger.info(f"---------------")
-        logger.info(f"\n{full_test_code}")
-        logger.info(f"---------------")
         try:
-            
-            save_test_case_to_temp_file(full_test_code, temp_file)
-            passed, test_case_error = run_single_test_file(temp_file)
-
-            logger.info(f"TEST CASE {idx} Retry {count} - Result - {'Passed' if passed == 1 else 'Failed'}")
-            if not passed:
-                logger.info(f"Test Error {count + 1} - {test_case_error}")
-
-            max_retries = 3
             while count < max_retries and not passed:
-                count += 1
-                test_case = resolve_unit_test(
-                    provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, 
-                    import_statements, temperature
-                )
-                full_test_code = f"{initial_template}\n\n# New Test Case\n{test_case}\n"
+                full_test_code = f"{initial_template}\n\n{test_case}\n"
+                logger.info(f"\n")
                 logger.info(f"TEST CASE {idx} Retry {count}")
                 logger.info(f"---------------")
                 logger.info(f"\n{full_test_code}")
                 logger.info(f"---------------")
-
                 save_test_case_to_temp_file(full_test_code, temp_file)
                 passed, test_case_error = run_single_test_file(temp_file)
-                if passed:
-                    initial_template = f"{import_statements}\n{pytest_fixture}"
 
                 logger.info(f"TEST CASE {idx} Retry {count} - Result - {'Passed' if passed == 1 else 'Failed'}")
                 if not passed:
                     logger.info(f"Test Error {count + 1} - {test_case_error}")
+            if passed:
+                success_test_cases += "\n" + test_case + "\n"
+                logger.info(f"Test Case {idx} processed successfully")
 
-                if passed:
-                    success_test_cases += "\n" + test_case + "\n"
-                    logger.info(f"Test Case {idx} processed successfully")
-                else:
+            else:
                     logger.info(f"Failed after all retries for test case {idx}")
+
 
         except Exception as e:
             logger.exception(f"Exception occurred while processing test case {idx}: {e}")
