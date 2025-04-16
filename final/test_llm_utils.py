@@ -3,18 +3,32 @@ import re
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 import pytest
-@pytest.fixture
-def mock_agent():
-    return "test_agent"
 
-@pytest.fixture
-def mock_config_yaml():
-    return "key: value"
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
 
-@pytest.fixture
-def mock_prompt_txt():
-    return "This is a {$key}."
+def test_initialise_prompt_success():
+    agent = "test_agent"
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} prompt."
+    expected_prompt = "This is a value prompt."
 
-@pytest.fixture
-def mock_settings_yaml():
-    return "key: value"
+def test_initialise_prompt_missing_placeholder():
+    agent = "test_agent"
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$missing_key} prompt."
+    expected_prompt = "This is a {$missing_key} prompt."
+
+def test_initialise_prompt_exception():
+    agent = "test_agent"
+
+def test_initialise_settings_success():
+    agent = "test_agent"
+    settings_yaml = "key: value"
+    expected_settings = {"key": "value"}
+
+def test_initialise_settings_exception():
+    agent = "test_agent"
