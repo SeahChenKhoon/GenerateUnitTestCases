@@ -514,7 +514,6 @@ def run_each_pytest_function_individually(
     # Extract each test function body individually
     pytest_fixture = extract_pytest_fixture(provider, model_arg, llm_pytest_fixture_prompt, test_code, temperature)
 
-    # logger.info(f"pytest_fixture - \n{pytest_fixture}\n")
     test_cases_str = extract_test_cases_from_code(provider, model_arg, llm_test_cases_prompt, test_code, temperature)
     test_cases = extract_test_functions(test_cases_str)
     total_test_case = len(test_cases)
@@ -525,12 +524,12 @@ def run_each_pytest_function_individually(
     else:
         logger.info(f"Verify No pytest in test_code - \n{test_code}")
 
-    success_test_cases = f"{import_statements}\n{pytest_fixture}"
+    success_test_cases = f"{import_statements}\n\n{pytest_fixture}"
     for idx, test_case in enumerate(test_cases, start=1):
         passed = 0
         retry_count = 0
         max_retries = 3
-        initial_template = f"{import_statements}\n{pytest_fixture}"
+        initial_template = f"{import_statements}\n\n{pytest_fixture}"
         try:
             while retry_count < max_retries and not passed:
                 full_test_code = f"{initial_template}\n\n{test_case}\n"
@@ -599,7 +598,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
                                                               env_vars["llm_resolve_prompt"], env_vars["llm_new_import_prompt"], env_vars["llm_pytest_fixture_prompt"],
                                                               env_vars["llm_test_cases_prompt"],
                                                               import_statements, source_code, test_code, Path(env_vars["temp_file"]))
-            logger.error(f"Statistic {source_code_path}: \nTotal test case - {total_test_case}\nTotal test case passed - {passed_count}\nPercentage Passed - {passed_count/total_test_case * 100}\n")
+            logger.info(f"Statistic {source_code_path}: \nTotal test case - {total_test_case}\nTotal test case passed - {passed_count}\nPercentage Passed - {passed_count/total_test_case * 100}%\n")
             if test_code:
                 save_test_file(
                         Path(env_vars["src_dir"]),

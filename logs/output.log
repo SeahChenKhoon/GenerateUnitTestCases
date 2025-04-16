@@ -1,21 +1,337 @@
-2025-04-16 16:04:29,324 - INFO - Loading environment variables start
-2025-04-16 16:04:29,329 - INFO - Loading environment variables completes
-2025-04-16 16:04:29,329 - INFO - Initialising of LLM start
-2025-04-16 16:04:29,720 - INFO - Initialising of LLM completes
-2025-04-16 16:04:29,720 - INFO - Getting python file starts
-2025-04-16 16:04:29,721 - INFO - Getting python file completes
-2025-04-16 16:04:29,721 - INFO - 
+2025-04-16 16:05:53,110 - INFO - Loading environment variables start
+2025-04-16 16:05:53,113 - INFO - Loading environment variables completes
+2025-04-16 16:05:53,114 - INFO - Initialising of LLM start
+2025-04-16 16:05:53,448 - INFO - Initialising of LLM completes
+2025-04-16 16:05:53,448 - INFO - Getting python file starts
+2025-04-16 16:05:53,449 - INFO - Getting python file completes
+2025-04-16 16:05:53,449 - INFO - 
 Start Processing file: theory_evaluation\llm_utils.py
-2025-04-16 16:04:29,721 - INFO - Extraction of function and class start
-2025-04-16 16:04:29,722 - INFO - extraction of function and class complete
-2025-04-16 16:04:29,722 - INFO - Generate Unit Test Case starts
-2025-04-16 16:04:29,722 - INFO - Extract unique import start
-2025-04-16 16:04:31,295 - INFO - Extract unique import complete
-2025-04-16 16:04:31,296 - INFO - Update relative import start
-2025-04-16 16:04:31,297 - INFO - Update relative import complete
-2025-04-16 16:04:39,603 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-16 16:04:39,603 - INFO - Generate Unit Test Case complete
-2025-04-16 16:04:39,608 - INFO - run_each_pytest_function_individually start
-2025-04-16 16:04:39,609 - ERROR - Failed processing theory_evaluation\llm_utils.py: cannot access local variable 'test_cases' where it is not associated with a value
-2025-04-16 16:04:39,609 - INFO - End Processing file: theory_evaluation\llm_utils.py
+2025-04-16 16:05:53,449 - INFO - Extraction of function and class start
+2025-04-16 16:05:53,449 - INFO - extraction of function and class complete
+2025-04-16 16:05:53,450 - INFO - Generate Unit Test Case starts
+2025-04-16 16:05:53,450 - INFO - Extract unique import start
+2025-04-16 16:05:55,065 - INFO - Extract unique import complete
+2025-04-16 16:05:55,065 - INFO - Update relative import start
+2025-04-16 16:05:55,066 - INFO - Update relative import complete
+2025-04-16 16:05:59,942 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-16 16:05:59,943 - INFO - Generate Unit Test Case complete
+2025-04-16 16:05:59,947 - INFO - run_each_pytest_function_individually start
+2025-04-16 16:06:04,384 - INFO - Number of test case to process - 2
+2025-04-16 16:06:04,385 - INFO - 
+
+2025-04-16 16:06:04,385 - INFO - TEST CASE 1 Retry 0
+2025-04-16 16:06:04,386 - INFO - ---------------
+2025-04-16 16:06:04,386 - INFO - 
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "This is a {$placeholder} prompt."
+    config_content = '{"placeholder": "test"}'
+    settings_content = '{"setting_key": "setting_value"}'
+    m_open = mock_open(read_data=prompt_content)
+    m_open.side_effect = [
+        mock_open(read_data=config_content).return_value,
+        mock_open(read_data=prompt_content).return_value,
+        mock_open(read_data=settings_content).return_value,
+    ]
+    return m_open
+
+def test_initialise_prompt(mock_open):
+    agent = "test_agent"
+    expected_prompt = "This is a test prompt."
+
+2025-04-16 16:06:04,386 - INFO - ---------------
+2025-04-16 16:06:05,400 - INFO - TEST CASE 1 Retry 0 - Result - Failed
+2025-04-16 16:06:05,400 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+E                                                                        [100%]
+=================================== ERRORS ====================================
+__________________ ERROR at setup of test_initialise_prompt ___________________
+file C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py, line 19
+  def test_initialise_prompt(mock_open):
+E       fixture 'mock_open' not found
+>       available fixtures: _session_event_loop, anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, doctest_namespace, event_loop, event_loop_policy, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, mock_open_files, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, temp/temp.py::<event_loop>, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, unused_tcp_port, unused_tcp_port_factory, unused_udp_port, unused_udp_port_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:19
+=========================== short test summary info ===========================
+ERROR temp/temp.py::test_initialise_prompt
+1 error in 0.05s
+2025-04-16 16:06:06,987 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-16 16:06:06,988 - INFO - 
+
+2025-04-16 16:06:06,988 - INFO - TEST CASE 1 Retry 1
+2025-04-16 16:06:06,989 - INFO - ---------------
+2025-04-16 16:06:06,989 - INFO - 
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "This is a {$placeholder} prompt."
+    config_content = '{"placeholder": "test"}'
+    settings_content = '{"setting_key": "setting_value"}'
+    m_open = mock_open(read_data=prompt_content)
+    m_open.side_effect = [
+        mock_open(read_data=config_content).return_value,
+        mock_open(read_data=prompt_content).return_value,
+        mock_open(read_data=settings_content).return_value,
+    ]
+    return m_open
+
+import pytest
+from unittest.mock import mock_open, patch
+
+def test_initialise_prompt():
+    agent = "test_agent"
+    expected_prompt = "This is a test prompt."
+
+    mock_config_values = {"placeholder": "value"}
+    mock_prompt_structure = "This is a {$placeholder} prompt."
+
+    with patch("builtins.open", mock_open(read_data=mock_prompt_structure)) as mocked_file:
+        with patch("yaml.load", return_value=mock_config_values):
+            result = initialise_prompt(agent)
+            assert result == expected_prompt
+
+2025-04-16 16:06:06,989 - INFO - ---------------
+2025-04-16 16:06:07,827 - INFO - TEST CASE 1 Retry 1 - Result - Failed
+2025-04-16 16:06:07,828 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+___________________________ test_initialise_prompt ____________________________
+temp\temp.py:32: in test_initialise_prompt
+    assert result == expected_prompt
+E   AssertionError: assert 'This is a value prompt.' == 'This is a test prompt.'
+E     
+E     - This is a test prompt.
+E     ?           ^ --
+E     + This is a value prompt.
+E     ?           ^^^^
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_initialise_prompt - AssertionError: assert 'This is...
+1 failed in 0.10s
+2025-04-16 16:06:10,059 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-16 16:06:10,059 - INFO - 
+
+2025-04-16 16:06:10,059 - INFO - TEST CASE 1 Retry 2
+2025-04-16 16:06:10,060 - INFO - ---------------
+2025-04-16 16:06:10,060 - INFO - 
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "This is a {$placeholder} prompt."
+    config_content = '{"placeholder": "test"}'
+    settings_content = '{"setting_key": "setting_value"}'
+    m_open = mock_open(read_data=prompt_content)
+    m_open.side_effect = [
+        mock_open(read_data=config_content).return_value,
+        mock_open(read_data=prompt_content).return_value,
+        mock_open(read_data=settings_content).return_value,
+    ]
+    return m_open
+
+import pytest
+from unittest.mock import mock_open, patch
+
+def test_initialise_prompt():
+    agent = "test_agent"
+    expected_prompt = "This is a value prompt."
+
+    mock_config_values = {"placeholder": "value"}
+    mock_prompt_structure = "This is a {$placeholder} prompt."
+
+    with patch("builtins.open", mock_open(read_data=mock_prompt_structure)) as mocked_file:
+        with patch("yaml.load", return_value=mock_config_values):
+            result = initialise_prompt(agent)
+            assert result == expected_prompt
+
+2025-04-16 16:06:10,060 - INFO - ---------------
+2025-04-16 16:06:10,912 - INFO - TEST CASE 1 Retry 2 - Result - Passed
+2025-04-16 16:06:10,912 - INFO - Success_test_cases - import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "This is a {$placeholder} prompt."
+    config_content = '{"placeholder": "test"}'
+    settings_content = '{"setting_key": "setting_value"}'
+    m_open = mock_open(read_data=prompt_content)
+    m_open.side_effect = [
+        mock_open(read_data=config_content).return_value,
+        mock_open(read_data=prompt_content).return_value,
+        mock_open(read_data=settings_content).return_value,
+    ]
+    return m_open
+import pytest
+from unittest.mock import mock_open, patch
+
+def test_initialise_prompt():
+    agent = "test_agent"
+    expected_prompt = "This is a value prompt."
+
+    mock_config_values = {"placeholder": "value"}
+    mock_prompt_structure = "This is a {$placeholder} prompt."
+
+    with patch("builtins.open", mock_open(read_data=mock_prompt_structure)) as mocked_file:
+        with patch("yaml.load", return_value=mock_config_values):
+            result = initialise_prompt(agent)
+            assert result == expected_prompt
+
+2025-04-16 16:06:10,912 - INFO - Test Case 1 processed successfully
+2025-04-16 16:06:10,912 - INFO - 
+
+2025-04-16 16:06:10,912 - INFO - TEST CASE 2 Retry 0
+2025-04-16 16:06:10,912 - INFO - ---------------
+2025-04-16 16:06:10,912 - INFO - 
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "This is a {$placeholder} prompt."
+    config_content = '{"placeholder": "test"}'
+    settings_content = '{"setting_key": "setting_value"}'
+    m_open = mock_open(read_data=prompt_content)
+    m_open.side_effect = [
+        mock_open(read_data=config_content).return_value,
+        mock_open(read_data=prompt_content).return_value,
+        mock_open(read_data=settings_content).return_value,
+    ]
+    return m_open
+
+def test_initialise_settings(mock_open):
+    agent = "test_agent"
+    expected_settings = {"setting_key": "setting_value"}
+
+2025-04-16 16:06:10,912 - INFO - ---------------
+2025-04-16 16:06:11,825 - INFO - TEST CASE 2 Retry 0 - Result - Failed
+2025-04-16 16:06:11,826 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+E                                                                        [100%]
+=================================== ERRORS ====================================
+_________________ ERROR at setup of test_initialise_settings __________________
+file C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py, line 19
+  def test_initialise_settings(mock_open):
+E       fixture 'mock_open' not found
+>       available fixtures: _session_event_loop, anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, doctest_namespace, event_loop, event_loop_policy, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, mock_open_files, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, temp/temp.py::<event_loop>, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, unused_tcp_port, unused_tcp_port_factory, unused_udp_port, unused_udp_port_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:19
+=========================== short test summary info ===========================
+ERROR temp/temp.py::test_initialise_settings
+1 error in 0.06s
+2025-04-16 16:06:17,062 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-16 16:06:17,062 - INFO - 
+
+2025-04-16 16:06:17,062 - INFO - TEST CASE 2 Retry 1
+2025-04-16 16:06:17,062 - INFO - ---------------
+2025-04-16 16:06:17,062 - INFO - 
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "This is a {$placeholder} prompt."
+    config_content = '{"placeholder": "test"}'
+    settings_content = '{"setting_key": "setting_value"}'
+    m_open = mock_open(read_data=prompt_content)
+    m_open.side_effect = [
+        mock_open(read_data=config_content).return_value,
+        mock_open(read_data=prompt_content).return_value,
+        mock_open(read_data=settings_content).return_value,
+    ]
+    return m_open
+
+import pytest
+from unittest.mock import mock_open, patch
+
+def test_initialise_settings():
+    agent = "test_agent"
+    expected_settings = {"setting_key": "setting_value"}
+    mock_yaml_content = "setting_key: setting_value"
+
+    with patch("builtins.open", mock_open(read_data=mock_yaml_content)):
+        with patch("yaml.safe_load", return_value=expected_settings):
+            settings = initialise_settings(agent)
+            assert settings == expected_settings
+
+2025-04-16 16:06:17,062 - INFO - ---------------
+2025-04-16 16:06:18,009 - INFO - TEST CASE 2 Retry 1 - Result - Passed
+2025-04-16 16:06:18,009 - INFO - Success_test_cases - import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "This is a {$placeholder} prompt."
+    config_content = '{"placeholder": "test"}'
+    settings_content = '{"setting_key": "setting_value"}'
+    m_open = mock_open(read_data=prompt_content)
+    m_open.side_effect = [
+        mock_open(read_data=config_content).return_value,
+        mock_open(read_data=prompt_content).return_value,
+        mock_open(read_data=settings_content).return_value,
+    ]
+    return m_open
+import pytest
+from unittest.mock import mock_open, patch
+
+def test_initialise_prompt():
+    agent = "test_agent"
+    expected_prompt = "This is a value prompt."
+
+    mock_config_values = {"placeholder": "value"}
+    mock_prompt_structure = "This is a {$placeholder} prompt."
+
+    with patch("builtins.open", mock_open(read_data=mock_prompt_structure)) as mocked_file:
+        with patch("yaml.load", return_value=mock_config_values):
+            result = initialise_prompt(agent)
+            assert result == expected_prompt
+
+import pytest
+from unittest.mock import mock_open, patch
+
+def test_initialise_settings():
+    agent = "test_agent"
+    expected_settings = {"setting_key": "setting_value"}
+    mock_yaml_content = "setting_key: setting_value"
+
+    with patch("builtins.open", mock_open(read_data=mock_yaml_content)):
+        with patch("yaml.safe_load", return_value=expected_settings):
+            settings = initialise_settings(agent)
+            assert settings == expected_settings
+
+2025-04-16 16:06:18,009 - INFO - Test Case 2 processed successfully
+2025-04-16 16:06:18,009 - INFO - run_each_pytest_function_individually complete
+2025-04-16 16:06:18,009 - ERROR - Statistic theory_evaluation\llm_utils.py: 
+Total test case - 2
+Total test case passed - 2
+Percentage Passed - 100.0
+
+2025-04-16 16:06:18,010 - INFO - End Processing file: theory_evaluation\llm_utils.py
 
