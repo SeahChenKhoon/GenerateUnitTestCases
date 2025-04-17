@@ -558,7 +558,7 @@ def run_each_pytest_function_individually(
     save_test_case_to_temp_file(improved_test_case, temp_file)
     passed, test_case_error = run_single_test_file(temp_file)
     if passed:
-        logger.info(f"Test Case {idx} processed successfully")
+        logger.info(f"Improvement of test cases processed successfully")
         return_test_cases = improved_test_case
     else:
         return_test_cases = success_test_cases

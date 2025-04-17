@@ -2,7 +2,6 @@ import math
 from theory_evaluation.circle_utils import circle_area, circle_circumference
 import pytest
 
-
 def test_circle_area_positive_radius():
     radius = 5
     expected_area = math.pi * radius ** 2
