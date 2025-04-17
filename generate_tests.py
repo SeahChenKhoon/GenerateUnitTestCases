@@ -463,7 +463,7 @@ def resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_c
 def generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature): 
     # Format the prompt using the provided template
     formatted_prompt = llm_test_improvement_prompt.format(
-        test_case={success_test_cases}
+        test_code={success_test_cases}
     )
 
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
