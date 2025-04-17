@@ -643,10 +643,11 @@ def main() -> NoReturn:
         "filename": source_code_path,
         "total_test_cases_passed": passed_count,
         "total_test_cases": total_test_case,
-        "percentage_passed (%)": passed_count/total_test_case * 100
+        "percentage_passed (%)": (passed_count / total_test_case * 100) if total_test_case > 0 else 0.0
         })
     test_stats_df = pd.DataFrame(test_stats)
     test_stats_df.index = test_stats_df.index + 1
+    
     logger.info("\n" + tabulate(test_stats_df, headers='keys', tablefmt='grid'))
 
 if __name__ == "__main__":
