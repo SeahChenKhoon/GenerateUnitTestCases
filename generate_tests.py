@@ -618,7 +618,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
         logger.error(f"Failed processing {source_code_path}: {e}")
 
     logger.info(f"End Processing file: {source_code_path}\n")
-    return total_test_case, passed_count
+    return passed_count, total_test_case
 
 
 def main() -> NoReturn:

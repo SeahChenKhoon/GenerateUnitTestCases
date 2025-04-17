@@ -1,3 +1,4 @@
+from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy import (
     Column,
     Integer,
@@ -11,15 +12,23 @@ from sqlalchemy import (
 )
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql import func
+import uuid
 from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
 import pytest
 
 @pytest.fixture(scope='module')
-def setup_database():
+def test_engine():
     engine = create_engine('sqlite:///:memory:')
     Base.metadata.create_all(engine)
-    Session = sessionmaker(bind=engine)
+    return engine
+
+@pytest.fixture(scope='function')
+def session(test_engine):
+    connection = test_engine.connect()
+    transaction = connection.begin()
+    Session = sessionmaker(bind=connection)
     session = Session()
     yield session
     session.close()
-    Base.metadata.drop_all(engine)
+    transaction.rollback()
+    connection.close()
