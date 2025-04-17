@@ -512,7 +512,7 @@ def run_each_pytest_function_individually(
         passed = 0
         retry_count = 0
         max_retries = 3
-        test_case_header = f""
+        unit_test_failure = ""
         initial_template = f"{import_statements}\n\n{pytest_fixture}"
         try:
             while retry_count < max_retries and not passed:
@@ -524,12 +524,12 @@ def run_each_pytest_function_individually(
                 formatted_test_result=f"TEST CASE {idx} Retry {retry_count} - Result - {'Passed' if passed == 1 else 'Failed'}"
                 logger.info(formatted_test_result)
                 if passed:
-                    test_file_failure=""
+                    unit_test_failure=""
                     passed_count += 1
                 else:
                     test_case_error_message=f"Test Error - {test_case_error}" 
                     logger.info(test_case_error_message)
-                    test_file_failure += f"{formatted_test_case_output}\n{formatted_test_result}\n{test_case_error_message}"
+                    unit_test_failure += f"{formatted_test_case_output}\n{formatted_test_result}\n{test_case_error_message}"
                     
                     test_case = resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, import_statements, temperature)
                 retry_count += 1
@@ -538,6 +538,7 @@ def run_each_pytest_function_individually(
                 logger.info(f"Success_test_cases - {success_test_cases}")
                 logger.info(f"Test Case {idx} processed successfully")
             else:
+                test_file_failure+=unit_test_failure + "\n"
                 logger.info(f"Failed after all retries for test case {idx}")
 
         except Exception as e:
