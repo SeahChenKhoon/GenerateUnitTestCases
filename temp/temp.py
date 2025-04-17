@@ -6,5 +6,10 @@ import pytest
 
 
 
-def test_initialise_settings_exception():
-    agent = "test_agent"
+from unittest.mock import patch
+
+def test_initialise_settings_file_not_found():
+    agent = "non_existent_agent"
+    with patch("builtins.open", side_effect=FileNotFoundError):
+        result = initialise_settings(agent)
+        assert result is None
