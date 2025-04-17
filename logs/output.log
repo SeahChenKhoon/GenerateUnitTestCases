@@ -1,27 +1,25 @@
-2025-04-16 16:16:23,965 - INFO - Loading environment variables start
-2025-04-16 16:16:23,969 - INFO - Loading environment variables completes
-2025-04-16 16:16:23,969 - INFO - Initialising of LLM start
-2025-04-16 16:16:24,287 - INFO - Initialising of LLM completes
-2025-04-16 16:16:24,287 - INFO - Getting python file starts
-2025-04-16 16:16:24,287 - INFO - Getting python file completes
-2025-04-16 16:16:24,288 - INFO - 
+2025-04-17 09:54:26,782 - INFO - Loading environment variables start
+2025-04-17 09:54:26,786 - INFO - Loading environment variables completes
+2025-04-17 09:54:26,786 - INFO - Initialising of LLM start
+2025-04-17 09:54:27,189 - INFO - Initialising of LLM completes
+2025-04-17 09:54:27,189 - INFO - Getting python file starts
+2025-04-17 09:54:27,190 - INFO - Getting python file completes
+2025-04-17 09:54:27,190 - INFO - 
 Start Processing file: theory_evaluation\llm_utils.py
-2025-04-16 16:16:24,288 - INFO - Extraction of function and class start
-2025-04-16 16:16:24,288 - INFO - extraction of function and class complete
-2025-04-16 16:16:24,288 - INFO - Generate Unit Test Case starts
-2025-04-16 16:16:24,288 - INFO - Extract unique import start
-2025-04-16 16:16:25,993 - INFO - Extract unique import complete
-2025-04-16 16:16:25,994 - INFO - Update relative import start
-2025-04-16 16:16:25,995 - INFO - Update relative import complete
-2025-04-16 16:16:31,612 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-16 16:16:31,612 - INFO - Generate Unit Test Case complete
-2025-04-16 16:16:31,617 - INFO - run_each_pytest_function_individually start
-2025-04-16 16:16:36,952 - INFO - Number of test case to process - 2
-2025-04-16 16:16:36,952 - INFO - 
-
-2025-04-16 16:16:36,953 - INFO - TEST CASE 1 Retry 0
-2025-04-16 16:16:36,953 - INFO - ---------------
-2025-04-16 16:16:36,953 - INFO - 
+2025-04-17 09:54:27,190 - INFO - Extraction of function and class start
+2025-04-17 09:54:27,191 - INFO - extraction of function and class complete
+2025-04-17 09:54:27,191 - INFO - Generate Unit Test Case starts
+2025-04-17 09:54:27,191 - INFO - Extract unique import start
+2025-04-17 09:54:28,944 - INFO - Extract unique import complete
+2025-04-17 09:54:28,945 - INFO - Update relative import start
+2025-04-17 09:54:28,947 - INFO - Update relative import complete
+2025-04-17 09:54:34,252 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 09:54:34,252 - INFO - Generate Unit Test Case complete
+2025-04-17 09:54:34,257 - INFO - run_each_pytest_function_individually start
+2025-04-17 09:54:39,935 - INFO - Number of test case to process - 5
+2025-04-17 09:54:39,936 - INFO - 
+TEST CASE 1 Retry 0
+---------------
 import os
 import re
 import yaml
@@ -32,44 +30,40 @@ import pytest
 def mock_open_files():
     prompt_content = "Hello, {$name}!"
     config_content = "name: World"
-    llm_settings_content = "setting: value"
+    settings_content = "setting1: value1\nsetting2: value2"
     m_open = mock_open(read_data=prompt_content)
     m_open.side_effect = [
         mock_open(read_data=config_content).return_value,
         mock_open(read_data=prompt_content).return_value,
-        mock_open(read_data=llm_settings_content).return_value,
+        mock_open(read_data=settings_content).return_value
     ]
     return m_open
 
-def test_initialise_prompt(mock_open):
-    agent = "test_agent"
-    expected_prompt = "Hello, World!"
+def test_initialise_prompt_success(mock_open_files):
+    with patch("theory_evaluation.llm_utils.open", mock_open_files):
+        with patch("yaml.load", return_value={"name": "World"}):
+            result = initialise_prompt("agent")
+            assert result == "Hello, World!"
 
-2025-04-16 16:16:36,954 - INFO - ---------------
-2025-04-16 16:16:37,690 - INFO - TEST CASE 1 Retry 0 - Result - Failed
-2025-04-16 16:16:37,691 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+---------------
+2025-04-17 09:54:41,025 - INFO - TEST CASE 1 Retry 0 - Result - Failed
+2025-04-17 09:54:41,026 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
 E                                                                        [100%]
 =================================== ERRORS ====================================
-__________________ ERROR at setup of test_initialise_prompt ___________________
-file C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py, line 20
-  def test_initialise_prompt(mock_open):
-E       fixture 'mock_open' not found
->       available fixtures: _session_event_loop, anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, doctest_namespace, event_loop, event_loop_policy, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, mock_open_files, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, temp/temp.py::<event_loop>, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, unused_tcp_port, unused_tcp_port_factory, unused_udp_port, unused_udp_port_factory
->       use 'pytest --fixtures [testpath]' for help on them.
-
-C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:20
+______________ ERROR at setup of test_initialise_prompt_success _______________
+temp\temp.py:12: in mock_open_files
+    m_open = mock_open(read_data=prompt_content)
+E   NameError: name 'mock_open' is not defined
 =========================== short test summary info ===========================
-ERROR temp/temp.py::test_initialise_prompt
-1 error in 0.04s
-2025-04-16 16:16:39,385 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-16 16:16:39,386 - INFO - 
-
-2025-04-16 16:16:39,386 - INFO - TEST CASE 1 Retry 1
-2025-04-16 16:16:39,386 - INFO - ---------------
-2025-04-16 16:16:39,386 - INFO - 
+ERROR temp/temp.py::test_initialise_prompt_success - NameError: name 'mock_op...
+1 error in 0.11s
+2025-04-17 09:54:42,423 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 09:54:42,424 - INFO - 
+TEST CASE 1 Retry 1
+---------------
 import os
 import re
 import yaml
@@ -80,32 +74,30 @@ import pytest
 def mock_open_files():
     prompt_content = "Hello, {$name}!"
     config_content = "name: World"
-    llm_settings_content = "setting: value"
+    settings_content = "setting1: value1\nsetting2: value2"
     m_open = mock_open(read_data=prompt_content)
     m_open.side_effect = [
         mock_open(read_data=config_content).return_value,
         mock_open(read_data=prompt_content).return_value,
-        mock_open(read_data=llm_settings_content).return_value,
+        mock_open(read_data=settings_content).return_value
     ]
     return m_open
 
-import pytest
 from unittest.mock import mock_open, patch
 
-def test_initialise_prompt():
-    agent = "test_agent"
-    expected_prompt = "Hello, World!"
-    mock_config_values = {'placeholder': 'World'}
-    mock_prompt_structure = "Hello, {$placeholder}!"
+def test_initialise_prompt_success():
+    prompt_content = "Hello, {$name}!"
+    config_content = {"name": "World"}
+    m_open = mock_open(read_data=prompt_content)
+    
+    with patch("theory_evaluation.llm_utils.open", m_open):
+        with patch("yaml.load", return_value=config_content):
+            result = initialise_prompt("agent")
+            assert result == "Hello, World!"
 
-    with patch("builtins.open", mock_open(read_data=mock_prompt_structure)) as mock_file:
-        with patch("yaml.load", return_value=mock_config_values):
-            result = initialise_prompt(agent)
-            assert result == expected_prompt
-
-2025-04-16 16:16:39,386 - INFO - ---------------
-2025-04-16 16:16:40,250 - INFO - TEST CASE 1 Retry 1 - Result - Passed
-2025-04-16 16:16:40,251 - INFO - Success_test_cases - import os
+---------------
+2025-04-17 09:54:43,403 - INFO - TEST CASE 1 Retry 1 - Result - Passed
+2025-04-17 09:54:43,403 - INFO - Success_test_cases - import os
 import re
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
@@ -115,34 +107,30 @@ import pytest
 def mock_open_files():
     prompt_content = "Hello, {$name}!"
     config_content = "name: World"
-    llm_settings_content = "setting: value"
+    settings_content = "setting1: value1\nsetting2: value2"
     m_open = mock_open(read_data=prompt_content)
     m_open.side_effect = [
         mock_open(read_data=config_content).return_value,
         mock_open(read_data=prompt_content).return_value,
-        mock_open(read_data=llm_settings_content).return_value,
+        mock_open(read_data=settings_content).return_value
     ]
     return m_open
-import pytest
 from unittest.mock import mock_open, patch
 
-def test_initialise_prompt():
-    agent = "test_agent"
-    expected_prompt = "Hello, World!"
-    mock_config_values = {'placeholder': 'World'}
-    mock_prompt_structure = "Hello, {$placeholder}!"
+def test_initialise_prompt_success():
+    prompt_content = "Hello, {$name}!"
+    config_content = {"name": "World"}
+    m_open = mock_open(read_data=prompt_content)
+    
+    with patch("theory_evaluation.llm_utils.open", m_open):
+        with patch("yaml.load", return_value=config_content):
+            result = initialise_prompt("agent")
+            assert result == "Hello, World!"
 
-    with patch("builtins.open", mock_open(read_data=mock_prompt_structure)) as mock_file:
-        with patch("yaml.load", return_value=mock_config_values):
-            result = initialise_prompt(agent)
-            assert result == expected_prompt
-
-2025-04-16 16:16:40,251 - INFO - Test Case 1 processed successfully
-2025-04-16 16:16:40,251 - INFO - 
-
-2025-04-16 16:16:40,251 - INFO - TEST CASE 2 Retry 0
-2025-04-16 16:16:40,251 - INFO - ---------------
-2025-04-16 16:16:40,251 - INFO - 
+2025-04-17 09:54:43,404 - INFO - Test Case 1 processed successfully
+2025-04-17 09:54:43,404 - INFO - 
+TEST CASE 2 Retry 0
+---------------
 import os
 import re
 import yaml
@@ -153,44 +141,45 @@ import pytest
 def mock_open_files():
     prompt_content = "Hello, {$name}!"
     config_content = "name: World"
-    llm_settings_content = "setting: value"
+    settings_content = "setting1: value1\nsetting2: value2"
     m_open = mock_open(read_data=prompt_content)
     m_open.side_effect = [
         mock_open(read_data=config_content).return_value,
         mock_open(read_data=prompt_content).return_value,
-        mock_open(read_data=llm_settings_content).return_value,
+        mock_open(read_data=settings_content).return_value
     ]
     return m_open
 
-def test_initialise_settings(mock_open):
-    agent = "test_agent"
-    expected_settings = {"setting": "value"}
+def test_initialise_prompt_missing_placeholder(mock_open_files):
+    prompt_content = "Hello, {$missing}!"
+    mock_open_files.side_effect = [
+        mock_open(read_data="name: World").return_value,
+        mock_open(read_data=prompt_content).return_value
+    ]
+    with patch("theory_evaluation.llm_utils.open", mock_open_files):
+        with patch("yaml.load", return_value={"name": "World"}):
+            result = initialise_prompt("agent")
+            assert result == "Hello, {$missing}!"
 
-2025-04-16 16:16:40,251 - INFO - ---------------
-2025-04-16 16:16:40,982 - INFO - TEST CASE 2 Retry 0 - Result - Failed
-2025-04-16 16:16:40,982 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+---------------
+2025-04-17 09:54:44,354 - INFO - TEST CASE 2 Retry 0 - Result - Failed
+2025-04-17 09:54:44,354 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
 E                                                                        [100%]
 =================================== ERRORS ====================================
-_________________ ERROR at setup of test_initialise_settings __________________
-file C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py, line 20
-  def test_initialise_settings(mock_open):
-E       fixture 'mock_open' not found
->       available fixtures: _session_event_loop, anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, doctest_namespace, event_loop, event_loop_policy, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, mock_open_files, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, temp/temp.py::<event_loop>, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, unused_tcp_port, unused_tcp_port_factory, unused_udp_port, unused_udp_port_factory
->       use 'pytest --fixtures [testpath]' for help on them.
-
-C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:20
+________ ERROR at setup of test_initialise_prompt_missing_placeholder _________
+temp\temp.py:12: in mock_open_files
+    m_open = mock_open(read_data=prompt_content)
+E   NameError: name 'mock_open' is not defined
 =========================== short test summary info ===========================
-ERROR temp/temp.py::test_initialise_settings
-1 error in 0.03s
-2025-04-16 16:16:42,150 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-16 16:16:42,151 - INFO - 
-
-2025-04-16 16:16:42,151 - INFO - TEST CASE 2 Retry 1
-2025-04-16 16:16:42,151 - INFO - ---------------
-2025-04-16 16:16:42,152 - INFO - 
+ERROR temp/temp.py::test_initialise_prompt_missing_placeholder - NameError: n...
+1 error in 0.09s
+2025-04-17 09:54:46,620 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 09:54:46,620 - INFO - 
+TEST CASE 2 Retry 1
+---------------
 import os
 import re
 import yaml
@@ -201,31 +190,31 @@ import pytest
 def mock_open_files():
     prompt_content = "Hello, {$name}!"
     config_content = "name: World"
-    llm_settings_content = "setting: value"
+    settings_content = "setting1: value1\nsetting2: value2"
     m_open = mock_open(read_data=prompt_content)
     m_open.side_effect = [
         mock_open(read_data=config_content).return_value,
         mock_open(read_data=prompt_content).return_value,
-        mock_open(read_data=llm_settings_content).return_value,
+        mock_open(read_data=settings_content).return_value
     ]
     return m_open
 
-import pytest
 from unittest.mock import mock_open, patch
-import yaml
 
-def test_initialise_settings():
-    agent = "test_agent"
-    expected_settings = {"setting": "value"}
-    mock_data = yaml.dump(expected_settings)
+def test_initialise_prompt_missing_placeholder(mock_open_files):
+    prompt_content = "Hello, {$missing}!"
+    mock_open_files.side_effect = [
+        mock_open(read_data="name: World").return_value,
+        mock_open(read_data=prompt_content).return_value
+    ]
+    with patch("theory_evaluation.llm_utils.open", mock_open_files):
+        with patch("yaml.load", return_value={"name": "World"}):
+            result = initialise_prompt("agent")
+            assert result == "Hello, {$missing}!"
 
-    with patch("builtins.open", mock_open(read_data=mock_data)):
-        result = initialise_settings(agent)
-        assert result == expected_settings
-
-2025-04-16 16:16:42,152 - INFO - ---------------
-2025-04-16 16:16:42,866 - INFO - TEST CASE 2 Retry 1 - Result - Passed
-2025-04-16 16:16:42,866 - INFO - Success_test_cases - import os
+---------------
+2025-04-17 09:54:47,499 - INFO - TEST CASE 2 Retry 1 - Result - Passed
+2025-04-17 09:54:47,499 - INFO - Success_test_cases - import os
 import re
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
@@ -235,47 +224,466 @@ import pytest
 def mock_open_files():
     prompt_content = "Hello, {$name}!"
     config_content = "name: World"
-    llm_settings_content = "setting: value"
+    settings_content = "setting1: value1\nsetting2: value2"
     m_open = mock_open(read_data=prompt_content)
     m_open.side_effect = [
         mock_open(read_data=config_content).return_value,
         mock_open(read_data=prompt_content).return_value,
-        mock_open(read_data=llm_settings_content).return_value,
+        mock_open(read_data=settings_content).return_value
     ]
     return m_open
-import pytest
 from unittest.mock import mock_open, patch
 
-def test_initialise_prompt():
-    agent = "test_agent"
-    expected_prompt = "Hello, World!"
-    mock_config_values = {'placeholder': 'World'}
-    mock_prompt_structure = "Hello, {$placeholder}!"
+def test_initialise_prompt_success():
+    prompt_content = "Hello, {$name}!"
+    config_content = {"name": "World"}
+    m_open = mock_open(read_data=prompt_content)
+    
+    with patch("theory_evaluation.llm_utils.open", m_open):
+        with patch("yaml.load", return_value=config_content):
+            result = initialise_prompt("agent")
+            assert result == "Hello, World!"
 
-    with patch("builtins.open", mock_open(read_data=mock_prompt_structure)) as mock_file:
-        with patch("yaml.load", return_value=mock_config_values):
-            result = initialise_prompt(agent)
-            assert result == expected_prompt
-
-import pytest
 from unittest.mock import mock_open, patch
+
+def test_initialise_prompt_missing_placeholder(mock_open_files):
+    prompt_content = "Hello, {$missing}!"
+    mock_open_files.side_effect = [
+        mock_open(read_data="name: World").return_value,
+        mock_open(read_data=prompt_content).return_value
+    ]
+    with patch("theory_evaluation.llm_utils.open", mock_open_files):
+        with patch("yaml.load", return_value={"name": "World"}):
+            result = initialise_prompt("agent")
+            assert result == "Hello, {$missing}!"
+
+2025-04-17 09:54:47,500 - INFO - Test Case 2 processed successfully
+2025-04-17 09:54:47,500 - INFO - 
+TEST CASE 3 Retry 0
+---------------
+import os
+import re
 import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
 
-def test_initialise_settings():
-    agent = "test_agent"
-    expected_settings = {"setting": "value"}
-    mock_data = yaml.dump(expected_settings)
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "Hello, {$name}!"
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
+    m_open = mock_open(read_data=prompt_content)
+    m_open.side_effect = [
+        mock_open(read_data=config_content).return_value,
+        mock_open(read_data=prompt_content).return_value,
+        mock_open(read_data=settings_content).return_value
+    ]
+    return m_open
 
-    with patch("builtins.open", mock_open(read_data=mock_data)):
-        result = initialise_settings(agent)
-        assert result == expected_settings
+def test_initialise_prompt_exception_handling():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt("agent")
+        assert result is None
 
-2025-04-16 16:16:42,866 - INFO - Test Case 2 processed successfully
-2025-04-16 16:16:42,866 - INFO - run_each_pytest_function_individually complete
-2025-04-16 16:16:42,867 - INFO - Statistic theory_evaluation\llm_utils.py: 
-Total test case - 2
-Total test case passed - 2
+---------------
+2025-04-17 09:54:48,458 - INFO - TEST CASE 3 Retry 0 - Result - Failed
+2025-04-17 09:54:48,458 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+__________________ test_initialise_prompt_exception_handling __________________
+temp\temp.py:21: in test_initialise_prompt_exception_handling
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+E   NameError: name 'patch' is not defined
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_initialise_prompt_exception_handling - NameError: n...
+1 failed in 0.09s
+2025-04-17 09:54:50,026 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 09:54:50,027 - INFO - 
+TEST CASE 3 Retry 1
+---------------
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "Hello, {$name}!"
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
+    m_open = mock_open(read_data=prompt_content)
+    m_open.side_effect = [
+        mock_open(read_data=config_content).return_value,
+        mock_open(read_data=prompt_content).return_value,
+        mock_open(read_data=settings_content).return_value
+    ]
+    return m_open
+
+from unittest.mock import patch
+
+def test_initialise_prompt_exception_handling():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt("agent")
+        assert result is None
+
+---------------
+2025-04-17 09:54:50,963 - INFO - TEST CASE 3 Retry 1 - Result - Passed
+2025-04-17 09:54:50,963 - INFO - Success_test_cases - import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "Hello, {$name}!"
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
+    m_open = mock_open(read_data=prompt_content)
+    m_open.side_effect = [
+        mock_open(read_data=config_content).return_value,
+        mock_open(read_data=prompt_content).return_value,
+        mock_open(read_data=settings_content).return_value
+    ]
+    return m_open
+from unittest.mock import mock_open, patch
+
+def test_initialise_prompt_success():
+    prompt_content = "Hello, {$name}!"
+    config_content = {"name": "World"}
+    m_open = mock_open(read_data=prompt_content)
+    
+    with patch("theory_evaluation.llm_utils.open", m_open):
+        with patch("yaml.load", return_value=config_content):
+            result = initialise_prompt("agent")
+            assert result == "Hello, World!"
+
+from unittest.mock import mock_open, patch
+
+def test_initialise_prompt_missing_placeholder(mock_open_files):
+    prompt_content = "Hello, {$missing}!"
+    mock_open_files.side_effect = [
+        mock_open(read_data="name: World").return_value,
+        mock_open(read_data=prompt_content).return_value
+    ]
+    with patch("theory_evaluation.llm_utils.open", mock_open_files):
+        with patch("yaml.load", return_value={"name": "World"}):
+            result = initialise_prompt("agent")
+            assert result == "Hello, {$missing}!"
+
+from unittest.mock import patch
+
+def test_initialise_prompt_exception_handling():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt("agent")
+        assert result is None
+
+2025-04-17 09:54:50,963 - INFO - Test Case 3 processed successfully
+2025-04-17 09:54:50,964 - INFO - 
+TEST CASE 4 Retry 0
+---------------
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "Hello, {$name}!"
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
+    m_open = mock_open(read_data=prompt_content)
+    m_open.side_effect = [
+        mock_open(read_data=config_content).return_value,
+        mock_open(read_data=prompt_content).return_value,
+        mock_open(read_data=settings_content).return_value
+    ]
+    return m_open
+
+def test_initialise_settings_success(mock_open_files):
+    with patch("theory_evaluation.llm_utils.open", mock_open_files):
+        with patch("yaml.safe_load", return_value={"setting1": "value1", "setting2": "value2"}):
+            result = initialise_settings("agent")
+            assert result == {"setting1": "value1", "setting2": "value2"}
+
+---------------
+2025-04-17 09:54:51,641 - INFO - TEST CASE 4 Retry 0 - Result - Failed
+2025-04-17 09:54:51,641 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+E                                                                        [100%]
+=================================== ERRORS ====================================
+_____________ ERROR at setup of test_initialise_settings_success ______________
+temp\temp.py:12: in mock_open_files
+    m_open = mock_open(read_data=prompt_content)
+E   NameError: name 'mock_open' is not defined
+=========================== short test summary info ===========================
+ERROR temp/temp.py::test_initialise_settings_success - NameError: name 'mock_...
+1 error in 0.08s
+2025-04-17 09:54:53,482 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 09:54:53,482 - INFO - 
+TEST CASE 4 Retry 1
+---------------
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "Hello, {$name}!"
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
+    m_open = mock_open(read_data=prompt_content)
+    m_open.side_effect = [
+        mock_open(read_data=config_content).return_value,
+        mock_open(read_data=prompt_content).return_value,
+        mock_open(read_data=settings_content).return_value
+    ]
+    return m_open
+
+from unittest.mock import patch, mock_open
+import pytest
+
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "prompt content"
+    m_open = mock_open(read_data=prompt_content)
+    return m_open
+
+def test_initialise_settings_success(mock_open_files):
+    with patch("theory_evaluation.llm_utils.open", mock_open_files):
+        with patch("yaml.safe_load", return_value={"setting1": "value1", "setting2": "value2"}):
+            result = initialise_settings("agent")
+            assert result == {"setting1": "value1", "setting2": "value2"}
+
+---------------
+2025-04-17 09:54:54,312 - INFO - TEST CASE 4 Retry 1 - Result - Passed
+2025-04-17 09:54:54,313 - INFO - Success_test_cases - import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "Hello, {$name}!"
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
+    m_open = mock_open(read_data=prompt_content)
+    m_open.side_effect = [
+        mock_open(read_data=config_content).return_value,
+        mock_open(read_data=prompt_content).return_value,
+        mock_open(read_data=settings_content).return_value
+    ]
+    return m_open
+from unittest.mock import mock_open, patch
+
+def test_initialise_prompt_success():
+    prompt_content = "Hello, {$name}!"
+    config_content = {"name": "World"}
+    m_open = mock_open(read_data=prompt_content)
+    
+    with patch("theory_evaluation.llm_utils.open", m_open):
+        with patch("yaml.load", return_value=config_content):
+            result = initialise_prompt("agent")
+            assert result == "Hello, World!"
+
+from unittest.mock import mock_open, patch
+
+def test_initialise_prompt_missing_placeholder(mock_open_files):
+    prompt_content = "Hello, {$missing}!"
+    mock_open_files.side_effect = [
+        mock_open(read_data="name: World").return_value,
+        mock_open(read_data=prompt_content).return_value
+    ]
+    with patch("theory_evaluation.llm_utils.open", mock_open_files):
+        with patch("yaml.load", return_value={"name": "World"}):
+            result = initialise_prompt("agent")
+            assert result == "Hello, {$missing}!"
+
+from unittest.mock import patch
+
+def test_initialise_prompt_exception_handling():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt("agent")
+        assert result is None
+
+from unittest.mock import patch, mock_open
+import pytest
+
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "prompt content"
+    m_open = mock_open(read_data=prompt_content)
+    return m_open
+
+def test_initialise_settings_success(mock_open_files):
+    with patch("theory_evaluation.llm_utils.open", mock_open_files):
+        with patch("yaml.safe_load", return_value={"setting1": "value1", "setting2": "value2"}):
+            result = initialise_settings("agent")
+            assert result == {"setting1": "value1", "setting2": "value2"}
+
+2025-04-17 09:54:54,313 - INFO - Test Case 4 processed successfully
+2025-04-17 09:54:54,314 - INFO - 
+TEST CASE 5 Retry 0
+---------------
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "Hello, {$name}!"
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
+    m_open = mock_open(read_data=prompt_content)
+    m_open.side_effect = [
+        mock_open(read_data=config_content).return_value,
+        mock_open(read_data=prompt_content).return_value,
+        mock_open(read_data=settings_content).return_value
+    ]
+    return m_open
+
+def test_initialise_settings_exception_handling():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_settings("agent")
+        assert result is None
+
+---------------
+2025-04-17 09:54:55,138 - INFO - TEST CASE 5 Retry 0 - Result - Failed
+2025-04-17 09:54:55,138 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+_________________ test_initialise_settings_exception_handling _________________
+temp\temp.py:21: in test_initialise_settings_exception_handling
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+E   NameError: name 'patch' is not defined
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_initialise_settings_exception_handling - NameError:...
+1 failed in 0.08s
+2025-04-17 09:54:56,164 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 09:54:56,164 - INFO - 
+TEST CASE 5 Retry 1
+---------------
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "Hello, {$name}!"
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
+    m_open = mock_open(read_data=prompt_content)
+    m_open.side_effect = [
+        mock_open(read_data=config_content).return_value,
+        mock_open(read_data=prompt_content).return_value,
+        mock_open(read_data=settings_content).return_value
+    ]
+    return m_open
+
+from unittest.mock import patch
+
+def test_initialise_settings_exception_handling():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_settings("agent")
+        assert result is None
+
+---------------
+2025-04-17 09:54:56,915 - INFO - TEST CASE 5 Retry 1 - Result - Passed
+2025-04-17 09:54:56,916 - INFO - Success_test_cases - import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "Hello, {$name}!"
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
+    m_open = mock_open(read_data=prompt_content)
+    m_open.side_effect = [
+        mock_open(read_data=config_content).return_value,
+        mock_open(read_data=prompt_content).return_value,
+        mock_open(read_data=settings_content).return_value
+    ]
+    return m_open
+from unittest.mock import mock_open, patch
+
+def test_initialise_prompt_success():
+    prompt_content = "Hello, {$name}!"
+    config_content = {"name": "World"}
+    m_open = mock_open(read_data=prompt_content)
+    
+    with patch("theory_evaluation.llm_utils.open", m_open):
+        with patch("yaml.load", return_value=config_content):
+            result = initialise_prompt("agent")
+            assert result == "Hello, World!"
+
+from unittest.mock import mock_open, patch
+
+def test_initialise_prompt_missing_placeholder(mock_open_files):
+    prompt_content = "Hello, {$missing}!"
+    mock_open_files.side_effect = [
+        mock_open(read_data="name: World").return_value,
+        mock_open(read_data=prompt_content).return_value
+    ]
+    with patch("theory_evaluation.llm_utils.open", mock_open_files):
+        with patch("yaml.load", return_value={"name": "World"}):
+            result = initialise_prompt("agent")
+            assert result == "Hello, {$missing}!"
+
+from unittest.mock import patch
+
+def test_initialise_prompt_exception_handling():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt("agent")
+        assert result is None
+
+from unittest.mock import patch, mock_open
+import pytest
+
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "prompt content"
+    m_open = mock_open(read_data=prompt_content)
+    return m_open
+
+def test_initialise_settings_success(mock_open_files):
+    with patch("theory_evaluation.llm_utils.open", mock_open_files):
+        with patch("yaml.safe_load", return_value={"setting1": "value1", "setting2": "value2"}):
+            result = initialise_settings("agent")
+            assert result == {"setting1": "value1", "setting2": "value2"}
+
+from unittest.mock import patch
+
+def test_initialise_settings_exception_handling():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_settings("agent")
+        assert result is None
+
+2025-04-17 09:54:56,916 - INFO - Test Case 5 processed successfully
+2025-04-17 09:54:56,916 - INFO - run_each_pytest_function_individually complete
+2025-04-17 09:54:56,916 - INFO - Statistic theory_evaluation\llm_utils.py: 
+Total test case - 5
+Total test case passed - 5
 Percentage Passed - 100.0%
 
-2025-04-16 16:16:42,867 - INFO - End Processing file: theory_evaluation\llm_utils.py
+2025-04-17 09:54:56,918 - INFO - End Processing file: theory_evaluation\llm_utils.py
 

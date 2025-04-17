@@ -109,8 +109,9 @@ def _load_env_variables() -> Dict[str, Any]:
         "api_version": os.getenv("API_VERSION"),        
         "src_dir": os.getenv("SRC_DIR"),
         "tests_dir": os.getenv("TESTS_DIR"),
-        "final_dir": os.getenv("FINAL_DIR"),        
+        "final_dir": os.getenv("FINAL_DIR"),
         "temp_file": os.getenv("TEMP_FILE"),
+        "err_file": os.getenv("ERR_DIR"),
         "model_name": os.getenv("MODEL_NAME"),
         "llm_test_prompt": os.getenv("LLM_TEST_PROMPT"),
         "temperature": os.getenv("TEMPERATURE"),
@@ -592,7 +593,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
             if test_file_failure:
                 save_test_file(
                         Path(env_vars["src_dir"]),
-                        Path(env_vars["final_dir"]),
+                        Path(env_vars["err_dir"]),
                         test_file_failure,
                         test_code
                     )

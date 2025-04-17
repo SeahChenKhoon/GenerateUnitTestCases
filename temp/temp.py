@@ -8,24 +8,18 @@ import pytest
 def mock_open_files():
     prompt_content = "Hello, {$name}!"
     config_content = "name: World"
-    llm_settings_content = "setting: value"
+    settings_content = "setting1: value1\nsetting2: value2"
     m_open = mock_open(read_data=prompt_content)
     m_open.side_effect = [
         mock_open(read_data=config_content).return_value,
         mock_open(read_data=prompt_content).return_value,
-        mock_open(read_data=llm_settings_content).return_value,
+        mock_open(read_data=settings_content).return_value
     ]
     return m_open
 
-import pytest
-from unittest.mock import mock_open, patch
-import yaml
+from unittest.mock import patch
 
-def test_initialise_settings():
-    agent = "test_agent"
-    expected_settings = {"setting": "value"}
-    mock_data = yaml.dump(expected_settings)
-
-    with patch("builtins.open", mock_open(read_data=mock_data)):
-        result = initialise_settings(agent)
-        assert result == expected_settings
+def test_initialise_settings_exception_handling():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_settings("agent")
+        assert result is None
