@@ -547,8 +547,8 @@ def run_each_pytest_function_individually(
                 retry_count += 1
             if passed:
                 success_test_cases += "\n" + test_case + "\n"
-                logger.info(f"Success_test_cases - {success_test_cases}")
-                improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature)
+                success_test_cases = initial_template + "\n" + success_test_cases
+                improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt,success_test_cases, temperature)
                 save_test_case_to_temp_file(improved_test_case, temp_file)
                 passed, test_case_error = run_single_test_file(temp_file)
                 if passed:
@@ -563,7 +563,7 @@ def run_each_pytest_function_individually(
             logger.exception(f"Exception occurred while processing test case {idx}: {e}")
 
     logger.info(f"run_each_pytest_function_individually complete")
-    return initial_template + "\n" + success_test_cases, test_file_failure, total_test_case, passed_count
+    return improved_test_case, test_file_failure, total_test_case, passed_count
 
 
 def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg: str, env_vars: dict) -> None:
