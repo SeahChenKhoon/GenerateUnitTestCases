@@ -1,23 +1,23 @@
-2025-04-17 11:01:43,580 - INFO - Loading environment variables start
-2025-04-17 11:01:43,587 - INFO - Loading environment variables completes
-2025-04-17 11:01:43,588 - INFO - Initialising of LLM start
-2025-04-17 11:01:44,128 - INFO - Initialising of LLM completes
-2025-04-17 11:01:44,128 - INFO - Getting python file starts
-2025-04-17 11:01:44,130 - INFO - Getting python file completes
-2025-04-17 11:01:44,130 - INFO - 
+2025-04-17 11:03:23,568 - INFO - Loading environment variables start
+2025-04-17 11:03:23,575 - INFO - Loading environment variables completes
+2025-04-17 11:03:23,575 - INFO - Initialising of LLM start
+2025-04-17 11:03:24,081 - INFO - Initialising of LLM completes
+2025-04-17 11:03:24,081 - INFO - Getting python file starts
+2025-04-17 11:03:24,082 - INFO - Getting python file completes
+2025-04-17 11:03:24,082 - INFO - 
 Start Processing file: theory_evaluation\circle_utils.py
-2025-04-17 11:01:44,130 - INFO - Extraction of function and class start
-2025-04-17 11:01:44,131 - INFO - extraction of function and class complete
-2025-04-17 11:01:44,131 - INFO - Generate Unit Test Case starts
-2025-04-17 11:01:44,131 - INFO - Extract unique import start
-2025-04-17 11:01:46,066 - INFO - Extract unique import complete
-2025-04-17 11:01:46,066 - INFO - Update relative import start
-2025-04-17 11:01:46,068 - INFO - Update relative import complete
-2025-04-17 11:01:48,728 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 11:01:48,729 - INFO - Generate Unit Test Case complete
-2025-04-17 11:01:48,734 - INFO - run_each_pytest_function_individually start
-2025-04-17 11:01:51,619 - INFO - Number of test case to process - 6
-2025-04-17 11:01:51,620 - INFO - 
+2025-04-17 11:03:24,083 - INFO - Extraction of function and class start
+2025-04-17 11:03:24,083 - INFO - extraction of function and class complete
+2025-04-17 11:03:24,083 - INFO - Generate Unit Test Case starts
+2025-04-17 11:03:24,083 - INFO - Extract unique import start
+2025-04-17 11:03:25,767 - INFO - Extract unique import complete
+2025-04-17 11:03:25,768 - INFO - Update relative import start
+2025-04-17 11:03:25,769 - INFO - Update relative import complete
+2025-04-17 11:03:29,445 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:03:29,446 - INFO - Generate Unit Test Case complete
+2025-04-17 11:03:29,450 - INFO - run_each_pytest_function_individually start
+2025-04-17 11:03:32,228 - INFO - Number of test case to process - 6
+2025-04-17 11:03:32,229 - INFO - 
 TEST CASE 1 Retry 0
 ---------------
 import math
@@ -27,21 +27,131 @@ import pytest
 
 
 def test_circle_area_positive_radius():
-    assert circle_area(1) == pytest.approx(math.pi)
-    assert circle_area(2) == pytest.approx(4 * math.pi)
+    radius = 5
+    expected_area = math.pi * radius ** 2
+    assert circle_area(radius) == pytest.approx(expected_area)
 
 ---------------
-2025-04-17 11:01:52,848 - INFO - TEST CASE 1 Retry 0 - Result - Passed
-2025-04-17 11:01:52,848 - ERROR - Exception occurred while processing test case 1: 'test_code'
-Traceback (most recent call last):
-  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 548, in run_each_pytest_function_individually
-    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature)
-  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 465, in generate_improved_test_case
-    formatted_prompt = llm_test_improvement_prompt.format(
-        test_case={success_test_cases}
-    )
-KeyError: 'test_code'
-2025-04-17 11:01:52,849 - INFO - 
+2025-04-17 11:03:33,772 - INFO - TEST CASE 1 Retry 0 - Result - Passed
+2025-04-17 11:03:39,238 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:03:40,651 - INFO - Error in generating improved test cases
+Test case:
+To improve and complete the test functions, we need to ensure that the code is clean, follows best practices, and covers both success and failure scenarios. Here's the revised version of the test code:
+
+import math
+import pytest
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+
+
+def test_circle_area_positive_radius():
+    # Arrange
+    radius = 5
+    expected_area = math.pi * radius ** 2
+
+    # Act
+    result = circle_area(radius)
+
+    # Assert
+    assert result == pytest.approx(expected_area)
+
+
+def test_circle_area_zero_radius():
+    # Arrange
+    radius = 0
+    expected_area = 0
+
+    # Act
+    result = circle_area(radius)
+
+    # Assert
+    assert result == expected_area
+
+
+def test_circle_area_negative_radius():
+    # Arrange
+    radius = -5
+
+    # Act & Assert
+    with pytest.raises(ValueError, match="Radius cannot be negative"):
+        circle_area(radius)
+
+
+def test_circle_circumference_positive_radius():
+    # Arrange
+    radius = 5
+    expected_circumference = 2 * math.pi * radius
+
+    # Act
+    result = circle_circumference(radius)
+
+    # Assert
+    assert result == pytest.approx(expected_circumference)
+
+
+def test_circle_circumference_zero_radius():
+    # Arrange
+    radius = 0
+    expected_circumference = 0
+
+    # Act
+    result = circle_circumference(radius)
+
+    # Assert
+    assert result == expected_circumference
+
+
+def test_circle_circumference_negative_radius():
+    # Arrange
+    radius = -5
+
+    # Act & Assert
+    with pytest.raises(ValueError, match="Radius cannot be negative"):
+        circle_circumference(radius)
+
+### Key Improvements:
+1. **Removed Duplicate Imports**: The duplicate import statements were removed for clarity.
+2. **Added Tests for Edge Cases**: Tests for zero and negative radius values were added to ensure comprehensive coverage.
+3. **Used `pytest.raises` for Exception Handling**: This ensures that the functions correctly handle invalid input by raising exceptions.
+4. **Followed AAA Structure**: Each test follows the Arrange, Act, Assert pattern for clarity and consistency.
+5. **Meaningful Assertions**: Assertions are made against expected values using `pytest.approx` for floating-point comparisons.
+6. **Isolated Tests**: Each test is independent and does not rely on shared state, ensuring determinism.
+Test error:
+c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+
+=================================== ERRORS ====================================
+________________________ ERROR collecting temp/temp.py ________________________
+.venv\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+.venv\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+.venv\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+.venv\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 1
+E       To improve and complete the test functions, we need to ensure that the code is clean, follows best practices, and covers both success and failure scenarios. Here's the revised version of the test code:
+E                                                                                                                                                                        ^
+E   SyntaxError: unterminated string literal (detected at line 1)
+=========================== short test summary info ===========================
+ERROR temp/temp.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.36s
+2025-04-17 11:03:40,651 - INFO - 
 TEST CASE 2 Retry 0
 ---------------
 import math
@@ -51,20 +161,131 @@ import pytest
 
 
 def test_circle_area_zero_radius():
-    assert circle_area(0) == pytest.approx(0)
+    radius = 0
+    expected_area = 0
+    assert circle_area(radius) == pytest.approx(expected_area)
 
 ---------------
-2025-04-17 11:01:53,878 - INFO - TEST CASE 2 Retry 0 - Result - Passed
-2025-04-17 11:01:53,878 - ERROR - Exception occurred while processing test case 2: 'test_code'
-Traceback (most recent call last):
-  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 548, in run_each_pytest_function_individually
-    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature)
-  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 465, in generate_improved_test_case
-    formatted_prompt = llm_test_improvement_prompt.format(
-        test_case={success_test_cases}
-    )
-KeyError: 'test_code'
-2025-04-17 11:01:53,878 - INFO - 
+2025-04-17 11:03:41,851 - INFO - TEST CASE 2 Retry 0 - Result - Passed
+2025-04-17 11:03:50,374 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:03:51,819 - INFO - Error in generating improved test cases
+Test case:
+To improve the provided test code, we need to address several issues such as duplicate imports, lack of exception handling tests, and missing tests for failure scenarios. We will also ensure that the tests follow the Arrange, Act, Assert (AAA) structure and are isolated and deterministic. Here is the improved version of the test code:
+
+import math
+import pytest
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+
+
+def test_circle_area_positive_radius():
+    # Arrange
+    radius = 5
+    expected_area = math.pi * radius ** 2
+    
+    # Act
+    result = circle_area(radius)
+    
+    # Assert
+    assert result == pytest.approx(expected_area)
+
+
+def test_circle_area_zero_radius():
+    # Arrange
+    radius = 0
+    expected_area = 0
+    
+    # Act
+    result = circle_area(radius)
+    
+    # Assert
+    assert result == pytest.approx(expected_area)
+
+
+def test_circle_area_negative_radius():
+    # Arrange
+    radius = -5
+    
+    # Act & Assert
+    with pytest.raises(ValueError, match="Radius cannot be negative"):
+        circle_area(radius)
+
+
+def test_circle_circumference_positive_radius():
+    # Arrange
+    radius = 5
+    expected_circumference = 2 * math.pi * radius
+    
+    # Act
+    result = circle_circumference(radius)
+    
+    # Assert
+    assert result == pytest.approx(expected_circumference)
+
+
+def test_circle_circumference_zero_radius():
+    # Arrange
+    radius = 0
+    expected_circumference = 0
+    
+    # Act
+    result = circle_circumference(radius)
+    
+    # Assert
+    assert result == pytest.approx(expected_circumference)
+
+
+def test_circle_circumference_negative_radius():
+    # Arrange
+    radius = -5
+    
+    # Act & Assert
+    with pytest.raises(ValueError, match="Radius cannot be negative"):
+        circle_circumference(radius)
+
+### Key Improvements:
+1. **Removed Duplicate Imports**: The imports were repeated multiple times, so I cleaned them up.
+2. **Added Exception Handling Tests**: Added tests for negative radius values to ensure that the functions raise a `ValueError`.
+3. **Used AAA Structure**: Each test follows the Arrange, Act, Assert structure for clarity.
+4. **Meaningful Assertions**: Used `pytest.approx` for floating-point comparisons to handle precision issues.
+5. **Isolated Tests**: Each test is independent and does not rely on shared state.
+6. **Coverage for Both Success and Failure Scenarios**: Tests cover both valid and invalid inputs for both `circle_area` and `circle_circumference` functions.
+Test error:
+c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+
+=================================== ERRORS ====================================
+________________________ ERROR collecting temp/temp.py ________________________
+.venv\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+.venv\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+.venv\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+.venv\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 1
+E       To improve the provided test code, we need to address several issues such as duplicate imports, lack of exception handling tests, and missing tests for failure scenarios. We will also ensure that the tests follow the Arrange, Act, Assert (AAA) structure and are isolated and deterministic. Here is the improved version of the test code:
+E          ^^^^^^^
+E   SyntaxError: invalid syntax
+=========================== short test summary info ===========================
+ERROR temp/temp.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.36s
+2025-04-17 11:03:51,820 - INFO - 
 TEST CASE 3 Retry 0
 ---------------
 import math
@@ -78,17 +299,119 @@ def test_circle_area_negative_radius():
         circle_area(-1)
 
 ---------------
-2025-04-17 11:01:54,816 - INFO - TEST CASE 3 Retry 0 - Result - Passed
-2025-04-17 11:01:54,816 - ERROR - Exception occurred while processing test case 3: 'test_code'
-Traceback (most recent call last):
-  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 548, in run_each_pytest_function_individually
-    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature)
-  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 465, in generate_improved_test_case
-    formatted_prompt = llm_test_improvement_prompt.format(
-        test_case={success_test_cases}
-    )
-KeyError: 'test_code'
-2025-04-17 11:01:54,817 - INFO - 
+2025-04-17 11:03:52,834 - INFO - TEST CASE 3 Retry 0 - Result - Passed
+2025-04-17 11:04:02,428 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:04:04,490 - INFO - Error in generating improved test cases
+Test case:
+To improve the given test code, we will focus on removing duplicate imports, ensuring meaningful assertions, and organizing the tests using the Arrange, Act, Assert (AAA) structure. We will also ensure that exception handling tests are valid and cover both success and failure scenarios. Here's the improved version of the test code:
+
+import math
+import pytest
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+
+def test_circle_area_positive_radius():
+    # Arrange
+    radius = 5
+    expected_area = math.pi * radius ** 2
+    
+    # Act
+    result_area = circle_area(radius)
+    
+    # Assert
+    assert result_area == pytest.approx(expected_area), f"Expected area: {expected_area}, but got: {result_area}"
+
+def test_circle_area_zero_radius():
+    # Arrange
+    radius = 0
+    expected_area = 0
+    
+    # Act
+    result_area = circle_area(radius)
+    
+    # Assert
+    assert result_area == pytest.approx(expected_area), f"Expected area: {expected_area}, but got: {result_area}"
+
+def test_circle_area_negative_radius():
+    # Arrange
+    radius = -1
+    
+    # Act & Assert
+    with pytest.raises(ValueError, match="Radius cannot be negative."):
+        circle_area(radius)
+
+def test_circle_circumference_positive_radius():
+    # Arrange
+    radius = 5
+    expected_circumference = 2 * math.pi * radius
+    
+    # Act
+    result_circumference = circle_circumference(radius)
+    
+    # Assert
+    assert result_circumference == pytest.approx(expected_circumference), f"Expected circumference: {expected_circumference}, but got: {result_circumference}"
+
+def test_circle_circumference_zero_radius():
+    # Arrange
+    radius = 0
+    expected_circumference = 0
+    
+    # Act
+    result_circumference = circle_circumference(radius)
+    
+    # Assert
+    assert result_circumference == pytest.approx(expected_circumference), f"Expected circumference: {expected_circumference}, but got: {result_circumference}"
+
+def test_circle_circumference_negative_radius():
+    # Arrange
+    radius = -1
+    
+    # Act & Assert
+    with pytest.raises(ValueError, match="Radius cannot be negative."):
+        circle_circumference(radius)
+
+### Key Improvements:
+1. **Removed Duplicate Imports**: The imports were repeated multiple times; now they appear only once.
+2. **AAA Structure**: Each test follows the Arrange, Act, Assert structure for clarity and consistency.
+3. **Meaningful Assertions**: Added messages to assertions for better debugging information.
+4. **Coverage for Circumference**: Added tests for the `circle_circumference` function to ensure coverage for both success and failure scenarios.
+5. **Exception Handling**: Ensured that exception handling tests are valid and correctly match the expected error message.
+Test error:
+c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+
+=================================== ERRORS ====================================
+________________________ ERROR collecting temp/temp.py ________________________
+.venv\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+.venv\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+.venv\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+.venv\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 1
+E       To improve the given test code, we will focus on removing duplicate imports, ensuring meaningful assertions, and organizing the tests using the Arrange, Act, Assert (AAA) structure. We will also ensure that exception handling tests are valid and cover both success and failure scenarios. Here's the improved version of the test code:
+E                                                                                                                                                                                                                                                                                                           ^
+E   SyntaxError: unterminated string literal (detected at line 1)
+=========================== short test summary info ===========================
+ERROR temp/temp.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.43s
+2025-04-17 11:04:04,490 - INFO - 
 TEST CASE 4 Retry 0
 ---------------
 import math
@@ -98,21 +421,125 @@ import pytest
 
 
 def test_circle_circumference_positive_radius():
-    assert circle_circumference(1) == pytest.approx(2 * math.pi)
-    assert circle_circumference(2) == pytest.approx(4 * math.pi)
+    radius = 5
+    expected_circumference = 2 * math.pi * radius
+    assert circle_circumference(radius) == pytest.approx(expected_circumference)
 
 ---------------
-2025-04-17 11:01:56,080 - INFO - TEST CASE 4 Retry 0 - Result - Passed
-2025-04-17 11:01:56,080 - ERROR - Exception occurred while processing test case 4: 'test_code'
-Traceback (most recent call last):
-  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 548, in run_each_pytest_function_individually
-    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature)
-  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 465, in generate_improved_test_case
-    formatted_prompt = llm_test_improvement_prompt.format(
-        test_case={success_test_cases}
-    )
-KeyError: 'test_code'
-2025-04-17 11:01:56,083 - INFO - 
+2025-04-17 11:04:05,850 - INFO - TEST CASE 4 Retry 0 - Result - Passed
+2025-04-17 11:04:11,810 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:04:13,173 - INFO - Error in generating improved test cases
+Test case:
+To improve and complete the test functions, we'll focus on removing duplicate imports, ensuring meaningful assertions, and organizing the code according to best practices. Here's the refactored code:
+
+import math
+import pytest
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+
+def test_circle_area_positive_radius():
+    # Arrange
+    radius = 5
+    expected_area = math.pi * radius ** 2
+    
+    # Act
+    result = circle_area(radius)
+    
+    # Assert
+    assert result == pytest.approx(expected_area), f"Expected area for radius {radius} is {expected_area}, but got {result}"
+
+def test_circle_area_zero_radius():
+    # Arrange
+    radius = 0
+    expected_area = 0
+    
+    # Act
+    result = circle_area(radius)
+    
+    # Assert
+    assert result == pytest.approx(expected_area), f"Expected area for radius {radius} is {expected_area}, but got {result}"
+
+def test_circle_area_negative_radius():
+    # Arrange
+    radius = -1
+    
+    # Act & Assert
+    with pytest.raises(ValueError, match="Radius cannot be negative."):
+        circle_area(radius)
+
+def test_circle_circumference_positive_radius():
+    # Arrange
+    radius = 5
+    expected_circumference = 2 * math.pi * radius
+    
+    # Act
+    result = circle_circumference(radius)
+    
+    # Assert
+    assert result == pytest.approx(expected_circumference), f"Expected circumference for radius {radius} is {expected_circumference}, but got {result}"
+
+def test_circle_circumference_zero_radius():
+    # Arrange
+    radius = 0
+    expected_circumference = 0
+    
+    # Act
+    result = circle_circumference(radius)
+    
+    # Assert
+    assert result == pytest.approx(expected_circumference), f"Expected circumference for radius {radius} is {expected_circumference}, but got {result}"
+
+def test_circle_circumference_negative_radius():
+    # Arrange
+    radius = -1
+    
+    # Act & Assert
+    with pytest.raises(ValueError, match="Radius cannot be negative."):
+        circle_circumference(radius)
+
+### Key Improvements:
+1. **Removed Duplicate Imports**: Cleaned up the imports to remove redundancy.
+2. **AAA Structure**: Each test follows the Arrange, Act, Assert pattern for clarity.
+3. **Meaningful Assertions**: Added messages to assertions for better debugging information.
+4. **Additional Tests**: Added tests for zero and negative radius scenarios for `circle_circumference`.
+5. **Isolation and Determinism**: Each test is independent and deterministic, ensuring consistent results.
+6. **Exception Handling**: Validated exception handling for negative radius inputs in both area and circumference calculations.
+Test error:
+c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+
+=================================== ERRORS ====================================
+________________________ ERROR collecting temp/temp.py ________________________
+.venv\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+.venv\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+.venv\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+.venv\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 1
+E       To improve and complete the test functions, we'll focus on removing duplicate imports, ensuring meaningful assertions, and organizing the code according to best practices. Here's the refactored code:
+E          ^^^^^^^
+E   SyntaxError: invalid syntax
+=========================== short test summary info ===========================
+ERROR temp/temp.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.35s
+2025-04-17 11:04:13,173 - INFO - 
 TEST CASE 5 Retry 0
 ---------------
 import math
@@ -122,20 +549,123 @@ import pytest
 
 
 def test_circle_circumference_zero_radius():
-    assert circle_circumference(0) == pytest.approx(0)
+    radius = 0
+    expected_circumference = 0
+    assert circle_circumference(radius) == pytest.approx(expected_circumference)
 
 ---------------
-2025-04-17 11:01:57,521 - INFO - TEST CASE 5 Retry 0 - Result - Passed
-2025-04-17 11:01:57,521 - ERROR - Exception occurred while processing test case 5: 'test_code'
-Traceback (most recent call last):
-  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 548, in run_each_pytest_function_individually
-    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature)
-  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 465, in generate_improved_test_case
-    formatted_prompt = llm_test_improvement_prompt.format(
-        test_case={success_test_cases}
-    )
-KeyError: 'test_code'
-2025-04-17 11:01:57,522 - INFO - 
+2025-04-17 11:04:14,752 - INFO - TEST CASE 5 Retry 0 - Result - Passed
+2025-04-17 11:04:20,062 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:04:21,634 - INFO - Error in generating improved test cases
+Test case:
+To improve the given test code, we need to remove duplicate imports, ensure that each test follows the Arrange, Act, Assert (AAA) structure, and verify that all tests are isolated and deterministic. Here's the improved version of the test file:
+
+import math
+import pytest
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+
+def test_circle_area_positive_radius():
+    # Arrange
+    radius = 5
+    expected_area = math.pi * radius ** 2
+    
+    # Act
+    result = circle_area(radius)
+    
+    # Assert
+    assert result == pytest.approx(expected_area)
+
+def test_circle_area_zero_radius():
+    # Arrange
+    radius = 0
+    expected_area = 0
+    
+    # Act
+    result = circle_area(radius)
+    
+    # Assert
+    assert result == pytest.approx(expected_area)
+
+def test_circle_area_negative_radius():
+    # Arrange
+    radius = -1
+    
+    # Act & Assert
+    with pytest.raises(ValueError, match="Radius cannot be negative."):
+        circle_area(radius)
+
+def test_circle_circumference_positive_radius():
+    # Arrange
+    radius = 5
+    expected_circumference = 2 * math.pi * radius
+    
+    # Act
+    result = circle_circumference(radius)
+    
+    # Assert
+    assert result == pytest.approx(expected_circumference)
+
+def test_circle_circumference_zero_radius():
+    # Arrange
+    radius = 0
+    expected_circumference = 0
+    
+    # Act
+    result = circle_circumference(radius)
+    
+    # Assert
+    assert result == pytest.approx(expected_circumference)
+
+### Key Improvements:
+
+1. **Removed Duplicate Imports**: The imports were repeated multiple times. They have been consolidated at the top of the file.
+
+2. **AAA Structure**: Each test function now follows the Arrange, Act, Assert structure for clarity and consistency.
+
+3. **Meaningful Assertions**: Assertions are meaningful and check the expected outcomes using `pytest.approx` for floating-point comparisons.
+
+4. **Exception Handling**: The test for negative radius correctly checks for a `ValueError` with a specific error message.
+
+5. **Isolation and Determinism**: Each test is independent and does not rely on external state or side effects, ensuring they are deterministic.
+
+This improved version of the test file is more readable, maintainable, and follows best practices for unit testing in Python.
+Test error:
+c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+
+=================================== ERRORS ====================================
+________________________ ERROR collecting temp/temp.py ________________________
+.venv\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+.venv\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+.venv\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+.venv\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 1
+E       To improve the given test code, we need to remove duplicate imports, ensure that each test follows the Arrange, Act, Assert (AAA) structure, and verify that all tests are isolated and deterministic. Here's the improved version of the test file:
+E                                                                                                                                                                                                                  ^
+E   SyntaxError: unterminated string literal (detected at line 1)
+=========================== short test summary info ===========================
+ERROR temp/temp.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.28s
+2025-04-17 11:04:21,634 - INFO - 
 TEST CASE 6 Retry 0
 ---------------
 import math
@@ -149,34 +679,141 @@ def test_circle_circumference_negative_radius():
         circle_circumference(-1)
 
 ---------------
-2025-04-17 11:01:58,461 - INFO - TEST CASE 6 Retry 0 - Result - Passed
-2025-04-17 11:01:58,461 - ERROR - Exception occurred while processing test case 6: 'test_code'
-Traceback (most recent call last):
-  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 548, in run_each_pytest_function_individually
-    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature)
-  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 465, in generate_improved_test_case
-    formatted_prompt = llm_test_improvement_prompt.format(
-        test_case={success_test_cases}
-    )
-KeyError: 'test_code'
-2025-04-17 11:01:58,462 - INFO - run_each_pytest_function_individually complete
-2025-04-17 11:01:58,462 - ERROR - Failed processing theory_evaluation\circle_utils.py: cannot access local variable 'return_test_cases' where it is not associated with a value
-2025-04-17 11:01:58,462 - INFO - End Processing file: theory_evaluation\circle_utils.py
+2025-04-17 11:04:23,072 - INFO - TEST CASE 6 Retry 0 - Result - Passed
+2025-04-17 11:04:28,819 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:04:30,208 - INFO - Error in generating improved test cases
+Test case:
+To improve the given test code, we need to address several issues: remove duplicate imports, ensure meaningful assertions, and follow best practices like the Arrange, Act, Assert (AAA) structure. Here's the improved version of the test code:
 
-2025-04-17 11:01:58,462 - INFO - 
+import math
+import pytest
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+
+def test_circle_area_positive_radius():
+    # Arrange
+    radius = 5
+    expected_area = math.pi * radius ** 2
+    
+    # Act
+    result = circle_area(radius)
+    
+    # Assert
+    assert result == pytest.approx(expected_area), f"Expected area: {expected_area}, but got: {result}"
+
+def test_circle_area_zero_radius():
+    # Arrange
+    radius = 0
+    expected_area = 0
+    
+    # Act
+    result = circle_area(radius)
+    
+    # Assert
+    assert result == pytest.approx(expected_area), f"Expected area: {expected_area}, but got: {result}"
+
+def test_circle_area_negative_radius():
+    # Act & Assert
+    with pytest.raises(ValueError, match="Radius cannot be negative."):
+        circle_area(-1)
+
+def test_circle_circumference_positive_radius():
+    # Arrange
+    radius = 5
+    expected_circumference = 2 * math.pi * radius
+    
+    # Act
+    result = circle_circumference(radius)
+    
+    # Assert
+    assert result == pytest.approx(expected_circumference), f"Expected circumference: {expected_circumference}, but got: {result}"
+
+def test_circle_circumference_zero_radius():
+    # Arrange
+    radius = 0
+    expected_circumference = 0
+    
+    # Act
+    result = circle_circumference(radius)
+    
+    # Assert
+    assert result == pytest.approx(expected_circumference), f"Expected circumference: {expected_circumference}, but got: {result}"
+
+def test_circle_circumference_negative_radius():
+    # Act & Assert
+    with pytest.raises(ValueError, match="Radius cannot be negative."):
+        circle_circumference(-1)
+
+### Key Improvements:
+
+1. **Removed Duplicate Imports**: The imports were repeated multiple times. They are now listed once at the top of the file.
+
+2. **AAA Structure**: Each test follows the Arrange, Act, Assert pattern for clarity and readability.
+
+3. **Meaningful Assertions**: Added messages to assertions to provide more context if a test fails.
+
+4. **Isolated Tests**: Each test is independent and does not rely on external state or other tests.
+
+5. **Coverage for Success and Failure**: Tests cover both valid and invalid inputs, ensuring comprehensive coverage of the functionality.
+
+This version of the test file is cleaner, more maintainable, and adheres to best practices for unit testing in Python.
+Test error:
+c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+
+=================================== ERRORS ====================================
+________________________ ERROR collecting temp/temp.py ________________________
+.venv\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+.venv\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+.venv\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+.venv\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 1
+E       To improve the given test code, we need to address several issues: remove duplicate imports, ensure meaningful assertions, and follow best practices like the Arrange, Act, Assert (AAA) structure. Here's the improved version of the test code:
+E                                                                                                                                                                                                               ^
+E   SyntaxError: unterminated string literal (detected at line 1)
+=========================== short test summary info ===========================
+ERROR temp/temp.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.28s
+2025-04-17 11:04:30,209 - INFO - run_each_pytest_function_individually complete
+2025-04-17 11:04:30,209 - INFO - Statistic theory_evaluation\circle_utils.py: 
+Total test case - 6
+Total test case passed - 6
+Percentage Passed - 100.0%
+
+2025-04-17 11:04:30,210 - INFO - End Processing file: theory_evaluation\circle_utils.py
+
+2025-04-17 11:04:30,210 - INFO - 
 Start Processing file: theory_evaluation\llm_utils.py
-2025-04-17 11:01:58,463 - INFO - Extraction of function and class start
-2025-04-17 11:01:58,463 - INFO - extraction of function and class complete
-2025-04-17 11:01:58,463 - INFO - Generate Unit Test Case starts
-2025-04-17 11:01:58,463 - INFO - Extract unique import start
-2025-04-17 11:01:59,970 - INFO - Extract unique import complete
-2025-04-17 11:01:59,970 - INFO - Update relative import start
-2025-04-17 11:01:59,971 - INFO - Update relative import complete
-2025-04-17 11:02:05,332 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 11:02:05,333 - INFO - Generate Unit Test Case complete
-2025-04-17 11:02:05,339 - INFO - run_each_pytest_function_individually start
-2025-04-17 11:02:10,689 - INFO - Number of test case to process - 5
-2025-04-17 11:02:10,689 - INFO - 
+2025-04-17 11:04:30,211 - INFO - Extraction of function and class start
+2025-04-17 11:04:30,211 - INFO - extraction of function and class complete
+2025-04-17 11:04:30,211 - INFO - Generate Unit Test Case starts
+2025-04-17 11:04:30,211 - INFO - Extract unique import start
+2025-04-17 11:04:30,880 - INFO - Extract unique import complete
+2025-04-17 11:04:30,880 - INFO - Update relative import start
+2025-04-17 11:04:30,881 - INFO - Update relative import complete
+2025-04-17 11:04:36,549 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:04:36,550 - INFO - Generate Unit Test Case complete
+2025-04-17 11:04:36,554 - INFO - run_each_pytest_function_individually start
+2025-04-17 11:04:41,880 - INFO - Number of test case to process - 4
+2025-04-17 11:04:41,880 - INFO - 
 TEST CASE 1 Retry 0
 ---------------
 import os
@@ -189,21 +826,118 @@ import pytest
 
 def test_initialise_prompt_success():
     agent = "test_agent"
-    config_yaml = "key: value"
-    prompt_txt = "This is a {$key} prompt."
+    mock_config_values = {"placeholder1": "value1", "placeholder2": "value2"}
+    mock_prompt_structure = "This is a {$placeholder1} and {$placeholder2} test."
 
 ---------------
-2025-04-17 11:02:12,128 - INFO - TEST CASE 1 Retry 0 - Result - Passed
-2025-04-17 11:02:12,129 - ERROR - Exception occurred while processing test case 1: 'test_code'
-Traceback (most recent call last):
-  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 548, in run_each_pytest_function_individually
-    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature)
-  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 465, in generate_improved_test_case
-    formatted_prompt = llm_test_improvement_prompt.format(
-        test_case={success_test_cases}
-    )
-KeyError: 'test_code'
-2025-04-17 11:02:12,129 - INFO - 
+2025-04-17 11:04:43,222 - INFO - TEST CASE 1 Retry 0 - Result - Passed
+2025-04-17 11:04:49,847 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:04:51,295 - INFO - Error in generating improved test cases
+Test case:
+To improve the given test code, we'll focus on removing duplicate imports, organizing the test structure, adding meaningful assertions, and ensuring the test is complete and isolated. We'll also mock necessary file operations and handle exceptions properly. Here's the improved version of the test code:
+
+import pytest
+from unittest.mock import patch, mock_open
+from theory_evaluation.llm_utils import initialise_prompt
+
+def test_initialise_prompt_success():
+    # Arrange
+    agent = "test_agent"
+    mock_config_values = {"placeholder1": "value1", "placeholder2": "value2"}
+    mock_prompt_structure = "This is a {$placeholder1} and {$placeholder2} test."
+    expected_prompt = "This is a value1 and value2 test."
+
+    # Act
+    with patch('theory_evaluation.llm_utils.load_config_values', return_value=mock_config_values), \
+         patch('theory_evaluation.llm_utils.load_prompt_structure', return_value=mock_prompt_structure):
+        result_prompt = initialise_prompt(agent)
+
+    # Assert
+    assert result_prompt == expected_prompt, "Prompt initialization failed to replace placeholders correctly."
+
+def test_initialise_prompt_missing_placeholder():
+    # Arrange
+    agent = "test_agent"
+    mock_config_values = {"placeholder1": "value1"}  # Missing placeholder2
+    mock_prompt_structure = "This is a {$placeholder1} and {$placeholder2} test."
+
+    # Act & Assert
+    with patch('theory_evaluation.llm_utils.load_config_values', return_value=mock_config_values), \
+         patch('theory_evaluation.llm_utils.load_prompt_structure', return_value=mock_prompt_structure):
+        with pytest.raises(KeyError, match="Missing placeholder in config values"):
+            initialise_prompt(agent)
+
+def test_initialise_prompt_empty_structure():
+    # Arrange
+    agent = "test_agent"
+    mock_config_values = {"placeholder1": "value1", "placeholder2": "value2"}
+    mock_prompt_structure = ""  # Empty prompt structure
+
+    # Act
+    with patch('theory_evaluation.llm_utils.load_config_values', return_value=mock_config_values), \
+         patch('theory_evaluation.llm_utils.load_prompt_structure', return_value=mock_prompt_structure):
+        result_prompt = initialise_prompt(agent)
+
+    # Assert
+    assert result_prompt == "", "Prompt initialization failed to handle empty structure."
+
+def test_initialise_prompt_invalid_agent():
+    # Arrange
+    agent = "invalid_agent"
+    mock_config_values = {"placeholder1": "value1", "placeholder2": "value2"}
+    mock_prompt_structure = "This is a {$placeholder1} and {$placeholder2} test."
+
+    # Act & Assert
+    with patch('theory_evaluation.llm_utils.load_config_values', return_value=mock_config_values), \
+         patch('theory_evaluation.llm_utils.load_prompt_structure', return_value=mock_prompt_structure):
+        with pytest.raises(ValueError, match="Invalid agent specified"):
+            initialise_prompt(agent)
+
+### Key Improvements:
+1. **Removed Duplicate Imports**: Removed duplicate imports and unused ones.
+2. **Mocking**: Used `patch` to mock `load_config_values` and `load_prompt_structure` functions, assuming these are responsible for reading configurations and prompt structures.
+3. **Assertions**: Added meaningful assertions to check the correctness of the prompt initialization.
+4. **Exception Handling**: Added tests to handle scenarios where placeholders are missing or the agent is invalid.
+5. **AAA Structure**: Followed the Arrange, Act, Assert structure for clarity and organization.
+6. **Isolation**: Ensured each test is isolated and deterministic by using mocks.
+7. **Coverage**: Included tests for both success and failure scenarios.
+Test error:
+c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+
+=================================== ERRORS ====================================
+________________________ ERROR collecting temp/temp.py ________________________
+.venv\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+.venv\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+.venv\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+.venv\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 1
+E       To improve the given test code, we'll focus on removing duplicate imports, organizing the test structure, adding meaningful assertions, and ensuring the test is complete and isolated. We'll also mock necessary file operations and handle exceptions properly. Here's the improved version of the test code:
+E                                                                                                                                                                                                                                                                             ^
+E   SyntaxError: unterminated string literal (detected at line 1)
+=========================== short test summary info ===========================
+ERROR temp/temp.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.24s
+2025-04-17 11:04:51,296 - INFO - 
 TEST CASE 2 Retry 0
 ---------------
 import os
@@ -214,24 +948,29 @@ import pytest
 
 
 
-def test_initialise_prompt_missing_placeholder():
-    agent = "test_agent"
-    config_yaml = "key: value"
-    prompt_txt = "This is a {$missing_key} prompt."
+def test_initialise_prompt_no_config_path():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt("non_existent_agent")
+        assert result is None
 
 ---------------
-2025-04-17 11:02:13,496 - INFO - TEST CASE 2 Retry 0 - Result - Passed
-2025-04-17 11:02:13,496 - ERROR - Exception occurred while processing test case 2: 'test_code'
-Traceback (most recent call last):
-  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 548, in run_each_pytest_function_individually
-    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature)
-  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 465, in generate_improved_test_case
-    formatted_prompt = llm_test_improvement_prompt.format(
-        test_case={success_test_cases}
-    )
-KeyError: 'test_code'
-2025-04-17 11:02:13,497 - INFO - 
-TEST CASE 3 Retry 0
+2025-04-17 11:04:52,427 - INFO - TEST CASE 2 Retry 0 - Result - Failed
+2025-04-17 11:04:52,427 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+____________________ test_initialise_prompt_no_config_path ____________________
+temp\temp.py:10: in test_initialise_prompt_no_config_path
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+E   NameError: name 'patch' is not defined
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_initialise_prompt_no_config_path - NameError: name ...
+1 failed in 0.12s
+2025-04-17 11:04:53,455 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:04:53,456 - INFO - 
+TEST CASE 2 Retry 1
 ---------------
 import os
 import re
@@ -241,22 +980,139 @@ import pytest
 
 
 
-def test_initialise_prompt_file_not_found():
-    agent = "test_agent"
+from unittest.mock import patch
+
+def test_initialise_prompt_no_config_path():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt("non_existent_agent")
+        assert result is None
 
 ---------------
-2025-04-17 11:02:14,738 - INFO - TEST CASE 3 Retry 0 - Result - Passed
-2025-04-17 11:02:14,738 - ERROR - Exception occurred while processing test case 3: 'test_code'
-Traceback (most recent call last):
-  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 548, in run_each_pytest_function_individually
-    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature)
-  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 465, in generate_improved_test_case
-    formatted_prompt = llm_test_improvement_prompt.format(
-        test_case={success_test_cases}
-    )
-KeyError: 'test_code'
-2025-04-17 11:02:14,739 - INFO - 
-TEST CASE 4 Retry 0
+2025-04-17 11:04:54,738 - INFO - TEST CASE 2 Retry 1 - Result - Passed
+2025-04-17 11:05:01,803 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:05:03,196 - INFO - Error in generating improved test cases
+Test case:
+To improve the provided test code, we'll focus on organizing imports, removing duplicates, ensuring meaningful assertions, mocking file operations, and structuring tests using the Arrange, Act, Assert pattern. Here's the revised code:
+
+import pytest
+from unittest.mock import patch, mock_open
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+
+def test_initialise_prompt_success():
+    # Arrange
+    agent = "test_agent"
+    mock_config_values = {"placeholder1": "value1", "placeholder2": "value2"}
+    mock_prompt_structure = "This is a {$placeholder1} and {$placeholder2} test."
+    expected_prompt = "This is a value1 and value2 test."
+
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=yaml.dump(mock_config_values))):
+        with patch("theory_evaluation.llm_utils.yaml.safe_load", return_value=mock_config_values):
+            # Act
+            result = initialise_prompt(agent)
+
+            # Assert
+            assert result == expected_prompt
+
+def test_initialise_prompt_no_config_path():
+    # Arrange
+    agent = "non_existent_agent"
+
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        # Act
+        result = initialise_prompt(agent)
+
+        # Assert
+        assert result is None
+
+def test_initialise_prompt_invalid_yaml():
+    # Arrange
+    agent = "test_agent"
+
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data="invalid_yaml")):
+        with patch("theory_evaluation.llm_utils.yaml.safe_load", side_effect=yaml.YAMLError):
+            # Act
+            result = initialise_prompt(agent)
+
+            # Assert
+            assert result is None
+
+def test_initialise_settings_success():
+    # Arrange
+    mock_settings = {"setting1": "value1", "setting2": "value2"}
+    expected_settings = {"setting1": "value1", "setting2": "value2"}
+
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=yaml.dump(mock_settings))):
+        with patch("theory_evaluation.llm_utils.yaml.safe_load", return_value=mock_settings):
+            # Act
+            result = initialise_settings()
+
+            # Assert
+            assert result == expected_settings
+
+def test_initialise_settings_no_file():
+    # Arrange
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        # Act
+        result = initialise_settings()
+
+        # Assert
+        assert result is None
+
+def test_initialise_settings_invalid_yaml():
+    # Arrange
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data="invalid_yaml")):
+        with patch("theory_evaluation.llm_utils.yaml.safe_load", side_effect=yaml.YAMLError):
+            # Act
+            result = initialise_settings()
+
+            # Assert
+            assert result is None
+
+### Key Improvements:
+1. **Removed Duplicate Imports**: Cleaned up the import statements to avoid redundancy.
+2. **Structured Tests with AAA Pattern**: Each test follows the Arrange, Act, Assert structure for clarity.
+3. **Mocking**: Used `mock_open` and `patch` to simulate file operations and YAML loading.
+4. **Meaningful Assertions**: Added assertions that check the expected output against the actual result.
+5. **Coverage for Success and Failure Scenarios**: Included tests for both valid and invalid file paths and YAML content.
+6. **Isolation and Determinism**: Each test is isolated with its own setup and mocks, ensuring deterministic behavior.
+Test error:
+c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+
+=================================== ERRORS ====================================
+________________________ ERROR collecting temp/temp.py ________________________
+.venv\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+.venv\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+.venv\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+.venv\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 1
+E       To improve the provided test code, we'll focus on organizing imports, removing duplicates, ensuring meaningful assertions, mocking file operations, and structuring tests using the Arrange, Act, Assert pattern. Here's the revised code:
+E          ^^^^^^^
+E   SyntaxError: invalid syntax
+=========================== short test summary info ===========================
+ERROR temp/temp.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.40s
+2025-04-17 11:05:03,197 - INFO - 
+TEST CASE 3 Retry 0
 ---------------
 import os
 import re
@@ -268,21 +1124,114 @@ import pytest
 
 def test_initialise_settings_success():
     agent = "test_agent"
-    settings_yaml = "setting1: value1\nsetting2: value2"
+    mock_settings = {"setting1": "value1", "setting2": "value2"}
 
 ---------------
-2025-04-17 11:02:16,168 - INFO - TEST CASE 4 Retry 0 - Result - Passed
-2025-04-17 11:02:16,168 - ERROR - Exception occurred while processing test case 4: 'test_code'
-Traceback (most recent call last):
-  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 548, in run_each_pytest_function_individually
-    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature)
-  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 465, in generate_improved_test_case
-    formatted_prompt = llm_test_improvement_prompt.format(
-        test_case={success_test_cases}
-    )
-KeyError: 'test_code'
-2025-04-17 11:02:16,169 - INFO - 
-TEST CASE 5 Retry 0
+2025-04-17 11:05:04,382 - INFO - TEST CASE 3 Retry 0 - Result - Passed
+2025-04-17 11:05:10,463 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:05:12,121 - INFO - Error in generating improved test cases
+Test case:
+To improve the given test code, we'll focus on removing duplicate imports, organizing the code, adding meaningful assertions, and ensuring proper mocking and exception handling. Here's the revised version:
+
+import pytest
+from unittest.mock import patch, mock_open
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+
+def test_initialise_prompt_success():
+    # Arrange
+    agent = "test_agent"
+    mock_config_values = {"placeholder1": "value1", "placeholder2": "value2"}
+    mock_prompt_structure = "This is a {$placeholder1} and {$placeholder2} test."
+    expected_prompt = "This is a value1 and value2 test."
+
+    # Act
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=yaml.dump(mock_config_values))):
+        with patch("theory_evaluation.llm_utils.yaml.safe_load", return_value=mock_config_values):
+            result = initialise_prompt(agent)
+
+    # Assert
+    assert result == expected_prompt
+
+def test_initialise_prompt_no_config_path():
+    # Arrange
+    agent = "non_existent_agent"
+
+    # Act
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt(agent)
+
+    # Assert
+    assert result is None
+
+def test_initialise_settings_success():
+    # Arrange
+    agent = "test_agent"
+    mock_settings = {"setting1": "value1", "setting2": "value2"}
+
+    # Act
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=yaml.dump(mock_settings))):
+        with patch("theory_evaluation.llm_utils.yaml.safe_load", return_value=mock_settings):
+            result = initialise_settings(agent)
+
+    # Assert
+    assert result == mock_settings
+
+def test_initialise_settings_no_config_path():
+    # Arrange
+    agent = "non_existent_agent"
+
+    # Act
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_settings(agent)
+
+    # Assert
+    assert result is None
+
+### Key Improvements:
+1. **Removed Duplicate Imports**: Cleaned up the import statements to avoid redundancy.
+2. **Organized Code**: Grouped related mocks under appropriate scopes using `with` statements.
+3. **Added Meaningful Assertions**: Ensured that assertions check the expected outcomes.
+4. **Mocking and Exception Handling**: Used `mock_open` to simulate file reads and `side_effect` for exceptions.
+5. **Isolated Tests**: Each test is independent and deterministic, following the Arrange, Act, Assert structure.
+6. **Coverage for Success and Failure Scenarios**: Added tests for both successful initialization and failure due to missing files.
+Test error:
+c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+
+=================================== ERRORS ====================================
+________________________ ERROR collecting temp/temp.py ________________________
+.venv\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+.venv\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+.venv\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+.venv\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 1
+E       To improve the given test code, we'll focus on removing duplicate imports, organizing the code, adding meaningful assertions, and ensuring proper mocking and exception handling. Here's the revised version:
+E          ^^^^^^^
+E   SyntaxError: invalid syntax
+=========================== short test summary info ===========================
+ERROR temp/temp.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.28s
+2025-04-17 11:05:12,121 - INFO - 
+TEST CASE 4 Retry 0
 ---------------
 import os
 import re
@@ -292,21 +1241,169 @@ import pytest
 
 
 
-def test_initialise_settings_file_not_found():
-    agent = "test_agent"
+def test_initialise_settings_no_config_path():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_settings("non_existent_agent")
+        assert result is None
 
 ---------------
-2025-04-17 11:02:17,182 - INFO - TEST CASE 5 Retry 0 - Result - Passed
-2025-04-17 11:02:17,182 - ERROR - Exception occurred while processing test case 5: 'test_code'
-Traceback (most recent call last):
-  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 548, in run_each_pytest_function_individually
-    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature)
-  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 465, in generate_improved_test_case
-    formatted_prompt = llm_test_improvement_prompt.format(
-        test_case={success_test_cases}
-    )
-KeyError: 'test_code'
-2025-04-17 11:02:17,184 - INFO - run_each_pytest_function_individually complete
-2025-04-17 11:02:17,185 - ERROR - Failed processing theory_evaluation\llm_utils.py: cannot access local variable 'return_test_cases' where it is not associated with a value
-2025-04-17 11:02:17,185 - INFO - End Processing file: theory_evaluation\llm_utils.py
+2025-04-17 11:05:13,361 - INFO - TEST CASE 4 Retry 0 - Result - Failed
+2025-04-17 11:05:13,362 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+___________________ test_initialise_settings_no_config_path ___________________
+temp\temp.py:10: in test_initialise_settings_no_config_path
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+E   NameError: name 'patch' is not defined
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_initialise_settings_no_config_path - NameError: nam...
+1 failed in 0.17s
+2025-04-17 11:05:15,016 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:05:15,017 - INFO - 
+TEST CASE 4 Retry 1
+---------------
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+
+
+from unittest.mock import patch
+
+def test_initialise_settings_no_config_path():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_settings("non_existent_agent")
+        assert result is None
+
+---------------
+2025-04-17 11:05:17,228 - INFO - TEST CASE 4 Retry 1 - Result - Passed
+2025-04-17 11:05:25,031 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:05:26,348 - INFO - Error in generating improved test cases
+Test case:
+To improve the provided test code, we need to address several issues such as duplicate imports, incomplete test functions, and lack of assertions. We also need to ensure that the tests are isolated, deterministic, and follow the Arrange-Act-Assert (AAA) structure. Here's the improved version of the test code:
+
+import pytest
+import yaml
+from unittest.mock import patch, mock_open
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+
+
+def test_initialise_prompt_success():
+    # Arrange
+    agent = "test_agent"
+    mock_config_values = {"placeholder1": "value1", "placeholder2": "value2"}
+    mock_prompt_structure = "This is a {$placeholder1} and {$placeholder2} test."
+    expected_prompt = "This is a value1 and value2 test."
+    mock_yaml_content = yaml.dump({"config": mock_config_values, "prompt": mock_prompt_structure})
+
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=mock_yaml_content)):
+        # Act
+        result = initialise_prompt(agent)
+
+    # Assert
+    assert result == expected_prompt
+
+
+def test_initialise_prompt_no_config_path():
+    # Arrange
+    agent = "non_existent_agent"
+
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        # Act
+        result = initialise_prompt(agent)
+
+    # Assert
+    assert result is None
+
+
+def test_initialise_settings_success():
+    # Arrange
+    agent = "test_agent"
+    mock_settings = {"setting1": "value1", "setting2": "value2"}
+    mock_yaml_content = yaml.dump({"settings": mock_settings})
+
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=mock_yaml_content)):
+        # Act
+        result = initialise_settings(agent)
+
+    # Assert
+    assert result == mock_settings
+
+
+def test_initialise_settings_no_config_path():
+    # Arrange
+    agent = "non_existent_agent"
+
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        # Act
+        result = initialise_settings(agent)
+
+    # Assert
+    assert result is None
+
+### Key Improvements:
+
+1. **Removed Duplicate Imports**: The imports were repeated multiple times unnecessarily.
+
+2. **Completed Test Functions**: Added missing parts of the test functions, such as assertions and mock data.
+
+3. **Used `mock_open` for File Operations**: This allows us to simulate file reading without needing actual files.
+
+4. **Ensured AAA Structure**: Each test follows the Arrange-Act-Assert pattern for clarity and structure.
+
+5. **Isolated Tests**: Each test is independent and does not rely on external state or other tests.
+
+6. **Meaningful Assertions**: Added assertions to verify the expected outcomes of the functions being tested.
+
+7. **Mocked FileNotFoundError**: Properly mocked scenarios where the configuration file does not exist.
+
+This improved version of the test code should be more readable, maintainable, and comprehensive in terms of coverage for both success and failure scenarios.
+Test error:
+c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+
+=================================== ERRORS ====================================
+________________________ ERROR collecting temp/temp.py ________________________
+.venv\Lib\site-packages\_pytest\python.py:493: in importtestmodule
+    mod = import_path(
+.venv\Lib\site-packages\_pytest\pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+.venv\Lib\site-packages\_pytest\assertion\rewrite.py:176: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+.venv\Lib\site-packages\_pytest\assertion\rewrite.py:356: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
+    return compile(source, filename, mode, flags,
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 1
+E       To improve the provided test code, we need to address several issues such as duplicate imports, incomplete test functions, and lack of assertions. We also need to ensure that the tests are isolated, deterministic, and follow the Arrange-Act-Assert (AAA) structure. Here's the improved version of the test code:
+E                                                                                                                                                                                                                                                                                    ^
+E   SyntaxError: unterminated string literal (detected at line 1)
+=========================== short test summary info ===========================
+ERROR temp/temp.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.30s
+2025-04-17 11:05:26,349 - INFO - run_each_pytest_function_individually complete
+2025-04-17 11:05:26,349 - INFO - Statistic theory_evaluation\llm_utils.py: 
+Total test case - 4
+Total test case passed - 4
+Percentage Passed - 100.0%
+
+2025-04-17 11:05:26,353 - INFO - End Processing file: theory_evaluation\llm_utils.py
 
