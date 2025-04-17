@@ -647,6 +647,7 @@ def main() -> NoReturn:
         })
     test_stats_df = pd.DataFrame(test_stats)
     test_stats_df.index = test_stats_df.index + 1
+    logger.info(test_stats_df.head())
     
     logger.info("\n" + tabulate(test_stats_df, headers='keys', tablefmt='grid'))
 
