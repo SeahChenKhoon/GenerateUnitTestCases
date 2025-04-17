@@ -1,23 +1,22 @@
-2025-04-17 12:12:53,417 - INFO - Loading environment variables start
-2025-04-17 12:12:53,422 - INFO - Loading environment variables completes
-2025-04-17 12:12:53,422 - INFO - Initialising of LLM start
-2025-04-17 12:12:53,771 - INFO - Initialising of LLM completes
-2025-04-17 12:12:53,771 - INFO - Getting python file starts
-2025-04-17 12:12:53,772 - INFO - Getting python file completes
-2025-04-17 12:12:53,772 - INFO - 
+2025-04-17 12:15:48,600 - INFO - Loading environment variables start
+2025-04-17 12:15:48,606 - INFO - Loading environment variables completes
+2025-04-17 12:15:48,606 - INFO - Initialising of LLM start
+2025-04-17 12:15:48,942 - INFO - Initialising of LLM completes
+2025-04-17 12:15:48,942 - INFO - Getting python file starts
+2025-04-17 12:15:48,943 - INFO - Getting python file completes
+2025-04-17 12:15:48,943 - INFO - 
 Start Processing file: theory_evaluation\circle_utils.py
-2025-04-17 12:12:53,772 - INFO - Extraction of function and class start
-2025-04-17 12:12:53,773 - INFO - extraction of function and class complete
-2025-04-17 12:12:53,773 - INFO - Generate Unit Test Case starts
-2025-04-17 12:12:53,773 - INFO - Extract unique import start
-2025-04-17 12:12:55,282 - INFO - Extract unique import complete
-2025-04-17 12:12:55,282 - INFO - Update relative import start
-2025-04-17 12:12:55,284 - INFO - Update relative import complete
-2025-04-17 12:12:58,145 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 12:12:58,145 - INFO - Generate Unit Test Case complete
-2025-04-17 12:12:58,150 - INFO - run_each_pytest_function_individually start
-2025-04-17 12:13:01,870 - INFO - Number of test case to process - 6
-2025-04-17 12:13:01,870 - INFO - 
+2025-04-17 12:15:48,944 - INFO - Extraction of function and class start
+2025-04-17 12:15:48,944 - INFO - extraction of function and class complete
+2025-04-17 12:15:48,944 - INFO - Generate Unit Test Case starts
+2025-04-17 12:15:48,944 - INFO - Extract unique import start
+2025-04-17 12:15:50,453 - INFO - Extract unique import complete
+2025-04-17 12:15:50,454 - INFO - Update relative import start
+2025-04-17 12:15:50,455 - INFO - Update relative import complete
+2025-04-17 12:15:53,293 - INFO - Generate Unit Test Case complete
+2025-04-17 12:15:53,297 - INFO - run_each_pytest_function_individually start
+2025-04-17 12:15:55,969 - INFO - Number of test case to process - 6
+2025-04-17 12:15:55,970 - INFO - 
 TEST CASE 1 Retry 0
 ---------------
 import math
@@ -27,13 +26,12 @@ import pytest
 
 
 def test_circle_area_positive_radius():
-    radius = 5
-    expected_area = math.pi * radius ** 2
-    assert circle_area(radius) == pytest.approx(expected_area)
+    assert circle_area(1) == pytest.approx(math.pi)
+    assert circle_area(2) == pytest.approx(4 * math.pi)
 
 ---------------
-2025-04-17 12:13:02,632 - INFO - TEST CASE 1 Retry 0 - Result - Passed
-2025-04-17 12:13:02,632 - INFO - 
+2025-04-17 12:15:56,702 - INFO - TEST CASE 1 Retry 0 - Result - Passed
+2025-04-17 12:15:56,702 - INFO - 
 TEST CASE 2 Retry 0
 ---------------
 import math
@@ -43,13 +41,11 @@ import pytest
 
 
 def test_circle_area_zero_radius():
-    radius = 0
-    expected_area = 0
-    assert circle_area(radius) == pytest.approx(expected_area)
+    assert circle_area(0) == pytest.approx(0)
 
 ---------------
-2025-04-17 12:13:03,204 - INFO - TEST CASE 2 Retry 0 - Result - Passed
-2025-04-17 12:13:03,204 - INFO - 
+2025-04-17 12:15:57,324 - INFO - TEST CASE 2 Retry 0 - Result - Passed
+2025-04-17 12:15:57,325 - INFO - 
 TEST CASE 3 Retry 0
 ---------------
 import math
@@ -63,8 +59,8 @@ def test_circle_area_negative_radius():
         circle_area(-1)
 
 ---------------
-2025-04-17 12:13:03,773 - INFO - TEST CASE 3 Retry 0 - Result - Passed
-2025-04-17 12:13:03,773 - INFO - 
+2025-04-17 12:15:57,886 - INFO - TEST CASE 3 Retry 0 - Result - Passed
+2025-04-17 12:15:57,886 - INFO - 
 TEST CASE 4 Retry 0
 ---------------
 import math
@@ -74,13 +70,12 @@ import pytest
 
 
 def test_circle_circumference_positive_radius():
-    radius = 5
-    expected_circumference = 2 * math.pi * radius
-    assert circle_circumference(radius) == pytest.approx(expected_circumference)
+    assert circle_circumference(1) == pytest.approx(2 * math.pi)
+    assert circle_circumference(2) == pytest.approx(4 * math.pi)
 
 ---------------
-2025-04-17 12:13:04,300 - INFO - TEST CASE 4 Retry 0 - Result - Passed
-2025-04-17 12:13:04,301 - INFO - 
+2025-04-17 12:15:58,526 - INFO - TEST CASE 4 Retry 0 - Result - Passed
+2025-04-17 12:15:58,526 - INFO - 
 TEST CASE 5 Retry 0
 ---------------
 import math
@@ -90,13 +85,11 @@ import pytest
 
 
 def test_circle_circumference_zero_radius():
-    radius = 0
-    expected_circumference = 0
-    assert circle_circumference(radius) == pytest.approx(expected_circumference)
+    assert circle_circumference(0) == pytest.approx(0)
 
 ---------------
-2025-04-17 12:13:04,929 - INFO - TEST CASE 5 Retry 0 - Result - Passed
-2025-04-17 12:13:04,929 - INFO - 
+2025-04-17 12:15:59,047 - INFO - TEST CASE 5 Retry 0 - Result - Passed
+2025-04-17 12:15:59,047 - INFO - 
 TEST CASE 6 Retry 0
 ---------------
 import math
@@ -110,8 +103,8 @@ def test_circle_circumference_negative_radius():
         circle_circumference(-1)
 
 ---------------
-2025-04-17 12:13:05,444 - INFO - TEST CASE 6 Retry 0 - Result - Passed
-2025-04-17 12:13:05,444 - INFO - Before Improvement
+2025-04-17 12:15:59,629 - INFO - TEST CASE 6 Retry 0 - Result - Passed
+2025-04-17 12:15:59,629 - INFO - Before Improvement
 import math
 from theory_evaluation.circle_utils import circle_area, circle_circumference
 import pytest
@@ -123,83 +116,71 @@ import pytest
 
 
 def test_circle_area_positive_radius():
-    radius = 5
-    expected_area = math.pi * radius ** 2
-    assert circle_area(radius) == pytest.approx(expected_area)
+    assert circle_area(1) == pytest.approx(math.pi)
+    assert circle_area(2) == pytest.approx(4 * math.pi)
 
 def test_circle_area_zero_radius():
-    radius = 0
-    expected_area = 0
-    assert circle_area(radius) == pytest.approx(expected_area)
+    assert circle_area(0) == pytest.approx(0)
 
 def test_circle_area_negative_radius():
     with pytest.raises(ValueError, match="Radius cannot be negative."):
         circle_area(-1)
 
 def test_circle_circumference_positive_radius():
-    radius = 5
-    expected_circumference = 2 * math.pi * radius
-    assert circle_circumference(radius) == pytest.approx(expected_circumference)
+    assert circle_circumference(1) == pytest.approx(2 * math.pi)
+    assert circle_circumference(2) == pytest.approx(4 * math.pi)
 
 def test_circle_circumference_zero_radius():
-    radius = 0
-    expected_circumference = 0
-    assert circle_circumference(radius) == pytest.approx(expected_circumference)
+    assert circle_circumference(0) == pytest.approx(0)
 
 def test_circle_circumference_negative_radius():
     with pytest.raises(ValueError, match="Radius cannot be negative."):
         circle_circumference(-1)
 
-2025-04-17 12:13:08,220 - INFO - After Improvement
+2025-04-17 12:16:02,547 - INFO - After Improvement
 import math
 from theory_evaluation.circle_utils import circle_area, circle_circumference
 import pytest
 
 def test_circle_area_positive_radius():
-    radius = 5
-    expected_area = math.pi * radius ** 2
-    assert circle_area(radius) == pytest.approx(expected_area)
+    assert circle_area(1) == pytest.approx(math.pi)
+    assert circle_area(2) == pytest.approx(4 * math.pi)
 
 def test_circle_area_zero_radius():
-    radius = 0
-    expected_area = 0
-    assert circle_area(radius) == pytest.approx(expected_area)
+    assert circle_area(0) == pytest.approx(0)
 
 def test_circle_area_negative_radius():
     with pytest.raises(ValueError, match="Radius cannot be negative."):
         circle_area(-1)
 
 def test_circle_circumference_positive_radius():
-    radius = 5
-    expected_circumference = 2 * math.pi * radius
-    assert circle_circumference(radius) == pytest.approx(expected_circumference)
+    assert circle_circumference(1) == pytest.approx(2 * math.pi)
+    assert circle_circumference(2) == pytest.approx(4 * math.pi)
 
 def test_circle_circumference_zero_radius():
-    radius = 0
-    expected_circumference = 0
-    assert circle_circumference(radius) == pytest.approx(expected_circumference)
+    assert circle_circumference(0) == pytest.approx(0)
 
 def test_circle_circumference_negative_radius():
     with pytest.raises(ValueError, match="Radius cannot be negative."):
         circle_circumference(-1)
-2025-04-17 12:13:09,029 - INFO - Improvement of test cases processed successfully
-2025-04-17 12:13:09,029 - INFO - run_each_pytest_function_individually complete
-2025-04-17 12:13:09,029 - INFO - End Processing file: theory_evaluation\circle_utils.py
+2025-04-17 12:16:03,337 - INFO - Improvement of test cases processed successfully
+2025-04-17 12:16:03,337 - INFO - run_each_pytest_function_individually complete
+2025-04-17 12:16:03,337 - INFO - End Processing file: theory_evaluation\circle_utils.py
 
-2025-04-17 12:13:09,029 - INFO - 
+2025-04-17 12:16:03,337 - INFO - 
 Start Processing file: theory_evaluation\llm_handler.py
-2025-04-17 12:13:09,029 - INFO - Extraction of function and class start
-2025-04-17 12:13:09,029 - INFO - extraction of function and class complete
-2025-04-17 12:13:09,029 - INFO - Generate Unit Test Case starts
-2025-04-17 12:13:09,030 - INFO - Extract unique import start
-2025-04-17 12:13:09,775 - INFO - Extract unique import complete
-2025-04-17 12:13:09,775 - INFO - Update relative import start
-2025-04-17 12:13:09,776 - INFO - Update relative import complete
-2025-04-17 12:13:17,242 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 12:13:17,242 - INFO - Generate Unit Test Case complete
-2025-04-17 12:13:17,243 - INFO - run_each_pytest_function_individually start
-2025-04-17 12:13:23,609 - INFO - Number of test case to process - 6
-2025-04-17 12:13:23,610 - INFO - 
+2025-04-17 12:16:03,337 - INFO - Extraction of function and class start
+2025-04-17 12:16:03,337 - INFO - extraction of function and class complete
+2025-04-17 12:16:03,337 - INFO - Generate Unit Test Case starts
+2025-04-17 12:16:03,337 - INFO - Extract unique import start
+2025-04-17 12:16:04,110 - INFO - Extract unique import complete
+2025-04-17 12:16:04,110 - INFO - Update relative import start
+2025-04-17 12:16:04,111 - INFO - Update relative import complete
+2025-04-17 12:16:16,720 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 12:16:16,721 - INFO - Generate Unit Test Case complete
+2025-04-17 12:16:16,730 - INFO - run_each_pytest_function_individually start
+2025-04-17 12:16:27,134 - INFO - Number of test case to process - 6
+2025-04-17 12:16:27,135 - INFO - 
 TEST CASE 1 Retry 0
 ---------------
 import asyncio
@@ -214,17 +195,19 @@ import pytest
 
 @pytest.mark.asyncio
 async def test_openai_llm_initialization():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai, \
          patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
-         patch('os.getenv', return_value='mock_value'):
+         patch('theory_evaluation.llm_handler.os.getenv', side_effect=lambda key: f"mock_{key}"):
         
         llm = OpenAI_llm(useAzureOpenAI=True)
-        assert hasattr(llm, 'client')
-        assert mock_azure.called
+        assert llm.client == mock_azure_openai.return_value
+        assert llm.azure_endpoint == "mock_AZURE_OPENAI_ENDPOINT_SWEDEN"
+        assert llm.api_version == "mock_AZURE_OPENAI_API_VERSION"
+        assert llm.model_name == "mock_AZURE_OPENAI_DEPLOYMENT_NAME"
 
 ---------------
-2025-04-17 12:13:25,678 - INFO - TEST CASE 1 Retry 0 - Result - Failed
-2025-04-17 12:13:25,678 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+2025-04-17 12:16:29,265 - INFO - TEST CASE 1 Retry 0 - Result - Failed
+2025-04-17 12:16:29,266 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
@@ -232,13 +215,13 @@ F                                                                        [100%]
 ================================== FAILURES ===================================
 _______________________ test_openai_llm_initialization ________________________
 temp\temp.py:13: in test_openai_llm_initialization
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai, \
 E   NameError: name 'patch' is not defined
 =========================== short test summary info ===========================
 FAILED temp/temp.py::test_openai_llm_initialization - NameError: name 'patch'...
-1 failed in 1.16s
-2025-04-17 12:13:28,448 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 12:13:28,449 - INFO - 
+1 failed in 1.20s
+2025-04-17 12:16:32,409 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 12:16:32,412 - INFO - 
 TEST CASE 1 Retry 1
 ---------------
 import asyncio
@@ -251,22 +234,25 @@ import pytest
 
 
 
-import pytest
 from unittest.mock import patch
+import pytest
+from theory_evaluation.llm_handler import OpenAI_llm
 
 @pytest.mark.asyncio
 async def test_openai_llm_initialization():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai, \
          patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
-         patch('os.getenv', return_value='mock_value'):
+         patch('theory_evaluation.llm_handler.os.getenv', side_effect=lambda key: f"mock_{key}"):
         
         llm = OpenAI_llm(useAzureOpenAI=True)
-        assert hasattr(llm, 'client')
-        assert mock_azure.called
+        assert llm.client == mock_azure_openai.return_value
+        assert llm.azure_endpoint == "mock_AZURE_OPENAI_ENDPOINT_SWEDEN"
+        assert llm.api_version == "mock_AZURE_OPENAI_API_VERSION"
+        assert llm.model_name == "mock_AZURE_OPENAI_DEPLOYMENT_NAME"
 
 ---------------
-2025-04-17 12:13:30,852 - INFO - TEST CASE 1 Retry 1 - Result - Passed
-2025-04-17 12:13:30,852 - INFO - 
+2025-04-17 12:16:34,710 - INFO - TEST CASE 1 Retry 1 - Result - Passed
+2025-04-17 12:16:34,711 - INFO - 
 TEST CASE 2 Retry 0
 ---------------
 import asyncio
@@ -282,11 +268,11 @@ import pytest
 @pytest.mark.asyncio
 async def test_openai_json_completion():
     mock_response = MagicMock()
-    mock_response.choices = [MagicMock(message=MagicMock(content=json.dumps({"key": "value"})))]
+    mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to life."})
 
 ---------------
-2025-04-17 12:13:33,001 - INFO - TEST CASE 2 Retry 0 - Result - Failed
-2025-04-17 12:13:33,002 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+2025-04-17 12:16:36,859 - INFO - TEST CASE 2 Retry 0 - Result - Failed
+2025-04-17 12:16:36,860 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
@@ -298,8 +284,8 @@ temp\temp.py:13: in test_openai_json_completion
 E   NameError: name 'MagicMock' is not defined
 =========================== short test summary info ===========================
 FAILED temp/temp.py::test_openai_json_completion - NameError: name 'MagicMock...
-1 failed in 1.23s
-2025-04-17 12:13:34,441 - INFO - 
+1 failed in 1.20s
+2025-04-17 12:16:38,261 - INFO - 
 TEST CASE 2 Retry 1
 ---------------
 import asyncio
@@ -319,12 +305,12 @@ import json
 @pytest.mark.asyncio
 async def test_openai_json_completion():
     mock_response = MagicMock()
-    mock_response.choices = [MagicMock(message=MagicMock(content=json.dumps({"key": "value"})))]
-    # Add additional test logic here if needed.
+    mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to life."})
+    # Add assertions or further test logic here as needed
 
 ---------------
-2025-04-17 12:13:36,316 - INFO - TEST CASE 2 Retry 1 - Result - Passed
-2025-04-17 12:13:36,316 - INFO - 
+2025-04-17 12:16:40,462 - INFO - TEST CASE 2 Retry 1 - Result - Passed
+2025-04-17 12:16:40,463 - INFO - 
 TEST CASE 3 Retry 0
 ---------------
 import asyncio
@@ -339,12 +325,12 @@ import pytest
 
 @pytest.mark.asyncio
 async def test_openai_streaming():
-    mock_chunk = MagicMock()
-    mock_chunk.choices = [MagicMock(delta=MagicMock(content="streaming content"))]
+    mock_stream = [MagicMock(choices=[MagicMock(delta=MagicMock(content="chunk1"))]),
+                   MagicMock(choices=[MagicMock(delta=MagicMock(content="chunk2"))])]
 
 ---------------
-2025-04-17 12:13:38,125 - INFO - TEST CASE 3 Retry 0 - Result - Failed
-2025-04-17 12:13:38,126 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+2025-04-17 12:16:42,519 - INFO - TEST CASE 3 Retry 0 - Result - Failed
+2025-04-17 12:16:42,520 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
@@ -352,12 +338,12 @@ F                                                                        [100%]
 ================================== FAILURES ===================================
 ____________________________ test_openai_streaming ____________________________
 temp\temp.py:13: in test_openai_streaming
-    mock_chunk = MagicMock()
+    mock_stream = [MagicMock(choices=[MagicMock(delta=MagicMock(content="chunk1"))]),
 E   NameError: name 'MagicMock' is not defined
 =========================== short test summary info ===========================
 FAILED temp/temp.py::test_openai_streaming - NameError: name 'MagicMock' is n...
-1 failed in 1.08s
-2025-04-17 12:13:39,018 - INFO - 
+1 failed in 1.09s
+2025-04-17 12:16:44,004 - INFO - 
 TEST CASE 3 Retry 1
 ---------------
 import asyncio
@@ -375,13 +361,13 @@ import pytest
 
 @pytest.mark.asyncio
 async def test_openai_streaming():
-    mock_chunk = MagicMock()
-    mock_chunk.choices = [MagicMock(delta=MagicMock(content="streaming content"))]
-    # Add additional test logic here as needed
+    mock_stream = [MagicMock(choices=[MagicMock(delta=MagicMock(content="chunk1"))]),
+                   MagicMock(choices=[MagicMock(delta=MagicMock(content="chunk2"))])]
+    # Add your test logic here using mock_stream
 
 ---------------
-2025-04-17 12:13:40,859 - INFO - TEST CASE 3 Retry 1 - Result - Passed
-2025-04-17 12:13:40,859 - INFO - 
+2025-04-17 12:16:46,299 - INFO - TEST CASE 3 Retry 1 - Result - Passed
+2025-04-17 12:16:46,300 - INFO - 
 TEST CASE 4 Retry 0
 ---------------
 import asyncio
@@ -397,11 +383,11 @@ import pytest
 @pytest.mark.asyncio
 async def test_openai_chat_completion():
     mock_response = MagicMock()
-    mock_response.choices = [MagicMock(message=MagicMock(content="chat content"))]
+    mock_response.choices[0].message.content = "This is a test response."
 
 ---------------
-2025-04-17 12:13:42,831 - INFO - TEST CASE 4 Retry 0 - Result - Failed
-2025-04-17 12:13:42,831 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+2025-04-17 12:16:48,694 - INFO - TEST CASE 4 Retry 0 - Result - Failed
+2025-04-17 12:16:48,695 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
@@ -413,8 +399,8 @@ temp\temp.py:13: in test_openai_chat_completion
 E   NameError: name 'MagicMock' is not defined
 =========================== short test summary info ===========================
 FAILED temp/temp.py::test_openai_chat_completion - NameError: name 'MagicMock...
-1 failed in 1.13s
-2025-04-17 12:13:44,045 - INFO - 
+1 failed in 1.32s
+2025-04-17 12:16:49,545 - INFO - 
 TEST CASE 4 Retry 1
 ---------------
 import asyncio
@@ -433,12 +419,12 @@ import pytest
 @pytest.mark.asyncio
 async def test_openai_chat_completion():
     mock_response = MagicMock()
-    mock_response.choices = [MagicMock(message=MagicMock(content="chat content"))]
-    # Add your test logic here using mock_response
+    mock_response.choices[0].message.content = "This is a test response."
+    # Add additional test logic here as needed
 
 ---------------
-2025-04-17 12:13:46,080 - INFO - TEST CASE 4 Retry 1 - Result - Passed
-2025-04-17 12:13:46,080 - INFO - 
+2025-04-17 12:16:51,655 - INFO - TEST CASE 4 Retry 1 - Result - Passed
+2025-04-17 12:16:51,656 - INFO - 
 TEST CASE 5 Retry 0
 ---------------
 import asyncio
@@ -454,11 +440,11 @@ import pytest
 @pytest.mark.asyncio
 async def test_execute_text_generation():
     mock_response = MagicMock()
-    mock_response.choices = [MagicMock(message=MagicMock(content="generated content"))]
+    mock_response.choices[0].message.content = "This is a test response."
 
 ---------------
-2025-04-17 12:13:48,408 - INFO - TEST CASE 5 Retry 0 - Result - Failed
-2025-04-17 12:13:48,408 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+2025-04-17 12:16:53,786 - INFO - TEST CASE 5 Retry 0 - Result - Failed
+2025-04-17 12:16:53,786 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
@@ -470,8 +456,8 @@ temp\temp.py:13: in test_execute_text_generation
 E   NameError: name 'MagicMock' is not defined
 =========================== short test summary info ===========================
 FAILED temp/temp.py::test_execute_text_generation - NameError: name 'MagicMoc...
-1 failed in 1.29s
-2025-04-17 12:13:49,724 - INFO - 
+1 failed in 1.17s
+2025-04-17 12:16:55,014 - INFO - 
 TEST CASE 5 Retry 1
 ---------------
 import asyncio
@@ -490,12 +476,12 @@ import pytest
 @pytest.mark.asyncio
 async def test_execute_text_generation():
     mock_response = MagicMock()
-    mock_response.choices = [MagicMock(message=MagicMock(content="generated content"))]
-    # Add your test logic here using mock_response
+    mock_response.choices[0].message.content = "This is a test response."
+    # Add additional test logic here if needed
 
 ---------------
-2025-04-17 12:13:51,795 - INFO - TEST CASE 5 Retry 1 - Result - Passed
-2025-04-17 12:13:51,795 - INFO - 
+2025-04-17 12:16:57,105 - INFO - TEST CASE 5 Retry 1 - Result - Passed
+2025-04-17 12:16:57,106 - INFO - 
 TEST CASE 6 Retry 0
 ---------------
 import asyncio
@@ -511,11 +497,11 @@ import pytest
 @pytest.mark.asyncio
 async def test_execute_vision():
     mock_response = MagicMock()
-    mock_response.choices = [MagicMock(message=MagicMock(content="vision content"))]
+    mock_response.choices[0].message.content = "This is a test response."
 
 ---------------
-2025-04-17 12:13:54,034 - INFO - TEST CASE 6 Retry 0 - Result - Failed
-2025-04-17 12:13:54,036 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+2025-04-17 12:16:59,566 - INFO - TEST CASE 6 Retry 0 - Result - Failed
+2025-04-17 12:16:59,567 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
@@ -527,8 +513,8 @@ temp\temp.py:13: in test_execute_vision
 E   NameError: name 'MagicMock' is not defined
 =========================== short test summary info ===========================
 FAILED temp/temp.py::test_execute_vision - NameError: name 'MagicMock' is not...
-1 failed in 1.23s
-2025-04-17 12:13:55,190 - INFO - 
+1 failed in 1.33s
+2025-04-17 12:17:00,596 - INFO - 
 TEST CASE 6 Retry 1
 ---------------
 import asyncio
@@ -547,11 +533,12 @@ import pytest
 @pytest.mark.asyncio
 async def test_execute_vision():
     mock_response = MagicMock()
-    mock_response.choices = [MagicMock(message=MagicMock(content="vision content"))]
+    mock_response.choices[0].message.content = "This is a test response."
+    # Add your test logic here using mock_response
 
 ---------------
-2025-04-17 12:13:57,134 - INFO - TEST CASE 6 Retry 1 - Result - Passed
-2025-04-17 12:13:57,134 - INFO - Before Improvement
+2025-04-17 12:17:02,754 - INFO - TEST CASE 6 Retry 1 - Result - Passed
+2025-04-17 12:17:02,754 - INFO - Before Improvement
 import asyncio
 import json
 import os
@@ -570,18 +557,21 @@ from theory_evaluation.llm_handler import OpenAI_llm
 import pytest
 
 
-import pytest
 from unittest.mock import patch
+import pytest
+from theory_evaluation.llm_handler import OpenAI_llm
 
 @pytest.mark.asyncio
 async def test_openai_llm_initialization():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai, \
          patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
-         patch('os.getenv', return_value='mock_value'):
+         patch('theory_evaluation.llm_handler.os.getenv', side_effect=lambda key: f"mock_{key}"):
         
         llm = OpenAI_llm(useAzureOpenAI=True)
-        assert hasattr(llm, 'client')
-        assert mock_azure.called
+        assert llm.client == mock_azure_openai.return_value
+        assert llm.azure_endpoint == "mock_AZURE_OPENAI_ENDPOINT_SWEDEN"
+        assert llm.api_version == "mock_AZURE_OPENAI_API_VERSION"
+        assert llm.model_name == "mock_AZURE_OPENAI_DEPLOYMENT_NAME"
 
 from unittest.mock import MagicMock
 import pytest
@@ -590,35 +580,35 @@ import json
 @pytest.mark.asyncio
 async def test_openai_json_completion():
     mock_response = MagicMock()
-    mock_response.choices = [MagicMock(message=MagicMock(content=json.dumps({"key": "value"})))]
-    # Add additional test logic here if needed.
+    mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to life."})
+    # Add assertions or further test logic here as needed
 
 from unittest.mock import MagicMock
 import pytest
 
 @pytest.mark.asyncio
 async def test_openai_streaming():
-    mock_chunk = MagicMock()
-    mock_chunk.choices = [MagicMock(delta=MagicMock(content="streaming content"))]
+    mock_stream = [MagicMock(choices=[MagicMock(delta=MagicMock(content="chunk1"))]),
+                   MagicMock(choices=[MagicMock(delta=MagicMock(content="chunk2"))])]
+    # Add your test logic here using mock_stream
+
+from unittest.mock import MagicMock
+import pytest
+
+@pytest.mark.asyncio
+async def test_openai_chat_completion():
+    mock_response = MagicMock()
+    mock_response.choices[0].message.content = "This is a test response."
     # Add additional test logic here as needed
 
 from unittest.mock import MagicMock
 import pytest
 
 @pytest.mark.asyncio
-async def test_openai_chat_completion():
-    mock_response = MagicMock()
-    mock_response.choices = [MagicMock(message=MagicMock(content="chat content"))]
-    # Add your test logic here using mock_response
-
-from unittest.mock import MagicMock
-import pytest
-
-@pytest.mark.asyncio
 async def test_execute_text_generation():
     mock_response = MagicMock()
-    mock_response.choices = [MagicMock(message=MagicMock(content="generated content"))]
-    # Add your test logic here using mock_response
+    mock_response.choices[0].message.content = "This is a test response."
+    # Add additional test logic here if needed
 
 from unittest.mock import MagicMock
 import pytest
@@ -626,68 +616,75 @@ import pytest
 @pytest.mark.asyncio
 async def test_execute_vision():
     mock_response = MagicMock()
-    mock_response.choices = [MagicMock(message=MagicMock(content="vision content"))]
+    mock_response.choices[0].message.content = "This is a test response."
+    # Add your test logic here using mock_response
 
-2025-04-17 12:14:00,745 - INFO - After Improvement
+2025-04-17 12:17:07,731 - INFO - After Improvement
 import asyncio
-import json
-import os
-from theory_evaluation.llm_handler import OpenAI_llm
-import pytest
 from unittest.mock import patch, MagicMock
+import pytest
+import json
+from theory_evaluation.llm_handler import OpenAI_llm
 
 @pytest.mark.asyncio
 async def test_openai_llm_initialization():
-    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure_openai, \
          patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
-         patch('os.getenv', return_value='mock_value'):
+         patch('theory_evaluation.llm_handler.os.getenv', side_effect=lambda key: f"mock_{key}"):
         
         llm = OpenAI_llm(useAzureOpenAI=True)
-        assert hasattr(llm, 'client')
-        assert mock_azure.called
+        assert llm.client == mock_azure_openai.return_value
+        assert llm.azure_endpoint == "mock_AZURE_OPENAI_ENDPOINT_SWEDEN"
+        assert llm.api_version == "mock_AZURE_OPENAI_API_VERSION"
+        assert llm.model_name == "mock_AZURE_OPENAI_DEPLOYMENT_NAME"
 
 @pytest.mark.asyncio
 async def test_openai_json_completion():
     mock_response = MagicMock()
-    mock_response.choices = [MagicMock(message=MagicMock(content=json.dumps({"key": "value"})))]
+    mock_response.choices[0].message.content = json.dumps({"answer": "42", "explanation": "The answer to life."})
+    # Add assertions or further test logic here as needed
 
 @pytest.mark.asyncio
 async def test_openai_streaming():
-    mock_chunk = MagicMock()
-    mock_chunk.choices = [MagicMock(delta=MagicMock(content="streaming content"))]
+    mock_stream = [MagicMock(choices=[MagicMock(delta=MagicMock(content="chunk1"))]),
+                   MagicMock(choices=[MagicMock(delta=MagicMock(content="chunk2"))])]
+    # Add your test logic here using mock_stream
 
 @pytest.mark.asyncio
 async def test_openai_chat_completion():
     mock_response = MagicMock()
-    mock_response.choices = [MagicMock(message=MagicMock(content="chat content"))]
+    mock_response.choices[0].message.content = "This is a test response."
+    # Add additional test logic here as needed
 
 @pytest.mark.asyncio
 async def test_execute_text_generation():
     mock_response = MagicMock()
-    mock_response.choices = [MagicMock(message=MagicMock(content="generated content"))]
+    mock_response.choices[0].message.content = "This is a test response."
+    # Add additional test logic here if needed
 
 @pytest.mark.asyncio
 async def test_execute_vision():
     mock_response = MagicMock()
-    mock_response.choices = [MagicMock(message=MagicMock(content="vision content"))]
-2025-04-17 12:14:02,897 - INFO - Improvement of test cases processed successfully
-2025-04-17 12:14:02,898 - INFO - run_each_pytest_function_individually complete
-2025-04-17 12:14:02,898 - INFO - End Processing file: theory_evaluation\llm_handler.py
+    mock_response.choices[0].message.content = "This is a test response."
+    # Add your test logic here using mock_response
+2025-04-17 12:17:09,895 - INFO - Improvement of test cases processed successfully
+2025-04-17 12:17:09,895 - INFO - run_each_pytest_function_individually complete
+2025-04-17 12:17:09,896 - INFO - End Processing file: theory_evaluation\llm_handler.py
 
-2025-04-17 12:14:02,898 - INFO - 
+2025-04-17 12:17:09,896 - INFO - 
 Start Processing file: theory_evaluation\llm_utils.py
-2025-04-17 12:14:02,898 - INFO - Extraction of function and class start
-2025-04-17 12:14:02,899 - INFO - extraction of function and class complete
-2025-04-17 12:14:02,899 - INFO - Generate Unit Test Case starts
-2025-04-17 12:14:02,899 - INFO - Extract unique import start
-2025-04-17 12:14:03,576 - INFO - Extract unique import complete
-2025-04-17 12:14:03,577 - INFO - Update relative import start
-2025-04-17 12:14:03,577 - INFO - Update relative import complete
-2025-04-17 12:14:07,113 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 12:14:07,114 - INFO - Generate Unit Test Case complete
-2025-04-17 12:14:07,115 - INFO - run_each_pytest_function_individually start
-2025-04-17 12:14:11,710 - INFO - Number of test case to process - 4
-2025-04-17 12:14:11,711 - INFO - 
+2025-04-17 12:17:09,897 - INFO - Extraction of function and class start
+2025-04-17 12:17:09,899 - INFO - extraction of function and class complete
+2025-04-17 12:17:09,899 - INFO - Generate Unit Test Case starts
+2025-04-17 12:17:09,900 - INFO - Extract unique import start
+2025-04-17 12:17:10,603 - INFO - Extract unique import complete
+2025-04-17 12:17:10,604 - INFO - Update relative import start
+2025-04-17 12:17:10,606 - INFO - Update relative import complete
+2025-04-17 12:17:15,968 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 12:17:15,969 - INFO - Generate Unit Test Case complete
+2025-04-17 12:17:15,981 - INFO - run_each_pytest_function_individually start
+2025-04-17 12:17:22,045 - INFO - Number of test case to process - 3
+2025-04-17 12:17:22,046 - INFO - 
 TEST CASE 1 Retry 0
 ---------------
 import os
@@ -696,16 +693,114 @@ import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 import pytest
 
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "Hello, {$name}!"
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
+    mock_files = {
+        "./theory_evaluation/evaluator/prompts/agent/config.yaml": config_content,
+        "./theory_evaluation/evaluator/prompts/agent/prompt.txt": prompt_content,
+        "./theory_evaluation/evaluator/prompts/agent/llm_settings.yaml": settings_content,
+    }
+    return mock_files
 
-
-def test_initialise_prompt_success():
-    agent = "test_agent"
-    config_yaml_content = "placeholder_value: test_value"
-    prompt_txt_content = "This is a {$placeholder_value} test."
+def test_initialise_prompt(mock_open_files):
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data="")) as mock_file:
+        mock_file.side_effect = lambda file_path, mode='r': mock_open(read_data=mock_open_files[file_path]).return_value
 
 ---------------
-2025-04-17 12:14:12,477 - INFO - TEST CASE 1 Retry 0 - Result - Passed
-2025-04-17 12:14:12,477 - INFO - 
+2025-04-17 12:17:22,963 - INFO - TEST CASE 1 Retry 0 - Result - Failed
+2025-04-17 12:17:22,964 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+___________________________ test_initialise_prompt ____________________________
+temp\temp.py:20: in test_initialise_prompt
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data="")) as mock_file:
+E   NameError: name 'patch' is not defined
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_initialise_prompt - NameError: name 'patch' is not ...
+1 failed in 0.22s
+2025-04-17 12:17:24,241 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 12:17:24,243 - INFO - 
+TEST CASE 1 Retry 1
+---------------
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "Hello, {$name}!"
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
+    mock_files = {
+        "./theory_evaluation/evaluator/prompts/agent/config.yaml": config_content,
+        "./theory_evaluation/evaluator/prompts/agent/prompt.txt": prompt_content,
+        "./theory_evaluation/evaluator/prompts/agent/llm_settings.yaml": settings_content,
+    }
+    return mock_files
+
+from unittest.mock import patch, mock_open
+
+def test_initialise_prompt(mock_open_files):
+    with patch("theory_evaluation.evaluator.prompts.open", mock_open(read_data="")) as mock_file:
+        mock_file.side_effect = lambda file_path, mode='r': mock_open(read_data=mock_open_files[file_path]).return_value
+
+---------------
+2025-04-17 12:17:25,374 - INFO - TEST CASE 1 Retry 1 - Result - Failed
+2025-04-17 12:17:25,375 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+___________________________ test_initialise_prompt ____________________________
+temp\temp.py:22: in test_initialise_prompt
+    with patch("theory_evaluation.evaluator.prompts.open", mock_open(read_data="")) as mock_file:
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1479: in __enter__
+    self.target = self.getter()
+C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\pkgutil.py:528: in resolve_name
+    result = getattr(result, p)
+E   AttributeError: module 'theory_evaluation' has no attribute 'evaluator'
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_initialise_prompt - AttributeError: module 'theory_...
+1 failed in 0.34s
+2025-04-17 12:17:26,905 - INFO - 
+TEST CASE 1 Retry 2
+---------------
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "Hello, {$name}!"
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
+    mock_files = {
+        "./theory_evaluation/evaluator/prompts/agent/config.yaml": config_content,
+        "./theory_evaluation/evaluator/prompts/agent/prompt.txt": prompt_content,
+        "./theory_evaluation/evaluator/prompts/agent/llm_settings.yaml": settings_content,
+    }
+    return mock_files
+
+from unittest.mock import patch, mock_open
+
+def test_initialise_prompt(mock_open_files):
+    with patch("builtins.open", mock_open(read_data="")) as mock_file:
+        mock_file.side_effect = lambda file_path, mode='r': mock_open(read_data=mock_open_files[file_path]).return_value
+
+---------------
+2025-04-17 12:17:27,783 - INFO - TEST CASE 1 Retry 2 - Result - Passed
+2025-04-17 12:17:27,783 - INFO - 
 TEST CASE 2 Retry 0
 ---------------
 import os
@@ -714,52 +809,25 @@ import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 import pytest
 
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "Hello, {$name}!"
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
+    mock_files = {
+        "./theory_evaluation/evaluator/prompts/agent/config.yaml": config_content,
+        "./theory_evaluation/evaluator/prompts/agent/prompt.txt": prompt_content,
+        "./theory_evaluation/evaluator/prompts/agent/llm_settings.yaml": settings_content,
+    }
+    return mock_files
 
-
-def test_initialise_prompt_no_config_path():
-    agent = "test_agent"
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_prompt(agent)
-    assert result is None
-
----------------
-2025-04-17 12:14:13,411 - INFO - TEST CASE 2 Retry 0 - Result - Failed
-2025-04-17 12:14:13,411 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
-The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
-
-  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-F                                                                        [100%]
-================================== FAILURES ===================================
-____________________ test_initialise_prompt_no_config_path ____________________
-temp\temp.py:11: in test_initialise_prompt_no_config_path
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-E   NameError: name 'patch' is not defined
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_initialise_prompt_no_config_path - NameError: name ...
-1 failed in 0.19s
-2025-04-17 12:14:14,459 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 12:14:14,460 - INFO - 
-TEST CASE 2 Retry 1
----------------
-import os
-import re
-import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
-import pytest
-
-
-
-from unittest.mock import patch
-
-def test_initialise_prompt_no_config_path():
-    agent = "test_agent"
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_prompt(agent)
-    assert result is None
+def test_initialise_prompt_missing_placeholder(mock_open_files):
+    prompt_content = "Hello, {$missing}!"
+    mock_open_files["./theory_evaluation/evaluator/prompts/agent/prompt.txt"] = prompt_content
 
 ---------------
-2025-04-17 12:14:15,284 - INFO - TEST CASE 2 Retry 1 - Result - Passed
-2025-04-17 12:14:15,284 - INFO - 
+2025-04-17 12:17:28,655 - INFO - TEST CASE 2 Retry 0 - Result - Passed
+2025-04-17 12:17:28,655 - INFO - 
 TEST CASE 3 Retry 0
 ---------------
 import os
@@ -768,143 +836,1335 @@ import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 import pytest
 
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "Hello, {$name}!"
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
+    mock_files = {
+        "./theory_evaluation/evaluator/prompts/agent/config.yaml": config_content,
+        "./theory_evaluation/evaluator/prompts/agent/prompt.txt": prompt_content,
+        "./theory_evaluation/evaluator/prompts/agent/llm_settings.yaml": settings_content,
+    }
+    return mock_files
 
-
-def test_initialise_settings_success():
-    agent = "test_agent"
-    llm_settings_content = "key: value"
-
----------------
-2025-04-17 12:14:16,031 - INFO - TEST CASE 3 Retry 0 - Result - Passed
-2025-04-17 12:14:16,031 - INFO - 
-TEST CASE 4 Retry 0
----------------
-import os
-import re
-import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
-import pytest
-
-
-
-def test_initialise_settings_no_config_path():
-    agent = "test_agent"
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_settings(agent)
-    assert result is None
+def test_initialise_settings(mock_open_files):
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data="")) as mock_file:
+        mock_file.side_effect = lambda file_path, mode='r': mock_open(read_data=mock_open_files[file_path]).return_value
 
 ---------------
-2025-04-17 12:14:16,794 - INFO - TEST CASE 4 Retry 0 - Result - Failed
-2025-04-17 12:14:16,794 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+2025-04-17 12:17:29,448 - INFO - TEST CASE 3 Retry 0 - Result - Failed
+2025-04-17 12:17:29,449 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
 F                                                                        [100%]
 ================================== FAILURES ===================================
-___________________ test_initialise_settings_no_config_path ___________________
-temp\temp.py:11: in test_initialise_settings_no_config_path
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+__________________________ test_initialise_settings ___________________________
+temp\temp.py:20: in test_initialise_settings
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data="")) as mock_file:
 E   NameError: name 'patch' is not defined
 =========================== short test summary info ===========================
-FAILED temp/temp.py::test_initialise_settings_no_config_path - NameError: nam...
-1 failed in 0.18s
-2025-04-17 12:14:17,977 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 12:14:17,978 - INFO - 
+FAILED temp/temp.py::test_initialise_settings - NameError: name 'patch' is no...
+1 failed in 0.15s
+2025-04-17 12:17:30,686 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 12:17:30,687 - INFO - 
+TEST CASE 3 Retry 1
+---------------
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "Hello, {$name}!"
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
+    mock_files = {
+        "./theory_evaluation/evaluator/prompts/agent/config.yaml": config_content,
+        "./theory_evaluation/evaluator/prompts/agent/prompt.txt": prompt_content,
+        "./theory_evaluation/evaluator/prompts/agent/llm_settings.yaml": settings_content,
+    }
+    return mock_files
+
+from unittest.mock import patch, mock_open
+
+def test_initialise_settings(mock_open_files):
+    with patch("builtins.open", mock_open(read_data="")) as mock_file:
+        mock_file.side_effect = lambda file_path, mode='r': mock_open(read_data=mock_open_files[file_path]).return_value
+        # Add the rest of your test logic here
+
+---------------
+2025-04-17 12:17:31,535 - INFO - TEST CASE 3 Retry 1 - Result - Passed
+2025-04-17 12:17:31,536 - INFO - Before Improvement
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "Hello, {$name}!"
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
+    mock_files = {
+        "./theory_evaluation/evaluator/prompts/agent/config.yaml": config_content,
+        "./theory_evaluation/evaluator/prompts/agent/prompt.txt": prompt_content,
+        "./theory_evaluation/evaluator/prompts/agent/llm_settings.yaml": settings_content,
+    }
+    return mock_files
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "Hello, {$name}!"
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
+    mock_files = {
+        "./theory_evaluation/evaluator/prompts/agent/config.yaml": config_content,
+        "./theory_evaluation/evaluator/prompts/agent/prompt.txt": prompt_content,
+        "./theory_evaluation/evaluator/prompts/agent/llm_settings.yaml": settings_content,
+    }
+    return mock_files
+from unittest.mock import patch, mock_open
+
+def test_initialise_prompt(mock_open_files):
+    with patch("builtins.open", mock_open(read_data="")) as mock_file:
+        mock_file.side_effect = lambda file_path, mode='r': mock_open(read_data=mock_open_files[file_path]).return_value
+
+def test_initialise_prompt_missing_placeholder(mock_open_files):
+    prompt_content = "Hello, {$missing}!"
+    mock_open_files["./theory_evaluation/evaluator/prompts/agent/prompt.txt"] = prompt_content
+
+from unittest.mock import patch, mock_open
+
+def test_initialise_settings(mock_open_files):
+    with patch("builtins.open", mock_open(read_data="")) as mock_file:
+        mock_file.side_effect = lambda file_path, mode='r': mock_open(read_data=mock_open_files[file_path]).return_value
+        # Add the rest of your test logic here
+
+2025-04-17 12:17:35,316 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 12:17:35,317 - INFO - After Improvement
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+from unittest.mock import patch, mock_open
+
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "Hello, {$name}!"
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
+    mock_files = {
+        "./theory_evaluation/evaluator/prompts/agent/config.yaml": config_content,
+        "./theory_evaluation/evaluator/prompts/agent/prompt.txt": prompt_content,
+        "./theory_evaluation/evaluator/prompts/agent/llm_settings.yaml": settings_content,
+    }
+    return mock_files
+
+def test_initialise_prompt(mock_open_files):
+    with patch("builtins.open", mock_open(read_data="")) as mock_file:
+        mock_file.side_effect = lambda file_path, mode='r': mock_open(read_data=mock_open_files[file_path]).return_value
+
+def test_initialise_prompt_missing_placeholder(mock_open_files):
+    prompt_content = "Hello, {$missing}!"
+    mock_open_files["./theory_evaluation/evaluator/prompts/agent/prompt.txt"] = prompt_content
+
+def test_initialise_settings(mock_open_files):
+    with patch("builtins.open", mock_open(read_data="")) as mock_file:
+        mock_file.side_effect = lambda file_path, mode='r': mock_open(read_data=mock_open_files[file_path]).return_value
+        # Add the rest of your test logic here
+2025-04-17 12:17:36,226 - INFO - Improvement of test cases processed successfully
+2025-04-17 12:17:36,227 - INFO - run_each_pytest_function_individually complete
+2025-04-17 12:17:36,227 - INFO - End Processing file: theory_evaluation\llm_utils.py
+
+2025-04-17 12:17:36,227 - INFO - 
+Start Processing file: theory_evaluation\models.py
+2025-04-17 12:17:36,227 - INFO - Extraction of function and class start
+2025-04-17 12:17:36,228 - INFO - extraction of function and class complete
+2025-04-17 12:17:36,229 - INFO - Generate Unit Test Case starts
+2025-04-17 12:17:36,229 - INFO - Extract unique import start
+2025-04-17 12:17:37,506 - INFO - Extract unique import complete
+2025-04-17 12:17:37,507 - INFO - Update relative import start
+2025-04-17 12:17:37,508 - INFO - Update relative import complete
+2025-04-17 12:17:45,916 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 12:17:45,916 - INFO - Generate Unit Test Case complete
+2025-04-17 12:17:45,927 - INFO - run_each_pytest_function_individually start
+2025-04-17 12:17:54,534 - INFO - Number of test case to process - 10
+2025-04-17 12:17:54,535 - INFO - 
+TEST CASE 1 Retry 0
+---------------
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    create_engine,
+    Float,
+    ForeignKey,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+import uuid
+from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
+import pytest
+
+
+
+def test_user_info_table_columns():
+    inspector = inspect(UserInfo)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "first_name", "last_name", "email", "github_username",
+        "payment_date", "current_duration", "course_duration",
+        "end_date", "status"
+    ]
+    assert set(columns) == set(expected_columns)
+
+---------------
+2025-04-17 12:17:57,071 - INFO - TEST CASE 1 Retry 0 - Result - Failed
+2025-04-17 12:17:57,072 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+________________________ test_user_info_table_columns _________________________
+temp\temp.py:22: in test_user_info_table_columns
+    inspector = inspect(UserInfo)
+E   NameError: name 'inspect' is not defined. Did you forget to import 'inspect'?
+============================== warnings summary ===============================
+theory_evaluation\models.py:17
+  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\theory_evaluation\models.py:17: MovedIn20Warning: The ``declarative_base()`` function is now available as sqlalchemy.orm.declarative_base(). (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    Base = declarative_base()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_user_info_table_columns - NameError: name 'inspect'...
+1 failed, 1 warning in 1.63s
+2025-04-17 12:17:58,617 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 12:17:58,618 - INFO - 
+TEST CASE 1 Retry 1
+---------------
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    create_engine,
+    Float,
+    ForeignKey,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+import uuid
+from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
+import pytest
+
+
+
+from sqlalchemy import inspect
+
+def test_user_info_table_columns():
+    inspector = inspect(UserInfo)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "first_name", "last_name", "email", "github_username",
+        "payment_date", "current_duration", "course_duration",
+        "end_date", "status"
+    ]
+    assert set(columns) == set(expected_columns)
+
+---------------
+2025-04-17 12:18:00,250 - INFO - TEST CASE 1 Retry 1 - Result - Passed
+2025-04-17 12:18:00,251 - INFO - 
+TEST CASE 2 Retry 0
+---------------
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    create_engine,
+    Float,
+    ForeignKey,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+import uuid
+from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
+import pytest
+
+
+
+def test_projects_table_columns():
+    inspector = inspect(Projects)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "repo_name", "problem_statement", "bloblink",
+        "mini_project_flag", "ctime"
+    ]
+    assert set(columns) == set(expected_columns)
+
+---------------
+2025-04-17 12:18:02,045 - INFO - TEST CASE 2 Retry 0 - Result - Failed
+2025-04-17 12:18:02,046 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+_________________________ test_projects_table_columns _________________________
+temp\temp.py:22: in test_projects_table_columns
+    inspector = inspect(Projects)
+E   NameError: name 'inspect' is not defined. Did you forget to import 'inspect'?
+============================== warnings summary ===============================
+theory_evaluation\models.py:17
+  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\theory_evaluation\models.py:17: MovedIn20Warning: The ``declarative_base()`` function is now available as sqlalchemy.orm.declarative_base(). (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    Base = declarative_base()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_projects_table_columns - NameError: name 'inspect' ...
+1 failed, 1 warning in 0.85s
+2025-04-17 12:18:03,383 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 12:18:03,384 - INFO - 
+TEST CASE 2 Retry 1
+---------------
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    create_engine,
+    Float,
+    ForeignKey,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+import uuid
+from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
+import pytest
+
+
+
+from sqlalchemy import inspect
+
+def test_projects_table_columns():
+    inspector = inspect(Projects)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "repo_name", "problem_statement", "bloblink",
+        "mini_project_flag", "ctime"
+    ]
+    assert set(columns) == set(expected_columns)
+
+---------------
+2025-04-17 12:18:04,890 - INFO - TEST CASE 2 Retry 1 - Result - Passed
+2025-04-17 12:18:04,891 - INFO - 
+TEST CASE 3 Retry 0
+---------------
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    create_engine,
+    Float,
+    ForeignKey,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+import uuid
+from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
+import pytest
+
+
+
+def test_sprint_issues_table_columns():
+    inspector = inspect(SprintIssues)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "psid", "sprint_no", "issue_no", "title",
+        "description", "max_evaluations", "last_issue_flag"
+    ]
+    assert set(columns) == set(expected_columns)
+
+---------------
+2025-04-17 12:18:06,567 - INFO - TEST CASE 3 Retry 0 - Result - Failed
+2025-04-17 12:18:06,568 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+______________________ test_sprint_issues_table_columns _______________________
+temp\temp.py:22: in test_sprint_issues_table_columns
+    inspector = inspect(SprintIssues)
+E   NameError: name 'inspect' is not defined. Did you forget to import 'inspect'?
+============================== warnings summary ===============================
+theory_evaluation\models.py:17
+  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\theory_evaluation\models.py:17: MovedIn20Warning: The ``declarative_base()`` function is now available as sqlalchemy.orm.declarative_base(). (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    Base = declarative_base()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_sprint_issues_table_columns - NameError: name 'insp...
+1 failed, 1 warning in 0.77s
+2025-04-17 12:18:10,936 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 12:18:10,938 - INFO - 
+TEST CASE 3 Retry 1
+---------------
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    create_engine,
+    Float,
+    ForeignKey,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+import uuid
+from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
+import pytest
+
+
+
+from sqlalchemy import inspect
+
+def test_sprint_issues_table_columns():
+    inspector = inspect(SprintIssues)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "psid", "sprint_no", "issue_no", "title",
+        "description", "max_evaluations", "last_issue_flag"
+    ]
+    assert set(columns) == set(expected_columns)
+
+---------------
+2025-04-17 12:18:12,537 - INFO - TEST CASE 3 Retry 1 - Result - Passed
+2025-04-17 12:18:12,537 - INFO - 
+TEST CASE 4 Retry 0
+---------------
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    create_engine,
+    Float,
+    ForeignKey,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+import uuid
+from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
+import pytest
+
+
+
+def test_user_repo_table_columns():
+    inspector = inspect(UserRepo)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "user_id", "psid", "github_username",
+        "repo_name", "github_url"
+    ]
+    assert set(columns) == set(expected_columns)
+
+---------------
+2025-04-17 12:18:14,064 - INFO - TEST CASE 4 Retry 0 - Result - Failed
+2025-04-17 12:18:14,064 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+________________________ test_user_repo_table_columns _________________________
+temp\temp.py:22: in test_user_repo_table_columns
+    inspector = inspect(UserRepo)
+E   NameError: name 'inspect' is not defined. Did you forget to import 'inspect'?
+============================== warnings summary ===============================
+theory_evaluation\models.py:17
+  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\theory_evaluation\models.py:17: MovedIn20Warning: The ``declarative_base()`` function is now available as sqlalchemy.orm.declarative_base(). (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    Base = declarative_base()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_user_repo_table_columns - NameError: name 'inspect'...
+1 failed, 1 warning in 0.67s
+2025-04-17 12:18:15,486 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 12:18:15,487 - INFO - 
 TEST CASE 4 Retry 1
 ---------------
-import os
-import re
-import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    create_engine,
+    Float,
+    ForeignKey,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+import uuid
+from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
 import pytest
 
 
 
-from unittest.mock import patch
+from sqlalchemy import inspect
 
-def test_initialise_settings_no_config_path():
-    agent = "test_agent"
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_settings(agent)
-    assert result is None
+def test_user_repo_table_columns():
+    inspector = inspect(UserRepo)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "user_id", "psid", "github_username",
+        "repo_name", "github_url"
+    ]
+    assert set(columns) == set(expected_columns)
 
 ---------------
-2025-04-17 12:14:18,880 - INFO - TEST CASE 4 Retry 1 - Result - Passed
-2025-04-17 12:14:18,881 - INFO - Before Improvement
-import os
-import re
-import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+2025-04-17 12:18:17,091 - INFO - TEST CASE 4 Retry 1 - Result - Passed
+2025-04-17 12:18:17,092 - INFO - 
+TEST CASE 5 Retry 0
+---------------
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    create_engine,
+    Float,
+    ForeignKey,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+import uuid
+from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
 import pytest
 
 
-import os
-import re
-import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+
+def test_user_score_log_table_columns():
+    inspector = inspect(UserScoreLog)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "user_id", "psid", "eval_sprint", "eval_issue",
+        "stage", "score_number", "score_status", "current_sprint",
+        "current_issue", "num_tries", "max_tries", "ctime"
+    ]
+    assert set(columns) == set(expected_columns)
+
+---------------
+2025-04-17 12:18:18,770 - INFO - TEST CASE 5 Retry 0 - Result - Failed
+2025-04-17 12:18:18,771 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+______________________ test_user_score_log_table_columns ______________________
+temp\temp.py:22: in test_user_score_log_table_columns
+    inspector = inspect(UserScoreLog)
+E   NameError: name 'inspect' is not defined. Did you forget to import 'inspect'?
+============================== warnings summary ===============================
+theory_evaluation\models.py:17
+  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\theory_evaluation\models.py:17: MovedIn20Warning: The ``declarative_base()`` function is now available as sqlalchemy.orm.declarative_base(). (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    Base = declarative_base()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_user_score_log_table_columns - NameError: name 'ins...
+1 failed, 1 warning in 0.74s
+2025-04-17 12:18:20,722 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 12:18:20,723 - INFO - 
+TEST CASE 5 Retry 1
+---------------
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    create_engine,
+    Float,
+    ForeignKey,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+import uuid
+from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
 import pytest
 
 
-def test_initialise_prompt_success():
-    agent = "test_agent"
-    config_yaml_content = "placeholder_value: test_value"
-    prompt_txt_content = "This is a {$placeholder_value} test."
 
-from unittest.mock import patch
+from sqlalchemy import inspect
 
-def test_initialise_prompt_no_config_path():
-    agent = "test_agent"
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_prompt(agent)
-    assert result is None
+def test_user_score_log_table_columns():
+    inspector = inspect(UserScoreLog)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "user_id", "psid", "eval_sprint", "eval_issue",
+        "stage", "score_number", "score_status", "current_sprint",
+        "current_issue", "num_tries", "max_tries", "ctime"
+    ]
+    assert set(columns) == set(expected_columns)
 
-def test_initialise_settings_success():
-    agent = "test_agent"
-    llm_settings_content = "key: value"
-
-from unittest.mock import patch
-
-def test_initialise_settings_no_config_path():
-    agent = "test_agent"
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_settings(agent)
-    assert result is None
-
-2025-04-17 12:14:21,088 - INFO - After Improvement
-import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+---------------
+2025-04-17 12:18:22,237 - INFO - TEST CASE 5 Retry 1 - Result - Passed
+2025-04-17 12:18:22,237 - INFO - 
+TEST CASE 6 Retry 0
+---------------
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    create_engine,
+    Float,
+    ForeignKey,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+import uuid
+from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
 import pytest
-from unittest.mock import patch
 
 
-def test_initialise_prompt_success():
-    agent = "test_agent"
-    config_yaml_content = "placeholder_value: test_value"
-    prompt_txt_content = "This is a {$placeholder_value} test."
+
+def test_current_user_table_columns():
+    inspector = inspect(CurrentUserTable)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "user_id", "psid", "current_sprint",
+        "current_issue", "ctime", "num_tries"
+    ]
+    assert set(columns) == set(expected_columns)
+
+---------------
+2025-04-17 12:18:23,955 - INFO - TEST CASE 6 Retry 0 - Result - Failed
+2025-04-17 12:18:23,956 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+_______________________ test_current_user_table_columns _______________________
+temp\temp.py:22: in test_current_user_table_columns
+    inspector = inspect(CurrentUserTable)
+E   NameError: name 'inspect' is not defined. Did you forget to import 'inspect'?
+============================== warnings summary ===============================
+theory_evaluation\models.py:17
+  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\theory_evaluation\models.py:17: MovedIn20Warning: The ``declarative_base()`` function is now available as sqlalchemy.orm.declarative_base(). (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    Base = declarative_base()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_current_user_table_columns - NameError: name 'inspe...
+1 failed, 1 warning in 0.79s
+2025-04-17 12:18:26,181 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 12:18:26,182 - INFO - 
+TEST CASE 6 Retry 1
+---------------
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    create_engine,
+    Float,
+    ForeignKey,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+import uuid
+from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
+import pytest
 
 
-def test_initialise_prompt_no_config_path():
-    agent = "test_agent"
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_prompt(agent)
-    assert result is None
+
+from sqlalchemy import inspect
+
+def test_current_user_table_columns():
+    inspector = inspect(CurrentUserTable)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "user_id", "psid", "current_sprint",
+        "current_issue", "ctime", "num_tries"
+    ]
+    assert set(columns) == set(expected_columns)
+
+---------------
+2025-04-17 12:18:27,838 - INFO - TEST CASE 6 Retry 1 - Result - Passed
+2025-04-17 12:18:27,839 - INFO - 
+TEST CASE 7 Retry 0
+---------------
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    create_engine,
+    Float,
+    ForeignKey,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+import uuid
+from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
+import pytest
 
 
-def test_initialise_settings_success():
-    agent = "test_agent"
-    llm_settings_content = "key: value"
+
+def test_consultant_chat_table_columns():
+    inspector = inspect(ConsultantChat)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "email", "consultant_history", "modified_on", "project_id"
+    ]
+    assert set(columns) == set(expected_columns)
+
+---------------
+2025-04-17 12:18:29,394 - INFO - TEST CASE 7 Retry 0 - Result - Failed
+2025-04-17 12:18:29,395 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+_____________________ test_consultant_chat_table_columns ______________________
+temp\temp.py:22: in test_consultant_chat_table_columns
+    inspector = inspect(ConsultantChat)
+E   NameError: name 'inspect' is not defined. Did you forget to import 'inspect'?
+============================== warnings summary ===============================
+theory_evaluation\models.py:17
+  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\theory_evaluation\models.py:17: MovedIn20Warning: The ``declarative_base()`` function is now available as sqlalchemy.orm.declarative_base(). (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    Base = declarative_base()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_consultant_chat_table_columns - NameError: name 'in...
+1 failed, 1 warning in 0.74s
+2025-04-17 12:18:30,942 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 12:18:30,943 - INFO - 
+TEST CASE 7 Retry 1
+---------------
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    create_engine,
+    Float,
+    ForeignKey,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+import uuid
+from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
+import pytest
 
 
-def test_initialise_settings_no_config_path():
-    agent = "test_agent"
-    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_settings(agent)
-    assert result is None
-2025-04-17 12:14:21,858 - INFO - Improvement of test cases processed successfully
-2025-04-17 12:14:21,859 - INFO - run_each_pytest_function_individually complete
-2025-04-17 12:14:21,859 - INFO - End Processing file: theory_evaluation\llm_utils.py
 
-2025-04-17 12:14:21,861 - INFO - 
+from sqlalchemy import inspect
+
+def test_consultant_chat_table_columns():
+    inspector = inspect(ConsultantChat)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "email", "consultant_history", "modified_on", "project_id"
+    ]
+    assert set(columns) == set(expected_columns)
+
+---------------
+2025-04-17 12:18:32,432 - INFO - TEST CASE 7 Retry 1 - Result - Passed
+2025-04-17 12:18:32,433 - INFO - 
+TEST CASE 8 Retry 0
+---------------
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    create_engine,
+    Float,
+    ForeignKey,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+import uuid
+from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
+import pytest
+
+
+
+def test_mentor_chat_table_columns():
+    inspector = inspect(MentorChat)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "user_id", "route", "sender_type",
+        "message_content", "timestamp"
+    ]
+    assert set(columns) == set(expected_columns)
+
+---------------
+2025-04-17 12:18:34,051 - INFO - TEST CASE 8 Retry 0 - Result - Failed
+2025-04-17 12:18:34,052 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+_______________________ test_mentor_chat_table_columns ________________________
+temp\temp.py:22: in test_mentor_chat_table_columns
+    inspector = inspect(MentorChat)
+E   NameError: name 'inspect' is not defined. Did you forget to import 'inspect'?
+============================== warnings summary ===============================
+theory_evaluation\models.py:17
+  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\theory_evaluation\models.py:17: MovedIn20Warning: The ``declarative_base()`` function is now available as sqlalchemy.orm.declarative_base(). (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    Base = declarative_base()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_mentor_chat_table_columns - NameError: name 'inspec...
+1 failed, 1 warning in 0.77s
+2025-04-17 12:18:36,081 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 12:18:36,082 - INFO - 
+TEST CASE 8 Retry 1
+---------------
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    create_engine,
+    Float,
+    ForeignKey,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+import uuid
+from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
+import pytest
+
+
+
+from sqlalchemy import inspect
+
+def test_mentor_chat_table_columns():
+    inspector = inspect(MentorChat)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "user_id", "route", "sender_type",
+        "message_content", "timestamp"
+    ]
+    assert set(columns) == set(expected_columns)
+
+---------------
+2025-04-17 12:18:37,811 - INFO - TEST CASE 8 Retry 1 - Result - Passed
+2025-04-17 12:18:37,812 - INFO - 
+TEST CASE 9 Retry 0
+---------------
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    create_engine,
+    Float,
+    ForeignKey,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+import uuid
+from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
+import pytest
+
+
+
+def test_curriculum_table_columns():
+    inspector = inspect(Curriculum)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "question", "marking_scheme", "model_answer", "timestamp"
+    ]
+    assert set(columns) == set(expected_columns)
+
+---------------
+2025-04-17 12:18:39,286 - INFO - TEST CASE 9 Retry 0 - Result - Failed
+2025-04-17 12:18:39,286 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+________________________ test_curriculum_table_columns ________________________
+temp\temp.py:22: in test_curriculum_table_columns
+    inspector = inspect(Curriculum)
+E   NameError: name 'inspect' is not defined. Did you forget to import 'inspect'?
+============================== warnings summary ===============================
+theory_evaluation\models.py:17
+  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\theory_evaluation\models.py:17: MovedIn20Warning: The ``declarative_base()`` function is now available as sqlalchemy.orm.declarative_base(). (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    Base = declarative_base()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_curriculum_table_columns - NameError: name 'inspect...
+1 failed, 1 warning in 0.71s
+2025-04-17 12:18:40,593 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 12:18:40,594 - INFO - 
+TEST CASE 9 Retry 1
+---------------
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    create_engine,
+    Float,
+    ForeignKey,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+import uuid
+from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
+import pytest
+
+
+
+from sqlalchemy import inspect
+
+def test_curriculum_table_columns():
+    inspector = inspect(Curriculum)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "question", "marking_scheme", "model_answer", "timestamp"
+    ]
+    assert set(columns) == set(expected_columns)
+
+---------------
+2025-04-17 12:18:42,172 - INFO - TEST CASE 9 Retry 1 - Result - Passed
+2025-04-17 12:18:42,173 - INFO - 
+TEST CASE 10 Retry 0
+---------------
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    create_engine,
+    Float,
+    ForeignKey,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+import uuid
+from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
+import pytest
+
+
+
+def test_theory_eval_user_performance_table_columns():
+    inspector = inspect(TheoryEvalUserPerformance)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "email", "question_id", "user_response",
+        "llm_evaluation", "llm_score", "user_grade", "user_attempts",
+        "llm_evaluation_status", "timestamp"
+    ]
+    assert set(columns) == set(expected_columns)
+
+---------------
+2025-04-17 12:18:43,808 - INFO - TEST CASE 10 Retry 0 - Result - Failed
+2025-04-17 12:18:43,808 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+_______________ test_theory_eval_user_performance_table_columns _______________
+temp\temp.py:22: in test_theory_eval_user_performance_table_columns
+    inspector = inspect(TheoryEvalUserPerformance)
+E   NameError: name 'inspect' is not defined. Did you forget to import 'inspect'?
+============================== warnings summary ===============================
+theory_evaluation\models.py:17
+  C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\theory_evaluation\models.py:17: MovedIn20Warning: The ``declarative_base()`` function is now available as sqlalchemy.orm.declarative_base(). (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    Base = declarative_base()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_theory_eval_user_performance_table_columns - NameEr...
+1 failed, 1 warning in 0.70s
+2025-04-17 12:18:45,320 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 12:18:45,321 - INFO - 
+TEST CASE 10 Retry 1
+---------------
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    create_engine,
+    Float,
+    ForeignKey,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+import uuid
+from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
+import pytest
+
+
+
+from sqlalchemy import inspect
+
+def test_theory_eval_user_performance_table_columns():
+    inspector = inspect(TheoryEvalUserPerformance)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "email", "question_id", "user_response",
+        "llm_evaluation", "llm_score", "user_grade", "user_attempts",
+        "llm_evaluation_status", "timestamp"
+    ]
+    assert set(columns) == set(expected_columns)
+
+---------------
+2025-04-17 12:18:47,032 - INFO - TEST CASE 10 Retry 1 - Result - Passed
+2025-04-17 12:18:47,033 - INFO - Before Improvement
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    create_engine,
+    Float,
+    ForeignKey,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+import uuid
+from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
+import pytest
+
+
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    create_engine,
+    Float,
+    ForeignKey,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+import uuid
+from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
+import pytest
+
+
+from sqlalchemy import inspect
+
+def test_user_info_table_columns():
+    inspector = inspect(UserInfo)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "first_name", "last_name", "email", "github_username",
+        "payment_date", "current_duration", "course_duration",
+        "end_date", "status"
+    ]
+    assert set(columns) == set(expected_columns)
+
+from sqlalchemy import inspect
+
+def test_projects_table_columns():
+    inspector = inspect(Projects)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "repo_name", "problem_statement", "bloblink",
+        "mini_project_flag", "ctime"
+    ]
+    assert set(columns) == set(expected_columns)
+
+from sqlalchemy import inspect
+
+def test_sprint_issues_table_columns():
+    inspector = inspect(SprintIssues)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "psid", "sprint_no", "issue_no", "title",
+        "description", "max_evaluations", "last_issue_flag"
+    ]
+    assert set(columns) == set(expected_columns)
+
+from sqlalchemy import inspect
+
+def test_user_repo_table_columns():
+    inspector = inspect(UserRepo)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "user_id", "psid", "github_username",
+        "repo_name", "github_url"
+    ]
+    assert set(columns) == set(expected_columns)
+
+from sqlalchemy import inspect
+
+def test_user_score_log_table_columns():
+    inspector = inspect(UserScoreLog)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "user_id", "psid", "eval_sprint", "eval_issue",
+        "stage", "score_number", "score_status", "current_sprint",
+        "current_issue", "num_tries", "max_tries", "ctime"
+    ]
+    assert set(columns) == set(expected_columns)
+
+from sqlalchemy import inspect
+
+def test_current_user_table_columns():
+    inspector = inspect(CurrentUserTable)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "user_id", "psid", "current_sprint",
+        "current_issue", "ctime", "num_tries"
+    ]
+    assert set(columns) == set(expected_columns)
+
+from sqlalchemy import inspect
+
+def test_consultant_chat_table_columns():
+    inspector = inspect(ConsultantChat)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "email", "consultant_history", "modified_on", "project_id"
+    ]
+    assert set(columns) == set(expected_columns)
+
+from sqlalchemy import inspect
+
+def test_mentor_chat_table_columns():
+    inspector = inspect(MentorChat)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "user_id", "route", "sender_type",
+        "message_content", "timestamp"
+    ]
+    assert set(columns) == set(expected_columns)
+
+from sqlalchemy import inspect
+
+def test_curriculum_table_columns():
+    inspector = inspect(Curriculum)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "question", "marking_scheme", "model_answer", "timestamp"
+    ]
+    assert set(columns) == set(expected_columns)
+
+from sqlalchemy import inspect
+
+def test_theory_eval_user_performance_table_columns():
+    inspector = inspect(TheoryEvalUserPerformance)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "email", "question_id", "user_response",
+        "llm_evaluation", "llm_score", "user_grade", "user_attempts",
+        "llm_evaluation_status", "timestamp"
+    ]
+    assert set(columns) == set(expected_columns)
+
+2025-04-17 12:18:55,756 - INFO - After Improvement
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    create_engine,
+    Float,
+    ForeignKey,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+import uuid
+from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
+import pytest
+from sqlalchemy import inspect
+
+def test_user_info_table_columns():
+    inspector = inspect(UserInfo)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "first_name", "last_name", "email", "github_username",
+        "payment_date", "current_duration", "course_duration",
+        "end_date", "status"
+    ]
+    assert set(columns) == set(expected_columns)
+
+def test_projects_table_columns():
+    inspector = inspect(Projects)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "repo_name", "problem_statement", "bloblink",
+        "mini_project_flag", "ctime"
+    ]
+    assert set(columns) == set(expected_columns)
+
+def test_sprint_issues_table_columns():
+    inspector = inspect(SprintIssues)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "psid", "sprint_no", "issue_no", "title",
+        "description", "max_evaluations", "last_issue_flag"
+    ]
+    assert set(columns) == set(expected_columns)
+
+def test_user_repo_table_columns():
+    inspector = inspect(UserRepo)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "user_id", "psid", "github_username",
+        "repo_name", "github_url"
+    ]
+    assert set(columns) == set(expected_columns)
+
+def test_user_score_log_table_columns():
+    inspector = inspect(UserScoreLog)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "user_id", "psid", "eval_sprint", "eval_issue",
+        "stage", "score_number", "score_status", "current_sprint",
+        "current_issue", "num_tries", "max_tries", "ctime"
+    ]
+    assert set(columns) == set(expected_columns)
+
+def test_current_user_table_columns():
+    inspector = inspect(CurrentUserTable)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "user_id", "psid", "current_sprint",
+        "current_issue", "ctime", "num_tries"
+    ]
+    assert set(columns) == set(expected_columns)
+
+def test_consultant_chat_table_columns():
+    inspector = inspect(ConsultantChat)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "email", "consultant_history", "modified_on", "project_id"
+    ]
+    assert set(columns) == set(expected_columns)
+
+def test_mentor_chat_table_columns():
+    inspector = inspect(MentorChat)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "user_id", "route", "sender_type",
+        "message_content", "timestamp"
+    ]
+    assert set(columns) == set(expected_columns)
+
+def test_curriculum_table_columns():
+    inspector = inspect(Curriculum)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "question", "marking_scheme", "model_answer", "timestamp"
+    ]
+    assert set(columns) == set(expected_columns)
+
+def test_theory_eval_user_performance_table_columns():
+    inspector = inspect(TheoryEvalUserPerformance)
+    columns = [column.name for column in inspector.columns]
+    expected_columns = [
+        "id", "email", "question_id", "user_response",
+        "llm_evaluation", "llm_score", "user_grade", "user_attempts",
+        "llm_evaluation_status", "timestamp"
+    ]
+    assert set(columns) == set(expected_columns)
+2025-04-17 12:18:57,420 - INFO - Improvement of test cases processed successfully
+2025-04-17 12:18:57,420 - INFO - run_each_pytest_function_individually complete
+2025-04-17 12:18:57,421 - INFO - End Processing file: theory_evaluation\models.py
+
+2025-04-17 12:18:57,430 - INFO - 
 +----+-----------------------------------+---------------------------+--------------------+-------------------------+
 |    | filename                          |   total_test_cases_passed |   total_test_cases |   percentage_passed (%) |
 +====+===================================+===========================+====================+=========================+
@@ -912,5 +2172,7 @@ def test_initialise_settings_no_config_path():
 +----+-----------------------------------+---------------------------+--------------------+-------------------------+
 |  2 | theory_evaluation\llm_handler.py  |                         6 |                  6 |                     100 |
 +----+-----------------------------------+---------------------------+--------------------+-------------------------+
-|  3 | theory_evaluation\llm_utils.py    |                         4 |                  4 |                     100 |
+|  3 | theory_evaluation\llm_utils.py    |                         3 |                  3 |                     100 |
++----+-----------------------------------+---------------------------+--------------------+-------------------------+
+|  4 | theory_evaluation\models.py       |                        10 |                 10 |                     100 |
 +----+-----------------------------------+---------------------------+--------------------+-------------------------+
