@@ -119,7 +119,8 @@ def _load_env_variables() -> Dict[str, Any]:
         "llm_new_import_prompt": os.getenv("LLM_NEW_IMPORT_PROMPT"),
         "llm_resolve_prompt": os.getenv("LLM_RESOLVE_PROMPT"),
         "llm_pytest_fixture_prompt": os.getenv("LLM_PYTEST_FIXTURE_PROMPT"),
-        "llm_test_cases_prompt": os.getenv("LLM_TEST_CASES_PROMPT")
+        "llm_test_cases_prompt": os.getenv("LLM_TEST_CASES_PROMPT"),
+        "llm_test_improvement_prompt": os.getenv("LLM_TEST_IMPROVEMENT_PROMPT")
     }
 
 
@@ -456,10 +457,20 @@ def resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_c
         import_statements=import_statements,
         source_code=source_code
     )
-    logger.info(f"formatted_prompt - {formatted_prompt}")
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
+def generate_improved_test_case(provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, import_statements, temperature): 
+    # Format the prompt using the provided template
+    formatted_prompt = llm_resolve_prompt.format(
+        test_case=test_case,
+        test_case_error=test_case_error,
+        import_statements=import_statements,
+        source_code=source_code
+    )
+
+    response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
+    return strip_markdown_fences(response.choices[0].message.content.strip())
 
 from pathlib import Path
 import logging
@@ -483,6 +494,7 @@ def run_each_pytest_function_individually(
     llm_new_import_prompt, 
     llm_pytest_fixture_prompt,
     llm_test_cases_prompt,
+    llm_test_improvement_prompt, 
     import_statements,
     source_code: str,
     test_code: str,
@@ -536,7 +548,13 @@ def run_each_pytest_function_individually(
             if passed:
                 success_test_cases += "\n" + test_case + "\n"
                 logger.info(f"Success_test_cases - {success_test_cases}")
-                logger.info(f"Test Case {idx} processed successfully")
+                improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature)
+                save_test_case_to_temp_file(improved_test_case, temp_file)
+                passed, test_case_error = run_single_test_file(temp_file)
+                if passed:
+                    logger.info(f"Test Case {idx} processed successfully")
+                else:
+                    logger.info(f"Error in generating improved test cases\nTest case:\n{improved_test_case}\nTest error:\n{test_case_error}")
             else:
                 test_file_failure+=unit_test_failure + "\n"
                 logger.info(f"Failed after all retries for test case {idx}")
@@ -581,7 +599,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
 
             test_code, test_file_failure, total_test_case, passed_count = run_each_pytest_function_individually(client, model_arg, temperature, 
                                                               env_vars["llm_resolve_prompt"], env_vars["llm_new_import_prompt"], env_vars["llm_pytest_fixture_prompt"],
-                                                              env_vars["llm_test_cases_prompt"],
+                                                              env_vars["llm_test_cases_prompt"], env_vars["llm_test_improvement_prompt"],
                                                               import_statements, source_code, test_code, Path(env_vars["temp_file"]))
             logger.info(f"Statistic {source_code_path}: \nTotal test case - {total_test_case}\nTotal test case passed - {passed_count}\nPercentage Passed - {passed_count/total_test_case * 100}%\n")
             if test_code:
@@ -598,6 +616,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
                         test_file_failure,
                         test_code
                     )
+            
     except Exception as e:
         logger.error(f"Failed processing {source_code_path}: {e}")
 
