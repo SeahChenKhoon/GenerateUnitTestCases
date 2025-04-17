@@ -1,22 +1,22 @@
-2025-04-17 14:55:59,604 - INFO - Loading environment variables start
-2025-04-17 14:55:59,611 - INFO - Loading environment variables completes
-2025-04-17 14:55:59,611 - INFO - Initialising of LLM start
-2025-04-17 14:56:00,157 - INFO - Initialising of LLM completes
-2025-04-17 14:56:00,158 - INFO - Getting python file starts
-2025-04-17 14:56:00,158 - INFO - Getting python file completes
-2025-04-17 14:56:00,159 - INFO - 
+2025-04-17 15:12:49,133 - INFO - Loading environment variables start
+2025-04-17 15:12:49,143 - INFO - Loading environment variables completes
+2025-04-17 15:12:49,143 - INFO - Initialising of LLM start
+2025-04-17 15:12:49,647 - INFO - Initialising of LLM completes
+2025-04-17 15:12:49,647 - INFO - Getting python file starts
+2025-04-17 15:12:49,648 - INFO - Getting python file completes
+2025-04-17 15:12:49,648 - INFO - 
 Start Processing file: theory_evaluation\circle_utils.py
-2025-04-17 14:56:00,159 - INFO - Extraction of function and class start
-2025-04-17 14:56:00,159 - INFO - extraction of function and class complete
-2025-04-17 14:56:00,159 - INFO - Generate Unit Test Case starts
-2025-04-17 14:56:00,160 - INFO - Extract unique import start
-2025-04-17 14:56:02,019 - INFO - Extract unique import complete
-2025-04-17 14:56:02,020 - INFO - Update relative import start
-2025-04-17 14:56:02,021 - INFO - Update relative import complete
-2025-04-17 14:56:08,258 - INFO - Generate Unit Test Case complete
-2025-04-17 14:56:08,263 - INFO - run_each_pytest_function_individually start
-2025-04-17 14:56:14,009 - INFO - Number of test case to process - 6
-2025-04-17 14:56:14,010 - INFO - 
+2025-04-17 15:12:49,649 - INFO - Extraction of function and class start
+2025-04-17 15:12:49,649 - INFO - extraction of function and class complete
+2025-04-17 15:12:49,649 - INFO - Generate Unit Test Case starts
+2025-04-17 15:12:49,649 - INFO - Extract unique import start
+2025-04-17 15:12:51,212 - INFO - Extract unique import complete
+2025-04-17 15:12:51,213 - INFO - Update relative import start
+2025-04-17 15:12:51,213 - INFO - Update relative import complete
+2025-04-17 15:12:55,425 - INFO - Generate Unit Test Case complete
+2025-04-17 15:12:55,433 - INFO - run_each_pytest_function_individually start
+2025-04-17 15:13:00,144 - INFO - Number of test case to process - 6
+2025-04-17 15:13:00,145 - INFO - 
 TEST CASE 1 Retry 0
 ---------------
 import math
@@ -27,12 +27,12 @@ import pytest
 
 def test_circle_area_returns_correct_value_for_positive_radius():
     # Arrange
-    radius = 3.0
+    radius = 5.0
     expected_area = math.pi * radius ** 2
 
 ---------------
-2025-04-17 14:56:15,463 - INFO - TEST CASE 1 Retry 0 - Result - Passed
-2025-04-17 14:56:15,464 - INFO - 
+2025-04-17 15:13:01,356 - INFO - TEST CASE 1 Retry 0 - Result - Passed
+2025-04-17 15:13:01,357 - INFO - 
 TEST CASE 2 Retry 0
 ---------------
 import math
@@ -46,8 +46,8 @@ def test_circle_area_raises_value_error_for_negative_radius():
     radius = -1.0
 
 ---------------
-2025-04-17 14:56:16,471 - INFO - TEST CASE 2 Retry 0 - Result - Passed
-2025-04-17 14:56:16,471 - INFO - 
+2025-04-17 15:13:02,488 - INFO - TEST CASE 2 Retry 0 - Result - Passed
+2025-04-17 15:13:02,489 - INFO - 
 TEST CASE 3 Retry 0
 ---------------
 import math
@@ -62,8 +62,8 @@ def test_circle_area_returns_zero_for_zero_radius():
     expected_area = 0.0
 
 ---------------
-2025-04-17 14:56:17,592 - INFO - TEST CASE 3 Retry 0 - Result - Passed
-2025-04-17 14:56:17,592 - INFO - 
+2025-04-17 15:13:03,614 - INFO - TEST CASE 3 Retry 0 - Result - Passed
+2025-04-17 15:13:03,614 - INFO - 
 TEST CASE 4 Retry 0
 ---------------
 import math
@@ -74,12 +74,12 @@ import pytest
 
 def test_circle_circumference_returns_correct_value_for_positive_radius():
     # Arrange
-    radius = 3.0
+    radius = 5.0
     expected_circumference = 2 * math.pi * radius
 
 ---------------
-2025-04-17 14:56:18,588 - INFO - TEST CASE 4 Retry 0 - Result - Passed
-2025-04-17 14:56:18,588 - INFO - 
+2025-04-17 15:13:04,771 - INFO - TEST CASE 4 Retry 0 - Result - Passed
+2025-04-17 15:13:04,771 - INFO - 
 TEST CASE 5 Retry 0
 ---------------
 import math
@@ -93,8 +93,8 @@ def test_circle_circumference_raises_value_error_for_negative_radius():
     radius = -1.0
 
 ---------------
-2025-04-17 14:56:19,905 - INFO - TEST CASE 5 Retry 0 - Result - Passed
-2025-04-17 14:56:19,905 - INFO - 
+2025-04-17 15:13:05,612 - INFO - TEST CASE 5 Retry 0 - Result - Passed
+2025-04-17 15:13:05,613 - INFO - 
 TEST CASE 6 Retry 0
 ---------------
 import math
@@ -109,8 +109,8 @@ def test_circle_circumference_returns_zero_for_zero_radius():
     expected_circumference = 0.0
 
 ---------------
-2025-04-17 14:56:21,080 - INFO - TEST CASE 6 Retry 0 - Result - Passed
-2025-04-17 14:56:21,080 - INFO - Before Improvement
+2025-04-17 15:13:07,094 - INFO - TEST CASE 6 Retry 0 - Result - Passed
+2025-04-17 15:13:07,095 - INFO - Before Improvement
 import math
 from theory_evaluation.circle_utils import circle_area, circle_circumference
 import pytest
@@ -123,7 +123,7 @@ import pytest
 
 def test_circle_area_returns_correct_value_for_positive_radius():
     # Arrange
-    radius = 3.0
+    radius = 5.0
     expected_area = math.pi * radius ** 2
 
 def test_circle_area_raises_value_error_for_negative_radius():
@@ -137,7 +137,7 @@ def test_circle_area_returns_zero_for_zero_radius():
 
 def test_circle_circumference_returns_correct_value_for_positive_radius():
     # Arrange
-    radius = 3.0
+    radius = 5.0
     expected_circumference = 2 * math.pi * radius
 
 def test_circle_circumference_raises_value_error_for_negative_radius():
@@ -149,7 +149,7 @@ def test_circle_circumference_returns_zero_for_zero_radius():
     radius = 0.0
     expected_circumference = 0.0
 
-2025-04-17 14:56:24,854 - INFO - After Improvement
+2025-04-17 15:13:11,494 - INFO - After Improvement
 import math
 from theory_evaluation.circle_utils import circle_area, circle_circumference
 import pytest
@@ -157,7 +157,7 @@ import pytest
 
 def test_circle_area_returns_correct_value_for_positive_radius():
     # Arrange
-    radius = 3.0
+    radius = 5.0
     expected_area = math.pi * radius ** 2
 
 def test_circle_area_raises_value_error_for_negative_radius():
@@ -171,7 +171,7 @@ def test_circle_area_returns_zero_for_zero_radius():
 
 def test_circle_circumference_returns_correct_value_for_positive_radius():
     # Arrange
-    radius = 3.0
+    radius = 5.0
     expected_circumference = 2 * math.pi * radius
 
 def test_circle_circumference_raises_value_error_for_negative_radius():
@@ -182,23 +182,23 @@ def test_circle_circumference_returns_zero_for_zero_radius():
     # Arrange
     radius = 0.0
     expected_circumference = 0.0
-2025-04-17 14:56:26,102 - INFO - Improvement of test cases processed successfully
-2025-04-17 14:56:26,102 - INFO - run_each_pytest_function_individually complete
-2025-04-17 14:56:26,104 - INFO - End Processing file: theory_evaluation\circle_utils.py
+2025-04-17 15:13:13,633 - INFO - Improvement of test cases processed successfully
+2025-04-17 15:13:13,634 - INFO - run_each_pytest_function_individually complete
+2025-04-17 15:13:13,636 - INFO - End Processing file: theory_evaluation\circle_utils.py
 
-2025-04-17 14:56:26,104 - INFO - 
+2025-04-17 15:13:13,636 - INFO - 
 Start Processing file: theory_evaluation\config.py
-2025-04-17 14:56:26,105 - INFO - Extraction of function and class start
-2025-04-17 14:56:26,105 - INFO - extraction of function and class complete
-2025-04-17 14:56:26,105 - INFO - Generate Unit Test Case starts
-2025-04-17 14:56:26,105 - INFO - Extract unique import start
-2025-04-17 14:56:26,694 - INFO - Extract unique import complete
-2025-04-17 14:56:26,694 - INFO - Update relative import start
-2025-04-17 14:56:26,694 - INFO - Update relative import complete
-2025-04-17 14:56:32,113 - INFO - Generate Unit Test Case complete
-2025-04-17 14:56:32,115 - INFO - run_each_pytest_function_individually start
-2025-04-17 14:56:37,852 - INFO - Number of test case to process - 6
-2025-04-17 14:56:37,852 - INFO - 
+2025-04-17 15:13:13,636 - INFO - Extraction of function and class start
+2025-04-17 15:13:13,636 - INFO - extraction of function and class complete
+2025-04-17 15:13:13,636 - INFO - Generate Unit Test Case starts
+2025-04-17 15:13:13,636 - INFO - Extract unique import start
+2025-04-17 15:13:14,152 - INFO - Extract unique import complete
+2025-04-17 15:13:14,152 - INFO - Update relative import start
+2025-04-17 15:13:14,153 - INFO - Update relative import complete
+2025-04-17 15:13:20,570 - INFO - Generate Unit Test Case complete
+2025-04-17 15:13:20,575 - INFO - run_each_pytest_function_individually start
+2025-04-17 15:13:25,730 - INFO - Number of test case to process - 5
+2025-04-17 15:13:25,730 - INFO - 
 TEST CASE 1 Retry 0
 ---------------
 from pydantic_settings import BaseSettings
@@ -214,8 +214,8 @@ def test_settings_default_values():
     assert settings.LOGGER_CONFIG_PATH == "../conf/base/logging.yml"
 
 ---------------
-2025-04-17 14:56:39,313 - INFO - TEST CASE 1 Retry 0 - Result - Passed
-2025-04-17 14:56:39,313 - INFO - 
+2025-04-17 15:13:27,128 - INFO - TEST CASE 1 Retry 0 - Result - Passed
+2025-04-17 15:13:27,128 - INFO - 
 TEST CASE 2 Retry 0
 ---------------
 from pydantic_settings import BaseSettings
@@ -236,8 +236,8 @@ def test_settings_custom_values():
     assert settings.LOGGER_CONFIG_PATH == "/custom/path/logging.yml"
 
 ---------------
-2025-04-17 14:56:40,986 - INFO - TEST CASE 2 Retry 0 - Result - Passed
-2025-04-17 14:56:40,987 - INFO - 
+2025-04-17 15:13:28,533 - INFO - TEST CASE 2 Retry 0 - Result - Passed
+2025-04-17 15:13:28,533 - INFO - 
 TEST CASE 3 Retry 0
 ---------------
 from pydantic_settings import BaseSettings
@@ -256,8 +256,8 @@ def test_settings_invalid_type():
         Settings(**invalid_values)
 
 ---------------
-2025-04-17 14:56:42,842 - INFO - TEST CASE 3 Retry 0 - Result - Failed
-2025-04-17 14:56:42,843 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+2025-04-17 15:13:30,099 - INFO - TEST CASE 3 Retry 0 - Result - Failed
+2025-04-17 15:13:30,099 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
@@ -269,9 +269,9 @@ temp\temp.py:13: in test_settings_invalid_type
 E   NameError: name 'ValidationError' is not defined
 =========================== short test summary info ===========================
 FAILED temp/temp.py::test_settings_invalid_type - NameError: name 'Validation...
-1 failed in 0.37s
-2025-04-17 14:56:44,711 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 14:56:44,712 - INFO - 
+1 failed in 0.29s
+2025-04-17 15:13:31,768 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 15:13:31,769 - INFO - 
 TEST CASE 3 Retry 1
 ---------------
 from pydantic_settings import BaseSettings
@@ -299,8 +299,8 @@ def test_settings_invalid_type():
         Settings(**invalid_values)
 
 ---------------
-2025-04-17 14:56:46,191 - INFO - TEST CASE 3 Retry 1 - Result - Passed
-2025-04-17 14:56:46,191 - INFO - 
+2025-04-17 15:13:33,966 - INFO - TEST CASE 3 Retry 1 - Result - Passed
+2025-04-17 15:13:33,967 - INFO - 
 TEST CASE 4 Retry 0
 ---------------
 from pydantic_settings import BaseSettings
@@ -310,60 +310,15 @@ import pytest
 
 
 def test_settings_missing_values():
-    missing_values = {
-        "API_NAME": None,
-        "API_V1_STR": "/api/v1",
-        "LOGGER_CONFIG_PATH": "../conf/base/logging.yml"
-    }
-    with pytest.raises(ValidationError):
-        Settings(**missing_values)
+    missing_values = {}
+    settings = Settings(**missing_values)
+    assert settings.API_NAME == "project_simulation_fastapi"
+    assert settings.API_V1_STR == "/api/v1"
+    assert settings.LOGGER_CONFIG_PATH == "../conf/base/logging.yml"
 
 ---------------
-2025-04-17 14:56:47,681 - INFO - TEST CASE 4 Retry 0 - Result - Failed
-2025-04-17 14:56:47,682 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
-The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
-
-  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-F                                                                        [100%]
-================================== FAILURES ===================================
-________________________ test_settings_missing_values _________________________
-temp\temp.py:13: in test_settings_missing_values
-    with pytest.raises(ValidationError):
-E   NameError: name 'ValidationError' is not defined
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_settings_missing_values - NameError: name 'Validati...
-1 failed in 0.39s
-2025-04-17 14:56:49,571 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 14:56:49,572 - INFO - 
-TEST CASE 4 Retry 1
----------------
-from pydantic_settings import BaseSettings
-from theory_evaluation.config import Settings
-import pytest
-
-
-
-import pytest
-from pydantic import ValidationError
-from pydantic_settings import BaseSettings
-
-class Settings(BaseSettings):
-    API_NAME: str = "project_simulation_fastapi"
-    API_V1_STR: str = "/api/v1"
-    LOGGER_CONFIG_PATH: str = "../conf/base/logging.yml"
-
-def test_settings_missing_values():
-    missing_values = {
-        "API_NAME": None,
-        "API_V1_STR": "/api/v1",
-        "LOGGER_CONFIG_PATH": "../conf/base/logging.yml"
-    }
-    with pytest.raises(ValidationError):
-        Settings(**missing_values)
-
----------------
-2025-04-17 14:56:51,077 - INFO - TEST CASE 4 Retry 1 - Result - Passed
-2025-04-17 14:56:51,078 - INFO - 
+2025-04-17 15:13:35,834 - INFO - TEST CASE 4 Retry 0 - Result - Passed
+2025-04-17 15:13:35,835 - INFO - 
 TEST CASE 5 Retry 0
 ---------------
 from pydantic_settings import BaseSettings
@@ -372,61 +327,18 @@ import pytest
 
 
 
-def test_settings_large_input():
-    large_api_name = "a" * 1000
-    settings = Settings(API_NAME=large_api_name)
-    assert settings.API_NAME == large_api_name
+def test_settings_environment_variables(monkeypatch):
+    monkeypatch.setenv("API_NAME", "env_api")
+    monkeypatch.setenv("API_V1_STR", "/env/v1")
+    monkeypatch.setenv("LOGGER_CONFIG_PATH", "/env/path/logging.yml")
+    settings = Settings()
+    assert settings.API_NAME == "env_api"
+    assert settings.API_V1_STR == "/env/v1"
+    assert settings.LOGGER_CONFIG_PATH == "/env/path/logging.yml"
 
 ---------------
-2025-04-17 14:56:52,568 - INFO - TEST CASE 5 Retry 0 - Result - Passed
-2025-04-17 14:56:52,569 - INFO - 
-TEST CASE 6 Retry 0
----------------
-from pydantic_settings import BaseSettings
-from theory_evaluation.config import Settings
-import pytest
-
-
-
-def test_settings_environment_variable_override():
-    with patch.dict('os.environ', {'API_NAME': 'env_api_name'}):
-        settings = Settings()
-    assert settings.API_NAME == 'env_api_name'
-
----------------
-2025-04-17 14:56:54,173 - INFO - TEST CASE 6 Retry 0 - Result - Failed
-2025-04-17 14:56:54,173 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
-The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
-
-  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-F                                                                        [100%]
-================================== FAILURES ===================================
-_________________ test_settings_environment_variable_override _________________
-temp\temp.py:8: in test_settings_environment_variable_override
-    with patch.dict('os.environ', {'API_NAME': 'env_api_name'}):
-E   NameError: name 'patch' is not defined
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_settings_environment_variable_override - NameError:...
-1 failed in 0.36s
-2025-04-17 14:56:55,429 - INFO - 
-TEST CASE 6 Retry 1
----------------
-from pydantic_settings import BaseSettings
-from theory_evaluation.config import Settings
-import pytest
-
-
-
-from unittest.mock import patch
-
-def test_settings_environment_variable_override():
-    with patch.dict('os.environ', {'API_NAME': 'env_api_name'}):
-        settings = Settings()
-    assert settings.API_NAME == 'env_api_name'
-
----------------
-2025-04-17 14:56:57,027 - INFO - TEST CASE 6 Retry 1 - Result - Passed
-2025-04-17 14:56:57,027 - INFO - Before Improvement
+2025-04-17 15:13:37,711 - INFO - TEST CASE 5 Retry 0 - Result - Passed
+2025-04-17 15:13:37,711 - INFO - Before Improvement
 from pydantic_settings import BaseSettings
 from theory_evaluation.config import Settings
 import pytest
@@ -472,6 +384,24 @@ def test_settings_invalid_type():
     with pytest.raises(ValidationError):
         Settings(**invalid_values)
 
+def test_settings_missing_values():
+    missing_values = {}
+    settings = Settings(**missing_values)
+    assert settings.API_NAME == "project_simulation_fastapi"
+    assert settings.API_V1_STR == "/api/v1"
+    assert settings.LOGGER_CONFIG_PATH == "../conf/base/logging.yml"
+
+def test_settings_environment_variables(monkeypatch):
+    monkeypatch.setenv("API_NAME", "env_api")
+    monkeypatch.setenv("API_V1_STR", "/env/v1")
+    monkeypatch.setenv("LOGGER_CONFIG_PATH", "/env/path/logging.yml")
+    settings = Settings()
+    assert settings.API_NAME == "env_api"
+    assert settings.API_V1_STR == "/env/v1"
+    assert settings.LOGGER_CONFIG_PATH == "/env/path/logging.yml"
+
+2025-04-17 15:13:45,373 - INFO - After Improvement
+from theory_evaluation.config import Settings
 import pytest
 from pydantic import ValidationError
 from pydantic_settings import BaseSettings
@@ -481,33 +411,6 @@ class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
     LOGGER_CONFIG_PATH: str = "../conf/base/logging.yml"
 
-def test_settings_missing_values():
-    missing_values = {
-        "API_NAME": None,
-        "API_V1_STR": "/api/v1",
-        "LOGGER_CONFIG_PATH": "../conf/base/logging.yml"
-    }
-    with pytest.raises(ValidationError):
-        Settings(**missing_values)
-
-def test_settings_large_input():
-    large_api_name = "a" * 1000
-    settings = Settings(API_NAME=large_api_name)
-    assert settings.API_NAME == large_api_name
-
-from unittest.mock import patch
-
-def test_settings_environment_variable_override():
-    with patch.dict('os.environ', {'API_NAME': 'env_api_name'}):
-        settings = Settings()
-    assert settings.API_NAME == 'env_api_name'
-
-2025-04-17 14:57:22,576 - INFO - After Improvement
-from theory_evaluation.config import Settings
-import pytest
-from pydantic import ValidationError
-from unittest.mock import patch
-
 def test_settings_default_values():
     settings = Settings()
     assert settings.API_NAME == "project_simulation_fastapi"
@@ -525,11 +428,6 @@ def test_settings_custom_values():
     assert settings.API_V1_STR == "/custom/v1"
     assert settings.LOGGER_CONFIG_PATH == "/custom/path/logging.yml"
 
-class Settings(BaseSettings):
-    API_NAME: str = "project_simulation_fastapi"
-    API_V1_STR: str = "/api/v1"
-    LOGGER_CONFIG_PATH: str = "../conf/base/logging.yml"
-
 def test_settings_invalid_type():
     invalid_values = {
         "API_NAME": 123,
@@ -540,110 +438,37 @@ def test_settings_invalid_type():
         Settings(**invalid_values)
 
 def test_settings_missing_values():
-    missing_values = {
-        "API_NAME": None,
-        "API_V1_STR": "/api/v1",
-        "LOGGER_CONFIG_PATH": "../conf/base/logging.yml"
-    }
-    with pytest.raises(ValidationError):
-        Settings(**missing_values)
-
-def test_settings_large_input():
-    large_api_name = "a" * 1000
-    settings = Settings(API_NAME=large_api_name)
-    assert settings.API_NAME == large_api_name
-
-def test_settings_environment_variable_override():
-    with patch.dict('os.environ', {'API_NAME': 'env_api_name'}):
-        settings = Settings()
-    assert settings.API_NAME == 'env_api_name'
-2025-04-17 14:57:24,455 - INFO - Error in generating improved test cases
-Test case:
-from theory_evaluation.config import Settings
-import pytest
-from pydantic import ValidationError
-from unittest.mock import patch
-
-def test_settings_default_values():
-    settings = Settings()
+    missing_values = {}
+    settings = Settings(**missing_values)
     assert settings.API_NAME == "project_simulation_fastapi"
     assert settings.API_V1_STR == "/api/v1"
     assert settings.LOGGER_CONFIG_PATH == "../conf/base/logging.yml"
 
-def test_settings_custom_values():
-    custom_values = {
-        "API_NAME": "custom_api",
-        "API_V1_STR": "/custom/v1",
-        "LOGGER_CONFIG_PATH": "/custom/path/logging.yml"
-    }
-    settings = Settings(**custom_values)
-    assert settings.API_NAME == "custom_api"
-    assert settings.API_V1_STR == "/custom/v1"
-    assert settings.LOGGER_CONFIG_PATH == "/custom/path/logging.yml"
+def test_settings_environment_variables(monkeypatch):
+    monkeypatch.setenv("API_NAME", "env_api")
+    monkeypatch.setenv("API_V1_STR", "/env/v1")
+    monkeypatch.setenv("LOGGER_CONFIG_PATH", "/env/path/logging.yml")
+    settings = Settings()
+    assert settings.API_NAME == "env_api"
+    assert settings.API_V1_STR == "/env/v1"
+    assert settings.LOGGER_CONFIG_PATH == "/env/path/logging.yml"
+2025-04-17 15:13:46,802 - INFO - Improvement of test cases processed successfully
+2025-04-17 15:13:46,803 - INFO - run_each_pytest_function_individually complete
+2025-04-17 15:13:46,806 - INFO - End Processing file: theory_evaluation\config.py
 
-class Settings(BaseSettings):
-    API_NAME: str = "project_simulation_fastapi"
-    API_V1_STR: str = "/api/v1"
-    LOGGER_CONFIG_PATH: str = "../conf/base/logging.yml"
-
-def test_settings_invalid_type():
-    invalid_values = {
-        "API_NAME": 123,
-        "API_V1_STR": "/api/v1",
-        "LOGGER_CONFIG_PATH": "../conf/base/logging.yml"
-    }
-    with pytest.raises(ValidationError):
-        Settings(**invalid_values)
-
-def test_settings_missing_values():
-    missing_values = {
-        "API_NAME": None,
-        "API_V1_STR": "/api/v1",
-        "LOGGER_CONFIG_PATH": "../conf/base/logging.yml"
-    }
-    with pytest.raises(ValidationError):
-        Settings(**missing_values)
-
-def test_settings_large_input():
-    large_api_name = "a" * 1000
-    settings = Settings(API_NAME=large_api_name)
-    assert settings.API_NAME == large_api_name
-
-def test_settings_environment_variable_override():
-    with patch.dict('os.environ', {'API_NAME': 'env_api_name'}):
-        settings = Settings()
-    assert settings.API_NAME == 'env_api_name'
-Test error:
-c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
-The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
-
-  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-
-=================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:23: in <module>
-    class Settings(BaseSettings):
-E   NameError: name 'BaseSettings' is not defined
-=========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'BaseSettings' is not defined
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.53s
-2025-04-17 14:57:24,455 - INFO - run_each_pytest_function_individually complete
-2025-04-17 14:57:24,459 - INFO - End Processing file: theory_evaluation\config.py
-
-2025-04-17 14:57:24,459 - INFO - 
+2025-04-17 15:13:46,807 - INFO - 
 Start Processing file: theory_evaluation\llm_utils.py
-2025-04-17 14:57:24,460 - INFO - Extraction of function and class start
-2025-04-17 14:57:24,460 - INFO - extraction of function and class complete
-2025-04-17 14:57:24,460 - INFO - Generate Unit Test Case starts
-2025-04-17 14:57:24,460 - INFO - Extract unique import start
-2025-04-17 14:57:25,021 - INFO - Extract unique import complete
-2025-04-17 14:57:25,022 - INFO - Update relative import start
-2025-04-17 14:57:25,022 - INFO - Update relative import complete
-2025-04-17 14:57:34,373 - INFO - Generate Unit Test Case complete
-2025-04-17 14:57:34,378 - INFO - run_each_pytest_function_individually start
-2025-04-17 14:57:44,320 - INFO - Number of test case to process - 5
-2025-04-17 14:57:44,320 - INFO - 
+2025-04-17 15:13:46,808 - INFO - Extraction of function and class start
+2025-04-17 15:13:46,809 - INFO - extraction of function and class complete
+2025-04-17 15:13:46,809 - INFO - Generate Unit Test Case starts
+2025-04-17 15:13:46,809 - INFO - Extract unique import start
+2025-04-17 15:13:47,409 - INFO - Extract unique import complete
+2025-04-17 15:13:47,409 - INFO - Update relative import start
+2025-04-17 15:13:47,410 - INFO - Update relative import complete
+2025-04-17 15:13:54,499 - INFO - Generate Unit Test Case complete
+2025-04-17 15:13:54,504 - INFO - run_each_pytest_function_individually start
+2025-04-17 15:14:02,741 - INFO - Number of test case to process - 5
+2025-04-17 15:14:02,742 - INFO - 
 TEST CASE 1 Retry 0
 ---------------
 import os
@@ -656,11 +481,14 @@ import pytest
 
 def test_initialise_prompt_returns_correct_prompt_structure():
     agent = "test_agent"
-    expected_prompt = "This is a prompt with a value1 and a value2."
+    config_path = "./theory_evaluation/evaluator/prompts"
+    config_yaml = "key1: value1\nkey2: value2"
+    prompt_txt = "This is a test prompt with {$key1} and {$key2}."
+    expected_prompt = "This is a test prompt with value1 and value2."
 
 ---------------
-2025-04-17 14:57:45,726 - INFO - TEST CASE 1 Retry 0 - Result - Passed
-2025-04-17 14:57:45,727 - INFO - 
+2025-04-17 15:14:04,050 - INFO - TEST CASE 1 Retry 0 - Result - Passed
+2025-04-17 15:14:04,050 - INFO - 
 TEST CASE 2 Retry 0
 ---------------
 import os
@@ -671,14 +499,16 @@ import pytest
 
 
 
-def test_initialise_prompt_handles_missing_placeholder_gracefully():
+def test_initialise_prompt_handles_missing_placeholder():
     agent = "test_agent"
-    incomplete_prompt_txt = "This is a prompt with a {$key1} and a {$key3}."
-    expected_prompt = "This is a prompt with a value1 and a {$key3}."
+    config_path = "./theory_evaluation/evaluator/prompts"
+    config_yaml = "key1: value1"
+    prompt_txt = "This is a test prompt with {$key1} and {$key2}."
+    expected_prompt = "This is a test prompt with value1 and {$key2}."
 
 ---------------
-2025-04-17 14:57:46,884 - INFO - TEST CASE 2 Retry 0 - Result - Passed
-2025-04-17 14:57:46,885 - INFO - 
+2025-04-17 15:14:05,174 - INFO - TEST CASE 2 Retry 0 - Result - Passed
+2025-04-17 15:14:05,174 - INFO - 
 TEST CASE 3 Retry 0
 ---------------
 import os
@@ -689,12 +519,13 @@ import pytest
 
 
 
-def test_initialise_prompt_raises_exception_on_file_not_found():
-    agent = "non_existent_agent"
+def test_initialise_prompt_raises_exception_for_missing_file():
+    agent = "test_agent"
+    config_path = "./theory_evaluation/evaluator/prompts"
 
 ---------------
-2025-04-17 14:57:47,904 - INFO - TEST CASE 3 Retry 0 - Result - Passed
-2025-04-17 14:57:47,905 - INFO - 
+2025-04-17 15:14:06,633 - INFO - TEST CASE 3 Retry 0 - Result - Passed
+2025-04-17 15:14:06,633 - INFO - 
 TEST CASE 4 Retry 0
 ---------------
 import os
@@ -707,11 +538,13 @@ import pytest
 
 def test_initialise_settings_returns_correct_settings():
     agent = "test_agent"
+    config_path = "./theory_evaluation/evaluator/prompts"
+    settings_yaml = "setting1: value1\nsetting2: value2"
     expected_settings = {"setting1": "value1", "setting2": "value2"}
 
 ---------------
-2025-04-17 14:57:49,179 - INFO - TEST CASE 4 Retry 0 - Result - Passed
-2025-04-17 14:57:49,180 - INFO - 
+2025-04-17 15:14:07,950 - INFO - TEST CASE 4 Retry 0 - Result - Passed
+2025-04-17 15:14:07,950 - INFO - 
 TEST CASE 5 Retry 0
 ---------------
 import os
@@ -722,12 +555,13 @@ import pytest
 
 
 
-def test_initialise_settings_raises_exception_on_file_not_found():
-    agent = "non_existent_agent"
+def test_initialise_settings_raises_exception_for_missing_file():
+    agent = "test_agent"
+    config_path = "./theory_evaluation/evaluator/prompts"
 
 ---------------
-2025-04-17 14:57:50,586 - INFO - TEST CASE 5 Retry 0 - Result - Passed
-2025-04-17 14:57:50,587 - INFO - Before Improvement
+2025-04-17 15:14:09,427 - INFO - TEST CASE 5 Retry 0 - Result - Passed
+2025-04-17 15:14:09,427 - INFO - Before Improvement
 import os
 import re
 import yaml
@@ -744,63 +578,86 @@ import pytest
 
 def test_initialise_prompt_returns_correct_prompt_structure():
     agent = "test_agent"
-    expected_prompt = "This is a prompt with a value1 and a value2."
+    config_path = "./theory_evaluation/evaluator/prompts"
+    config_yaml = "key1: value1\nkey2: value2"
+    prompt_txt = "This is a test prompt with {$key1} and {$key2}."
+    expected_prompt = "This is a test prompt with value1 and value2."
 
-def test_initialise_prompt_handles_missing_placeholder_gracefully():
+def test_initialise_prompt_handles_missing_placeholder():
     agent = "test_agent"
-    incomplete_prompt_txt = "This is a prompt with a {$key1} and a {$key3}."
-    expected_prompt = "This is a prompt with a value1 and a {$key3}."
+    config_path = "./theory_evaluation/evaluator/prompts"
+    config_yaml = "key1: value1"
+    prompt_txt = "This is a test prompt with {$key1} and {$key2}."
+    expected_prompt = "This is a test prompt with value1 and {$key2}."
 
-def test_initialise_prompt_raises_exception_on_file_not_found():
-    agent = "non_existent_agent"
+def test_initialise_prompt_raises_exception_for_missing_file():
+    agent = "test_agent"
+    config_path = "./theory_evaluation/evaluator/prompts"
 
 def test_initialise_settings_returns_correct_settings():
     agent = "test_agent"
+    config_path = "./theory_evaluation/evaluator/prompts"
+    settings_yaml = "setting1: value1\nsetting2: value2"
     expected_settings = {"setting1": "value1", "setting2": "value2"}
 
-def test_initialise_settings_raises_exception_on_file_not_found():
-    agent = "non_existent_agent"
+def test_initialise_settings_raises_exception_for_missing_file():
+    agent = "test_agent"
+    config_path = "./theory_evaluation/evaluator/prompts"
 
-2025-04-17 14:57:56,005 - INFO - After Improvement
-import pytest
+2025-04-17 15:14:14,034 - INFO - After Improvement
+import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
 
 
 def test_initialise_prompt_returns_correct_prompt_structure():
     agent = "test_agent"
-    expected_prompt = "This is a prompt with a value1 and a value2."
+    config_path = "./theory_evaluation/evaluator/prompts"
+    config_yaml = "key1: value1\nkey2: value2"
+    prompt_txt = "This is a test prompt with {$key1} and {$key2}."
+    expected_prompt = "This is a test prompt with value1 and value2."
 
-def test_initialise_prompt_handles_missing_placeholder_gracefully():
+
+def test_initialise_prompt_handles_missing_placeholder():
     agent = "test_agent"
-    incomplete_prompt_txt = "This is a prompt with a {$key1} and a {$key3}."
-    expected_prompt = "This is a prompt with a value1 and a {$key3}."
+    config_path = "./theory_evaluation/evaluator/prompts"
+    config_yaml = "key1: value1"
+    prompt_txt = "This is a test prompt with {$key1} and {$key2}."
+    expected_prompt = "This is a test prompt with value1 and {$key2}."
 
-def test_initialise_prompt_raises_exception_on_file_not_found():
-    agent = "non_existent_agent"
+
+def test_initialise_prompt_raises_exception_for_missing_file():
+    agent = "test_agent"
+    config_path = "./theory_evaluation/evaluator/prompts"
+
 
 def test_initialise_settings_returns_correct_settings():
     agent = "test_agent"
+    config_path = "./theory_evaluation/evaluator/prompts"
+    settings_yaml = "setting1: value1\nsetting2: value2"
     expected_settings = {"setting1": "value1", "setting2": "value2"}
 
-def test_initialise_settings_raises_exception_on_file_not_found():
-    agent = "non_existent_agent"
-2025-04-17 14:57:57,555 - INFO - Improvement of test cases processed successfully
-2025-04-17 14:57:57,555 - INFO - run_each_pytest_function_individually complete
-2025-04-17 14:57:57,558 - INFO - End Processing file: theory_evaluation\llm_utils.py
 
-2025-04-17 14:57:57,559 - INFO -                             filename  ...  percentage_passed (%)
+def test_initialise_settings_raises_exception_for_missing_file():
+    agent = "test_agent"
+    config_path = "./theory_evaluation/evaluator/prompts"
+2025-04-17 15:14:15,647 - INFO - Improvement of test cases processed successfully
+2025-04-17 15:14:15,647 - INFO - run_each_pytest_function_individually complete
+2025-04-17 15:14:15,648 - INFO - End Processing file: theory_evaluation\llm_utils.py
+
+2025-04-17 15:14:15,649 - INFO -                             filename  ...  percentage_passed (%)
 1  theory_evaluation\circle_utils.py  ...                  100.0
 2        theory_evaluation\config.py  ...                  100.0
 3     theory_evaluation\llm_utils.py  ...                  100.0
 
 [3 rows x 4 columns]
-2025-04-17 14:57:57,579 - INFO - 
+2025-04-17 15:14:15,674 - INFO - 
 +----+-----------------------------------+---------------------------+--------------------+-------------------------+
 |    | filename                          |   total_test_cases_passed |   total_test_cases |   percentage_passed (%) |
 +====+===================================+===========================+====================+=========================+
 |  1 | theory_evaluation\circle_utils.py |                         6 |                  6 |                     100 |
 +----+-----------------------------------+---------------------------+--------------------+-------------------------+
-|  2 | theory_evaluation\config.py       |                         6 |                  6 |                     100 |
+|  2 | theory_evaluation\config.py       |                         5 |                  5 |                     100 |
 +----+-----------------------------------+---------------------------+--------------------+-------------------------+
 |  3 | theory_evaluation\llm_utils.py    |                         5 |                  5 |                     100 |
 +----+-----------------------------------+---------------------------+--------------------+-------------------------+
