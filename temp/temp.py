@@ -7,18 +7,24 @@ import pytest
 @pytest.fixture
 def mock_open_files():
     prompt_content = "Hello, {$name}!"
-    config_content = '{"name": "World"}'
-    llm_settings_content = '{"setting": "value"}'
-    mock_files = {
-        "./theory_evaluation/evaluator/prompts/test_agent/config.yaml": mock_open(read_data=config_content).return_value,
-        "./theory_evaluation/evaluator/prompts/test_agent/prompt.txt": mock_open(read_data=prompt_content).return_value,
-        "./theory_evaluation/evaluator/prompts/test_agent/llm_settings.yaml": mock_open(read_data=llm_settings_content).return_value,
-    }
-    return mock_files
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
 
-from unittest.mock import mock_open, patch
+    def open_side_effect(file_path, *args, **kwargs):
+        if "prompt.txt" in file_path:
+            return mock_open(read_data=prompt_content).return_value
+        elif "config.yaml" in file_path:
+            return mock_open(read_data=config_content).return_value
+        elif "llm_settings.yaml" in file_path:
+            return mock_open(read_data=settings_content).return_value
+        else:
+            raise FileNotFoundError
 
-def test_initialise_settings(mock_open_files):
-    with patch("builtins.open", side_effect=lambda f, *args, **kwargs: mock_open_files[f]):
-        result = initialise_settings("test_agent")
-        assert result == {"setting": "value"}
+    return open_side_effect
+
+from unittest.mock import patch
+
+def test_initialise_settings_no_config():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_settings("agent_name")
+        assert result is None

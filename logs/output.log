@@ -1,23 +1,23 @@
-2025-04-17 10:51:25,775 - INFO - Loading environment variables start
-2025-04-17 10:51:25,797 - INFO - Loading environment variables completes
-2025-04-17 10:51:25,798 - INFO - Initialising of LLM start
-2025-04-17 10:51:26,549 - INFO - Initialising of LLM completes
-2025-04-17 10:51:26,549 - INFO - Getting python file starts
-2025-04-17 10:51:26,550 - INFO - Getting python file completes
-2025-04-17 10:51:26,550 - INFO - 
+2025-04-17 10:57:41,977 - INFO - Loading environment variables start
+2025-04-17 10:57:41,982 - INFO - Loading environment variables completes
+2025-04-17 10:57:41,982 - INFO - Initialising of LLM start
+2025-04-17 10:57:42,429 - INFO - Initialising of LLM completes
+2025-04-17 10:57:42,429 - INFO - Getting python file starts
+2025-04-17 10:57:42,430 - INFO - Getting python file completes
+2025-04-17 10:57:42,430 - INFO - 
 Start Processing file: theory_evaluation\circle_utils.py
-2025-04-17 10:51:26,551 - INFO - Extraction of function and class start
-2025-04-17 10:51:26,552 - INFO - extraction of function and class complete
-2025-04-17 10:51:26,552 - INFO - Generate Unit Test Case starts
-2025-04-17 10:51:26,552 - INFO - Extract unique import start
-2025-04-17 10:51:28,191 - INFO - Extract unique import complete
-2025-04-17 10:51:28,191 - INFO - Update relative import start
-2025-04-17 10:51:28,193 - INFO - Update relative import complete
-2025-04-17 10:51:31,150 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 10:51:31,151 - INFO - Generate Unit Test Case complete
-2025-04-17 10:51:31,156 - INFO - run_each_pytest_function_individually start
-2025-04-17 10:51:34,750 - INFO - Number of test case to process - 6
-2025-04-17 10:51:34,750 - INFO - 
+2025-04-17 10:57:42,430 - INFO - Extraction of function and class start
+2025-04-17 10:57:42,431 - INFO - extraction of function and class complete
+2025-04-17 10:57:42,431 - INFO - Generate Unit Test Case starts
+2025-04-17 10:57:42,431 - INFO - Extract unique import start
+2025-04-17 10:57:44,711 - INFO - Extract unique import complete
+2025-04-17 10:57:44,711 - INFO - Update relative import start
+2025-04-17 10:57:44,713 - INFO - Update relative import complete
+2025-04-17 10:57:47,596 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 10:57:47,596 - INFO - Generate Unit Test Case complete
+2025-04-17 10:57:47,600 - INFO - run_each_pytest_function_individually start
+2025-04-17 10:57:50,668 - INFO - Number of test case to process - 6
+2025-04-17 10:57:50,668 - INFO - 
 TEST CASE 1 Retry 0
 ---------------
 import math
@@ -27,28 +27,18 @@ import pytest
 
 
 def test_circle_area_positive_radius():
-    radius = 5.0
+    radius = 5
     expected_area = math.pi * radius ** 2
     assert circle_area(radius) == pytest.approx(expected_area)
 
 ---------------
-2025-04-17 10:51:35,786 - INFO - TEST CASE 1 Retry 0 - Result - Passed
-2025-04-17 10:51:35,786 - INFO - Success_test_cases - import math
-from theory_evaluation.circle_utils import circle_area, circle_circumference
-import pytest
-
-
-def test_circle_area_positive_radius():
-    radius = 5.0
-    expected_area = math.pi * radius ** 2
-    assert circle_area(radius) == pytest.approx(expected_area)
-
-2025-04-17 10:51:35,789 - ERROR - Exception occurred while processing test case 1: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
+2025-04-17 10:57:51,861 - INFO - TEST CASE 1 Retry 0 - Result - Passed
+2025-04-17 10:57:51,861 - ERROR - Exception occurred while processing test case 1: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
 Traceback (most recent call last):
   File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 551, in run_each_pytest_function_individually
-    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature)
+    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt,success_test_cases, temperature)
 TypeError: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
-2025-04-17 10:51:35,792 - INFO - 
+2025-04-17 10:57:51,863 - INFO - 
 TEST CASE 2 Retry 0
 ---------------
 import math
@@ -58,33 +48,18 @@ import pytest
 
 
 def test_circle_area_zero_radius():
-    radius = 0.0
-    expected_area = 0.0
+    radius = 0
+    expected_area = 0
     assert circle_area(radius) == pytest.approx(expected_area)
 
 ---------------
-2025-04-17 10:51:36,885 - INFO - TEST CASE 2 Retry 0 - Result - Passed
-2025-04-17 10:51:36,885 - INFO - Success_test_cases - import math
-from theory_evaluation.circle_utils import circle_area, circle_circumference
-import pytest
-
-
-def test_circle_area_positive_radius():
-    radius = 5.0
-    expected_area = math.pi * radius ** 2
-    assert circle_area(radius) == pytest.approx(expected_area)
-
-def test_circle_area_zero_radius():
-    radius = 0.0
-    expected_area = 0.0
-    assert circle_area(radius) == pytest.approx(expected_area)
-
-2025-04-17 10:51:36,886 - ERROR - Exception occurred while processing test case 2: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
+2025-04-17 10:57:52,959 - INFO - TEST CASE 2 Retry 0 - Result - Passed
+2025-04-17 10:57:52,960 - ERROR - Exception occurred while processing test case 2: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
 Traceback (most recent call last):
   File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 551, in run_each_pytest_function_individually
-    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature)
+    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt,success_test_cases, temperature)
 TypeError: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
-2025-04-17 10:51:36,887 - INFO - 
+2025-04-17 10:57:52,961 - INFO - 
 TEST CASE 3 Retry 0
 ---------------
 import math
@@ -95,35 +70,16 @@ import pytest
 
 def test_circle_area_negative_radius():
     with pytest.raises(ValueError, match="Radius cannot be negative."):
-        circle_area(-1.0)
+        circle_area(-1)
 
 ---------------
-2025-04-17 10:51:38,126 - INFO - TEST CASE 3 Retry 0 - Result - Passed
-2025-04-17 10:51:38,126 - INFO - Success_test_cases - import math
-from theory_evaluation.circle_utils import circle_area, circle_circumference
-import pytest
-
-
-def test_circle_area_positive_radius():
-    radius = 5.0
-    expected_area = math.pi * radius ** 2
-    assert circle_area(radius) == pytest.approx(expected_area)
-
-def test_circle_area_zero_radius():
-    radius = 0.0
-    expected_area = 0.0
-    assert circle_area(radius) == pytest.approx(expected_area)
-
-def test_circle_area_negative_radius():
-    with pytest.raises(ValueError, match="Radius cannot be negative."):
-        circle_area(-1.0)
-
-2025-04-17 10:51:38,126 - ERROR - Exception occurred while processing test case 3: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
+2025-04-17 10:57:54,069 - INFO - TEST CASE 3 Retry 0 - Result - Passed
+2025-04-17 10:57:54,070 - ERROR - Exception occurred while processing test case 3: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
 Traceback (most recent call last):
   File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 551, in run_each_pytest_function_individually
-    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature)
+    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt,success_test_cases, temperature)
 TypeError: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
-2025-04-17 10:51:38,127 - INFO - 
+2025-04-17 10:57:54,070 - INFO - 
 TEST CASE 4 Retry 0
 ---------------
 import math
@@ -133,42 +89,18 @@ import pytest
 
 
 def test_circle_circumference_positive_radius():
-    radius = 5.0
+    radius = 5
     expected_circumference = 2 * math.pi * radius
     assert circle_circumference(radius) == pytest.approx(expected_circumference)
 
 ---------------
-2025-04-17 10:51:39,282 - INFO - TEST CASE 4 Retry 0 - Result - Passed
-2025-04-17 10:51:39,282 - INFO - Success_test_cases - import math
-from theory_evaluation.circle_utils import circle_area, circle_circumference
-import pytest
-
-
-def test_circle_area_positive_radius():
-    radius = 5.0
-    expected_area = math.pi * radius ** 2
-    assert circle_area(radius) == pytest.approx(expected_area)
-
-def test_circle_area_zero_radius():
-    radius = 0.0
-    expected_area = 0.0
-    assert circle_area(radius) == pytest.approx(expected_area)
-
-def test_circle_area_negative_radius():
-    with pytest.raises(ValueError, match="Radius cannot be negative."):
-        circle_area(-1.0)
-
-def test_circle_circumference_positive_radius():
-    radius = 5.0
-    expected_circumference = 2 * math.pi * radius
-    assert circle_circumference(radius) == pytest.approx(expected_circumference)
-
-2025-04-17 10:51:39,283 - ERROR - Exception occurred while processing test case 4: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
+2025-04-17 10:57:55,092 - INFO - TEST CASE 4 Retry 0 - Result - Passed
+2025-04-17 10:57:55,092 - ERROR - Exception occurred while processing test case 4: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
 Traceback (most recent call last):
   File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 551, in run_each_pytest_function_individually
-    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature)
+    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt,success_test_cases, temperature)
 TypeError: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
-2025-04-17 10:51:39,283 - INFO - 
+2025-04-17 10:57:55,093 - INFO - 
 TEST CASE 5 Retry 0
 ---------------
 import math
@@ -178,47 +110,18 @@ import pytest
 
 
 def test_circle_circumference_zero_radius():
-    radius = 0.0
-    expected_circumference = 0.0
+    radius = 0
+    expected_circumference = 0
     assert circle_circumference(radius) == pytest.approx(expected_circumference)
 
 ---------------
-2025-04-17 10:51:40,789 - INFO - TEST CASE 5 Retry 0 - Result - Passed
-2025-04-17 10:51:40,790 - INFO - Success_test_cases - import math
-from theory_evaluation.circle_utils import circle_area, circle_circumference
-import pytest
-
-
-def test_circle_area_positive_radius():
-    radius = 5.0
-    expected_area = math.pi * radius ** 2
-    assert circle_area(radius) == pytest.approx(expected_area)
-
-def test_circle_area_zero_radius():
-    radius = 0.0
-    expected_area = 0.0
-    assert circle_area(radius) == pytest.approx(expected_area)
-
-def test_circle_area_negative_radius():
-    with pytest.raises(ValueError, match="Radius cannot be negative."):
-        circle_area(-1.0)
-
-def test_circle_circumference_positive_radius():
-    radius = 5.0
-    expected_circumference = 2 * math.pi * radius
-    assert circle_circumference(radius) == pytest.approx(expected_circumference)
-
-def test_circle_circumference_zero_radius():
-    radius = 0.0
-    expected_circumference = 0.0
-    assert circle_circumference(radius) == pytest.approx(expected_circumference)
-
-2025-04-17 10:51:40,790 - ERROR - Exception occurred while processing test case 5: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
+2025-04-17 10:57:56,313 - INFO - TEST CASE 5 Retry 0 - Result - Passed
+2025-04-17 10:57:56,314 - ERROR - Exception occurred while processing test case 5: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
 Traceback (most recent call last):
   File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 551, in run_each_pytest_function_individually
-    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature)
+    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt,success_test_cases, temperature)
 TypeError: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
-2025-04-17 10:51:40,793 - INFO - 
+2025-04-17 10:57:56,316 - INFO - 
 TEST CASE 6 Retry 0
 ---------------
 import math
@@ -229,70 +132,33 @@ import pytest
 
 def test_circle_circumference_negative_radius():
     with pytest.raises(ValueError, match="Radius cannot be negative."):
-        circle_circumference(-1.0)
+        circle_circumference(-1)
 
 ---------------
-2025-04-17 10:51:42,565 - INFO - TEST CASE 6 Retry 0 - Result - Passed
-2025-04-17 10:51:42,567 - INFO - Success_test_cases - import math
-from theory_evaluation.circle_utils import circle_area, circle_circumference
-import pytest
-
-
-def test_circle_area_positive_radius():
-    radius = 5.0
-    expected_area = math.pi * radius ** 2
-    assert circle_area(radius) == pytest.approx(expected_area)
-
-def test_circle_area_zero_radius():
-    radius = 0.0
-    expected_area = 0.0
-    assert circle_area(radius) == pytest.approx(expected_area)
-
-def test_circle_area_negative_radius():
-    with pytest.raises(ValueError, match="Radius cannot be negative."):
-        circle_area(-1.0)
-
-def test_circle_circumference_positive_radius():
-    radius = 5.0
-    expected_circumference = 2 * math.pi * radius
-    assert circle_circumference(radius) == pytest.approx(expected_circumference)
-
-def test_circle_circumference_zero_radius():
-    radius = 0.0
-    expected_circumference = 0.0
-    assert circle_circumference(radius) == pytest.approx(expected_circumference)
-
-def test_circle_circumference_negative_radius():
-    with pytest.raises(ValueError, match="Radius cannot be negative."):
-        circle_circumference(-1.0)
-
-2025-04-17 10:51:42,568 - ERROR - Exception occurred while processing test case 6: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
+2025-04-17 10:57:57,320 - INFO - TEST CASE 6 Retry 0 - Result - Passed
+2025-04-17 10:57:57,320 - ERROR - Exception occurred while processing test case 6: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
 Traceback (most recent call last):
   File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 551, in run_each_pytest_function_individually
-    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature)
+    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt,success_test_cases, temperature)
 TypeError: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
-2025-04-17 10:51:42,571 - INFO - run_each_pytest_function_individually complete
-2025-04-17 10:51:42,571 - INFO - Statistic theory_evaluation\circle_utils.py: 
-Total test case - 6
-Total test case passed - 6
-Percentage Passed - 100.0%
+2025-04-17 10:57:57,321 - INFO - run_each_pytest_function_individually complete
+2025-04-17 10:57:57,323 - ERROR - Failed processing theory_evaluation\circle_utils.py: cannot access local variable 'improved_test_case' where it is not associated with a value
+2025-04-17 10:57:57,323 - INFO - End Processing file: theory_evaluation\circle_utils.py
 
-2025-04-17 10:51:42,575 - INFO - End Processing file: theory_evaluation\circle_utils.py
-
-2025-04-17 10:51:42,575 - INFO - 
+2025-04-17 10:57:57,324 - INFO - 
 Start Processing file: theory_evaluation\llm_utils.py
-2025-04-17 10:51:42,583 - INFO - Extraction of function and class start
-2025-04-17 10:51:42,585 - INFO - extraction of function and class complete
-2025-04-17 10:51:42,586 - INFO - Generate Unit Test Case starts
-2025-04-17 10:51:42,587 - INFO - Extract unique import start
-2025-04-17 10:51:44,053 - INFO - Extract unique import complete
-2025-04-17 10:51:44,053 - INFO - Update relative import start
-2025-04-17 10:51:44,053 - INFO - Update relative import complete
-2025-04-17 10:51:48,047 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 10:51:48,048 - INFO - Generate Unit Test Case complete
-2025-04-17 10:51:48,053 - INFO - run_each_pytest_function_individually start
-2025-04-17 10:51:52,448 - INFO - Number of test case to process - 3
-2025-04-17 10:51:52,448 - INFO - 
+2025-04-17 10:57:57,324 - INFO - Extraction of function and class start
+2025-04-17 10:57:57,325 - INFO - extraction of function and class complete
+2025-04-17 10:57:57,325 - INFO - Generate Unit Test Case starts
+2025-04-17 10:57:57,325 - INFO - Extract unique import start
+2025-04-17 10:57:58,643 - INFO - Extract unique import complete
+2025-04-17 10:57:58,643 - INFO - Update relative import start
+2025-04-17 10:57:58,644 - INFO - Update relative import complete
+2025-04-17 10:58:04,327 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 10:58:04,328 - INFO - Generate Unit Test Case complete
+2025-04-17 10:58:04,333 - INFO - run_each_pytest_function_individually start
+2025-04-17 10:58:09,174 - INFO - Number of test case to process - 5
+2025-04-17 10:58:09,175 - INFO - 
 TEST CASE 1 Retry 0
 ---------------
 import os
@@ -304,37 +170,43 @@ import pytest
 @pytest.fixture
 def mock_open_files():
     prompt_content = "Hello, {$name}!"
-    config_content = '{"name": "World"}'
-    llm_settings_content = '{"setting": "value"}'
-    mock_files = {
-        "./theory_evaluation/evaluator/prompts/test_agent/config.yaml": mock_open(read_data=config_content).return_value,
-        "./theory_evaluation/evaluator/prompts/test_agent/prompt.txt": mock_open(read_data=prompt_content).return_value,
-        "./theory_evaluation/evaluator/prompts/test_agent/llm_settings.yaml": mock_open(read_data=llm_settings_content).return_value,
-    }
-    return mock_files
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
+
+    def open_side_effect(file_path, *args, **kwargs):
+        if "prompt.txt" in file_path:
+            return mock_open(read_data=prompt_content).return_value
+        elif "config.yaml" in file_path:
+            return mock_open(read_data=config_content).return_value
+        elif "llm_settings.yaml" in file_path:
+            return mock_open(read_data=settings_content).return_value
+        else:
+            raise FileNotFoundError
+
+    return open_side_effect
 
 def test_initialise_prompt(mock_open_files):
-    with patch("builtins.open", side_effect=lambda f, *args, **kwargs: mock_open_files[f]):
-        result = initialise_prompt("test_agent")
+    with patch("theory_evaluation.llm_utils.open", side_effect=mock_open_files):
+        result = initialise_prompt("agent_name")
         assert result == "Hello, World!"
 
 ---------------
-2025-04-17 10:51:53,473 - INFO - TEST CASE 1 Retry 0 - Result - Failed
-2025-04-17 10:51:53,473 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+2025-04-17 10:58:10,440 - INFO - TEST CASE 1 Retry 0 - Result - Failed
+2025-04-17 10:58:10,440 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-E                                                                        [100%]
-=================================== ERRORS ====================================
-__________________ ERROR at setup of test_initialise_prompt ___________________
-temp\temp.py:13: in mock_open_files
-    "./theory_evaluation/evaluator/prompts/test_agent/config.yaml": mock_open(read_data=config_content).return_value,
-E   NameError: name 'mock_open' is not defined
+F                                                                        [100%]
+================================== FAILURES ===================================
+___________________________ test_initialise_prompt ____________________________
+temp\temp.py:26: in test_initialise_prompt
+    with patch("theory_evaluation.llm_utils.open", side_effect=mock_open_files):
+E   NameError: name 'patch' is not defined
 =========================== short test summary info ===========================
-ERROR temp/temp.py::test_initialise_prompt - NameError: name 'mock_open' is n...
-1 error in 0.13s
-2025-04-17 10:51:55,354 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 10:51:55,355 - INFO - 
+FAILED temp/temp.py::test_initialise_prompt - NameError: name 'patch' is not ...
+1 failed in 0.20s
+2025-04-17 10:58:11,439 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 10:58:11,439 - INFO - 
 TEST CASE 1 Retry 1
 ---------------
 import os
@@ -346,32 +218,50 @@ import pytest
 @pytest.fixture
 def mock_open_files():
     prompt_content = "Hello, {$name}!"
-    config_content = '{"name": "World"}'
-    llm_settings_content = '{"setting": "value"}'
-    mock_files = {
-        "./theory_evaluation/evaluator/prompts/test_agent/config.yaml": mock_open(read_data=config_content).return_value,
-        "./theory_evaluation/evaluator/prompts/test_agent/prompt.txt": mock_open(read_data=prompt_content).return_value,
-        "./theory_evaluation/evaluator/prompts/test_agent/llm_settings.yaml": mock_open(read_data=llm_settings_content).return_value,
-    }
-    return mock_files
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
 
-from unittest.mock import mock_open, patch
+    def open_side_effect(file_path, *args, **kwargs):
+        if "prompt.txt" in file_path:
+            return mock_open(read_data=prompt_content).return_value
+        elif "config.yaml" in file_path:
+            return mock_open(read_data=config_content).return_value
+        elif "llm_settings.yaml" in file_path:
+            return mock_open(read_data=settings_content).return_value
+        else:
+            raise FileNotFoundError
 
-def test_initialise_prompt():
-    config_content = "key: value"
-    prompt_content = "Hello, {$key}!"
-    mock_files = {
-        "./theory_evaluation/evaluator/prompts/test_agent/config.yaml": mock_open(read_data=config_content).return_value,
-        "./theory_evaluation/evaluator/prompts/test_agent/prompt.txt": mock_open(read_data=prompt_content).return_value,
-    }
+    return open_side_effect
 
-    with patch("builtins.open", side_effect=lambda f, *args, **kwargs: mock_files[f]):
-        result = initialise_prompt("test_agent")
-        assert result == "Hello, value!"
+from unittest.mock import patch
+
+def test_initialise_prompt(mock_open_files):
+    with patch("theory_evaluation.llm_utils.open", side_effect=mock_open_files):
+        result = initialise_prompt("agent_name")
+        assert result == "Hello, World!"
 
 ---------------
-2025-04-17 10:51:56,562 - INFO - TEST CASE 1 Retry 1 - Result - Passed
-2025-04-17 10:51:56,563 - INFO - Success_test_cases - import os
+2025-04-17 10:58:12,746 - INFO - TEST CASE 1 Retry 1 - Result - Failed
+2025-04-17 10:58:12,746 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+___________________________ test_initialise_prompt ____________________________
+temp\temp.py:30: in test_initialise_prompt
+    assert result == "Hello, World!"
+E   AssertionError: assert None == 'Hello, World!'
+---------------------------- Captured stdout call -----------------------------
+name 'mock_open' is not defined: No configuration path to the prompt given.
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_initialise_prompt - AssertionError: assert None == ...
+1 failed in 0.19s
+2025-04-17 10:58:15,048 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 10:58:15,049 - INFO - 
+TEST CASE 1 Retry 2
+---------------
+import os
 import re
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
@@ -380,34 +270,46 @@ import pytest
 @pytest.fixture
 def mock_open_files():
     prompt_content = "Hello, {$name}!"
-    config_content = '{"name": "World"}'
-    llm_settings_content = '{"setting": "value"}'
-    mock_files = {
-        "./theory_evaluation/evaluator/prompts/test_agent/config.yaml": mock_open(read_data=config_content).return_value,
-        "./theory_evaluation/evaluator/prompts/test_agent/prompt.txt": mock_open(read_data=prompt_content).return_value,
-        "./theory_evaluation/evaluator/prompts/test_agent/llm_settings.yaml": mock_open(read_data=llm_settings_content).return_value,
-    }
-    return mock_files
-from unittest.mock import mock_open, patch
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
+
+    def open_side_effect(file_path, *args, **kwargs):
+        if "prompt.txt" in file_path:
+            return mock_open(read_data=prompt_content).return_value
+        elif "config.yaml" in file_path:
+            return mock_open(read_data=config_content).return_value
+        elif "llm_settings.yaml" in file_path:
+            return mock_open(read_data=settings_content).return_value
+        else:
+            raise FileNotFoundError
+
+    return open_side_effect
+
+from unittest.mock import patch, mock_open
 
 def test_initialise_prompt():
-    config_content = "key: value"
-    prompt_content = "Hello, {$key}!"
     mock_files = {
-        "./theory_evaluation/evaluator/prompts/test_agent/config.yaml": mock_open(read_data=config_content).return_value,
-        "./theory_evaluation/evaluator/prompts/test_agent/prompt.txt": mock_open(read_data=prompt_content).return_value,
+        "./theory_evaluation/evaluator/prompts/agent_name/config.yaml": "key: value",
+        "./theory_evaluation/evaluator/prompts/agent_name/prompt.txt": "Hello, World!"
     }
 
-    with patch("builtins.open", side_effect=lambda f, *args, **kwargs: mock_files[f]):
-        result = initialise_prompt("test_agent")
-        assert result == "Hello, value!"
+    def mock_open_files(file, *args, **kwargs):
+        if file in mock_files:
+            return mock_open(read_data=mock_files[file])()
+        raise FileNotFoundError(f"No such file: '{file}'")
 
-2025-04-17 10:51:56,563 - ERROR - Exception occurred while processing test case 1: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
+    with patch("builtins.open", new=mock_open_files):
+        result = initialise_prompt("agent_name")
+        assert result == "Hello, World!"
+
+---------------
+2025-04-17 10:58:16,220 - INFO - TEST CASE 1 Retry 2 - Result - Passed
+2025-04-17 10:58:16,220 - ERROR - Exception occurred while processing test case 1: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
 Traceback (most recent call last):
   File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 551, in run_each_pytest_function_individually
-    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature)
+    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt,success_test_cases, temperature)
 TypeError: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
-2025-04-17 10:51:56,563 - INFO - 
+2025-04-17 10:58:16,221 - INFO - 
 TEST CASE 2 Retry 0
 ---------------
 import os
@@ -419,37 +321,44 @@ import pytest
 @pytest.fixture
 def mock_open_files():
     prompt_content = "Hello, {$name}!"
-    config_content = '{"name": "World"}'
-    llm_settings_content = '{"setting": "value"}'
-    mock_files = {
-        "./theory_evaluation/evaluator/prompts/test_agent/config.yaml": mock_open(read_data=config_content).return_value,
-        "./theory_evaluation/evaluator/prompts/test_agent/prompt.txt": mock_open(read_data=prompt_content).return_value,
-        "./theory_evaluation/evaluator/prompts/test_agent/llm_settings.yaml": mock_open(read_data=llm_settings_content).return_value,
-    }
-    return mock_files
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
+
+    def open_side_effect(file_path, *args, **kwargs):
+        if "prompt.txt" in file_path:
+            return mock_open(read_data=prompt_content).return_value
+        elif "config.yaml" in file_path:
+            return mock_open(read_data=config_content).return_value
+        elif "llm_settings.yaml" in file_path:
+            return mock_open(read_data=settings_content).return_value
+        else:
+            raise FileNotFoundError
+
+    return open_side_effect
 
 def test_initialise_prompt_missing_placeholder(mock_open_files):
-    prompt_content = "Hello, {$name}!"
-    config_content = '{}'
-    mock_open_files["./theory_evaluation/evaluator/prompts/test_agent/config.yaml"] = mock_open(read_data=config_content).return_value
+    prompt_content = "Hello, {$missing}!"
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=prompt_content)):
+        result = initialise_prompt("agent_name")
+        assert result == "Hello, {$missing}!"
 
 ---------------
-2025-04-17 10:51:57,682 - INFO - TEST CASE 2 Retry 0 - Result - Failed
-2025-04-17 10:51:57,683 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+2025-04-17 10:58:17,123 - INFO - TEST CASE 2 Retry 0 - Result - Failed
+2025-04-17 10:58:17,123 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-E                                                                        [100%]
-=================================== ERRORS ====================================
-________ ERROR at setup of test_initialise_prompt_missing_placeholder _________
-temp\temp.py:13: in mock_open_files
-    "./theory_evaluation/evaluator/prompts/test_agent/config.yaml": mock_open(read_data=config_content).return_value,
-E   NameError: name 'mock_open' is not defined
+F                                                                        [100%]
+================================== FAILURES ===================================
+_________________ test_initialise_prompt_missing_placeholder __________________
+temp\temp.py:27: in test_initialise_prompt_missing_placeholder
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=prompt_content)):
+E   NameError: name 'patch' is not defined
 =========================== short test summary info ===========================
-ERROR temp/temp.py::test_initialise_prompt_missing_placeholder - NameError: n...
-1 error in 0.14s
-2025-04-17 10:51:59,495 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 10:51:59,496 - INFO - 
+FAILED temp/temp.py::test_initialise_prompt_missing_placeholder - NameError: ...
+1 failed in 0.11s
+2025-04-17 10:58:18,447 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 10:58:18,448 - INFO - 
 TEST CASE 2 Retry 1
 ---------------
 import os
@@ -461,27 +370,51 @@ import pytest
 @pytest.fixture
 def mock_open_files():
     prompt_content = "Hello, {$name}!"
-    config_content = '{"name": "World"}'
-    llm_settings_content = '{"setting": "value"}'
-    mock_files = {
-        "./theory_evaluation/evaluator/prompts/test_agent/config.yaml": mock_open(read_data=config_content).return_value,
-        "./theory_evaluation/evaluator/prompts/test_agent/prompt.txt": mock_open(read_data=prompt_content).return_value,
-        "./theory_evaluation/evaluator/prompts/test_agent/llm_settings.yaml": mock_open(read_data=llm_settings_content).return_value,
-    }
-    return mock_files
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
 
-from unittest.mock import mock_open, patch
+    def open_side_effect(file_path, *args, **kwargs):
+        if "prompt.txt" in file_path:
+            return mock_open(read_data=prompt_content).return_value
+        elif "config.yaml" in file_path:
+            return mock_open(read_data=config_content).return_value
+        elif "llm_settings.yaml" in file_path:
+            return mock_open(read_data=settings_content).return_value
+        else:
+            raise FileNotFoundError
+
+    return open_side_effect
+
+from unittest.mock import patch, mock_open
 
 def test_initialise_prompt_missing_placeholder():
-    prompt_content = "Hello, {$name}!"
-    config_content = '{}'
-    with patch("builtins.open", mock_open(read_data=config_content)) as mock_file:
-        mock_file.return_value.read.return_value = prompt_content
-        # Call the function or perform the test logic here
+    prompt_content = "Hello, {$missing}!"
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=prompt_content)):
+        result = initialise_prompt("agent_name")
+        assert result == "Hello, {$missing}!"
 
 ---------------
-2025-04-17 10:52:01,322 - INFO - TEST CASE 2 Retry 1 - Result - Passed
-2025-04-17 10:52:01,322 - INFO - Success_test_cases - import os
+2025-04-17 10:58:19,730 - INFO - TEST CASE 2 Retry 1 - Result - Failed
+2025-04-17 10:58:19,731 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+_________________ test_initialise_prompt_missing_placeholder __________________
+temp\temp.py:31: in test_initialise_prompt_missing_placeholder
+    assert result == "Hello, {$missing}!"
+E   AssertionError: assert None == 'Hello, {$missing}!'
+---------------------------- Captured stdout call -----------------------------
+string indices must be integers, not 'str': No configuration path to the prompt given.
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_initialise_prompt_missing_placeholder - AssertionEr...
+1 failed in 0.16s
+2025-04-17 10:58:21,645 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 10:58:21,646 - INFO - 
+TEST CASE 2 Retry 2
+---------------
+import os
 import re
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
@@ -490,43 +423,39 @@ import pytest
 @pytest.fixture
 def mock_open_files():
     prompt_content = "Hello, {$name}!"
-    config_content = '{"name": "World"}'
-    llm_settings_content = '{"setting": "value"}'
-    mock_files = {
-        "./theory_evaluation/evaluator/prompts/test_agent/config.yaml": mock_open(read_data=config_content).return_value,
-        "./theory_evaluation/evaluator/prompts/test_agent/prompt.txt": mock_open(read_data=prompt_content).return_value,
-        "./theory_evaluation/evaluator/prompts/test_agent/llm_settings.yaml": mock_open(read_data=llm_settings_content).return_value,
-    }
-    return mock_files
-from unittest.mock import mock_open, patch
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
 
-def test_initialise_prompt():
-    config_content = "key: value"
-    prompt_content = "Hello, {$key}!"
-    mock_files = {
-        "./theory_evaluation/evaluator/prompts/test_agent/config.yaml": mock_open(read_data=config_content).return_value,
-        "./theory_evaluation/evaluator/prompts/test_agent/prompt.txt": mock_open(read_data=prompt_content).return_value,
-    }
+    def open_side_effect(file_path, *args, **kwargs):
+        if "prompt.txt" in file_path:
+            return mock_open(read_data=prompt_content).return_value
+        elif "config.yaml" in file_path:
+            return mock_open(read_data=config_content).return_value
+        elif "llm_settings.yaml" in file_path:
+            return mock_open(read_data=settings_content).return_value
+        else:
+            raise FileNotFoundError
 
-    with patch("builtins.open", side_effect=lambda f, *args, **kwargs: mock_files[f]):
-        result = initialise_prompt("test_agent")
-        assert result == "Hello, value!"
+    return open_side_effect
 
-from unittest.mock import mock_open, patch
+from unittest.mock import patch, mock_open
 
 def test_initialise_prompt_missing_placeholder():
-    prompt_content = "Hello, {$name}!"
-    config_content = '{}'
-    with patch("builtins.open", mock_open(read_data=config_content)) as mock_file:
-        mock_file.return_value.read.return_value = prompt_content
-        # Call the function or perform the test logic here
+    prompt_content = "Hello, {$missing}!"
+    config_content = "{}"  # Empty config to simulate missing placeholder
+    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=prompt_content)) as mock_file:
+        mock_file.side_effect = [mock_open(read_data=config_content).return_value, mock_open(read_data=prompt_content).return_value]
+        result = initialise_prompt("agent_name")
+        assert result == "Hello, {$missing}!"
 
-2025-04-17 10:52:01,322 - ERROR - Exception occurred while processing test case 2: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
+---------------
+2025-04-17 10:58:22,756 - INFO - TEST CASE 2 Retry 2 - Result - Passed
+2025-04-17 10:58:22,756 - ERROR - Exception occurred while processing test case 2: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
 Traceback (most recent call last):
   File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 551, in run_each_pytest_function_individually
-    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature)
+    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt,success_test_cases, temperature)
 TypeError: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
-2025-04-17 10:52:01,323 - INFO - 
+2025-04-17 10:58:22,757 - INFO - 
 TEST CASE 3 Retry 0
 ---------------
 import os
@@ -538,37 +467,43 @@ import pytest
 @pytest.fixture
 def mock_open_files():
     prompt_content = "Hello, {$name}!"
-    config_content = '{"name": "World"}'
-    llm_settings_content = '{"setting": "value"}'
-    mock_files = {
-        "./theory_evaluation/evaluator/prompts/test_agent/config.yaml": mock_open(read_data=config_content).return_value,
-        "./theory_evaluation/evaluator/prompts/test_agent/prompt.txt": mock_open(read_data=prompt_content).return_value,
-        "./theory_evaluation/evaluator/prompts/test_agent/llm_settings.yaml": mock_open(read_data=llm_settings_content).return_value,
-    }
-    return mock_files
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
 
-def test_initialise_settings(mock_open_files):
-    with patch("builtins.open", side_effect=lambda f, *args, **kwargs: mock_open_files[f]):
-        result = initialise_settings("test_agent")
-        assert result == {"setting": "value"}
+    def open_side_effect(file_path, *args, **kwargs):
+        if "prompt.txt" in file_path:
+            return mock_open(read_data=prompt_content).return_value
+        elif "config.yaml" in file_path:
+            return mock_open(read_data=config_content).return_value
+        elif "llm_settings.yaml" in file_path:
+            return mock_open(read_data=settings_content).return_value
+        else:
+            raise FileNotFoundError
+
+    return open_side_effect
+
+def test_initialise_prompt_no_config():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt("agent_name")
+        assert result is None
 
 ---------------
-2025-04-17 10:52:02,734 - INFO - TEST CASE 3 Retry 0 - Result - Failed
-2025-04-17 10:52:02,735 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+2025-04-17 10:58:23,934 - INFO - TEST CASE 3 Retry 0 - Result - Failed
+2025-04-17 10:58:23,934 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-E                                                                        [100%]
-=================================== ERRORS ====================================
-_________________ ERROR at setup of test_initialise_settings __________________
-temp\temp.py:13: in mock_open_files
-    "./theory_evaluation/evaluator/prompts/test_agent/config.yaml": mock_open(read_data=config_content).return_value,
-E   NameError: name 'mock_open' is not defined
+F                                                                        [100%]
+================================== FAILURES ===================================
+______________________ test_initialise_prompt_no_config _______________________
+temp\temp.py:26: in test_initialise_prompt_no_config
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+E   NameError: name 'patch' is not defined
 =========================== short test summary info ===========================
-ERROR temp/temp.py::test_initialise_settings - NameError: name 'mock_open' is...
-1 error in 0.24s
-2025-04-17 10:52:04,058 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 10:52:04,058 - INFO - 
+FAILED temp/temp.py::test_initialise_prompt_no_config - NameError: name 'patc...
+1 failed in 0.12s
+2025-04-17 10:58:25,051 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 10:58:25,051 - INFO - 
 TEST CASE 3 Retry 1
 ---------------
 import os
@@ -580,25 +515,39 @@ import pytest
 @pytest.fixture
 def mock_open_files():
     prompt_content = "Hello, {$name}!"
-    config_content = '{"name": "World"}'
-    llm_settings_content = '{"setting": "value"}'
-    mock_files = {
-        "./theory_evaluation/evaluator/prompts/test_agent/config.yaml": mock_open(read_data=config_content).return_value,
-        "./theory_evaluation/evaluator/prompts/test_agent/prompt.txt": mock_open(read_data=prompt_content).return_value,
-        "./theory_evaluation/evaluator/prompts/test_agent/llm_settings.yaml": mock_open(read_data=llm_settings_content).return_value,
-    }
-    return mock_files
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
 
-from unittest.mock import mock_open, patch
+    def open_side_effect(file_path, *args, **kwargs):
+        if "prompt.txt" in file_path:
+            return mock_open(read_data=prompt_content).return_value
+        elif "config.yaml" in file_path:
+            return mock_open(read_data=config_content).return_value
+        elif "llm_settings.yaml" in file_path:
+            return mock_open(read_data=settings_content).return_value
+        else:
+            raise FileNotFoundError
 
-def test_initialise_settings(mock_open_files):
-    with patch("builtins.open", side_effect=lambda f, *args, **kwargs: mock_open_files[f]):
-        result = initialise_settings("test_agent")
-        assert result == {"setting": "value"}
+    return open_side_effect
+
+from unittest.mock import patch
+
+def test_initialise_prompt_no_config():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt("agent_name")
+        assert result is None
 
 ---------------
-2025-04-17 10:52:05,527 - INFO - TEST CASE 3 Retry 1 - Result - Passed
-2025-04-17 10:52:05,527 - INFO - Success_test_cases - import os
+2025-04-17 10:58:26,257 - INFO - TEST CASE 3 Retry 1 - Result - Passed
+2025-04-17 10:58:26,257 - ERROR - Exception occurred while processing test case 3: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
+Traceback (most recent call last):
+  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 551, in run_each_pytest_function_individually
+    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt,success_test_cases, temperature)
+TypeError: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
+2025-04-17 10:58:26,257 - INFO - 
+TEST CASE 4 Retry 0
+---------------
+import os
 import re
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
@@ -607,54 +556,228 @@ import pytest
 @pytest.fixture
 def mock_open_files():
     prompt_content = "Hello, {$name}!"
-    config_content = '{"name": "World"}'
-    llm_settings_content = '{"setting": "value"}'
-    mock_files = {
-        "./theory_evaluation/evaluator/prompts/test_agent/config.yaml": mock_open(read_data=config_content).return_value,
-        "./theory_evaluation/evaluator/prompts/test_agent/prompt.txt": mock_open(read_data=prompt_content).return_value,
-        "./theory_evaluation/evaluator/prompts/test_agent/llm_settings.yaml": mock_open(read_data=llm_settings_content).return_value,
-    }
-    return mock_files
-from unittest.mock import mock_open, patch
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
 
-def test_initialise_prompt():
-    config_content = "key: value"
-    prompt_content = "Hello, {$key}!"
-    mock_files = {
-        "./theory_evaluation/evaluator/prompts/test_agent/config.yaml": mock_open(read_data=config_content).return_value,
-        "./theory_evaluation/evaluator/prompts/test_agent/prompt.txt": mock_open(read_data=prompt_content).return_value,
-    }
+    def open_side_effect(file_path, *args, **kwargs):
+        if "prompt.txt" in file_path:
+            return mock_open(read_data=prompt_content).return_value
+        elif "config.yaml" in file_path:
+            return mock_open(read_data=config_content).return_value
+        elif "llm_settings.yaml" in file_path:
+            return mock_open(read_data=settings_content).return_value
+        else:
+            raise FileNotFoundError
 
-    with patch("builtins.open", side_effect=lambda f, *args, **kwargs: mock_files[f]):
-        result = initialise_prompt("test_agent")
-        assert result == "Hello, value!"
-
-from unittest.mock import mock_open, patch
-
-def test_initialise_prompt_missing_placeholder():
-    prompt_content = "Hello, {$name}!"
-    config_content = '{}'
-    with patch("builtins.open", mock_open(read_data=config_content)) as mock_file:
-        mock_file.return_value.read.return_value = prompt_content
-        # Call the function or perform the test logic here
-
-from unittest.mock import mock_open, patch
+    return open_side_effect
 
 def test_initialise_settings(mock_open_files):
-    with patch("builtins.open", side_effect=lambda f, *args, **kwargs: mock_open_files[f]):
-        result = initialise_settings("test_agent")
-        assert result == {"setting": "value"}
+    with patch("theory_evaluation.llm_utils.open", side_effect=mock_open_files):
+        result = initialise_settings("agent_name")
+        assert result == {"setting1": "value1", "setting2": "value2"}
 
-2025-04-17 10:52:05,527 - ERROR - Exception occurred while processing test case 3: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
+---------------
+2025-04-17 10:58:27,371 - INFO - TEST CASE 4 Retry 0 - Result - Failed
+2025-04-17 10:58:27,371 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+__________________________ test_initialise_settings ___________________________
+temp\temp.py:26: in test_initialise_settings
+    with patch("theory_evaluation.llm_utils.open", side_effect=mock_open_files):
+E   NameError: name 'patch' is not defined
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_initialise_settings - NameError: name 'patch' is no...
+1 failed in 0.11s
+2025-04-17 10:58:28,882 - INFO - 
+TEST CASE 4 Retry 1
+---------------
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "Hello, {$name}!"
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
+
+    def open_side_effect(file_path, *args, **kwargs):
+        if "prompt.txt" in file_path:
+            return mock_open(read_data=prompt_content).return_value
+        elif "config.yaml" in file_path:
+            return mock_open(read_data=config_content).return_value
+        elif "llm_settings.yaml" in file_path:
+            return mock_open(read_data=settings_content).return_value
+        else:
+            raise FileNotFoundError
+
+    return open_side_effect
+
+from unittest.mock import patch
+
+def test_initialise_settings(mock_open_files):
+    with patch("theory_evaluation.llm_utils.open", side_effect=mock_open_files):
+        result = initialise_settings("agent_name")
+        assert result == {"setting1": "value1", "setting2": "value2"}
+
+---------------
+2025-04-17 10:58:30,300 - INFO - TEST CASE 4 Retry 1 - Result - Failed
+2025-04-17 10:58:30,300 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+__________________________ test_initialise_settings ___________________________
+temp\temp.py:30: in test_initialise_settings
+    assert result == {"setting1": "value1", "setting2": "value2"}
+E   AssertionError: assert None == {'setting1': 'value1', 'setting2': 'value2'}
+---------------------------- Captured stdout call -----------------------------
+name 'mock_open' is not defined: No configuration path to the llm settings given.
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_initialise_settings - AssertionError: assert None =...
+1 failed in 0.19s
+2025-04-17 10:58:31,848 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 10:58:31,849 - INFO - 
+TEST CASE 4 Retry 2
+---------------
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "Hello, {$name}!"
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
+
+    def open_side_effect(file_path, *args, **kwargs):
+        if "prompt.txt" in file_path:
+            return mock_open(read_data=prompt_content).return_value
+        elif "config.yaml" in file_path:
+            return mock_open(read_data=config_content).return_value
+        elif "llm_settings.yaml" in file_path:
+            return mock_open(read_data=settings_content).return_value
+        else:
+            raise FileNotFoundError
+
+    return open_side_effect
+
+from unittest.mock import patch, mock_open
+
+def test_initialise_settings():
+    mock_data = """
+    setting1: value1
+    setting2: value2
+    """
+    with patch("builtins.open", mock_open(read_data=mock_data)):
+        result = initialise_settings("agent_name")
+        assert result == {"setting1": "value1", "setting2": "value2"}
+
+---------------
+2025-04-17 10:58:33,117 - INFO - TEST CASE 4 Retry 2 - Result - Passed
+2025-04-17 10:58:33,117 - ERROR - Exception occurred while processing test case 4: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
 Traceback (most recent call last):
   File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 551, in run_each_pytest_function_individually
-    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature)
+    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt,success_test_cases, temperature)
 TypeError: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
-2025-04-17 10:52:05,528 - INFO - run_each_pytest_function_individually complete
-2025-04-17 10:52:05,528 - INFO - Statistic theory_evaluation\llm_utils.py: 
-Total test case - 3
-Total test case passed - 3
-Percentage Passed - 100.0%
+2025-04-17 10:58:33,118 - INFO - 
+TEST CASE 5 Retry 0
+---------------
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
 
-2025-04-17 10:52:05,530 - INFO - End Processing file: theory_evaluation\llm_utils.py
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "Hello, {$name}!"
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
+
+    def open_side_effect(file_path, *args, **kwargs):
+        if "prompt.txt" in file_path:
+            return mock_open(read_data=prompt_content).return_value
+        elif "config.yaml" in file_path:
+            return mock_open(read_data=config_content).return_value
+        elif "llm_settings.yaml" in file_path:
+            return mock_open(read_data=settings_content).return_value
+        else:
+            raise FileNotFoundError
+
+    return open_side_effect
+
+def test_initialise_settings_no_config():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_settings("agent_name")
+        assert result is None
+
+---------------
+2025-04-17 10:58:34,362 - INFO - TEST CASE 5 Retry 0 - Result - Failed
+2025-04-17 10:58:34,362 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+_____________________ test_initialise_settings_no_config ______________________
+temp\temp.py:26: in test_initialise_settings_no_config
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+E   NameError: name 'patch' is not defined
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_initialise_settings_no_config - NameError: name 'pa...
+1 failed in 0.16s
+2025-04-17 10:58:35,662 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 10:58:35,662 - INFO - 
+TEST CASE 5 Retry 1
+---------------
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+@pytest.fixture
+def mock_open_files():
+    prompt_content = "Hello, {$name}!"
+    config_content = "name: World"
+    settings_content = "setting1: value1\nsetting2: value2"
+
+    def open_side_effect(file_path, *args, **kwargs):
+        if "prompt.txt" in file_path:
+            return mock_open(read_data=prompt_content).return_value
+        elif "config.yaml" in file_path:
+            return mock_open(read_data=config_content).return_value
+        elif "llm_settings.yaml" in file_path:
+            return mock_open(read_data=settings_content).return_value
+        else:
+            raise FileNotFoundError
+
+    return open_side_effect
+
+from unittest.mock import patch
+
+def test_initialise_settings_no_config():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_settings("agent_name")
+        assert result is None
+
+---------------
+2025-04-17 10:58:36,631 - INFO - TEST CASE 5 Retry 1 - Result - Passed
+2025-04-17 10:58:36,631 - ERROR - Exception occurred while processing test case 5: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
+Traceback (most recent call last):
+  File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\generate_tests.py", line 551, in run_each_pytest_function_individually
+    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt,success_test_cases, temperature)
+TypeError: generate_improved_test_case() missing 3 required positional arguments: 'source_code', 'import_statements', and 'temperature'
+2025-04-17 10:58:36,632 - INFO - run_each_pytest_function_individually complete
+2025-04-17 10:58:36,632 - ERROR - Failed processing theory_evaluation\llm_utils.py: cannot access local variable 'improved_test_case' where it is not associated with a value
+2025-04-17 10:58:36,632 - INFO - End Processing file: theory_evaluation\llm_utils.py
 

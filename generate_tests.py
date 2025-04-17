@@ -460,13 +460,10 @@ def resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_c
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
-def generate_improved_test_case(provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, import_statements, temperature): 
+def generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature): 
     # Format the prompt using the provided template
-    formatted_prompt = llm_resolve_prompt.format(
-        test_case=test_case,
-        test_case_error=test_case_error,
-        import_statements=import_statements,
-        source_code=source_code
+    formatted_prompt = llm_test_improvement_prompt.format(
+        test_case={success_test_cases}
     )
 
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
@@ -548,12 +545,14 @@ def run_each_pytest_function_individually(
             if passed:
                 success_test_cases += "\n" + test_case + "\n"
                 success_test_cases = initial_template + "\n" + success_test_cases
-                improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt,success_test_cases, temperature)
+                improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature)
                 save_test_case_to_temp_file(improved_test_case, temp_file)
                 passed, test_case_error = run_single_test_file(temp_file)
                 if passed:
                     logger.info(f"Test Case {idx} processed successfully")
+                    return_test_cases = improved_test_case
                 else:
+                    return_test_cases = success_test_cases
                     logger.info(f"Error in generating improved test cases\nTest case:\n{improved_test_case}\nTest error:\n{test_case_error}")
             else:
                 test_file_failure+=unit_test_failure + "\n"
@@ -563,7 +562,7 @@ def run_each_pytest_function_individually(
             logger.exception(f"Exception occurred while processing test case {idx}: {e}")
 
     logger.info(f"run_each_pytest_function_individually complete")
-    return improved_test_case, test_file_failure, total_test_case, passed_count
+    return return_test_cases, test_file_failure, total_test_case, passed_count
 
 
 def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg: str, env_vars: dict) -> None:
