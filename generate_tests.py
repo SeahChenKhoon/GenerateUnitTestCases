@@ -549,6 +549,7 @@ def run_each_pytest_function_individually(
             else:
                 test_file_failure+=unit_test_failure + "\n"
                 logger.info(f"Failed after all retries for test case {idx}")
+                logger.info(f"test_file_failure {test_file_failure}")
 
         except Exception as e:
             logger.exception(f"Exception occurred while processing test case {idx}: {e}")
