@@ -646,7 +646,8 @@ def main() -> NoReturn:
         "percentage_passed (%)": passed_count/total_test_case * 100
         })
     test_stats_df = pd.DataFrame(test_stats)
-    logger.info(tabulate(test_stats_df, headers='keys', tablefmt='grid'))
+    test_stats_df.index = test_stats_df.index + 1
+    logger.info("\n" + tabulate(test_stats_df, headers='keys', tablefmt='grid'))
 
 if __name__ == "__main__":
     try:
