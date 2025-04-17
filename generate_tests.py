@@ -607,12 +607,20 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
                                                               env_vars["llm_test_cases_prompt"], env_vars["llm_test_improvement_prompt"],
                                                               import_statements, source_code, test_code, Path(env_vars["temp_file"]))
 
+            if test_code:
+                save_test_file(
+                        Path(env_vars["src_dir"]),
+                        Path(env_vars["final_dir"]),
+                        source_code_path,
+                        test_code
+                    )
+                
             if test_file_failure:
                 save_test_file(
                         Path(env_vars["src_dir"]),
                         Path(env_vars["err_dir"]),
-                        test_file_failure,
-                        test_code
+                        source_code_path,
+                        test_file_failure
                     )
             
     except Exception as e:
