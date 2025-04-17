@@ -18,17 +18,25 @@ import pytest
 
 @pytest.fixture(scope='module')
 def test_engine():
-    engine = create_engine('sqlite:///:memory:')
+    engine = create_engine('sqlite:///:memory:', echo=True)
     Base.metadata.create_all(engine)
     return engine
 
 @pytest.fixture(scope='function')
 def session(test_engine):
-    connection = test_engine.connect()
-    transaction = connection.begin()
-    Session = sessionmaker(bind=connection)
+    Session = sessionmaker(bind=test_engine)
     session = Session()
     yield session
     session.close()
-    transaction.rollback()
-    connection.close()
+
+def test_curriculum_creation(session):
+    curriculum = Curriculum(
+        question="What is Python?",
+        marking_scheme="Detailed explanation required.",
+        model_answer="Python is a programming language."
+    )
+    session.add(curriculum)
+    session.commit()
+    retrieved_curriculum = session.query(Curriculum).filter_by(question="What is Python?").first()
+    assert retrieved_curriculum is not None
+    assert retrieved_curriculum.model_answer == "Python is a programming language."
