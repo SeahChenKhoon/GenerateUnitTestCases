@@ -7,6 +7,7 @@ import ast
 import contextlib
 import subprocess
 import tempfile
+import pandas as pd 
 from openai import OpenAI, AzureOpenAI
 from pathlib import Path
 from typing import Dict, Any, List, NoReturn, Union, Tuple
@@ -603,14 +604,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
                                                               env_vars["llm_resolve_prompt"], env_vars["llm_new_import_prompt"], env_vars["llm_pytest_fixture_prompt"],
                                                               env_vars["llm_test_cases_prompt"], env_vars["llm_test_improvement_prompt"],
                                                               import_statements, source_code, test_code, Path(env_vars["temp_file"]))
-            logger.info(f"Statistic {source_code_path}: \nTotal test case - {total_test_case}\nTotal test case passed - {passed_count}\nPercentage Passed - {passed_count/total_test_case * 100}%\n")
-            if test_code:
-                save_test_file(
-                        Path(env_vars["src_dir"]),
-                        Path(env_vars["final_dir"]),
-                        source_code_path,
-                        test_code
-                    )
+
             if test_file_failure:
                 save_test_file(
                         Path(env_vars["src_dir"]),
@@ -623,6 +617,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
         logger.error(f"Failed processing {source_code_path}: {e}")
 
     logger.info(f"End Processing file: {source_code_path}\n")
+    return total_test_case, passed_count
 
 
 def main() -> NoReturn:
@@ -640,9 +635,16 @@ def main() -> NoReturn:
         logger.error(f"Initialization failed: {e}")
         raise
 
+    test_stats = []
     for source_code_path in source_code_files:
-        output = _process_file(source_code_path, client, model_arg, env_vars)
-
+        total_test_case, passed_count = _process_file(source_code_path, client, model_arg, env_vars)
+        test_stats.append({
+        "filename": source_code_path,
+        "total_test_cases_passed": passed_count,
+        "total_test_cases": total_test_case,
+        "percentage_passed": passed_count/total_test_case * 100
+        })
+    df = pd.DataFrame(test_stats)
 
 if __name__ == "__main__":
     try:

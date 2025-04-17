@@ -1,16 +1,41 @@
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-from theory_evaluation.llm_handler import OpenAI_llm
+from unittest.mock import patch, MagicMock
 import pytest
-@pytest.fixture
-def mock_openai():
-    with patch("theory_evaluation.llm_handler.OpenAI") as mock:
-        yield mock
+import json
 
-@pytest.fixture
-def mock_azure_openai():
-    with patch("theory_evaluation.llm_handler.AzureOpenAI") as mock:
-        yield mock
+@pytest.mark.asyncio
+async def test_openai_llm_initialization():
+    with patch('theory_evaluation.llm_handler.AzureOpenAI') as mock_azure, \
+         patch('theory_evaluation.llm_handler.OpenAI') as mock_openai, \
+         patch('theory_evaluation.llm_handler.os.getenv', return_value='test_value'):
+        # Add your test logic here
+        pass
+
+@pytest.mark.asyncio
+async def test_openai_json_completion():
+    mock_response = MagicMock()
+    mock_response.choices[0].message.content = json.dumps({"key": "value"})
+    # Add your test logic here using mock_response
+
+@pytest.mark.asyncio
+async def test_openai_streaming():
+    mock_chunk = MagicMock()
+    mock_chunk.choices[0].delta.content = "streamed content"
+    # Add additional test logic here if needed
+
+@pytest.mark.asyncio
+async def test_openai_chat_completion():
+    mock_response = MagicMock()
+    mock_response.choices[0].message.content = "chat content"
+    # Add additional test logic here as needed
+
+@pytest.mark.asyncio
+async def test_execute_text_generation():
+    mock_response = MagicMock()
+    mock_response.choices[0].message.content = "generated text"
+    # Add your test logic here using mock_response
+
+@pytest.mark.asyncio
+async def test_execute_vision():
+    mock_response = MagicMock()
+    mock_response.choices[0].message.content = "vision content"
+    # Add additional test logic here if needed
