@@ -1,22 +1,23 @@
-2025-04-17 11:13:11,837 - INFO - Loading environment variables start
-2025-04-17 11:13:11,842 - INFO - Loading environment variables completes
-2025-04-17 11:13:11,842 - INFO - Initialising of LLM start
-2025-04-17 11:13:12,214 - INFO - Initialising of LLM completes
-2025-04-17 11:13:12,214 - INFO - Getting python file starts
-2025-04-17 11:13:12,215 - INFO - Getting python file completes
-2025-04-17 11:13:12,215 - INFO - 
+2025-04-17 11:17:25,055 - INFO - Loading environment variables start
+2025-04-17 11:17:25,058 - INFO - Loading environment variables completes
+2025-04-17 11:17:25,058 - INFO - Initialising of LLM start
+2025-04-17 11:17:25,384 - INFO - Initialising of LLM completes
+2025-04-17 11:17:25,384 - INFO - Getting python file starts
+2025-04-17 11:17:25,385 - INFO - Getting python file completes
+2025-04-17 11:17:25,385 - INFO - 
 Start Processing file: theory_evaluation\circle_utils.py
-2025-04-17 11:13:12,215 - INFO - Extraction of function and class start
-2025-04-17 11:13:12,216 - INFO - extraction of function and class complete
-2025-04-17 11:13:12,216 - INFO - Generate Unit Test Case starts
-2025-04-17 11:13:12,216 - INFO - Extract unique import start
-2025-04-17 11:13:13,827 - INFO - Extract unique import complete
-2025-04-17 11:13:13,828 - INFO - Update relative import start
-2025-04-17 11:13:13,830 - INFO - Update relative import complete
-2025-04-17 11:13:16,805 - INFO - Generate Unit Test Case complete
-2025-04-17 11:13:16,810 - INFO - run_each_pytest_function_individually start
-2025-04-17 11:13:20,716 - INFO - Number of test case to process - 6
-2025-04-17 11:13:20,716 - INFO - 
+2025-04-17 11:17:25,385 - INFO - Extraction of function and class start
+2025-04-17 11:17:25,385 - INFO - extraction of function and class complete
+2025-04-17 11:17:25,385 - INFO - Generate Unit Test Case starts
+2025-04-17 11:17:25,385 - INFO - Extract unique import start
+2025-04-17 11:17:26,853 - INFO - Extract unique import complete
+2025-04-17 11:17:26,854 - INFO - Update relative import start
+2025-04-17 11:17:26,855 - INFO - Update relative import complete
+2025-04-17 11:17:30,343 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:17:30,343 - INFO - Generate Unit Test Case complete
+2025-04-17 11:17:30,349 - INFO - run_each_pytest_function_individually start
+2025-04-17 11:17:34,571 - INFO - Number of test case to process - 6
+2025-04-17 11:17:34,571 - INFO - 
 TEST CASE 1 Retry 0
 ---------------
 import math
@@ -26,13 +27,13 @@ import pytest
 
 
 def test_circle_area_positive_radius():
-    radius = 5.0
+    radius = 5
     expected_area = math.pi * radius ** 2
     assert circle_area(radius) == pytest.approx(expected_area)
 
 ---------------
-2025-04-17 11:13:21,456 - INFO - TEST CASE 1 Retry 0 - Result - Passed
-2025-04-17 11:13:21,456 - INFO - Before Improvement
+2025-04-17 11:17:35,392 - INFO - TEST CASE 1 Retry 0 - Result - Passed
+2025-04-17 11:17:35,393 - INFO - Before Improvement
 import math
 from theory_evaluation.circle_utils import circle_area, circle_circumference
 import pytest
@@ -44,22 +45,21 @@ import pytest
 
 
 def test_circle_area_positive_radius():
-    radius = 5.0
+    radius = 5
     expected_area = math.pi * radius ** 2
     assert circle_area(radius) == pytest.approx(expected_area)
 
-2025-04-17 11:13:22,559 - INFO - After Improvement
+2025-04-17 11:17:36,614 - INFO - After Improvement
 import math
-from theory_evaluation.circle_utils import circle_area, circle_circumference
+from theory_evaluation.circle_utils import circle_area
 import pytest
 
-
 def test_circle_area_positive_radius():
-    radius = 5.0
+    radius = 5
     expected_area = math.pi * radius ** 2
     assert circle_area(radius) == pytest.approx(expected_area)
-2025-04-17 11:13:23,310 - INFO - Test Case 1 processed successfully
-2025-04-17 11:13:23,310 - INFO - 
+2025-04-17 11:17:37,273 - INFO - Test Case 1 processed successfully
+2025-04-17 11:17:37,273 - INFO - 
 TEST CASE 2 Retry 0
 ---------------
 import math
@@ -69,13 +69,13 @@ import pytest
 
 
 def test_circle_area_zero_radius():
-    radius = 0.0
-    expected_area = 0.0
+    radius = 0
+    expected_area = 0
     assert circle_area(radius) == pytest.approx(expected_area)
 
 ---------------
-2025-04-17 11:13:23,927 - INFO - TEST CASE 2 Retry 0 - Result - Passed
-2025-04-17 11:13:23,927 - INFO - Before Improvement
+2025-04-17 11:17:37,800 - INFO - TEST CASE 2 Retry 0 - Result - Passed
+2025-04-17 11:17:37,800 - INFO - Before Improvement
 import math
 from theory_evaluation.circle_utils import circle_area, circle_circumference
 import pytest
@@ -92,32 +92,32 @@ import pytest
 
 
 def test_circle_area_positive_radius():
-    radius = 5.0
+    radius = 5
     expected_area = math.pi * radius ** 2
     assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_zero_radius():
-    radius = 0.0
-    expected_area = 0.0
+    radius = 0
+    expected_area = 0
     assert circle_area(radius) == pytest.approx(expected_area)
 
-2025-04-17 11:13:25,653 - INFO - After Improvement
+2025-04-17 11:17:39,465 - INFO - After Improvement
 import math
-from theory_evaluation.circle_utils import circle_area, circle_circumference
+from theory_evaluation.circle_utils import circle_area
 import pytest
 
 
 def test_circle_area_positive_radius():
-    radius = 5.0
+    radius = 5
     expected_area = math.pi * radius ** 2
     assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_zero_radius():
-    radius = 0.0
-    expected_area = 0.0
+    radius = 0
+    expected_area = 0
     assert circle_area(radius) == pytest.approx(expected_area)
-2025-04-17 11:13:26,304 - INFO - Test Case 2 processed successfully
-2025-04-17 11:13:26,304 - INFO - 
+2025-04-17 11:17:40,187 - INFO - Test Case 2 processed successfully
+2025-04-17 11:17:40,187 - INFO - 
 TEST CASE 3 Retry 0
 ---------------
 import math
@@ -127,13 +127,12 @@ import pytest
 
 
 def test_circle_area_negative_radius():
-    radius = -5.0
     with pytest.raises(ValueError, match="Radius cannot be negative."):
-        circle_area(radius)
+        circle_area(-1)
 
 ---------------
-2025-04-17 11:13:26,948 - INFO - TEST CASE 3 Retry 0 - Result - Passed
-2025-04-17 11:13:26,948 - INFO - Before Improvement
+2025-04-17 11:17:40,795 - INFO - TEST CASE 3 Retry 0 - Result - Passed
+2025-04-17 11:17:40,795 - INFO - Before Improvement
 import math
 from theory_evaluation.circle_utils import circle_area, circle_circumference
 import pytest
@@ -155,41 +154,40 @@ import pytest
 
 
 def test_circle_area_positive_radius():
-    radius = 5.0
+    radius = 5
     expected_area = math.pi * radius ** 2
     assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_zero_radius():
-    radius = 0.0
-    expected_area = 0.0
+    radius = 0
+    expected_area = 0
     assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_negative_radius():
-    radius = -5.0
     with pytest.raises(ValueError, match="Radius cannot be negative."):
-        circle_area(radius)
+        circle_area(-1)
 
-2025-04-17 11:13:28,817 - INFO - After Improvement
+2025-04-17 11:17:42,349 - INFO - After Improvement
 import math
-from theory_evaluation.circle_utils import circle_area, circle_circumference
+from theory_evaluation.circle_utils import circle_area
 import pytest
 
+
 def test_circle_area_positive_radius():
-    radius = 5.0
+    radius = 5
     expected_area = math.pi * radius ** 2
     assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_zero_radius():
-    radius = 0.0
-    expected_area = 0.0
+    radius = 0
+    expected_area = 0
     assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_negative_radius():
-    radius = -5.0
     with pytest.raises(ValueError, match="Radius cannot be negative."):
-        circle_area(radius)
-2025-04-17 11:13:29,435 - INFO - Test Case 3 processed successfully
-2025-04-17 11:13:29,435 - INFO - 
+        circle_area(-1)
+2025-04-17 11:17:43,078 - INFO - Test Case 3 processed successfully
+2025-04-17 11:17:43,078 - INFO - 
 TEST CASE 4 Retry 0
 ---------------
 import math
@@ -199,13 +197,13 @@ import pytest
 
 
 def test_circle_circumference_positive_radius():
-    radius = 5.0
+    radius = 5
     expected_circumference = 2 * math.pi * radius
     assert circle_circumference(radius) == pytest.approx(expected_circumference)
 
 ---------------
-2025-04-17 11:13:30,065 - INFO - TEST CASE 4 Retry 0 - Result - Passed
-2025-04-17 11:13:30,065 - INFO - Before Improvement
+2025-04-17 11:17:43,633 - INFO - TEST CASE 4 Retry 0 - Result - Passed
+2025-04-17 11:17:43,633 - INFO - Before Improvement
 import math
 from theory_evaluation.circle_utils import circle_area, circle_circumference
 import pytest
@@ -232,52 +230,50 @@ import pytest
 
 
 def test_circle_area_positive_radius():
-    radius = 5.0
+    radius = 5
     expected_area = math.pi * radius ** 2
     assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_zero_radius():
-    radius = 0.0
-    expected_area = 0.0
+    radius = 0
+    expected_area = 0
     assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_negative_radius():
-    radius = -5.0
     with pytest.raises(ValueError, match="Radius cannot be negative."):
-        circle_area(radius)
+        circle_area(-1)
 
 def test_circle_circumference_positive_radius():
-    radius = 5.0
+    radius = 5
     expected_circumference = 2 * math.pi * radius
     assert circle_circumference(radius) == pytest.approx(expected_circumference)
 
-2025-04-17 11:13:32,864 - INFO - After Improvement
+2025-04-17 11:17:46,421 - INFO - After Improvement
 import math
 from theory_evaluation.circle_utils import circle_area, circle_circumference
 import pytest
 
 
 def test_circle_area_positive_radius():
-    radius = 5.0
+    radius = 5
     expected_area = math.pi * radius ** 2
     assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_zero_radius():
-    radius = 0.0
-    expected_area = 0.0
+    radius = 0
+    expected_area = 0
     assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_negative_radius():
-    radius = -5.0
     with pytest.raises(ValueError, match="Radius cannot be negative."):
-        circle_area(radius)
+        circle_area(-1)
 
 def test_circle_circumference_positive_radius():
-    radius = 5.0
+    radius = 5
     expected_circumference = 2 * math.pi * radius
     assert circle_circumference(radius) == pytest.approx(expected_circumference)
-2025-04-17 11:13:33,614 - INFO - Test Case 4 processed successfully
-2025-04-17 11:13:33,614 - INFO - 
+2025-04-17 11:17:47,102 - INFO - Test Case 4 processed successfully
+2025-04-17 11:17:47,102 - INFO - 
 TEST CASE 5 Retry 0
 ---------------
 import math
@@ -287,13 +283,13 @@ import pytest
 
 
 def test_circle_circumference_zero_radius():
-    radius = 0.0
-    expected_circumference = 0.0
+    radius = 0
+    expected_circumference = 0
     assert circle_circumference(radius) == pytest.approx(expected_circumference)
 
 ---------------
-2025-04-17 11:13:34,224 - INFO - TEST CASE 5 Retry 0 - Result - Passed
-2025-04-17 11:13:34,224 - INFO - Before Improvement
+2025-04-17 11:17:47,677 - INFO - TEST CASE 5 Retry 0 - Result - Passed
+2025-04-17 11:17:47,677 - INFO - Before Improvement
 import math
 from theory_evaluation.circle_utils import circle_area, circle_circumference
 import pytest
@@ -325,62 +321,60 @@ import pytest
 
 
 def test_circle_area_positive_radius():
-    radius = 5.0
+    radius = 5
     expected_area = math.pi * radius ** 2
     assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_zero_radius():
-    radius = 0.0
-    expected_area = 0.0
+    radius = 0
+    expected_area = 0
     assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_negative_radius():
-    radius = -5.0
     with pytest.raises(ValueError, match="Radius cannot be negative."):
-        circle_area(radius)
+        circle_area(-1)
 
 def test_circle_circumference_positive_radius():
-    radius = 5.0
+    radius = 5
     expected_circumference = 2 * math.pi * radius
     assert circle_circumference(radius) == pytest.approx(expected_circumference)
 
 def test_circle_circumference_zero_radius():
-    radius = 0.0
-    expected_circumference = 0.0
+    radius = 0
+    expected_circumference = 0
     assert circle_circumference(radius) == pytest.approx(expected_circumference)
 
-2025-04-17 11:13:36,813 - INFO - After Improvement
+2025-04-17 11:17:50,174 - INFO - After Improvement
 import math
 from theory_evaluation.circle_utils import circle_area, circle_circumference
 import pytest
 
 
 def test_circle_area_positive_radius():
-    radius = 5.0
+    radius = 5
     expected_area = math.pi * radius ** 2
     assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_zero_radius():
-    radius = 0.0
-    expected_area = 0.0
+    radius = 0
+    expected_area = 0
     assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_negative_radius():
-    radius = -5.0
     with pytest.raises(ValueError, match="Radius cannot be negative."):
-        circle_area(radius)
+        circle_area(-1)
 
 def test_circle_circumference_positive_radius():
-    radius = 5.0
+    radius = 5
     expected_circumference = 2 * math.pi * radius
     assert circle_circumference(radius) == pytest.approx(expected_circumference)
 
 def test_circle_circumference_zero_radius():
-    radius = 0.0
-    expected_circumference = 0.0
+    radius = 0
+    expected_circumference = 0
     assert circle_circumference(radius) == pytest.approx(expected_circumference)
-2025-04-17 11:13:37,428 - INFO - Test Case 5 processed successfully
-2025-04-17 11:13:37,428 - INFO - 
+2025-04-17 11:17:50,882 - INFO - Test Case 5 processed successfully
+2025-04-17 11:17:50,882 - INFO - 
 TEST CASE 6 Retry 0
 ---------------
 import math
@@ -390,13 +384,12 @@ import pytest
 
 
 def test_circle_circumference_negative_radius():
-    radius = -5.0
     with pytest.raises(ValueError, match="Radius cannot be negative."):
-        circle_circumference(radius)
+        circle_circumference(-1)
 
 ---------------
-2025-04-17 11:13:37,955 - INFO - TEST CASE 6 Retry 0 - Result - Passed
-2025-04-17 11:13:37,955 - INFO - Before Improvement
+2025-04-17 11:17:51,437 - INFO - TEST CASE 6 Retry 0 - Result - Passed
+2025-04-17 11:17:51,437 - INFO - Before Improvement
 import math
 from theory_evaluation.circle_utils import circle_area, circle_circumference
 import pytest
@@ -433,93 +426,89 @@ import pytest
 
 
 def test_circle_area_positive_radius():
-    radius = 5.0
+    radius = 5
     expected_area = math.pi * radius ** 2
     assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_zero_radius():
-    radius = 0.0
-    expected_area = 0.0
+    radius = 0
+    expected_area = 0
     assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_negative_radius():
-    radius = -5.0
     with pytest.raises(ValueError, match="Radius cannot be negative."):
-        circle_area(radius)
+        circle_area(-1)
 
 def test_circle_circumference_positive_radius():
-    radius = 5.0
+    radius = 5
     expected_circumference = 2 * math.pi * radius
     assert circle_circumference(radius) == pytest.approx(expected_circumference)
 
 def test_circle_circumference_zero_radius():
-    radius = 0.0
-    expected_circumference = 0.0
+    radius = 0
+    expected_circumference = 0
     assert circle_circumference(radius) == pytest.approx(expected_circumference)
 
 def test_circle_circumference_negative_radius():
-    radius = -5.0
     with pytest.raises(ValueError, match="Radius cannot be negative."):
-        circle_circumference(radius)
+        circle_circumference(-1)
 
-2025-04-17 11:13:41,006 - INFO - After Improvement
+2025-04-17 11:17:54,944 - INFO - After Improvement
 import math
 from theory_evaluation.circle_utils import circle_area, circle_circumference
 import pytest
 
 
 def test_circle_area_positive_radius():
-    radius = 5.0
+    radius = 5
     expected_area = math.pi * radius ** 2
     assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_zero_radius():
-    radius = 0.0
-    expected_area = 0.0
+    radius = 0
+    expected_area = 0
     assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_negative_radius():
-    radius = -5.0
     with pytest.raises(ValueError, match="Radius cannot be negative."):
-        circle_area(radius)
+        circle_area(-1)
 
 def test_circle_circumference_positive_radius():
-    radius = 5.0
+    radius = 5
     expected_circumference = 2 * math.pi * radius
     assert circle_circumference(radius) == pytest.approx(expected_circumference)
 
 def test_circle_circumference_zero_radius():
-    radius = 0.0
-    expected_circumference = 0.0
+    radius = 0
+    expected_circumference = 0
     assert circle_circumference(radius) == pytest.approx(expected_circumference)
 
 def test_circle_circumference_negative_radius():
-    radius = -5.0
     with pytest.raises(ValueError, match="Radius cannot be negative."):
-        circle_circumference(radius)
-2025-04-17 11:13:41,733 - INFO - Test Case 6 processed successfully
-2025-04-17 11:13:41,733 - INFO - run_each_pytest_function_individually complete
-2025-04-17 11:13:41,733 - INFO - Statistic theory_evaluation\circle_utils.py: 
+        circle_circumference(-1)
+2025-04-17 11:17:55,583 - INFO - Test Case 6 processed successfully
+2025-04-17 11:17:55,583 - INFO - run_each_pytest_function_individually complete
+2025-04-17 11:17:55,583 - INFO - Statistic theory_evaluation\circle_utils.py: 
 Total test case - 6
 Total test case passed - 6
 Percentage Passed - 100.0%
 
-2025-04-17 11:13:41,734 - INFO - End Processing file: theory_evaluation\circle_utils.py
+2025-04-17 11:17:55,584 - INFO - End Processing file: theory_evaluation\circle_utils.py
 
-2025-04-17 11:13:41,734 - INFO - 
+2025-04-17 11:17:55,584 - INFO - 
 Start Processing file: theory_evaluation\llm_utils.py
-2025-04-17 11:13:41,734 - INFO - Extraction of function and class start
-2025-04-17 11:13:41,734 - INFO - extraction of function and class complete
-2025-04-17 11:13:41,734 - INFO - Generate Unit Test Case starts
-2025-04-17 11:13:41,734 - INFO - Extract unique import start
-2025-04-17 11:13:42,321 - INFO - Extract unique import complete
-2025-04-17 11:13:42,321 - INFO - Update relative import start
-2025-04-17 11:13:42,322 - INFO - Update relative import complete
-2025-04-17 11:13:48,710 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 11:13:48,711 - INFO - Generate Unit Test Case complete
-2025-04-17 11:13:48,716 - INFO - run_each_pytest_function_individually start
-2025-04-17 11:13:57,454 - INFO - Number of test case to process - 5
-2025-04-17 11:13:57,455 - INFO - 
+2025-04-17 11:17:55,584 - INFO - Extraction of function and class start
+2025-04-17 11:17:55,584 - INFO - extraction of function and class complete
+2025-04-17 11:17:55,584 - INFO - Generate Unit Test Case starts
+2025-04-17 11:17:55,584 - INFO - Extract unique import start
+2025-04-17 11:17:56,323 - INFO - Extract unique import complete
+2025-04-17 11:17:56,324 - INFO - Update relative import start
+2025-04-17 11:17:56,324 - INFO - Update relative import complete
+2025-04-17 11:18:00,871 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:18:00,872 - INFO - Generate Unit Test Case complete
+2025-04-17 11:18:00,875 - INFO - run_each_pytest_function_individually start
+2025-04-17 11:18:05,833 - INFO - Number of test case to process - 4
+2025-04-17 11:18:05,834 - INFO - 
 TEST CASE 1 Retry 0
 ---------------
 import os
@@ -532,12 +521,13 @@ import pytest
 
 def test_initialise_prompt_success():
     agent = "test_agent"
-    config_yaml = "placeholder_value: 'test_value'"
-    prompt_txt = "This is a {$placeholder_value} test."
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} test."
+    expected_prompt = "This is a value test."
 
 ---------------
-2025-04-17 11:13:58,122 - INFO - TEST CASE 1 Retry 0 - Result - Passed
-2025-04-17 11:13:58,123 - INFO - Before Improvement
+2025-04-17 11:18:06,553 - INFO - TEST CASE 1 Retry 0 - Result - Passed
+2025-04-17 11:18:06,553 - INFO - Before Improvement
 import os
 import re
 import yaml
@@ -554,10 +544,11 @@ import pytest
 
 def test_initialise_prompt_success():
     agent = "test_agent"
-    config_yaml = "placeholder_value: 'test_value'"
-    prompt_txt = "This is a {$placeholder_value} test."
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} test."
+    expected_prompt = "This is a value test."
 
-2025-04-17 11:13:59,777 - INFO - After Improvement
+2025-04-17 11:18:07,695 - INFO - After Improvement
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt
 import pytest
@@ -565,10 +556,11 @@ import pytest
 
 def test_initialise_prompt_success():
     agent = "test_agent"
-    config_yaml = "placeholder_value: 'test_value'"
-    prompt_txt = "This is a {$placeholder_value} test."
-2025-04-17 11:14:00,471 - INFO - Test Case 1 processed successfully
-2025-04-17 11:14:00,472 - INFO - 
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} test."
+    expected_prompt = "This is a value test."
+2025-04-17 11:18:08,322 - INFO - Test Case 1 processed successfully
+2025-04-17 11:18:08,322 - INFO - 
 TEST CASE 2 Retry 0
 ---------------
 import os
@@ -579,14 +571,48 @@ import pytest
 
 
 
-def test_initialise_prompt_missing_placeholder():
-    agent = "test_agent"
-    config_yaml = "another_value: 'test_value'"
-    prompt_txt = "This is a {$placeholder_value} test."
+def test_initialise_prompt_no_config_path():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt("non_existent_agent")
+        assert result is None
 
 ---------------
-2025-04-17 11:14:01,074 - INFO - TEST CASE 2 Retry 0 - Result - Passed
-2025-04-17 11:14:01,075 - INFO - Before Improvement
+2025-04-17 11:18:08,901 - INFO - TEST CASE 2 Retry 0 - Result - Failed
+2025-04-17 11:18:08,902 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+____________________ test_initialise_prompt_no_config_path ____________________
+temp\temp.py:10: in test_initialise_prompt_no_config_path
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+E   NameError: name 'patch' is not defined
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_initialise_prompt_no_config_path - NameError: name ...
+1 failed in 0.08s
+2025-04-17 11:18:09,997 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:18:09,998 - INFO - 
+TEST CASE 2 Retry 1
+---------------
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+
+
+from unittest.mock import patch
+
+def test_initialise_prompt_no_config_path():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt("non_existent_agent")
+        assert result is None
+
+---------------
+2025-04-17 11:18:10,872 - INFO - TEST CASE 2 Retry 1 - Result - Passed
+2025-04-17 11:18:10,872 - INFO - Before Improvement
 import os
 import re
 import yaml
@@ -610,31 +636,37 @@ import pytest
 
 def test_initialise_prompt_success():
     agent = "test_agent"
-    config_yaml = "placeholder_value: 'test_value'"
-    prompt_txt = "This is a {$placeholder_value} test."
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} test."
+    expected_prompt = "This is a value test."
 
-def test_initialise_prompt_missing_placeholder():
-    agent = "test_agent"
-    config_yaml = "another_value: 'test_value'"
-    prompt_txt = "This is a {$placeholder_value} test."
+from unittest.mock import patch
 
-2025-04-17 11:14:02,808 - INFO - After Improvement
+def test_initialise_prompt_no_config_path():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt("non_existent_agent")
+        assert result is None
+
+2025-04-17 11:18:12,888 - INFO - After Improvement
 import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+from theory_evaluation.llm_utils import initialise_prompt
 import pytest
+from unittest.mock import patch
 
 
 def test_initialise_prompt_success():
     agent = "test_agent"
-    config_yaml = "placeholder_value: 'test_value'"
-    prompt_txt = "This is a {$placeholder_value} test."
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} test."
+    expected_prompt = "This is a value test."
 
-def test_initialise_prompt_missing_placeholder():
-    agent = "test_agent"
-    config_yaml = "another_value: 'test_value'"
-    prompt_txt = "This is a {$placeholder_value} test."
-2025-04-17 11:14:03,477 - INFO - Test Case 2 processed successfully
-2025-04-17 11:14:03,477 - INFO - 
+
+def test_initialise_prompt_no_config_path():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt("non_existent_agent")
+        assert result is None
+2025-04-17 11:18:13,733 - INFO - Test Case 2 processed successfully
+2025-04-17 11:18:13,733 - INFO - 
 TEST CASE 3 Retry 0
 ---------------
 import os
@@ -645,12 +677,14 @@ import pytest
 
 
 
-def test_initialise_prompt_exception():
+def test_initialise_settings_success():
     agent = "test_agent"
+    settings_yaml = "setting_key: setting_value"
+    expected_settings = {'setting_key': 'setting_value'}
 
 ---------------
-2025-04-17 11:14:04,028 - INFO - TEST CASE 3 Retry 0 - Result - Passed
-2025-04-17 11:14:04,029 - INFO - Before Improvement
+2025-04-17 11:18:14,390 - INFO - TEST CASE 3 Retry 0 - Result - Passed
+2025-04-17 11:18:14,390 - INFO - Before Improvement
 import os
 import re
 import yaml
@@ -681,37 +715,48 @@ import pytest
 
 def test_initialise_prompt_success():
     agent = "test_agent"
-    config_yaml = "placeholder_value: 'test_value'"
-    prompt_txt = "This is a {$placeholder_value} test."
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} test."
+    expected_prompt = "This is a value test."
 
-def test_initialise_prompt_missing_placeholder():
+from unittest.mock import patch
+
+def test_initialise_prompt_no_config_path():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt("non_existent_agent")
+        assert result is None
+
+def test_initialise_settings_success():
     agent = "test_agent"
-    config_yaml = "another_value: 'test_value'"
-    prompt_txt = "This is a {$placeholder_value} test."
+    settings_yaml = "setting_key: setting_value"
+    expected_settings = {'setting_key': 'setting_value'}
 
-def test_initialise_prompt_exception():
-    agent = "test_agent"
-
-2025-04-17 11:14:05,696 - INFO - After Improvement
+2025-04-17 11:18:17,222 - INFO - After Improvement
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 import pytest
+from unittest.mock import patch
 
 
 def test_initialise_prompt_success():
     agent = "test_agent"
-    config_yaml = "placeholder_value: 'test_value'"
-    prompt_txt = "This is a {$placeholder_value} test."
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} test."
+    expected_prompt = "This is a value test."
 
-def test_initialise_prompt_missing_placeholder():
-    agent = "test_agent"
-    config_yaml = "another_value: 'test_value'"
-    prompt_txt = "This is a {$placeholder_value} test."
 
-def test_initialise_prompt_exception():
+def test_initialise_prompt_no_config_path():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt("non_existent_agent")
+        assert result is None
+
+
+def test_initialise_settings_success():
     agent = "test_agent"
-2025-04-17 11:14:06,409 - INFO - Test Case 3 processed successfully
-2025-04-17 11:14:06,409 - INFO - 
+    settings_yaml = "setting_key: setting_value"
+    expected_settings = {'setting_key': 'setting_value'}
+2025-04-17 11:18:17,858 - INFO - Test Case 3 processed successfully
+2025-04-17 11:18:17,858 - INFO - 
 TEST CASE 4 Retry 0
 ---------------
 import os
@@ -722,90 +767,29 @@ import pytest
 
 
 
-def test_initialise_settings_success():
-    agent = "test_agent"
-    settings_yaml = "key: value"
+def test_initialise_settings_no_config_path():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_settings("non_existent_agent")
+        assert result is None
 
 ---------------
-2025-04-17 11:14:07,011 - INFO - TEST CASE 4 Retry 0 - Result - Passed
-2025-04-17 11:14:07,011 - INFO - Before Improvement
-import os
-import re
-import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
-import pytest
+2025-04-17 11:18:18,466 - INFO - TEST CASE 4 Retry 0 - Result - Failed
+2025-04-17 11:18:18,466 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
-
-import os
-import re
-import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
-import pytest
-
-
-import os
-import re
-import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
-import pytest
-
-
-import os
-import re
-import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
-import pytest
-
-
-import os
-import re
-import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
-import pytest
-
-
-def test_initialise_prompt_success():
-    agent = "test_agent"
-    config_yaml = "placeholder_value: 'test_value'"
-    prompt_txt = "This is a {$placeholder_value} test."
-
-def test_initialise_prompt_missing_placeholder():
-    agent = "test_agent"
-    config_yaml = "another_value: 'test_value'"
-    prompt_txt = "This is a {$placeholder_value} test."
-
-def test_initialise_prompt_exception():
-    agent = "test_agent"
-
-def test_initialise_settings_success():
-    agent = "test_agent"
-    settings_yaml = "key: value"
-
-2025-04-17 11:14:08,912 - INFO - After Improvement
-import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
-import pytest
-
-
-def test_initialise_prompt_success():
-    agent = "test_agent"
-    config_yaml = "placeholder_value: 'test_value'"
-    prompt_txt = "This is a {$placeholder_value} test."
-
-def test_initialise_prompt_missing_placeholder():
-    agent = "test_agent"
-    config_yaml = "another_value: 'test_value'"
-    prompt_txt = "This is a {$placeholder_value} test."
-
-def test_initialise_prompt_exception():
-    agent = "test_agent"
-
-def test_initialise_settings_success():
-    agent = "test_agent"
-    settings_yaml = "key: value"
-2025-04-17 11:14:10,157 - INFO - Test Case 4 processed successfully
-2025-04-17 11:14:10,157 - INFO - 
-TEST CASE 5 Retry 0
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+___________________ test_initialise_settings_no_config_path ___________________
+temp\temp.py:10: in test_initialise_settings_no_config_path
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+E   NameError: name 'patch' is not defined
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_initialise_settings_no_config_path - NameError: nam...
+1 failed in 0.08s
+2025-04-17 11:18:19,637 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:18:19,637 - INFO - 
+TEST CASE 4 Retry 1
 ---------------
 import os
 import re
@@ -815,19 +799,16 @@ import pytest
 
 
 
-def test_initialise_settings_exception():
-    agent = "test_agent"
+from unittest.mock import patch
+
+def test_initialise_settings_no_config_path():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_settings("non_existent_agent")
+        assert result is None
 
 ---------------
-2025-04-17 11:14:10,861 - INFO - TEST CASE 5 Retry 0 - Result - Passed
-2025-04-17 11:14:10,861 - INFO - Before Improvement
-import os
-import re
-import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
-import pytest
-
-
+2025-04-17 11:18:20,360 - INFO - TEST CASE 4 Retry 1 - Result - Passed
+2025-04-17 11:18:20,360 - INFO - Before Improvement
 import os
 import re
 import yaml
@@ -865,55 +846,65 @@ import pytest
 
 def test_initialise_prompt_success():
     agent = "test_agent"
-    config_yaml = "placeholder_value: 'test_value'"
-    prompt_txt = "This is a {$placeholder_value} test."
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} test."
+    expected_prompt = "This is a value test."
 
-def test_initialise_prompt_missing_placeholder():
-    agent = "test_agent"
-    config_yaml = "another_value: 'test_value'"
-    prompt_txt = "This is a {$placeholder_value} test."
+from unittest.mock import patch
 
-def test_initialise_prompt_exception():
-    agent = "test_agent"
+def test_initialise_prompt_no_config_path():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt("non_existent_agent")
+        assert result is None
 
 def test_initialise_settings_success():
     agent = "test_agent"
-    settings_yaml = "key: value"
+    settings_yaml = "setting_key: setting_value"
+    expected_settings = {'setting_key': 'setting_value'}
 
-def test_initialise_settings_exception():
-    agent = "test_agent"
+from unittest.mock import patch
 
-2025-04-17 11:14:12,850 - INFO - After Improvement
+def test_initialise_settings_no_config_path():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_settings("non_existent_agent")
+        assert result is None
+
+2025-04-17 11:18:24,204 - INFO - After Improvement
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 import pytest
+from unittest.mock import patch
 
 
 def test_initialise_prompt_success():
     agent = "test_agent"
-    config_yaml = "placeholder_value: 'test_value'"
-    prompt_txt = "This is a {$placeholder_value} test."
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} test."
+    expected_prompt = "This is a value test."
 
-def test_initialise_prompt_missing_placeholder():
-    agent = "test_agent"
-    config_yaml = "another_value: 'test_value'"
-    prompt_txt = "This is a {$placeholder_value} test."
 
-def test_initialise_prompt_exception():
-    agent = "test_agent"
+def test_initialise_prompt_no_config_path():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt("non_existent_agent")
+        assert result is None
+
 
 def test_initialise_settings_success():
     agent = "test_agent"
-    settings_yaml = "key: value"
+    settings_yaml = "setting_key: setting_value"
+    expected_settings = {'setting_key': 'setting_value'}
 
-def test_initialise_settings_exception():
-    agent = "test_agent"
-2025-04-17 11:14:13,516 - INFO - Test Case 5 processed successfully
-2025-04-17 11:14:13,516 - INFO - run_each_pytest_function_individually complete
-2025-04-17 11:14:13,516 - INFO - Statistic theory_evaluation\llm_utils.py: 
-Total test case - 5
-Total test case passed - 5
+
+def test_initialise_settings_no_config_path():
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_settings("non_existent_agent")
+        assert result is None
+2025-04-17 11:18:24,938 - INFO - Test Case 4 processed successfully
+2025-04-17 11:18:24,938 - INFO - run_each_pytest_function_individually complete
+2025-04-17 11:18:24,938 - INFO - Statistic theory_evaluation\llm_utils.py: 
+Total test case - 4
+Total test case passed - 4
 Percentage Passed - 100.0%
 
-2025-04-17 11:14:13,517 - INFO - End Processing file: theory_evaluation\llm_utils.py
+2025-04-17 11:18:24,939 - INFO - End Processing file: theory_evaluation\llm_utils.py
 
