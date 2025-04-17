@@ -7,6 +7,7 @@ import ast
 import contextlib
 import subprocess
 import tempfile
+from tabulate import tabulate
 import pandas as pd 
 from openai import OpenAI, AzureOpenAI
 from pathlib import Path
@@ -644,7 +645,8 @@ def main() -> NoReturn:
         "total_test_cases": total_test_case,
         "percentage_passed": passed_count/total_test_case * 100
         })
-    df = pd.DataFrame(test_stats)
+    test_stats_df = pd.DataFrame(test_stats)
+    logger.info(tabulate(test_stats_df, headers='keys', tablefmt='grid'))
 
 if __name__ == "__main__":
     try:
