@@ -281,16 +281,6 @@ def extract_import_statements(code: str, file_path:str) -> List[str]:
     return imports
 
 
-def generate_test_prompt(llm_test_prompt: str, import_statements: str, file_content: str, source_code_path: str, function_names:List[str]) -> tuple[str, str, str]:
-    formatted_prompt = llm_test_prompt.format(
-        file_content=file_content,
-        file_path=source_code_path,
-        import_statements=import_statements,
-    )
-
-    return formatted_prompt, import_statements
-
-
 def strip_markdown_fences(text: str) -> str:
     """
     Removes all Markdown-style triple backtick fences from LLM output.
@@ -336,16 +326,6 @@ def get_chat_completion(provider: Any, model: str, prompt: str, temperature: flo
         temperature=temperature,
     )
 
-def identify_import_statements(provider, model_arg, llm_new_import_prompt, import_statements, full_test_code, 
-                    temperature):
-
-    formatted_prompt = llm_new_import_prompt.format(
-        test_case=full_test_code,
-        import_statement=import_statements
-    )
-    logger.info(f"Consolidate import statements - {formatted_prompt}")
-    response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
-    return strip_markdown_fences(response.choices[0].message.content.strip())
 
 def generate_import_statement(function_names: list[str], source_code_path: str) -> str:
     # Convert file path to module path (e.g., theory_evaluation/llm_handler.py → theory_evaluation.llm_handler)
@@ -525,42 +505,45 @@ def run_each_pytest_function_individually(
         logger.info(f"Verify No pytest in test_code - \n{test_code}")
 
     success_test_cases = f"{import_statements}\n\n{pytest_fixture}"
+    test_file_failure= f""
+
     for idx, test_case in enumerate(test_cases, start=1):
         passed = 0
         retry_count = 0
         max_retries = 3
+        test_case_header = f""
         initial_template = f"{import_statements}\n\n{pytest_fixture}"
         try:
             while retry_count < max_retries and not passed:
                 full_test_code = f"{initial_template}\n\n{test_case}\n"
-                logger.info(f"\n")
-                logger.info(f"TEST CASE {idx} Retry {retry_count}")
-                logger.info(f"---------------")
-                logger.info(f"\n{full_test_code}")
-                logger.info(f"---------------")
+                formatted_test_case_output=f"\nTEST CASE {idx} Retry {retry_count}\n---------------\n{full_test_code}\n---------------"
+                logger.info(formatted_test_case_output)
                 save_test_case_to_temp_file(full_test_code, temp_file)
                 passed, test_case_error = run_single_test_file(temp_file)
-
-                logger.info(f"TEST CASE {idx} Retry {retry_count} - Result - {'Passed' if passed == 1 else 'Failed'}")
+                formatted_test_result=f"TEST CASE {idx} Retry {retry_count} - Result - {'Passed' if passed == 1 else 'Failed'}"
+                logger.info(formatted_test_result)
                 if passed:
+                    test_file_failure=""
                     passed_count += 1
                 else:
-                    logger.info(f"Test Error - {test_case_error}")
+                    test_case_error_message=f"Test Error - {test_case_error}" 
+                    logger.info(test_case_error_message)
+                    test_file_failure += f"{formatted_test_case_output}\n{formatted_test_result}\n{test_case_error_message}"
+                    
                     test_case = resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, import_statements, temperature)
                 retry_count += 1
             if passed:
                 success_test_cases += "\n" + test_case + "\n"
                 logger.info(f"Success_test_cases - {success_test_cases}")
                 logger.info(f"Test Case {idx} processed successfully")
-
             else:
-                    logger.info(f"Failed after all retries for test case {idx}")
+                logger.info(f"Failed after all retries for test case {idx}")
 
         except Exception as e:
             logger.exception(f"Exception occurred while processing test case {idx}: {e}")
 
     logger.info(f"run_each_pytest_function_individually complete")
-    return initial_template + "\n" + success_test_cases, total_test_case, passed_count
+    return initial_template + "\n" + success_test_cases, test_file_failure, total_test_case, passed_count
 
 
 def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], model_arg: str, env_vars: dict) -> None:
@@ -594,7 +577,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
                     test_code
                 )
 
-            test_code, total_test_case, passed_count = run_each_pytest_function_individually(client, model_arg, temperature, 
+            test_code, test_file_failure, total_test_case, passed_count = run_each_pytest_function_individually(client, model_arg, temperature, 
                                                               env_vars["llm_resolve_prompt"], env_vars["llm_new_import_prompt"], env_vars["llm_pytest_fixture_prompt"],
                                                               env_vars["llm_test_cases_prompt"],
                                                               import_statements, source_code, test_code, Path(env_vars["temp_file"]))
@@ -606,7 +589,13 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
                         source_code_path,
                         test_code
                     )
-
+            if test_file_failure:
+                save_test_file(
+                        Path(env_vars["src_dir"]),
+                        Path(env_vars["final_dir"]),
+                        test_file_failure,
+                        test_code
+                    )
     except Exception as e:
         logger.error(f"Failed processing {source_code_path}: {e}")
 
