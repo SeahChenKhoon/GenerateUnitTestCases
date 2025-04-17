@@ -1,42 +1,35 @@
-from sqlalchemy.dialects.postgresql import JSONB, UUID
-from sqlalchemy import (
-    Column,
-    Integer,
-    String,
-    TIMESTAMP,
-    create_engine,
-    Float,
-    ForeignKey,
-    Text,
-    UniqueConstraint,
-)
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.sql import func
-import uuid
-from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
+import asyncio
+import json
+import os
+
+from openai import AzureOpenAI, OpenAI
+from theory_evaluation.llm_handler import OpenAI_llm
 import pytest
 
-@pytest.fixture(scope='module')
-def test_engine():
-    engine = create_engine('sqlite:///:memory:', echo=True)
-    Base.metadata.create_all(engine)
-    return engine
+@pytest.fixture
+def mock_openai_client():
+    with patch('llm_handler.OpenAI') as mock_openai:
+        yield mock_openai
 
-@pytest.fixture(scope='function')
-def session(test_engine):
-    Session = sessionmaker(bind=test_engine)
-    session = Session()
-    yield session
-    session.close()
+@pytest.fixture
+def mock_azure_openai_client():
+    with patch('llm_handler.AzureOpenAI') as mock_azure_openai:
+        yield mock_azure_openai
 
-def test_curriculum_creation(session):
-    curriculum = Curriculum(
-        question="What is Python?",
-        marking_scheme="Detailed explanation required.",
-        model_answer="Python is a programming language."
-    )
-    session.add(curriculum)
-    session.commit()
-    retrieved_curriculum = session.query(Curriculum).filter_by(question="What is Python?").first()
-    assert retrieved_curriculum is not None
-    assert retrieved_curriculum.model_answer == "Python is a programming language."
+import pytest
+from unittest.mock import MagicMock, patch
+from llm_handler import OpenAI_llm
+
+@pytest.mark.asyncio
+async def test_OpenAI_Streaming_yields_content(mock_openai_client):
+    mock_stream = MagicMock()
+    mock_stream.__iter__.return_value = iter([MagicMock(choices=[MagicMock(delta=MagicMock(content="chunk1"))]), MagicMock(choices=[MagicMock(delta=MagicMock(content="chunk2"))])])
+    mock_openai_client.return_value.chat.completions.create.return_value = mock_stream
+    llm = OpenAI_llm(useAzureOpenAI=False)
+    chunks = [chunk async for chunk in llm._OpenAI_Streaming()]
+    assert chunks == ["chunk1", "chunk2"]
+
+@pytest.fixture
+def mock_openai_client():
+    with patch('llm_handler.OpenAI') as mock_openai:
+        yield mock_openai
