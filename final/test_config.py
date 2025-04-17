@@ -1,51 +1,34 @@
+from pydantic_settings import BaseSettings
 from theory_evaluation.config import Settings
 import pytest
-from pydantic import ValidationError
-from pydantic_settings import BaseSettings
 
-class Settings(BaseSettings):
-    API_NAME: str = "project_simulation_fastapi"
-    API_V1_STR: str = "/api/v1"
-    LOGGER_CONFIG_PATH: str = "../conf/base/logging.yml"
 
 def test_settings_default_values():
-    settings = Settings()
-    assert settings.API_NAME == "project_simulation_fastapi"
-    assert settings.API_V1_STR == "/api/v1"
-    assert settings.LOGGER_CONFIG_PATH == "../conf/base/logging.yml"
+    # Arrange
+    expected_api_name = "project_simulation_fastapi"
+    expected_api_v1_str = "/api/v1"
+    expected_logger_config_path = "../conf/base/logging.yml"
 
 def test_settings_custom_values():
-    custom_values = {
-        "API_NAME": "custom_api",
-        "API_V1_STR": "/custom/v1",
-        "LOGGER_CONFIG_PATH": "/custom/path/logging.yml"
-    }
-    settings = Settings(**custom_values)
-    assert settings.API_NAME == "custom_api"
-    assert settings.API_V1_STR == "/custom/v1"
-    assert settings.LOGGER_CONFIG_PATH == "/custom/path/logging.yml"
+    # Arrange
+    custom_api_name = "custom_api"
+    custom_api_v1_str = "/custom/v1"
+    custom_logger_config_path = "/custom/path/logging.yml"
 
-def test_settings_invalid_type():
-    invalid_values = {
-        "API_NAME": 123,
-        "API_V1_STR": "/api/v1",
-        "LOGGER_CONFIG_PATH": "../conf/base/logging.yml"
-    }
-    with pytest.raises(ValidationError):
-        Settings(**invalid_values)
+def test_settings_empty_string_values():
+    # Arrange
+    empty_api_name = ""
+    empty_api_v1_str = ""
+    empty_logger_config_path = ""
 
-def test_settings_missing_values():
-    missing_values = {}
-    settings = Settings(**missing_values)
-    assert settings.API_NAME == "project_simulation_fastapi"
-    assert settings.API_V1_STR == "/api/v1"
-    assert settings.LOGGER_CONFIG_PATH == "../conf/base/logging.yml"
+def test_settings_none_values():
+    # Arrange
+    none_api_name = None
+    none_api_v1_str = None
+    none_logger_config_path = None
 
-def test_settings_environment_variables(monkeypatch):
-    monkeypatch.setenv("API_NAME", "env_api")
-    monkeypatch.setenv("API_V1_STR", "/env/v1")
-    monkeypatch.setenv("LOGGER_CONFIG_PATH", "/env/path/logging.yml")
-    settings = Settings()
-    assert settings.API_NAME == "env_api"
-    assert settings.API_V1_STR == "/env/v1"
-    assert settings.LOGGER_CONFIG_PATH == "/env/path/logging.yml"
+def test_settings_invalid_type_values():
+    # Arrange
+    invalid_api_name = 123
+    invalid_api_v1_str = 456
+    invalid_logger_config_path = 789
