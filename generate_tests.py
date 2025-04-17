@@ -111,7 +111,7 @@ def _load_env_variables() -> Dict[str, Any]:
         "tests_dir": os.getenv("TESTS_DIR"),
         "final_dir": os.getenv("FINAL_DIR"),
         "temp_file": os.getenv("TEMP_FILE"),
-        "err_file": os.getenv("ERR_DIR"),
+        "err_dir": os.getenv("ERR_DIR"),
         "model_name": os.getenv("MODEL_NAME"),
         "llm_test_prompt": os.getenv("LLM_TEST_PROMPT"),
         "temperature": os.getenv("TEMPERATURE"),
