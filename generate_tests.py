@@ -638,12 +638,12 @@ def main() -> NoReturn:
 
     test_stats = []
     for source_code_path in source_code_files:
-        total_test_case, passed_count = _process_file(source_code_path, client, model_arg, env_vars)
+        passed_count, total_test_case  = _process_file(source_code_path, client, model_arg, env_vars)
         test_stats.append({
         "filename": source_code_path,
         "total_test_cases_passed": passed_count,
         "total_test_cases": total_test_case,
-        "percentage_passed": passed_count/total_test_case * 100
+        "percentage_passed (%)": passed_count/total_test_case * 100
         })
     test_stats_df = pd.DataFrame(test_stats)
     logger.info(tabulate(test_stats_df, headers='keys', tablefmt='grid'))

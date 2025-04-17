@@ -1,17 +1,27 @@
-import asyncio
-import json
-import os
-
-from openai import AzureOpenAI, OpenAI
-from theory_evaluation.llm_handler import OpenAI_llm
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 import pytest
 
 
+def test_initialise_prompt_success():
+    agent = "test_agent"
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} test."
+    expected_prompt = "This is a value test."
 
-@pytest.mark.asyncio
-async def test_openai_llm_openai_streaming():
-    with patch("theory_evaluation.llm_handler.OpenAI_llm.client") as mock_client:
-        mock_stream = MagicMock()
-        mock_stream.__aiter__.return_value = [{"choices": [{"delta": {"content": "chunk1"}}]},
-                                              {"choices": [{"delta": {"content": "chunk2"}}]}]
-        mock_client.chat.completions.create.return_value = mock_stream
+def test_initialise_prompt_missing_placeholder():
+    agent = "test_agent"
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$missing_key} test."
+    expected_prompt = "This is a {$missing_key} test."
+
+def test_initialise_prompt_file_not_found():
+    agent = "non_existent_agent"
+
+def test_initialise_settings_success():
+    agent = "test_agent"
+    settings_yaml = "setting_key: setting_value"
+    expected_settings = {"setting_key": "setting_value"}
+
+def test_initialise_settings_file_not_found():
+    agent = "non_existent_agent"
