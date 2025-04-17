@@ -6,3 +6,6 @@ tests/*.py
 generate_tests.py
 theory_evaluation/__pycache__/
 theory_evaluation/evaluator/__pycache__/
+temp/__pycache__
+logs/output.log
+temp/temp.py
