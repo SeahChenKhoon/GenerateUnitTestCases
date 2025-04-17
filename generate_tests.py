@@ -544,24 +544,25 @@ def run_each_pytest_function_individually(
                 retry_count += 1
             if passed:
                 success_test_cases += "\n" + test_case + "\n"
-                success_test_cases = initial_template + "\n" + success_test_cases
-                logger.info(f"Before Improvement\n{success_test_cases}")
-                improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature)
-                logger.info(f"After Improvement\n{improved_test_case}")
-                save_test_case_to_temp_file(improved_test_case, temp_file)
-                passed, test_case_error = run_single_test_file(temp_file)
-                if passed:
-                    logger.info(f"Test Case {idx} processed successfully")
-                    return_test_cases = improved_test_case
-                else:
-                    return_test_cases = success_test_cases
-                    logger.info(f"Error in generating improved test cases\nTest case:\n{improved_test_case}\nTest error:\n{test_case_error}")
             else:
                 test_file_failure+=unit_test_failure + "\n"
                 logger.info(f"Failed after all retries for test case {idx}")
 
         except Exception as e:
             logger.exception(f"Exception occurred while processing test case {idx}: {e}")
+
+        success_test_cases = initial_template + "\n" + success_test_cases
+        logger.info(f"Before Improvement\n{success_test_cases}")
+        improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature)
+        logger.info(f"After Improvement\n{improved_test_case}")
+        save_test_case_to_temp_file(improved_test_case, temp_file)
+        passed, test_case_error = run_single_test_file(temp_file)
+        if passed:
+            logger.info(f"Test Case {idx} processed successfully")
+            return_test_cases = improved_test_case
+        else:
+            return_test_cases = success_test_cases
+            logger.info(f"Error in generating improved test cases\nTest case:\n{improved_test_case}\nTest error:\n{test_case_error}")
 
     logger.info(f"run_each_pytest_function_individually complete")
     return return_test_cases, test_file_failure, total_test_case, passed_count
