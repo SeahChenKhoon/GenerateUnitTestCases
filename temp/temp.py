@@ -5,23 +5,20 @@ import pytest
 
 def test_initialise_prompt_success():
     agent = "test_agent"
-    config_yaml = "key: value"
-    prompt_txt = "This is a {$key} test."
-    expected_prompt = "This is a value test."
+    mock_config_values = {"placeholder1": "value1", "placeholder2": "value2"}
+    mock_prompt_structure = "This is a {$placeholder1} and {$placeholder2} test."
 
 def test_initialise_prompt_missing_placeholder():
     agent = "test_agent"
-    config_yaml = "key: value"
-    prompt_txt = "This is a {$missing_key} test."
-    expected_prompt = "This is a {$missing_key} test."
+    mock_config_values = {"placeholder1": "value1"}
+    mock_prompt_structure = "This is a {$placeholder1} and {$placeholder2} test."
 
-def test_initialise_prompt_file_not_found():
-    agent = "non_existent_agent"
+def test_initialise_prompt_exception():
+    agent = "test_agent"
 
 def test_initialise_settings_success():
     agent = "test_agent"
-    settings_yaml = "setting_key: setting_value"
-    expected_settings = {"setting_key": "setting_value"}
+    mock_settings = {"setting1": "value1", "setting2": "value2"}
 
-def test_initialise_settings_file_not_found():
-    agent = "non_existent_agent"
+def test_initialise_settings_exception():
+    agent = "test_agent"
