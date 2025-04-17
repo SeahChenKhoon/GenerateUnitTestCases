@@ -35,23 +35,25 @@ import pytest
 
 def test_initialise_prompt_success():
     agent = "test_agent"
-    mock_config_values = {"placeholder1": "value1", "placeholder2": "value2"}
-    mock_prompt_structure = "This is a {$placeholder1} and {$placeholder2} test."
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} prompt."
 
 from unittest.mock import patch
 
-def test_initialise_prompt_no_config_path():
+def test_initialise_prompt_file_not_found():
+    agent = "non_existent_agent"
     with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_prompt("non_existent_agent")
+        result = initialise_prompt(agent)
         assert result is None
 
 def test_initialise_settings_success():
     agent = "test_agent"
-    mock_settings = {"setting1": "value1", "setting2": "value2"}
+    settings_yaml = "setting_key: setting_value"
 
 from unittest.mock import patch
 
-def test_initialise_settings_no_config_path():
+def test_initialise_settings_file_not_found():
+    agent = "non_existent_agent"
     with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_settings("non_existent_agent")
+        result = initialise_settings(agent)
         assert result is None

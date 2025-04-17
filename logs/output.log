@@ -1,23 +1,23 @@
-2025-04-17 11:03:23,568 - INFO - Loading environment variables start
-2025-04-17 11:03:23,575 - INFO - Loading environment variables completes
-2025-04-17 11:03:23,575 - INFO - Initialising of LLM start
-2025-04-17 11:03:24,081 - INFO - Initialising of LLM completes
-2025-04-17 11:03:24,081 - INFO - Getting python file starts
-2025-04-17 11:03:24,082 - INFO - Getting python file completes
-2025-04-17 11:03:24,082 - INFO - 
+2025-04-17 11:10:53,070 - INFO - Loading environment variables start
+2025-04-17 11:10:53,073 - INFO - Loading environment variables completes
+2025-04-17 11:10:53,074 - INFO - Initialising of LLM start
+2025-04-17 11:10:53,433 - INFO - Initialising of LLM completes
+2025-04-17 11:10:53,433 - INFO - Getting python file starts
+2025-04-17 11:10:53,434 - INFO - Getting python file completes
+2025-04-17 11:10:53,434 - INFO - 
 Start Processing file: theory_evaluation\circle_utils.py
-2025-04-17 11:03:24,083 - INFO - Extraction of function and class start
-2025-04-17 11:03:24,083 - INFO - extraction of function and class complete
-2025-04-17 11:03:24,083 - INFO - Generate Unit Test Case starts
-2025-04-17 11:03:24,083 - INFO - Extract unique import start
-2025-04-17 11:03:25,767 - INFO - Extract unique import complete
-2025-04-17 11:03:25,768 - INFO - Update relative import start
-2025-04-17 11:03:25,769 - INFO - Update relative import complete
-2025-04-17 11:03:29,445 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 11:03:29,446 - INFO - Generate Unit Test Case complete
-2025-04-17 11:03:29,450 - INFO - run_each_pytest_function_individually start
-2025-04-17 11:03:32,228 - INFO - Number of test case to process - 6
-2025-04-17 11:03:32,229 - INFO - 
+2025-04-17 11:10:53,434 - INFO - Extraction of function and class start
+2025-04-17 11:10:53,435 - INFO - extraction of function and class complete
+2025-04-17 11:10:53,435 - INFO - Generate Unit Test Case starts
+2025-04-17 11:10:53,435 - INFO - Extract unique import start
+2025-04-17 11:10:54,912 - INFO - Extract unique import complete
+2025-04-17 11:10:54,912 - INFO - Update relative import start
+2025-04-17 11:10:54,913 - INFO - Update relative import complete
+2025-04-17 11:10:58,103 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:10:58,104 - INFO - Generate Unit Test Case complete
+2025-04-17 11:10:58,108 - INFO - run_each_pytest_function_individually start
+2025-04-17 11:11:02,351 - INFO - Number of test case to process - 6
+2025-04-17 11:11:02,352 - INFO - 
 TEST CASE 1 Retry 0
 ---------------
 import math
@@ -32,89 +32,55 @@ def test_circle_area_positive_radius():
     assert circle_area(radius) == pytest.approx(expected_area)
 
 ---------------
-2025-04-17 11:03:33,772 - INFO - TEST CASE 1 Retry 0 - Result - Passed
-2025-04-17 11:03:39,238 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 11:03:40,651 - INFO - Error in generating improved test cases
-Test case:
-To improve and complete the test functions, we need to ensure that the code is clean, follows best practices, and covers both success and failure scenarios. Here's the revised version of the test code:
+2025-04-17 11:11:03,313 - INFO - TEST CASE 1 Retry 0 - Result - Passed
+2025-04-17 11:11:03,313 - INFO - Before Improvement
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
+
 
 import math
-import pytest
 from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
 
 
 def test_circle_area_positive_radius():
-    # Arrange
     radius = 5
     expected_area = math.pi * radius ** 2
+    assert circle_area(radius) == pytest.approx(expected_area)
 
-    # Act
-    result = circle_area(radius)
+2025-04-17 11:11:05,307 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:11:05,308 - INFO - After Improvement
+To clean up the test code by removing duplicate or unused imports, you can simplify it as follows:
 
-    # Assert
-    assert result == pytest.approx(expected_area)
+import math
+from theory_evaluation.circle_utils import circle_area
+import pytest
 
-
-def test_circle_area_zero_radius():
-    # Arrange
-    radius = 0
-    expected_area = 0
-
-    # Act
-    result = circle_area(radius)
-
-    # Assert
-    assert result == expected_area
-
-
-def test_circle_area_negative_radius():
-    # Arrange
-    radius = -5
-
-    # Act & Assert
-    with pytest.raises(ValueError, match="Radius cannot be negative"):
-        circle_area(radius)
-
-
-def test_circle_circumference_positive_radius():
-    # Arrange
+def test_circle_area_positive_radius():
     radius = 5
-    expected_circumference = 2 * math.pi * radius
+    expected_area = math.pi * radius ** 2
+    assert circle_area(radius) == pytest.approx(expected_area)
 
-    # Act
-    result = circle_circumference(radius)
+Here's what was done:
+- Removed the duplicate import statements for `math`, `circle_area`, `circle_circumference`, and `pytest`.
+- Removed the unused import `circle_circumference` since it is not used in the test function.
+2025-04-17 11:11:06,276 - INFO - Error in generating improved test cases
+Test case:
+To clean up the test code by removing duplicate or unused imports, you can simplify it as follows:
 
-    # Assert
-    assert result == pytest.approx(expected_circumference)
+import math
+from theory_evaluation.circle_utils import circle_area
+import pytest
 
+def test_circle_area_positive_radius():
+    radius = 5
+    expected_area = math.pi * radius ** 2
+    assert circle_area(radius) == pytest.approx(expected_area)
 
-def test_circle_circumference_zero_radius():
-    # Arrange
-    radius = 0
-    expected_circumference = 0
-
-    # Act
-    result = circle_circumference(radius)
-
-    # Assert
-    assert result == expected_circumference
-
-
-def test_circle_circumference_negative_radius():
-    # Arrange
-    radius = -5
-
-    # Act & Assert
-    with pytest.raises(ValueError, match="Radius cannot be negative"):
-        circle_circumference(radius)
-
-### Key Improvements:
-1. **Removed Duplicate Imports**: The duplicate import statements were removed for clarity.
-2. **Added Tests for Edge Cases**: Tests for zero and negative radius values were added to ensure comprehensive coverage.
-3. **Used `pytest.raises` for Exception Handling**: This ensures that the functions correctly handle invalid input by raising exceptions.
-4. **Followed AAA Structure**: Each test follows the Arrange, Act, Assert pattern for clarity and consistency.
-5. **Meaningful Assertions**: Assertions are made against expected values using `pytest.approx` for floating-point comparisons.
-6. **Isolated Tests**: Each test is independent and does not rely on shared state, ensuring determinism.
+Here's what was done:
+- Removed the duplicate import statements for `math`, `circle_area`, `circle_circumference`, and `pytest`.
+- Removed the unused import `circle_circumference` since it is not used in the test function.
 Test error:
 c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
@@ -143,15 +109,15 @@ C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:
     tree = ast.parse(source, filename=strfn)
 C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
     return compile(source, filename, mode, flags,
-E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 1
-E       To improve and complete the test functions, we need to ensure that the code is clean, follows best practices, and covers both success and failure scenarios. Here's the revised version of the test code:
-E                                                                                                                                                                        ^
-E   SyntaxError: unterminated string literal (detected at line 1)
+E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 12
+E       Here's what was done:
+E           ^
+E   SyntaxError: unterminated string literal (detected at line 12)
 =========================== short test summary info ===========================
 ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.36s
-2025-04-17 11:03:40,651 - INFO - 
+1 error in 0.20s
+2025-04-17 11:11:06,277 - INFO - 
 TEST CASE 2 Retry 0
 ---------------
 import math
@@ -166,89 +132,71 @@ def test_circle_area_zero_radius():
     assert circle_area(radius) == pytest.approx(expected_area)
 
 ---------------
-2025-04-17 11:03:41,851 - INFO - TEST CASE 2 Retry 0 - Result - Passed
-2025-04-17 11:03:50,374 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 11:03:51,819 - INFO - Error in generating improved test cases
-Test case:
-To improve the provided test code, we need to address several issues such as duplicate imports, lack of exception handling tests, and missing tests for failure scenarios. We will also ensure that the tests follow the Arrange, Act, Assert (AAA) structure and are isolated and deterministic. Here is the improved version of the test code:
+2025-04-17 11:11:07,107 - INFO - TEST CASE 2 Retry 0 - Result - Passed
+2025-04-17 11:11:07,107 - INFO - Before Improvement
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
+
 
 import math
-import pytest
 from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
+
+
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
 
 
 def test_circle_area_positive_radius():
-    # Arrange
     radius = 5
     expected_area = math.pi * radius ** 2
-    
-    # Act
-    result = circle_area(radius)
-    
-    # Assert
-    assert result == pytest.approx(expected_area)
-
+    assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_zero_radius():
-    # Arrange
     radius = 0
     expected_area = 0
-    
-    # Act
-    result = circle_area(radius)
-    
-    # Assert
-    assert result == pytest.approx(expected_area)
+    assert circle_area(radius) == pytest.approx(expected_area)
 
+2025-04-17 11:11:08,952 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:11:08,953 - INFO - After Improvement
+To clean up the imports in your test code, you should remove any duplicate imports. Here's the cleaned-up version:
 
-def test_circle_area_negative_radius():
-    # Arrange
-    radius = -5
-    
-    # Act & Assert
-    with pytest.raises(ValueError, match="Radius cannot be negative"):
-        circle_area(radius)
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
 
-
-def test_circle_circumference_positive_radius():
-    # Arrange
+def test_circle_area_positive_radius():
     radius = 5
-    expected_circumference = 2 * math.pi * radius
-    
-    # Act
-    result = circle_circumference(radius)
-    
-    # Assert
-    assert result == pytest.approx(expected_circumference)
+    expected_area = math.pi * radius ** 2
+    assert circle_area(radius) == pytest.approx(expected_area)
 
-
-def test_circle_circumference_zero_radius():
-    # Arrange
+def test_circle_area_zero_radius():
     radius = 0
-    expected_circumference = 0
-    
-    # Act
-    result = circle_circumference(radius)
-    
-    # Assert
-    assert result == pytest.approx(expected_circumference)
+    expected_area = 0
+    assert circle_area(radius) == pytest.approx(expected_area)
 
+In this version, each import statement appears only once, and all necessary imports are retained.
+2025-04-17 11:11:09,923 - INFO - Error in generating improved test cases
+Test case:
+To clean up the imports in your test code, you should remove any duplicate imports. Here's the cleaned-up version:
 
-def test_circle_circumference_negative_radius():
-    # Arrange
-    radius = -5
-    
-    # Act & Assert
-    with pytest.raises(ValueError, match="Radius cannot be negative"):
-        circle_circumference(radius)
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
 
-### Key Improvements:
-1. **Removed Duplicate Imports**: The imports were repeated multiple times, so I cleaned them up.
-2. **Added Exception Handling Tests**: Added tests for negative radius values to ensure that the functions raise a `ValueError`.
-3. **Used AAA Structure**: Each test follows the Arrange, Act, Assert structure for clarity.
-4. **Meaningful Assertions**: Used `pytest.approx` for floating-point comparisons to handle precision issues.
-5. **Isolated Tests**: Each test is independent and does not rely on shared state.
-6. **Coverage for Both Success and Failure Scenarios**: Tests cover both valid and invalid inputs for both `circle_area` and `circle_circumference` functions.
+def test_circle_area_positive_radius():
+    radius = 5
+    expected_area = math.pi * radius ** 2
+    assert circle_area(radius) == pytest.approx(expected_area)
+
+def test_circle_area_zero_radius():
+    radius = 0
+    expected_area = 0
+    assert circle_area(radius) == pytest.approx(expected_area)
+
+In this version, each import statement appears only once, and all necessary imports are retained.
 Test error:
 c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
@@ -278,14 +226,14 @@ C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:
 C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
     return compile(source, filename, mode, flags,
 E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 1
-E       To improve the provided test code, we need to address several issues such as duplicate imports, lack of exception handling tests, and missing tests for failure scenarios. We will also ensure that the tests follow the Arrange, Act, Assert (AAA) structure and are isolated and deterministic. Here is the improved version of the test code:
-E          ^^^^^^^
-E   SyntaxError: invalid syntax
+E       To clean up the imports in your test code, you should remove any duplicate imports. Here's the cleaned-up version:
+E                                                                                               ^
+E   SyntaxError: unterminated string literal (detected at line 1)
 =========================== short test summary info ===========================
 ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.36s
-2025-04-17 11:03:51,820 - INFO - 
+1 error in 0.21s
+2025-04-17 11:11:09,923 - INFO - 
 TEST CASE 3 Retry 0
 ---------------
 import math
@@ -299,82 +247,92 @@ def test_circle_area_negative_radius():
         circle_area(-1)
 
 ---------------
-2025-04-17 11:03:52,834 - INFO - TEST CASE 3 Retry 0 - Result - Passed
-2025-04-17 11:04:02,428 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 11:04:04,490 - INFO - Error in generating improved test cases
-Test case:
-To improve the given test code, we will focus on removing duplicate imports, ensuring meaningful assertions, and organizing the tests using the Arrange, Act, Assert (AAA) structure. We will also ensure that exception handling tests are valid and cover both success and failure scenarios. Here's the improved version of the test code:
+2025-04-17 11:11:10,591 - INFO - TEST CASE 3 Retry 0 - Result - Passed
+2025-04-17 11:11:10,592 - INFO - Before Improvement
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
+
 
 import math
-import pytest
 from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
+
+
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
+
+
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
+
 
 def test_circle_area_positive_radius():
-    # Arrange
     radius = 5
     expected_area = math.pi * radius ** 2
-    
-    # Act
-    result_area = circle_area(radius)
-    
-    # Assert
-    assert result_area == pytest.approx(expected_area), f"Expected area: {expected_area}, but got: {result_area}"
+    assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_zero_radius():
-    # Arrange
     radius = 0
     expected_area = 0
-    
-    # Act
-    result_area = circle_area(radius)
-    
-    # Assert
-    assert result_area == pytest.approx(expected_area), f"Expected area: {expected_area}, but got: {result_area}"
+    assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_negative_radius():
-    # Arrange
-    radius = -1
-    
-    # Act & Assert
     with pytest.raises(ValueError, match="Radius cannot be negative."):
-        circle_area(radius)
+        circle_area(-1)
 
-def test_circle_circumference_positive_radius():
-    # Arrange
+2025-04-17 11:11:13,279 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:11:13,280 - INFO - After Improvement
+To clean up the imports in your test code, you should remove any duplicate imports and keep only one instance of each necessary import. Here's the cleaned-up version of your code:
+
+import math
+from theory_evaluation.circle_utils import circle_area
+import pytest
+
+def test_circle_area_positive_radius():
     radius = 5
-    expected_circumference = 2 * math.pi * radius
-    
-    # Act
-    result_circumference = circle_circumference(radius)
-    
-    # Assert
-    assert result_circumference == pytest.approx(expected_circumference), f"Expected circumference: {expected_circumference}, but got: {result_circumference}"
+    expected_area = math.pi * radius ** 2
+    assert circle_area(radius) == pytest.approx(expected_area)
 
-def test_circle_circumference_zero_radius():
-    # Arrange
+def test_circle_area_zero_radius():
     radius = 0
-    expected_circumference = 0
-    
-    # Act
-    result_circumference = circle_circumference(radius)
-    
-    # Assert
-    assert result_circumference == pytest.approx(expected_circumference), f"Expected circumference: {expected_circumference}, but got: {result_circumference}"
+    expected_area = 0
+    assert circle_area(radius) == pytest.approx(expected_area)
 
-def test_circle_circumference_negative_radius():
-    # Arrange
-    radius = -1
-    
-    # Act & Assert
+def test_circle_area_negative_radius():
     with pytest.raises(ValueError, match="Radius cannot be negative."):
-        circle_circumference(radius)
+        circle_area(-1)
 
-### Key Improvements:
-1. **Removed Duplicate Imports**: The imports were repeated multiple times; now they appear only once.
-2. **AAA Structure**: Each test follows the Arrange, Act, Assert structure for clarity and consistency.
-3. **Meaningful Assertions**: Added messages to assertions for better debugging information.
-4. **Coverage for Circumference**: Added tests for the `circle_circumference` function to ensure coverage for both success and failure scenarios.
-5. **Exception Handling**: Ensured that exception handling tests are valid and correctly match the expected error message.
+### Changes Made:
+- Removed duplicate imports of `math`, `circle_area`, and `pytest`.
+- Removed the unused import `circle_circumference` since it is not used in the test functions.
+2025-04-17 11:11:14,196 - INFO - Error in generating improved test cases
+Test case:
+To clean up the imports in your test code, you should remove any duplicate imports and keep only one instance of each necessary import. Here's the cleaned-up version of your code:
+
+import math
+from theory_evaluation.circle_utils import circle_area
+import pytest
+
+def test_circle_area_positive_radius():
+    radius = 5
+    expected_area = math.pi * radius ** 2
+    assert circle_area(radius) == pytest.approx(expected_area)
+
+def test_circle_area_zero_radius():
+    radius = 0
+    expected_area = 0
+    assert circle_area(radius) == pytest.approx(expected_area)
+
+def test_circle_area_negative_radius():
+    with pytest.raises(ValueError, match="Radius cannot be negative."):
+        circle_area(-1)
+
+### Changes Made:
+- Removed duplicate imports of `math`, `circle_area`, and `pytest`.
+- Removed the unused import `circle_circumference` since it is not used in the test functions.
 Test error:
 c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
@@ -404,14 +362,14 @@ C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:
 C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
     return compile(source, filename, mode, flags,
 E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 1
-E       To improve the given test code, we will focus on removing duplicate imports, ensuring meaningful assertions, and organizing the tests using the Arrange, Act, Assert (AAA) structure. We will also ensure that exception handling tests are valid and cover both success and failure scenarios. Here's the improved version of the test code:
-E                                                                                                                                                                                                                                                                                                           ^
+E       To clean up the imports in your test code, you should remove any duplicate imports and keep only one instance of each necessary import. Here's the cleaned-up version of your code:
+E                                                                                                                                                   ^
 E   SyntaxError: unterminated string literal (detected at line 1)
 =========================== short test summary info ===========================
 ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.43s
-2025-04-17 11:04:04,490 - INFO - 
+1 error in 0.19s
+2025-04-17 11:11:14,197 - INFO - 
 TEST CASE 4 Retry 0
 ---------------
 import math
@@ -426,83 +384,108 @@ def test_circle_circumference_positive_radius():
     assert circle_circumference(radius) == pytest.approx(expected_circumference)
 
 ---------------
-2025-04-17 11:04:05,850 - INFO - TEST CASE 4 Retry 0 - Result - Passed
-2025-04-17 11:04:11,810 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 11:04:13,173 - INFO - Error in generating improved test cases
-Test case:
-To improve and complete the test functions, we'll focus on removing duplicate imports, ensuring meaningful assertions, and organizing the code according to best practices. Here's the refactored code:
+2025-04-17 11:11:14,866 - INFO - TEST CASE 4 Retry 0 - Result - Passed
+2025-04-17 11:11:14,866 - INFO - Before Improvement
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
+
+
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
+
+
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
+
+
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
+
+
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
+
+
+def test_circle_area_positive_radius():
+    radius = 5
+    expected_area = math.pi * radius ** 2
+    assert circle_area(radius) == pytest.approx(expected_area)
+
+def test_circle_area_zero_radius():
+    radius = 0
+    expected_area = 0
+    assert circle_area(radius) == pytest.approx(expected_area)
+
+def test_circle_area_negative_radius():
+    with pytest.raises(ValueError, match="Radius cannot be negative."):
+        circle_area(-1)
+
+def test_circle_circumference_positive_radius():
+    radius = 5
+    expected_circumference = 2 * math.pi * radius
+    assert circle_circumference(radius) == pytest.approx(expected_circumference)
+
+2025-04-17 11:11:17,474 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:11:17,474 - INFO - After Improvement
+To clean up the test code by removing duplicate or unused imports, we can consolidate the imports at the top of the file and ensure each is used in the code. Here's the cleaned-up version:
 
 import math
 import pytest
 from theory_evaluation.circle_utils import circle_area, circle_circumference
 
 def test_circle_area_positive_radius():
-    # Arrange
     radius = 5
     expected_area = math.pi * radius ** 2
-    
-    # Act
-    result = circle_area(radius)
-    
-    # Assert
-    assert result == pytest.approx(expected_area), f"Expected area for radius {radius} is {expected_area}, but got {result}"
+    assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_zero_radius():
-    # Arrange
     radius = 0
     expected_area = 0
-    
-    # Act
-    result = circle_area(radius)
-    
-    # Assert
-    assert result == pytest.approx(expected_area), f"Expected area for radius {radius} is {expected_area}, but got {result}"
+    assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_negative_radius():
-    # Arrange
-    radius = -1
-    
-    # Act & Assert
     with pytest.raises(ValueError, match="Radius cannot be negative."):
-        circle_area(radius)
+        circle_area(-1)
 
 def test_circle_circumference_positive_radius():
-    # Arrange
     radius = 5
     expected_circumference = 2 * math.pi * radius
-    
-    # Act
-    result = circle_circumference(radius)
-    
-    # Assert
-    assert result == pytest.approx(expected_circumference), f"Expected circumference for radius {radius} is {expected_circumference}, but got {result}"
+    assert circle_circumference(radius) == pytest.approx(expected_circumference)
 
-def test_circle_circumference_zero_radius():
-    # Arrange
+In this cleaned-up version, each import appears only once, and all are used in the code.
+2025-04-17 11:11:18,297 - INFO - Error in generating improved test cases
+Test case:
+To clean up the test code by removing duplicate or unused imports, we can consolidate the imports at the top of the file and ensure each is used in the code. Here's the cleaned-up version:
+
+import math
+import pytest
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+
+def test_circle_area_positive_radius():
+    radius = 5
+    expected_area = math.pi * radius ** 2
+    assert circle_area(radius) == pytest.approx(expected_area)
+
+def test_circle_area_zero_radius():
     radius = 0
-    expected_circumference = 0
-    
-    # Act
-    result = circle_circumference(radius)
-    
-    # Assert
-    assert result == pytest.approx(expected_circumference), f"Expected circumference for radius {radius} is {expected_circumference}, but got {result}"
+    expected_area = 0
+    assert circle_area(radius) == pytest.approx(expected_area)
 
-def test_circle_circumference_negative_radius():
-    # Arrange
-    radius = -1
-    
-    # Act & Assert
+def test_circle_area_negative_radius():
     with pytest.raises(ValueError, match="Radius cannot be negative."):
-        circle_circumference(radius)
+        circle_area(-1)
 
-### Key Improvements:
-1. **Removed Duplicate Imports**: Cleaned up the imports to remove redundancy.
-2. **AAA Structure**: Each test follows the Arrange, Act, Assert pattern for clarity.
-3. **Meaningful Assertions**: Added messages to assertions for better debugging information.
-4. **Additional Tests**: Added tests for zero and negative radius scenarios for `circle_circumference`.
-5. **Isolation and Determinism**: Each test is independent and deterministic, ensuring consistent results.
-6. **Exception Handling**: Validated exception handling for negative radius inputs in both area and circumference calculations.
+def test_circle_circumference_positive_radius():
+    radius = 5
+    expected_circumference = 2 * math.pi * radius
+    assert circle_circumference(radius) == pytest.approx(expected_circumference)
+
+In this cleaned-up version, each import appears only once, and all are used in the code.
 Test error:
 c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
@@ -532,14 +515,14 @@ C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:
 C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
     return compile(source, filename, mode, flags,
 E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 1
-E       To improve and complete the test functions, we'll focus on removing duplicate imports, ensuring meaningful assertions, and organizing the code according to best practices. Here's the refactored code:
-E          ^^^^^^^
-E   SyntaxError: invalid syntax
+E       To clean up the test code by removing duplicate or unused imports, we can consolidate the imports at the top of the file and ensure each is used in the code. Here's the cleaned-up version:
+E                                                                                                                                                                         ^
+E   SyntaxError: unterminated string literal (detected at line 1)
 =========================== short test summary info ===========================
 ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.35s
-2025-04-17 11:04:13,173 - INFO - 
+1 error in 0.22s
+2025-04-17 11:11:18,297 - INFO - 
 TEST CASE 5 Retry 0
 ---------------
 import math
@@ -554,81 +537,128 @@ def test_circle_circumference_zero_radius():
     assert circle_circumference(radius) == pytest.approx(expected_circumference)
 
 ---------------
-2025-04-17 11:04:14,752 - INFO - TEST CASE 5 Retry 0 - Result - Passed
-2025-04-17 11:04:20,062 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 11:04:21,634 - INFO - Error in generating improved test cases
-Test case:
-To improve the given test code, we need to remove duplicate imports, ensure that each test follows the Arrange, Act, Assert (AAA) structure, and verify that all tests are isolated and deterministic. Here's the improved version of the test file:
+2025-04-17 11:11:18,949 - INFO - TEST CASE 5 Retry 0 - Result - Passed
+2025-04-17 11:11:18,949 - INFO - Before Improvement
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
+
 
 import math
-import pytest
 from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
+
+
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
+
+
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
+
+
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
+
+
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
+
 
 def test_circle_area_positive_radius():
-    # Arrange
     radius = 5
     expected_area = math.pi * radius ** 2
-    
-    # Act
-    result = circle_area(radius)
-    
-    # Assert
-    assert result == pytest.approx(expected_area)
+    assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_zero_radius():
-    # Arrange
     radius = 0
     expected_area = 0
-    
-    # Act
-    result = circle_area(radius)
-    
-    # Assert
-    assert result == pytest.approx(expected_area)
+    assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_negative_radius():
-    # Arrange
-    radius = -1
-    
-    # Act & Assert
     with pytest.raises(ValueError, match="Radius cannot be negative."):
-        circle_area(radius)
+        circle_area(-1)
 
 def test_circle_circumference_positive_radius():
-    # Arrange
     radius = 5
     expected_circumference = 2 * math.pi * radius
-    
-    # Act
-    result = circle_circumference(radius)
-    
-    # Assert
-    assert result == pytest.approx(expected_circumference)
+    assert circle_circumference(radius) == pytest.approx(expected_circumference)
 
 def test_circle_circumference_zero_radius():
-    # Arrange
     radius = 0
     expected_circumference = 0
-    
-    # Act
-    result = circle_circumference(radius)
-    
-    # Assert
-    assert result == pytest.approx(expected_circumference)
+    assert circle_circumference(radius) == pytest.approx(expected_circumference)
 
-### Key Improvements:
+2025-04-17 11:11:21,781 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:11:21,781 - INFO - After Improvement
+To clean up the test code by removing duplicate or unused imports, you can consolidate the imports at the top of the file. Here's the cleaned-up version:
 
-1. **Removed Duplicate Imports**: The imports were repeated multiple times. They have been consolidated at the top of the file.
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
 
-2. **AAA Structure**: Each test function now follows the Arrange, Act, Assert structure for clarity and consistency.
+def test_circle_area_positive_radius():
+    radius = 5
+    expected_area = math.pi * radius ** 2
+    assert circle_area(radius) == pytest.approx(expected_area)
 
-3. **Meaningful Assertions**: Assertions are meaningful and check the expected outcomes using `pytest.approx` for floating-point comparisons.
+def test_circle_area_zero_radius():
+    radius = 0
+    expected_area = 0
+    assert circle_area(radius) == pytest.approx(expected_area)
 
-4. **Exception Handling**: The test for negative radius correctly checks for a `ValueError` with a specific error message.
+def test_circle_area_negative_radius():
+    with pytest.raises(ValueError, match="Radius cannot be negative."):
+        circle_area(-1)
 
-5. **Isolation and Determinism**: Each test is independent and does not rely on external state or side effects, ensuring they are deterministic.
+def test_circle_circumference_positive_radius():
+    radius = 5
+    expected_circumference = 2 * math.pi * radius
+    assert circle_circumference(radius) == pytest.approx(expected_circumference)
 
-This improved version of the test file is more readable, maintainable, and follows best practices for unit testing in Python.
+def test_circle_circumference_zero_radius():
+    radius = 0
+    expected_circumference = 0
+    assert circle_circumference(radius) == pytest.approx(expected_circumference)
+
+This version removes the repeated import statements and keeps only the necessary imports at the top.
+2025-04-17 11:11:22,761 - INFO - Error in generating improved test cases
+Test case:
+To clean up the test code by removing duplicate or unused imports, you can consolidate the imports at the top of the file. Here's the cleaned-up version:
+
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
+
+def test_circle_area_positive_radius():
+    radius = 5
+    expected_area = math.pi * radius ** 2
+    assert circle_area(radius) == pytest.approx(expected_area)
+
+def test_circle_area_zero_radius():
+    radius = 0
+    expected_area = 0
+    assert circle_area(radius) == pytest.approx(expected_area)
+
+def test_circle_area_negative_radius():
+    with pytest.raises(ValueError, match="Radius cannot be negative."):
+        circle_area(-1)
+
+def test_circle_circumference_positive_radius():
+    radius = 5
+    expected_circumference = 2 * math.pi * radius
+    assert circle_circumference(radius) == pytest.approx(expected_circumference)
+
+def test_circle_circumference_zero_radius():
+    radius = 0
+    expected_circumference = 0
+    assert circle_circumference(radius) == pytest.approx(expected_circumference)
+
+This version removes the repeated import statements and keeps only the necessary imports at the top.
 Test error:
 c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
@@ -658,14 +688,14 @@ C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:
 C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
     return compile(source, filename, mode, flags,
 E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 1
-E       To improve the given test code, we need to remove duplicate imports, ensure that each test follows the Arrange, Act, Assert (AAA) structure, and verify that all tests are isolated and deterministic. Here's the improved version of the test file:
-E                                                                                                                                                                                                                  ^
+E       To clean up the test code by removing duplicate or unused imports, you can consolidate the imports at the top of the file. Here's the cleaned-up version:
+E                                                                                                                                      ^
 E   SyntaxError: unterminated string literal (detected at line 1)
 =========================== short test summary info ===========================
 ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.28s
-2025-04-17 11:04:21,634 - INFO - 
+1 error in 0.20s
+2025-04-17 11:11:22,762 - INFO - 
 TEST CASE 6 Retry 0
 ---------------
 import math
@@ -679,83 +709,145 @@ def test_circle_circumference_negative_radius():
         circle_circumference(-1)
 
 ---------------
-2025-04-17 11:04:23,072 - INFO - TEST CASE 6 Retry 0 - Result - Passed
-2025-04-17 11:04:28,819 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 11:04:30,208 - INFO - Error in generating improved test cases
-Test case:
-To improve the given test code, we need to address several issues: remove duplicate imports, ensure meaningful assertions, and follow best practices like the Arrange, Act, Assert (AAA) structure. Here's the improved version of the test code:
+2025-04-17 11:11:23,641 - INFO - TEST CASE 6 Retry 0 - Result - Passed
+2025-04-17 11:11:23,641 - INFO - Before Improvement
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
+
 
 import math
-import pytest
 from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
+
+
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
+
+
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
+
+
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
+
+
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
+
+
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
+
 
 def test_circle_area_positive_radius():
-    # Arrange
     radius = 5
     expected_area = math.pi * radius ** 2
-    
-    # Act
-    result = circle_area(radius)
-    
-    # Assert
-    assert result == pytest.approx(expected_area), f"Expected area: {expected_area}, but got: {result}"
+    assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_zero_radius():
-    # Arrange
     radius = 0
     expected_area = 0
-    
-    # Act
-    result = circle_area(radius)
-    
-    # Assert
-    assert result == pytest.approx(expected_area), f"Expected area: {expected_area}, but got: {result}"
+    assert circle_area(radius) == pytest.approx(expected_area)
 
 def test_circle_area_negative_radius():
-    # Act & Assert
     with pytest.raises(ValueError, match="Radius cannot be negative."):
         circle_area(-1)
 
 def test_circle_circumference_positive_radius():
-    # Arrange
     radius = 5
     expected_circumference = 2 * math.pi * radius
-    
-    # Act
-    result = circle_circumference(radius)
-    
-    # Assert
-    assert result == pytest.approx(expected_circumference), f"Expected circumference: {expected_circumference}, but got: {result}"
+    assert circle_circumference(radius) == pytest.approx(expected_circumference)
 
 def test_circle_circumference_zero_radius():
-    # Arrange
     radius = 0
     expected_circumference = 0
-    
-    # Act
-    result = circle_circumference(radius)
-    
-    # Assert
-    assert result == pytest.approx(expected_circumference), f"Expected circumference: {expected_circumference}, but got: {result}"
+    assert circle_circumference(radius) == pytest.approx(expected_circumference)
 
 def test_circle_circumference_negative_radius():
-    # Act & Assert
     with pytest.raises(ValueError, match="Radius cannot be negative."):
         circle_circumference(-1)
 
-### Key Improvements:
+2025-04-17 11:11:28,342 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:11:28,343 - INFO - After Improvement
+To clean up the test code by removing duplicate or unused imports, we need to ensure each import statement appears only once and that all imported modules are used within the code. Here's the cleaned-up version:
 
-1. **Removed Duplicate Imports**: The imports were repeated multiple times. They are now listed once at the top of the file.
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
 
-2. **AAA Structure**: Each test follows the Arrange, Act, Assert pattern for clarity and readability.
+def test_circle_area_positive_radius():
+    radius = 5
+    expected_area = math.pi * radius ** 2
+    assert circle_area(radius) == pytest.approx(expected_area)
 
-3. **Meaningful Assertions**: Added messages to assertions to provide more context if a test fails.
+def test_circle_area_zero_radius():
+    radius = 0
+    expected_area = 0
+    assert circle_area(radius) == pytest.approx(expected_area)
 
-4. **Isolated Tests**: Each test is independent and does not rely on external state or other tests.
+def test_circle_area_negative_radius():
+    with pytest.raises(ValueError, match="Radius cannot be negative."):
+        circle_area(-1)
 
-5. **Coverage for Success and Failure**: Tests cover both valid and invalid inputs, ensuring comprehensive coverage of the functionality.
+def test_circle_circumference_positive_radius():
+    radius = 5
+    expected_circumference = 2 * math.pi * radius
+    assert circle_circumference(radius) == pytest.approx(expected_circumference)
 
-This version of the test file is cleaner, more maintainable, and adheres to best practices for unit testing in Python.
+def test_circle_circumference_zero_radius():
+    radius = 0
+    expected_circumference = 0
+    assert circle_circumference(radius) == pytest.approx(expected_circumference)
+
+def test_circle_circumference_negative_radius():
+    with pytest.raises(ValueError, match="Radius cannot be negative."):
+        circle_circumference(-1)
+
+This version includes each necessary import only once and ensures all imported functions and modules are utilized within the test functions.
+2025-04-17 11:11:29,304 - INFO - Error in generating improved test cases
+Test case:
+To clean up the test code by removing duplicate or unused imports, we need to ensure each import statement appears only once and that all imported modules are used within the code. Here's the cleaned-up version:
+
+import math
+from theory_evaluation.circle_utils import circle_area, circle_circumference
+import pytest
+
+def test_circle_area_positive_radius():
+    radius = 5
+    expected_area = math.pi * radius ** 2
+    assert circle_area(radius) == pytest.approx(expected_area)
+
+def test_circle_area_zero_radius():
+    radius = 0
+    expected_area = 0
+    assert circle_area(radius) == pytest.approx(expected_area)
+
+def test_circle_area_negative_radius():
+    with pytest.raises(ValueError, match="Radius cannot be negative."):
+        circle_area(-1)
+
+def test_circle_circumference_positive_radius():
+    radius = 5
+    expected_circumference = 2 * math.pi * radius
+    assert circle_circumference(radius) == pytest.approx(expected_circumference)
+
+def test_circle_circumference_zero_radius():
+    radius = 0
+    expected_circumference = 0
+    assert circle_circumference(radius) == pytest.approx(expected_circumference)
+
+def test_circle_circumference_negative_radius():
+    with pytest.raises(ValueError, match="Radius cannot be negative."):
+        circle_circumference(-1)
+
+This version includes each necessary import only once and ensures all imported functions and modules are utilized within the test functions.
 Test error:
 c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
@@ -785,35 +877,35 @@ C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:
 C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
     return compile(source, filename, mode, flags,
 E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 1
-E       To improve the given test code, we need to address several issues: remove duplicate imports, ensure meaningful assertions, and follow best practices like the Arrange, Act, Assert (AAA) structure. Here's the improved version of the test code:
-E                                                                                                                                                                                                               ^
+E       To clean up the test code by removing duplicate or unused imports, we need to ensure each import statement appears only once and that all imported modules are used within the code. Here's the cleaned-up version:
+E                                                                                                                                                                                                ^
 E   SyntaxError: unterminated string literal (detected at line 1)
 =========================== short test summary info ===========================
 ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.28s
-2025-04-17 11:04:30,209 - INFO - run_each_pytest_function_individually complete
-2025-04-17 11:04:30,209 - INFO - Statistic theory_evaluation\circle_utils.py: 
+1 error in 0.21s
+2025-04-17 11:11:29,305 - INFO - run_each_pytest_function_individually complete
+2025-04-17 11:11:29,305 - INFO - Statistic theory_evaluation\circle_utils.py: 
 Total test case - 6
 Total test case passed - 6
 Percentage Passed - 100.0%
 
-2025-04-17 11:04:30,210 - INFO - End Processing file: theory_evaluation\circle_utils.py
+2025-04-17 11:11:29,306 - INFO - End Processing file: theory_evaluation\circle_utils.py
 
-2025-04-17 11:04:30,210 - INFO - 
+2025-04-17 11:11:29,306 - INFO - 
 Start Processing file: theory_evaluation\llm_utils.py
-2025-04-17 11:04:30,211 - INFO - Extraction of function and class start
-2025-04-17 11:04:30,211 - INFO - extraction of function and class complete
-2025-04-17 11:04:30,211 - INFO - Generate Unit Test Case starts
-2025-04-17 11:04:30,211 - INFO - Extract unique import start
-2025-04-17 11:04:30,880 - INFO - Extract unique import complete
-2025-04-17 11:04:30,880 - INFO - Update relative import start
-2025-04-17 11:04:30,881 - INFO - Update relative import complete
-2025-04-17 11:04:36,549 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 11:04:36,550 - INFO - Generate Unit Test Case complete
-2025-04-17 11:04:36,554 - INFO - run_each_pytest_function_individually start
-2025-04-17 11:04:41,880 - INFO - Number of test case to process - 4
-2025-04-17 11:04:41,880 - INFO - 
+2025-04-17 11:11:29,307 - INFO - Extraction of function and class start
+2025-04-17 11:11:29,307 - INFO - extraction of function and class complete
+2025-04-17 11:11:29,307 - INFO - Generate Unit Test Case starts
+2025-04-17 11:11:29,307 - INFO - Extract unique import start
+2025-04-17 11:11:30,075 - INFO - Extract unique import complete
+2025-04-17 11:11:30,076 - INFO - Update relative import start
+2025-04-17 11:11:30,077 - INFO - Update relative import complete
+2025-04-17 11:11:35,030 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:11:35,031 - INFO - Generate Unit Test Case complete
+2025-04-17 11:11:35,036 - INFO - run_each_pytest_function_individually start
+2025-04-17 11:11:41,012 - INFO - Number of test case to process - 4
+2025-04-17 11:11:41,012 - INFO - 
 TEST CASE 1 Retry 0
 ---------------
 import os
@@ -826,81 +918,61 @@ import pytest
 
 def test_initialise_prompt_success():
     agent = "test_agent"
-    mock_config_values = {"placeholder1": "value1", "placeholder2": "value2"}
-    mock_prompt_structure = "This is a {$placeholder1} and {$placeholder2} test."
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} prompt."
 
 ---------------
-2025-04-17 11:04:43,222 - INFO - TEST CASE 1 Retry 0 - Result - Passed
-2025-04-17 11:04:49,847 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 11:04:51,295 - INFO - Error in generating improved test cases
-Test case:
-To improve the given test code, we'll focus on removing duplicate imports, organizing the test structure, adding meaningful assertions, and ensuring the test is complete and isolated. We'll also mock necessary file operations and handle exceptions properly. Here's the improved version of the test code:
-
+2025-04-17 11:11:41,934 - INFO - TEST CASE 1 Retry 0 - Result - Passed
+2025-04-17 11:11:41,935 - INFO - Before Improvement
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 import pytest
-from unittest.mock import patch, mock_open
+
+
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+
+def test_initialise_prompt_success():
+    agent = "test_agent"
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} prompt."
+
+2025-04-17 11:11:44,323 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:11:44,324 - INFO - After Improvement
+To clean up the test code by removing duplicate or unused imports, you can simplify it as follows:
+
+import yaml
 from theory_evaluation.llm_utils import initialise_prompt
 
 def test_initialise_prompt_success():
-    # Arrange
     agent = "test_agent"
-    mock_config_values = {"placeholder1": "value1", "placeholder2": "value2"}
-    mock_prompt_structure = "This is a {$placeholder1} and {$placeholder2} test."
-    expected_prompt = "This is a value1 and value2 test."
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} prompt."
 
-    # Act
-    with patch('theory_evaluation.llm_utils.load_config_values', return_value=mock_config_values), \
-         patch('theory_evaluation.llm_utils.load_prompt_structure', return_value=mock_prompt_structure):
-        result_prompt = initialise_prompt(agent)
+### Changes Made:
+- Removed duplicate imports: `import os`, `import re`, `import yaml`, `from theory_evaluation.llm_utils import initialise_prompt, initialise_settings`, and `import pytest` were all imported twice.
+- Removed unused imports: `import os`, `import re`, `initialise_settings`, and `import pytest` were not used in the provided code snippet.
+2025-04-17 11:11:45,205 - INFO - Error in generating improved test cases
+Test case:
+To clean up the test code by removing duplicate or unused imports, you can simplify it as follows:
 
-    # Assert
-    assert result_prompt == expected_prompt, "Prompt initialization failed to replace placeholders correctly."
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt
 
-def test_initialise_prompt_missing_placeholder():
-    # Arrange
+def test_initialise_prompt_success():
     agent = "test_agent"
-    mock_config_values = {"placeholder1": "value1"}  # Missing placeholder2
-    mock_prompt_structure = "This is a {$placeholder1} and {$placeholder2} test."
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} prompt."
 
-    # Act & Assert
-    with patch('theory_evaluation.llm_utils.load_config_values', return_value=mock_config_values), \
-         patch('theory_evaluation.llm_utils.load_prompt_structure', return_value=mock_prompt_structure):
-        with pytest.raises(KeyError, match="Missing placeholder in config values"):
-            initialise_prompt(agent)
-
-def test_initialise_prompt_empty_structure():
-    # Arrange
-    agent = "test_agent"
-    mock_config_values = {"placeholder1": "value1", "placeholder2": "value2"}
-    mock_prompt_structure = ""  # Empty prompt structure
-
-    # Act
-    with patch('theory_evaluation.llm_utils.load_config_values', return_value=mock_config_values), \
-         patch('theory_evaluation.llm_utils.load_prompt_structure', return_value=mock_prompt_structure):
-        result_prompt = initialise_prompt(agent)
-
-    # Assert
-    assert result_prompt == "", "Prompt initialization failed to handle empty structure."
-
-def test_initialise_prompt_invalid_agent():
-    # Arrange
-    agent = "invalid_agent"
-    mock_config_values = {"placeholder1": "value1", "placeholder2": "value2"}
-    mock_prompt_structure = "This is a {$placeholder1} and {$placeholder2} test."
-
-    # Act & Assert
-    with patch('theory_evaluation.llm_utils.load_config_values', return_value=mock_config_values), \
-         patch('theory_evaluation.llm_utils.load_prompt_structure', return_value=mock_prompt_structure):
-        with pytest.raises(ValueError, match="Invalid agent specified"):
-            initialise_prompt(agent)
-
-### Key Improvements:
-1. **Removed Duplicate Imports**: Removed duplicate imports and unused ones.
-2. **Mocking**: Used `patch` to mock `load_config_values` and `load_prompt_structure` functions, assuming these are responsible for reading configurations and prompt structures.
-3. **Assertions**: Added meaningful assertions to check the correctness of the prompt initialization.
-4. **Exception Handling**: Added tests to handle scenarios where placeholders are missing or the agent is invalid.
-5. **AAA Structure**: Followed the Arrange, Act, Assert structure for clarity and organization.
-6. **Isolation**: Ensured each test is isolated and deterministic by using mocks.
-7. **Coverage**: Included tests for both success and failure scenarios.
+### Changes Made:
+- Removed duplicate imports: `import os`, `import re`, `import yaml`, `from theory_evaluation.llm_utils import initialise_prompt, initialise_settings`, and `import pytest` were all imported twice.
+- Removed unused imports: `import os`, `import re`, `initialise_settings`, and `import pytest` were not used in the provided code snippet.
 Test error:
 c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
@@ -930,14 +1002,14 @@ C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:
 C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
     return compile(source, filename, mode, flags,
 E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 1
-E       To improve the given test code, we'll focus on removing duplicate imports, organizing the test structure, adding meaningful assertions, and ensuring the test is complete and isolated. We'll also mock necessary file operations and handle exceptions properly. Here's the improved version of the test code:
-E                                                                                                                                                                                                                                                                             ^
-E   SyntaxError: unterminated string literal (detected at line 1)
+E       To clean up the test code by removing duplicate or unused imports, you can simplify it as follows:
+E          ^^^^^
+E   SyntaxError: invalid syntax
 =========================== short test summary info ===========================
 ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.24s
-2025-04-17 11:04:51,296 - INFO - 
+1 error in 0.18s
+2025-04-17 11:11:45,205 - INFO - 
 TEST CASE 2 Retry 0
 ---------------
 import os
@@ -948,28 +1020,29 @@ import pytest
 
 
 
-def test_initialise_prompt_no_config_path():
+def test_initialise_prompt_file_not_found():
+    agent = "non_existent_agent"
     with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_prompt("non_existent_agent")
+        result = initialise_prompt(agent)
         assert result is None
 
 ---------------
-2025-04-17 11:04:52,427 - INFO - TEST CASE 2 Retry 0 - Result - Failed
-2025-04-17 11:04:52,427 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+2025-04-17 11:11:46,200 - INFO - TEST CASE 2 Retry 0 - Result - Failed
+2025-04-17 11:11:46,200 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
 F                                                                        [100%]
 ================================== FAILURES ===================================
-____________________ test_initialise_prompt_no_config_path ____________________
-temp\temp.py:10: in test_initialise_prompt_no_config_path
+____________________ test_initialise_prompt_file_not_found ____________________
+temp\temp.py:11: in test_initialise_prompt_file_not_found
     with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
 E   NameError: name 'patch' is not defined
 =========================== short test summary info ===========================
-FAILED temp/temp.py::test_initialise_prompt_no_config_path - NameError: name ...
-1 failed in 0.12s
-2025-04-17 11:04:53,455 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 11:04:53,456 - INFO - 
+FAILED temp/temp.py::test_initialise_prompt_file_not_found - NameError: name ...
+1 failed in 0.09s
+2025-04-17 11:11:47,356 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:11:47,357 - INFO - 
 TEST CASE 2 Retry 1
 ---------------
 import os
@@ -982,99 +1055,97 @@ import pytest
 
 from unittest.mock import patch
 
-def test_initialise_prompt_no_config_path():
+def test_initialise_prompt_file_not_found():
+    agent = "non_existent_agent"
     with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_prompt("non_existent_agent")
+        result = initialise_prompt(agent)
         assert result is None
 
 ---------------
-2025-04-17 11:04:54,738 - INFO - TEST CASE 2 Retry 1 - Result - Passed
-2025-04-17 11:05:01,803 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 11:05:03,196 - INFO - Error in generating improved test cases
-Test case:
-To improve the provided test code, we'll focus on organizing imports, removing duplicates, ensuring meaningful assertions, mocking file operations, and structuring tests using the Arrange, Act, Assert pattern. Here's the revised code:
-
-import pytest
-from unittest.mock import patch, mock_open
+2025-04-17 11:11:48,118 - INFO - TEST CASE 2 Retry 1 - Result - Passed
+2025-04-17 11:11:48,118 - INFO - Before Improvement
+import os
+import re
+import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
 
 def test_initialise_prompt_success():
-    # Arrange
     agent = "test_agent"
-    mock_config_values = {"placeholder1": "value1", "placeholder2": "value2"}
-    mock_prompt_structure = "This is a {$placeholder1} and {$placeholder2} test."
-    expected_prompt = "This is a value1 and value2 test."
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} prompt."
 
-    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=yaml.dump(mock_config_values))):
-        with patch("theory_evaluation.llm_utils.yaml.safe_load", return_value=mock_config_values):
-            # Act
-            result = initialise_prompt(agent)
+from unittest.mock import patch
 
-            # Assert
-            assert result == expected_prompt
-
-def test_initialise_prompt_no_config_path():
-    # Arrange
+def test_initialise_prompt_file_not_found():
     agent = "non_existent_agent"
-
     with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        # Act
         result = initialise_prompt(agent)
-
-        # Assert
         assert result is None
 
-def test_initialise_prompt_invalid_yaml():
-    # Arrange
+2025-04-17 11:11:50,836 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:11:50,836 - INFO - After Improvement
+To clean up the test code by removing duplicate or unused imports, you can consolidate the imports and remove any that are not used in the code. Here's the cleaned-up version:
+
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt
+import pytest
+from unittest.mock import patch
+
+def test_initialise_prompt_success():
     agent = "test_agent"
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} prompt."
 
-    with patch("theory_evaluation.llm_utils.open", mock_open(read_data="invalid_yaml")):
-        with patch("theory_evaluation.llm_utils.yaml.safe_load", side_effect=yaml.YAMLError):
-            # Act
-            result = initialise_prompt(agent)
-
-            # Assert
-            assert result is None
-
-def test_initialise_settings_success():
-    # Arrange
-    mock_settings = {"setting1": "value1", "setting2": "value2"}
-    expected_settings = {"setting1": "value1", "setting2": "value2"}
-
-    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=yaml.dump(mock_settings))):
-        with patch("theory_evaluation.llm_utils.yaml.safe_load", return_value=mock_settings):
-            # Act
-            result = initialise_settings()
-
-            # Assert
-            assert result == expected_settings
-
-def test_initialise_settings_no_file():
-    # Arrange
+def test_initialise_prompt_file_not_found():
+    agent = "non_existent_agent"
     with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        # Act
-        result = initialise_settings()
-
-        # Assert
+        result = initialise_prompt(agent)
         assert result is None
 
-def test_initialise_settings_invalid_yaml():
-    # Arrange
-    with patch("theory_evaluation.llm_utils.open", mock_open(read_data="invalid_yaml")):
-        with patch("theory_evaluation.llm_utils.yaml.safe_load", side_effect=yaml.YAMLError):
-            # Act
-            result = initialise_settings()
+### Changes made:
+1. Removed duplicate imports of `os`, `re`, `yaml`, `initialise_prompt`, `initialise_settings`, and `pytest`.
+2. Removed unused imports: `os`, `re`, and `initialise_settings`.
+3. Kept only the necessary imports: `yaml`, `initialise_prompt`, `pytest`, and `patch` from `unittest.mock`.
+2025-04-17 11:11:51,617 - INFO - Error in generating improved test cases
+Test case:
+To clean up the test code by removing duplicate or unused imports, you can consolidate the imports and remove any that are not used in the code. Here's the cleaned-up version:
 
-            # Assert
-            assert result is None
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt
+import pytest
+from unittest.mock import patch
 
-### Key Improvements:
-1. **Removed Duplicate Imports**: Cleaned up the import statements to avoid redundancy.
-2. **Structured Tests with AAA Pattern**: Each test follows the Arrange, Act, Assert structure for clarity.
-3. **Mocking**: Used `mock_open` and `patch` to simulate file operations and YAML loading.
-4. **Meaningful Assertions**: Added assertions that check the expected output against the actual result.
-5. **Coverage for Success and Failure Scenarios**: Included tests for both valid and invalid file paths and YAML content.
-6. **Isolation and Determinism**: Each test is isolated with its own setup and mocks, ensuring deterministic behavior.
+def test_initialise_prompt_success():
+    agent = "test_agent"
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} prompt."
+
+def test_initialise_prompt_file_not_found():
+    agent = "non_existent_agent"
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt(agent)
+        assert result is None
+
+### Changes made:
+1. Removed duplicate imports of `os`, `re`, `yaml`, `initialise_prompt`, `initialise_settings`, and `pytest`.
+2. Removed unused imports: `os`, `re`, and `initialise_settings`.
+3. Kept only the necessary imports: `yaml`, `initialise_prompt`, `pytest`, and `patch` from `unittest.mock`.
 Test error:
 c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
@@ -1104,14 +1175,14 @@ C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:
 C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
     return compile(source, filename, mode, flags,
 E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 1
-E       To improve the provided test code, we'll focus on organizing imports, removing duplicates, ensuring meaningful assertions, mocking file operations, and structuring tests using the Arrange, Act, Assert pattern. Here's the revised code:
-E          ^^^^^^^
-E   SyntaxError: invalid syntax
+E       To clean up the test code by removing duplicate or unused imports, you can consolidate the imports and remove any that are not used in the code. Here's the cleaned-up version:
+E                                                                                                                                                            ^
+E   SyntaxError: unterminated string literal (detected at line 1)
 =========================== short test summary info ===========================
 ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.40s
-2025-04-17 11:05:03,197 - INFO - 
+1 error in 0.22s
+2025-04-17 11:11:51,617 - INFO - 
 TEST CASE 3 Retry 0
 ---------------
 import os
@@ -1124,76 +1195,116 @@ import pytest
 
 def test_initialise_settings_success():
     agent = "test_agent"
-    mock_settings = {"setting1": "value1", "setting2": "value2"}
+    settings_yaml = "setting_key: setting_value"
 
 ---------------
-2025-04-17 11:05:04,382 - INFO - TEST CASE 3 Retry 0 - Result - Passed
-2025-04-17 11:05:10,463 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 11:05:12,121 - INFO - Error in generating improved test cases
-Test case:
-To improve the given test code, we'll focus on removing duplicate imports, organizing the code, adding meaningful assertions, and ensuring proper mocking and exception handling. Here's the revised version:
-
-import pytest
-from unittest.mock import patch, mock_open
+2025-04-17 11:11:52,306 - INFO - TEST CASE 3 Retry 0 - Result - Passed
+2025-04-17 11:11:52,306 - INFO - Before Improvement
+import os
+import re
+import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
 
 def test_initialise_prompt_success():
-    # Arrange
     agent = "test_agent"
-    mock_config_values = {"placeholder1": "value1", "placeholder2": "value2"}
-    mock_prompt_structure = "This is a {$placeholder1} and {$placeholder2} test."
-    expected_prompt = "This is a value1 and value2 test."
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} prompt."
 
-    # Act
-    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=yaml.dump(mock_config_values))):
-        with patch("theory_evaluation.llm_utils.yaml.safe_load", return_value=mock_config_values):
-            result = initialise_prompt(agent)
+from unittest.mock import patch
 
-    # Assert
-    assert result == expected_prompt
-
-def test_initialise_prompt_no_config_path():
-    # Arrange
+def test_initialise_prompt_file_not_found():
     agent = "non_existent_agent"
-
-    # Act
     with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
         result = initialise_prompt(agent)
-
-    # Assert
-    assert result is None
+        assert result is None
 
 def test_initialise_settings_success():
-    # Arrange
     agent = "test_agent"
-    mock_settings = {"setting1": "value1", "setting2": "value2"}
+    settings_yaml = "setting_key: setting_value"
 
-    # Act
-    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=yaml.dump(mock_settings))):
-        with patch("theory_evaluation.llm_utils.yaml.safe_load", return_value=mock_settings):
-            result = initialise_settings(agent)
+2025-04-17 11:11:56,531 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:11:56,531 - INFO - After Improvement
+To clean up the test code by removing duplicate and unused imports, you can consolidate the imports and remove any that are not used in the code. Here's the cleaned-up version:
 
-    # Assert
-    assert result == mock_settings
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+from unittest.mock import patch
 
-def test_initialise_settings_no_config_path():
-    # Arrange
+def test_initialise_prompt_success():
+    agent = "test_agent"
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} prompt."
+
+def test_initialise_prompt_file_not_found():
     agent = "non_existent_agent"
-
-    # Act
     with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_settings(agent)
+        result = initialise_prompt(agent)
+        assert result is None
 
-    # Assert
-    assert result is None
+def test_initialise_settings_success():
+    agent = "test_agent"
+    settings_yaml = "setting_key: setting_value"
 
-### Key Improvements:
-1. **Removed Duplicate Imports**: Cleaned up the import statements to avoid redundancy.
-2. **Organized Code**: Grouped related mocks under appropriate scopes using `with` statements.
-3. **Added Meaningful Assertions**: Ensured that assertions check the expected outcomes.
-4. **Mocking and Exception Handling**: Used `mock_open` to simulate file reads and `side_effect` for exceptions.
-5. **Isolated Tests**: Each test is independent and deterministic, following the Arrange, Act, Assert structure.
-6. **Coverage for Success and Failure Scenarios**: Added tests for both successful initialization and failure due to missing files.
+### Changes Made:
+- Removed duplicate imports of `os`, `re`, `yaml`, `initialise_prompt`, `initialise_settings`, and `pytest`.
+- Removed unused imports `os` and `re` since they are not used in the test functions.
+- Kept `yaml` as it might be relevant for YAML processing in the functions, assuming the actual implementation uses it.
+- Kept `pytest` as it is necessary for running the test functions.
+- Added `from unittest.mock import patch` only once, as it is used in one of the test functions.
+2025-04-17 11:11:57,349 - INFO - Error in generating improved test cases
+Test case:
+To clean up the test code by removing duplicate and unused imports, you can consolidate the imports and remove any that are not used in the code. Here's the cleaned-up version:
+
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+from unittest.mock import patch
+
+def test_initialise_prompt_success():
+    agent = "test_agent"
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} prompt."
+
+def test_initialise_prompt_file_not_found():
+    agent = "non_existent_agent"
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt(agent)
+        assert result is None
+
+def test_initialise_settings_success():
+    agent = "test_agent"
+    settings_yaml = "setting_key: setting_value"
+
+### Changes Made:
+- Removed duplicate imports of `os`, `re`, `yaml`, `initialise_prompt`, `initialise_settings`, and `pytest`.
+- Removed unused imports `os` and `re` since they are not used in the test functions.
+- Kept `yaml` as it might be relevant for YAML processing in the functions, assuming the actual implementation uses it.
+- Kept `pytest` as it is necessary for running the test functions.
+- Added `from unittest.mock import patch` only once, as it is used in one of the test functions.
 Test error:
 c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
@@ -1223,14 +1334,14 @@ C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:
 C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
     return compile(source, filename, mode, flags,
 E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 1
-E       To improve the given test code, we'll focus on removing duplicate imports, organizing the code, adding meaningful assertions, and ensuring proper mocking and exception handling. Here's the revised version:
-E          ^^^^^^^
-E   SyntaxError: invalid syntax
+E       To clean up the test code by removing duplicate and unused imports, you can consolidate the imports and remove any that are not used in the code. Here's the cleaned-up version:
+E                                                                                                                                                             ^
+E   SyntaxError: unterminated string literal (detected at line 1)
 =========================== short test summary info ===========================
 ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.28s
-2025-04-17 11:05:12,121 - INFO - 
+1 error in 0.19s
+2025-04-17 11:11:57,349 - INFO - 
 TEST CASE 4 Retry 0
 ---------------
 import os
@@ -1241,28 +1352,29 @@ import pytest
 
 
 
-def test_initialise_settings_no_config_path():
+def test_initialise_settings_file_not_found():
+    agent = "non_existent_agent"
     with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_settings("non_existent_agent")
+        result = initialise_settings(agent)
         assert result is None
 
 ---------------
-2025-04-17 11:05:13,361 - INFO - TEST CASE 4 Retry 0 - Result - Failed
-2025-04-17 11:05:13,362 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+2025-04-17 11:11:57,947 - INFO - TEST CASE 4 Retry 0 - Result - Failed
+2025-04-17 11:11:57,948 - INFO - Test Error - c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
 F                                                                        [100%]
 ================================== FAILURES ===================================
-___________________ test_initialise_settings_no_config_path ___________________
-temp\temp.py:10: in test_initialise_settings_no_config_path
+___________________ test_initialise_settings_file_not_found ___________________
+temp\temp.py:11: in test_initialise_settings_file_not_found
     with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
 E   NameError: name 'patch' is not defined
 =========================== short test summary info ===========================
-FAILED temp/temp.py::test_initialise_settings_no_config_path - NameError: nam...
-1 failed in 0.17s
-2025-04-17 11:05:15,016 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 11:05:15,017 - INFO - 
+FAILED temp/temp.py::test_initialise_settings_file_not_found - NameError: nam...
+1 failed in 0.08s
+2025-04-17 11:11:59,159 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:11:59,160 - INFO - 
 TEST CASE 4 Retry 1
 ---------------
 import os
@@ -1275,94 +1387,143 @@ import pytest
 
 from unittest.mock import patch
 
-def test_initialise_settings_no_config_path():
+def test_initialise_settings_file_not_found():
+    agent = "non_existent_agent"
     with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        result = initialise_settings("non_existent_agent")
+        result = initialise_settings(agent)
         assert result is None
 
 ---------------
-2025-04-17 11:05:17,228 - INFO - TEST CASE 4 Retry 1 - Result - Passed
-2025-04-17 11:05:25,031 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
-2025-04-17 11:05:26,348 - INFO - Error in generating improved test cases
-Test case:
-To improve the provided test code, we need to address several issues such as duplicate imports, incomplete test functions, and lack of assertions. We also need to ensure that the tests are isolated, deterministic, and follow the Arrange-Act-Assert (AAA) structure. Here's the improved version of the test code:
-
-import pytest
+2025-04-17 11:11:59,848 - INFO - TEST CASE 4 Retry 1 - Result - Passed
+2025-04-17 11:11:59,849 - INFO - Before Improvement
+import os
+import re
 import yaml
-from unittest.mock import patch, mock_open
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
+
+
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
 
 
 def test_initialise_prompt_success():
-    # Arrange
     agent = "test_agent"
-    mock_config_values = {"placeholder1": "value1", "placeholder2": "value2"}
-    mock_prompt_structure = "This is a {$placeholder1} and {$placeholder2} test."
-    expected_prompt = "This is a value1 and value2 test."
-    mock_yaml_content = yaml.dump({"config": mock_config_values, "prompt": mock_prompt_structure})
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} prompt."
 
-    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=mock_yaml_content)):
-        # Act
-        result = initialise_prompt(agent)
+from unittest.mock import patch
 
-    # Assert
-    assert result == expected_prompt
-
-
-def test_initialise_prompt_no_config_path():
-    # Arrange
+def test_initialise_prompt_file_not_found():
     agent = "non_existent_agent"
-
     with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        # Act
         result = initialise_prompt(agent)
-
-    # Assert
-    assert result is None
-
+        assert result is None
 
 def test_initialise_settings_success():
-    # Arrange
     agent = "test_agent"
-    mock_settings = {"setting1": "value1", "setting2": "value2"}
-    mock_yaml_content = yaml.dump({"settings": mock_settings})
+    settings_yaml = "setting_key: setting_value"
 
-    with patch("theory_evaluation.llm_utils.open", mock_open(read_data=mock_yaml_content)):
-        # Act
-        result = initialise_settings(agent)
+from unittest.mock import patch
 
-    # Assert
-    assert result == mock_settings
-
-
-def test_initialise_settings_no_config_path():
-    # Arrange
+def test_initialise_settings_file_not_found():
     agent = "non_existent_agent"
-
     with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
-        # Act
         result = initialise_settings(agent)
+        assert result is None
 
-    # Assert
-    assert result is None
+2025-04-17 11:12:03,570 - WARNING - Stripped Markdown-style triple backtick fences from LLM output.
+2025-04-17 11:12:03,570 - INFO - After Improvement
+To clean up the test code by removing duplicate or unused imports, you can consolidate the necessary imports at the top and remove any duplicates or unused ones. Here's the cleaned-up version of your test code:
 
-### Key Improvements:
+import pytest
+from unittest.mock import patch
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 
-1. **Removed Duplicate Imports**: The imports were repeated multiple times unnecessarily.
+def test_initialise_prompt_success():
+    agent = "test_agent"
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} prompt."
 
-2. **Completed Test Functions**: Added missing parts of the test functions, such as assertions and mock data.
+def test_initialise_prompt_file_not_found():
+    agent = "non_existent_agent"
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt(agent)
+        assert result is None
 
-3. **Used `mock_open` for File Operations**: This allows us to simulate file reading without needing actual files.
+def test_initialise_settings_success():
+    agent = "test_agent"
+    settings_yaml = "setting_key: setting_value"
 
-4. **Ensured AAA Structure**: Each test follows the Arrange-Act-Assert pattern for clarity and structure.
+def test_initialise_settings_file_not_found():
+    agent = "non_existent_agent"
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_settings(agent)
+        assert result is None
 
-5. **Isolated Tests**: Each test is independent and does not rely on external state or other tests.
+### Explanation:
+- Removed duplicate imports of `os`, `re`, `yaml`, and `pytest`.
+- Removed unused imports: `os`, `re`, and `yaml`, as they are not used in the test functions.
+- Kept `pytest` and `patch` from `unittest.mock` as they are used in the test functions.
+- Kept `initialise_prompt` and `initialise_settings` from `theory_evaluation.llm_utils` as they are used in the test functions.
+2025-04-17 11:12:04,669 - INFO - Error in generating improved test cases
+Test case:
+To clean up the test code by removing duplicate or unused imports, you can consolidate the necessary imports at the top and remove any duplicates or unused ones. Here's the cleaned-up version of your test code:
 
-6. **Meaningful Assertions**: Added assertions to verify the expected outcomes of the functions being tested.
+import pytest
+from unittest.mock import patch
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 
-7. **Mocked FileNotFoundError**: Properly mocked scenarios where the configuration file does not exist.
+def test_initialise_prompt_success():
+    agent = "test_agent"
+    config_yaml = "key: value"
+    prompt_txt = "This is a {$key} prompt."
 
-This improved version of the test code should be more readable, maintainable, and comprehensive in terms of coverage for both success and failure scenarios.
+def test_initialise_prompt_file_not_found():
+    agent = "non_existent_agent"
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_prompt(agent)
+        assert result is None
+
+def test_initialise_settings_success():
+    agent = "test_agent"
+    settings_yaml = "setting_key: setting_value"
+
+def test_initialise_settings_file_not_found():
+    agent = "non_existent_agent"
+    with patch("theory_evaluation.llm_utils.open", side_effect=FileNotFoundError):
+        result = initialise_settings(agent)
+        assert result is None
+
+### Explanation:
+- Removed duplicate imports of `os`, `re`, `yaml`, and `pytest`.
+- Removed unused imports: `os`, `re`, and `yaml`, as they are not used in the test functions.
+- Kept `pytest` and `patch` from `unittest.mock` as they are used in the test functions.
+- Kept `initialise_prompt` and `initialise_settings` from `theory_evaluation.llm_utils` as they are used in the test functions.
 Test error:
 c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\.venv\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
@@ -1392,18 +1553,18 @@ C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:
 C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\ast.py:54: in parse
     return compile(source, filename, mode, flags,
 E     File "C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py", line 1
-E       To improve the provided test code, we need to address several issues such as duplicate imports, incomplete test functions, and lack of assertions. We also need to ensure that the tests are isolated, deterministic, and follow the Arrange-Act-Assert (AAA) structure. Here's the improved version of the test code:
-E                                                                                                                                                                                                                                                                                    ^
+E       To clean up the test code by removing duplicate or unused imports, you can consolidate the necessary imports at the top and remove any duplicates or unused ones. Here's the cleaned-up version of your test code:
+E                                                                                                                                                                             ^
 E   SyntaxError: unterminated string literal (detected at line 1)
 =========================== short test summary info ===========================
 ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.30s
-2025-04-17 11:05:26,349 - INFO - run_each_pytest_function_individually complete
-2025-04-17 11:05:26,349 - INFO - Statistic theory_evaluation\llm_utils.py: 
+1 error in 0.21s
+2025-04-17 11:12:04,669 - INFO - run_each_pytest_function_individually complete
+2025-04-17 11:12:04,669 - INFO - Statistic theory_evaluation\llm_utils.py: 
 Total test case - 4
 Total test case passed - 4
 Percentage Passed - 100.0%
 
-2025-04-17 11:05:26,353 - INFO - End Processing file: theory_evaluation\llm_utils.py
+2025-04-17 11:12:04,670 - INFO - End Processing file: theory_evaluation\llm_utils.py
 
