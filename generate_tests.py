@@ -115,6 +115,7 @@ def _load_env_variables() -> Dict[str, Any]:
         "temp_file": os.getenv("TEMP_FILE"),
         "err_dir": os.getenv("ERR_DIR"),
         "model_name": os.getenv("MODEL_NAME"),
+        "python_version": os.getenv("PYTHON_VERSION"),
         "llm_test_prompt": os.getenv("LLM_TEST_PROMPT"),
         "temperature": os.getenv("TEMPERATURE"),
         "llm_import_prompt": os.getenv("LLM_IMPORT_PROMPT"),
@@ -122,7 +123,8 @@ def _load_env_variables() -> Dict[str, Any]:
         "llm_resolve_prompt": os.getenv("LLM_RESOLVE_PROMPT"),
         "llm_pytest_fixture_prompt": os.getenv("LLM_PYTEST_FIXTURE_PROMPT"),
         "llm_test_cases_prompt": os.getenv("LLM_TEST_CASES_PROMPT"),
-        "llm_test_improvement_prompt": os.getenv("LLM_TEST_IMPROVEMENT_PROMPT")
+        "llm_test_improvement_prompt": os.getenv("LLM_TEST_IMPROVEMENT_PROMPT"),
+        
     }
 
 
@@ -349,7 +351,9 @@ def _generate_unit_tests(
     provider: Union[OpenAI, AzureOpenAI],
     model_arg: str,
     llm_test_prompt: str,
-    llm_import_prompt: str, 
+    llm_import_prompt: str,
+    requirements_txt:str,
+    python_version:str,
     temperature: float,
     function_names: List[str],
     source_code: str,
@@ -364,11 +368,14 @@ def _generate_unit_tests(
         file_content=source_code,
         file_path=source_code_path,
         import_statements=import_statements,
+        requirements_txt=requirements_txt,
+        python_version=python_version
+
     )
 
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
     generated_test_code = strip_markdown_fences(response.choices[0].message.content.strip())
-    logger.info(f"Generate Unit Test Case complete")
+    logger.info(f"Generate Unit Test Case complete -\n{formatted_prompt}")
     return generated_test_code, import_statements
 
 
@@ -493,6 +500,8 @@ def run_each_pytest_function_individually(
     provider,
     model_arg,
     temperature,
+    python_version,
+    requirements_txt,
     llm_resolve_prompt,
     llm_new_import_prompt, 
     llm_pytest_fixture_prompt,
@@ -509,9 +518,9 @@ def run_each_pytest_function_individually(
     
     # Extract each test function body individually
     pytest_fixture = extract_pytest_fixture(provider, model_arg, llm_pytest_fixture_prompt, test_code, temperature)
-
     test_cases_str = extract_test_cases_from_code(provider, model_arg, llm_test_cases_prompt, test_code, temperature)
     test_cases = extract_test_functions(test_cases_str)
+
     total_test_case = len(test_cases)
     logger.info(f"Number of test case to process - {total_test_case}")
 
@@ -580,6 +589,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
 
     try:
         source_code = source_code_path.read_text(encoding="utf-8")
+        requirements_txt=Path("./requirements.txt").read_text(encoding="utf-8")
         logger.info(f"Extraction of function and class start")
         function_names = extract_function_class_and_factory_assignments(source_code)
         logger.info(f"extraction of function and class complete")
@@ -587,12 +597,15 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
             logger.warning(f"No public functions found in {source_code_path}. Skipping test generation.\n")
             return
         temperature=float(env_vars["temperature"])
+        python_version=env_vars["python_version"]
         test_code, import_statements = _generate_unit_tests(
             provider=client,
             model_arg=model_arg,
             llm_test_prompt=env_vars["llm_test_prompt"],
             llm_import_prompt=env_vars["llm_import_prompt"],
             temperature=temperature,
+            python_version=python_version,
+            requirements_txt=requirements_txt,
             function_names=function_names,
             source_code=source_code,
             source_code_path=str(source_code_path)
@@ -607,8 +620,9 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
                 )
 
             test_code, test_file_failure, total_test_case, passed_count = run_each_pytest_function_individually(client, model_arg, temperature, 
+                                                              python_version,requirements_txt,
                                                               env_vars["llm_resolve_prompt"], env_vars["llm_new_import_prompt"], env_vars["llm_pytest_fixture_prompt"],
-                                                              env_vars["llm_test_cases_prompt"], env_vars["llm_test_improvement_prompt"],
+                                                              env_vars["llm_test_cases_prompt"], env_vars["llm_test_improvement_prompt"], 
                                                               import_statements, source_code, test_code, Path(env_vars["temp_file"]))
 
             if test_code:
