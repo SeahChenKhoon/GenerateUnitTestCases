@@ -104,3 +104,8 @@ $ uv pip install -r requirements.txt
 
 PYTHONPATH=. pytest ./temp/temp.py
 sh ./scripts/quick-commit.sh
+
+clear packages
+python -m venv unit_test_env
+source unit_test_env/Scripts/activate
+pip list  # should be minimal: pip, setuptools, wheel
