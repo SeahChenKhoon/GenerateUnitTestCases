@@ -1,21 +1,31 @@
-
 import math
 from theory_evaluation.circle_utils import circle_area, circle_circumference
 import pytest
 
-@pytest.fixture
-def sample_data():
-    return {"key": "value"}
+def test_circle_area_with_positive_radius():
+    # Arrange
+    radius = 5.0
+    expected_area = math.pi * radius ** 2
 
-@pytest.fixture
-def setup_environment():
-    # Setup code here
-    env = {"setting": "configured"}
-    yield env
-    # Teardown code here
+def test_circle_area_with_zero_radius():
+    # Arrange
+    radius = 0.0
+    expected_area = 0.0
 
-@pytest.fixture
-def mock_database_connection():
-    connection = create_mock_connection()
-    yield connection
-    connection.close()
+def test_circle_area_with_negative_radius_raises_value_error():
+    # Arrange
+    radius = -5.0
+
+def test_circle_circumference_with_positive_radius():
+    # Arrange
+    radius = 5.0
+    expected_circumference = 2 * math.pi * radius
+
+def test_circle_circumference_with_zero_radius():
+    # Arrange
+    radius = 0.0
+    expected_circumference = 0.0
+
+def test_circle_circumference_with_negative_radius_raises_value_error():
+    # Arrange
+    radius = -5.0
