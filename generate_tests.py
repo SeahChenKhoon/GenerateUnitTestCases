@@ -214,18 +214,22 @@ def _get_python_files(directory: str) -> List[Path]:
     return list(Path(directory).rglob("*.py"))
 
 
-def extract_function_and_class_names(code: str) -> List[str]:
-    # Match top-level (not indented) functions that do NOT start with '_'
+def extract_function_class_and_factory_assignments(code: str) -> List[str]:
+    # Match top-level (not indented) functions
     function_names = re.findall(
-        r'^(?:async\s+)?def\s+([a-zA-Z][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE
+        r'^(?:async\s+)?def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', code, re.MULTILINE
     )
 
-    # Match class names (top-level)
+    # Match class names
     class_names = re.findall(
         r'^class\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*[:\(]', code, re.MULTILINE
     )
 
-    return sorted(set(function_names + class_names))
+    factory_assignments = re.findall(
+        r'^([A-Z][a-zA-Z0-9_]*)\s*=\s*[a-zA-Z_][a-zA-Z0-9_]*\s*\(', code, re.MULTILINE
+    )
+
+    return sorted(set(function_names + class_names + factory_assignments))
 
 def update_relative_imports(code: str, file_path: str) -> str:
     logger.info(f"Update relative import start")
