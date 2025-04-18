@@ -4,7 +4,7 @@ repos:
     
       - id: clean-tests
         name: Remove and recreate tests folder, delete logs/output.log
-        entry: python -c "import shutil, os; shutil.rmtree('tests', ignore_errors=True); os.makedirs('tests', exist_ok=True); shutil.rmtree('final', ignore_errors=True); os.makedirs('final', exist_ok=True); log_path = 'logs/output.log'; os.remove(log_path) if os.path.exists(log_path) else None"
+        entry: python -c "import shutil, os; shutil.rmtree('tests', ignore_errors=True); os.makedirs('tests', exist_ok=True); shutil.rmtree('final', ignore_errors=True); os.makedirs('final', exist_ok=True); shutil.rmtree('Error', ignore_errors=True); os.makedirs('Error', exist_ok=True); log_path = 'logs/output.log'; os.remove(log_path) if os.path.exists(log_path) else None"
         language: system
         types: [python]
         pass_filenames: false

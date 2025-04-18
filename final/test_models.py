@@ -17,14 +17,18 @@ from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculu
 import pytest
 
 @pytest.fixture(scope='module')
-def db_session():
+def test_engine():
     engine = create_engine('sqlite:///:memory:')
     Base.metadata.create_all(engine)
-    Session = sessionmaker(bind=engine)
+    return engine
+
+@pytest.fixture(scope='function')
+def session(test_engine):
+    Session = sessionmaker(bind=test_engine)
     session = Session()
     yield session
+    session.rollback()
     session.close()
-    Base.metadata.drop_all(engine)
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy import (
     Column,
@@ -44,11 +48,15 @@ from theory_evaluation.models import ConsultantChat, CurrentUserTable, Curriculu
 import pytest
 
 @pytest.fixture(scope='module')
-def db_session():
+def test_engine():
     engine = create_engine('sqlite:///:memory:')
     Base.metadata.create_all(engine)
-    Session = sessionmaker(bind=engine)
+    return engine
+
+@pytest.fixture(scope='function')
+def session(test_engine):
+    Session = sessionmaker(bind=test_engine)
     session = Session()
     yield session
+    session.rollback()
     session.close()
-    Base.metadata.drop_all(engine)
