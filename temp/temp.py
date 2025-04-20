@@ -1,29 +1,36 @@
-import os
-import re
-import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    create_engine,
+    Float,
+    ForeignKey,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+import uuid
+from theory_evaluation.models import Base, ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
 import pytest
+from sqlalchemy.orm import sessionmaker
 
-@pytest.fixture
-def mock_open():
-    with mock.patch("builtins.open", mock.mock_open()) as mocked_open:
-        yield mocked_open
+@pytest.fixture(scope='module')
+def db_engine():
+    engine = create_engine('sqlite:///:memory:')
+    Base.metadata.create_all(engine)
+    yield engine
+    engine.dispose()
 
-@pytest.fixture
-def mock_yaml_load():
-    with mock.patch("yaml.load", return_value={"key": "value"}) as mocked_yaml_load:
-        yield mocked_yaml_load
-
-@pytest.fixture
-def mock_yaml_safe_load():
-    with mock.patch("yaml.safe_load", return_value={"setting": "value"}) as mocked_yaml_safe_load:
-        yield mocked_yaml_safe_load
-
-import pytest
-from unittest import mock
-
-def test_initialise_prompt_raises_exception_on_missing_config_file():
-    with mock.patch("builtins.open", mock.mock_open()) as mocked_open:
-        mocked_open.side_effect = FileNotFoundError
-        with pytest.raises(FileNotFoundError):
-            initialise_prompt("agent_name")
+@pytest.fixture(scope='function')
+def db_session(db_engine):
+    connection = db_engine.connect()
+    transaction = connection.begin()
+    Session = sessionmaker(bind=connection)
+    session = Session()
+    yield session
+    session.close()
+    transaction.rollback()
+    connection.close()
