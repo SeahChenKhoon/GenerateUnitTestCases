@@ -3,35 +3,38 @@ import re
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 import pytest
-from unittest.mock import patch
 
 @pytest.fixture
 def mock_config_path():
     return "./theory_evaluation/evaluator/prompts"
 
 @pytest.fixture
-def mock_prompt_file():
-    return "This is a test prompt with a placeholder {$PLACEHOLDER}."
+def mock_prompt_file_content():
+    return "This is a test prompt with a placeholder {$placeholder}."
 
 @pytest.fixture
-def mock_config_values():
-    return {"PLACEHOLDER": "value"}
+def mock_config_file_content():
+    return """
+    placeholder: "value"
+    """
 
 @pytest.fixture
-def mock_yaml_load(mock_config_values):
-    with patch("yaml.load", return_value=mock_config_values):
-        yield
+def mock_llm_settings_content():
+    return """
+    setting1: "value1"
+    setting2: "value2"
+    """
 
-@pytest.fixture
-def mock_yaml_safe_load(mock_config_values):
-    with patch("yaml.safe_load", return_value=mock_config_values):
-        yield
-
-def test_initialise_prompt_missing_config(mock_config_path):
+def test_initialise_prompt_success(mock_config_path, mock_prompt_file_content, mock_config_file_content):
     agent = "test_agent"
-    prompt_path = f"{mock_config_path}/{agent}/prompt.txt"
-    config_path = f"{mock_config_path}/{agent}/config.yaml"
+    prompt_file_path = f"{mock_config_path}/{agent}/prompt.txt"
+    config_file_path = f"{mock_config_path}/{agent}/config.yaml"
 
-def test_initialise_settings_missing_file(mock_config_path):
+def test_initialise_prompt_missing_placeholder(mock_config_path, mock_prompt_file_content):
     agent = "test_agent"
-    settings_path = f"{mock_config_path}/{agent}/llm_settings.yaml"
+    prompt_file_path = f"{mock_config_path}/{agent}/prompt.txt"
+    config_file_path = f"{mock_config_path}/{agent}/config.yaml"
+
+def test_initialise_settings_success(mock_config_path, mock_llm_settings_content):
+    agent = "test_agent"
+    llm_settings_file_path = f"{mock_config_path}/{agent}/llm_settings.yaml"
