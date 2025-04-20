@@ -1,35 +1,17 @@
-from sqlalchemy.dialects.postgresql import JSONB, UUID
-from sqlalchemy import (
-    Column,
-    Integer,
-    String,
-    TIMESTAMP,
-    create_engine,
-    Float,
-    ForeignKey,
-    Text,
-    UniqueConstraint,
-)
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.sql import func
-import uuid
-from theory_evaluation.models import Base, ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
+from sqlalchemy import create_engine
+from theory_evaluation.models import Base
 import pytest
-from sqlalchemy.orm import sessionmaker
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def db_engine():
-    engine = create_engine('sqlite:///:memory:')
+    engine = create_engine(DATABASE_URL)
     Base.metadata.create_all(engine)
     yield engine
-    Base.metadata.drop_all(engine)
+    engine.dispose()
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def db_session(db_engine):
-    connection = db_engine.connect()
-    transaction = connection.begin()
-    session = sessionmaker(bind=connection)()
+    Session = sessionmaker(bind=db_engine)
+    session = Session()
     yield session
     session.close()
-    transaction.rollback()
-    connection.close()

@@ -16,22 +16,19 @@ import uuid
 from theory_evaluation.models import Base, ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
 import pytest
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def db_engine():
-    engine = create_engine('sqlite:///:memory:')
+    engine = create_engine(DATABASE_URL)
     Base.metadata.create_all(engine)
     yield engine
-    Base.metadata.drop_all(engine)
+    engine.dispose()
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def db_session(db_engine):
-    connection = db_engine.connect()
-    transaction = connection.begin()
-    session = sessionmaker(bind=connection)()
+    Session = sessionmaker(bind=db_engine)
+    session = Session()
     yield session
     session.close()
-    transaction.rollback()
-    connection.close()
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy import (
     Column,
@@ -50,19 +47,16 @@ import uuid
 from theory_evaluation.models import Base, ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
 import pytest
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def db_engine():
-    engine = create_engine('sqlite:///:memory:')
+    engine = create_engine(DATABASE_URL)
     Base.metadata.create_all(engine)
     yield engine
-    Base.metadata.drop_all(engine)
+    engine.dispose()
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def db_session(db_engine):
-    connection = db_engine.connect()
-    transaction = connection.begin()
-    session = sessionmaker(bind=connection)()
+    Session = sessionmaker(bind=db_engine)
+    session = Session()
     yield session
     session.close()
-    transaction.rollback()
-    connection.close()

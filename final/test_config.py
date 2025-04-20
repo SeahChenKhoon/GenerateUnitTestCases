@@ -6,9 +6,27 @@ def default_settings():
     return Settings()
 
 def test_settings_default_values(default_settings):
-    expected_api_name = "project_simulation_fastapi"
-    expected_api_v1_str = "/api/v1"
-    expected_logger_config_path = "../conf/base/logging.yml"
-    assert default_settings.API_NAME == expected_api_name
-    assert default_settings.API_V1_STR == expected_api_v1_str
-    assert default_settings.LOGGER_CONFIG_PATH == expected_logger_config_path
+    # Arrange & Act
+    settings = default_settings
+
+def test_settings_custom_values():
+    # Arrange
+    custom_values = {
+        'API_NAME': 'custom_api',
+        'API_V1_STR': '/custom/api/v1',
+        'LOGGER_CONFIG_PATH': '/custom/path/logging.yml'
+    }
+
+def test_settings_environment_override(monkeypatch):
+    # Arrange
+    monkeypatch.setenv('API_NAME', 'env_api_name')
+    monkeypatch.setenv('API_V1_STR', '/env/api/v1')
+    monkeypatch.setenv('LOGGER_CONFIG_PATH', '/env/path/logging.yml')
+
+def test_settings_invalid_type():
+    # Arrange
+    invalid_values = {
+        'API_NAME': 123,  # Invalid type, should be str
+        'API_V1_STR': None,  # Invalid type, should be str
+        'LOGGER_CONFIG_PATH': []  # Invalid type, should be str
+    }

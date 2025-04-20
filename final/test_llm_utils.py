@@ -6,35 +6,47 @@ import pytest
 
 @pytest.fixture
 def mock_config_path():
-    return "./theory_evaluation/evaluator/prompts"
+    with patch("your_module.os.path.exists") as mock_exists:
+        mock_exists.return_value = True
+        yield
 
 @pytest.fixture
-def mock_prompt_file_content():
-    return "This is a test prompt with a placeholder {$placeholder}."
+def mock_yaml_load():
+    with patch("your_module.yaml.load") as mock_load:
+        yield mock_load
 
 @pytest.fixture
-def mock_config_file_content():
-    return """
-    placeholder: "value"
-    """
+def mock_yaml_safe_load():
+    with patch("your_module.yaml.safe_load") as mock_safe_load:
+        yield mock_safe_load
 
 @pytest.fixture
-def mock_llm_settings_content():
-    return """
-    setting1: "value1"
-    setting2: "value2"
-    """
+def mock_open_file():
+    with patch("builtins.open", mock_open(read_data="data")) as mock_file:
+        yield mock_file
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+import pytest
 
-def test_initialise_prompt_success(mock_config_path, mock_prompt_file_content, mock_config_file_content):
-    agent = "test_agent"
-    prompt_file_path = f"{mock_config_path}/{agent}/prompt.txt"
-    config_file_path = f"{mock_config_path}/{agent}/config.yaml"
+@pytest.fixture
+def mock_config_path():
+    with patch("your_module.os.path.exists") as mock_exists:
+        mock_exists.return_value = True
+        yield
 
-def test_initialise_prompt_missing_placeholder(mock_config_path, mock_prompt_file_content):
-    agent = "test_agent"
-    prompt_file_path = f"{mock_config_path}/{agent}/prompt.txt"
-    config_file_path = f"{mock_config_path}/{agent}/config.yaml"
+@pytest.fixture
+def mock_yaml_load():
+    with patch("your_module.yaml.load") as mock_load:
+        yield mock_load
 
-def test_initialise_settings_success(mock_config_path, mock_llm_settings_content):
-    agent = "test_agent"
-    llm_settings_file_path = f"{mock_config_path}/{agent}/llm_settings.yaml"
+@pytest.fixture
+def mock_yaml_safe_load():
+    with patch("your_module.yaml.safe_load") as mock_safe_load:
+        yield mock_safe_load
+
+@pytest.fixture
+def mock_open_file():
+    with patch("builtins.open", mock_open(read_data="data")) as mock_file:
+        yield mock_file
