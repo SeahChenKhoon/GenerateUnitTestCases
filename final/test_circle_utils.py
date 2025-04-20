@@ -1,6 +1,5 @@
-import math
-from theory_evaluation.circle_utils import circle_area, circle_circumference
 import pytest
+from theory_evaluation.circle_utils import circle_area, circle_circumference
 
 def test_circle_area_zero_radius():
     # Arrange
@@ -11,10 +10,6 @@ def test_circle_area_negative_radius():
     # Arrange
     radius = -5.0
 
-def test_circle_area_none_radius():
-    # Arrange
-    radius = None
-
 def test_circle_circumference_zero_radius():
     # Arrange
     radius = 0.0
@@ -23,7 +18,3 @@ def test_circle_circumference_zero_radius():
 def test_circle_circumference_negative_radius():
     # Arrange
     radius = -5.0
-
-def test_circle_circumference_none_radius():
-    # Arrange
-    radius = None

@@ -462,12 +462,12 @@ def extract_unique_imports(provider, model_arg, llm_get_import_prompt, test_code
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
 
-def resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, requirement_txt, temperature):
+def resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, requirements_txt, temperature):
     # Format the prompt using the provided template
     formatted_prompt = llm_resolve_prompt.format(
         test_case=test_case,
         test_case_error=test_case_error,
-        requirement_txt=requirement_txt,
+        requirements_txt=requirements_txt,
         source_code=source_code
     )
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)

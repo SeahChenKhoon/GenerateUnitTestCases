@@ -6,24 +6,24 @@ import pytest
 
 @pytest.fixture
 def mock_config_path():
-    with patch("your_module.os.path.exists") as mock_exists:
-        mock_exists.return_value = True
-        yield
+    return "./theory_evaluation/evaluator/prompts"
 
 @pytest.fixture
-def mock_yaml_load():
-    with patch("your_module.yaml.load") as mock_load:
-        yield mock_load
+def mock_prompt_file_content():
+    return "This is a test prompt with a placeholder: {$placeholder}."
 
 @pytest.fixture
-def mock_yaml_safe_load():
-    with patch("your_module.yaml.safe_load") as mock_safe_load:
-        yield mock_safe_load
+def mock_config_file_content():
+    return """
+    placeholder: "value"
+    """
 
 @pytest.fixture
-def mock_open_file():
-    with patch("builtins.open", mock_open(read_data="data")) as mock_file:
-        yield mock_file
+def mock_llm_settings_content():
+    return """
+    setting1: "value1"
+    setting2: "value2"
+    """
 import os
 import re
 import yaml
@@ -32,21 +32,21 @@ import pytest
 
 @pytest.fixture
 def mock_config_path():
-    with patch("your_module.os.path.exists") as mock_exists:
-        mock_exists.return_value = True
-        yield
+    return "./theory_evaluation/evaluator/prompts"
 
 @pytest.fixture
-def mock_yaml_load():
-    with patch("your_module.yaml.load") as mock_load:
-        yield mock_load
+def mock_prompt_file_content():
+    return "This is a test prompt with a placeholder: {$placeholder}."
 
 @pytest.fixture
-def mock_yaml_safe_load():
-    with patch("your_module.yaml.safe_load") as mock_safe_load:
-        yield mock_safe_load
+def mock_config_file_content():
+    return """
+    placeholder: "value"
+    """
 
 @pytest.fixture
-def mock_open_file():
-    with patch("builtins.open", mock_open(read_data="data")) as mock_file:
-        yield mock_file
+def mock_llm_settings_content():
+    return """
+    setting1: "value1"
+    setting2: "value2"
+    """
