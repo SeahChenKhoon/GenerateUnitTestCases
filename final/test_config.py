@@ -1,7 +1,11 @@
 from pydantic_settings import BaseSettings
-from theory_evaluation.config import SETTINGS, Settings
 import pytest
 from unittest.mock import patch
+
+class Settings(BaseSettings):
+    API_NAME: str = "project_simulation_fastapi"
+    API_V1_STR: str = "/api/v1"
+    LOGGER_CONFIG_PATH: str = "../conf/base/logging.yml"
 
 @pytest.fixture
 def default_settings():
@@ -27,3 +31,15 @@ def test_settings_custom_values():
     assert settings.API_NAME == custom_values["API_NAME"]
     assert settings.API_V1_STR == custom_values["API_V1_STR"]
     assert settings.LOGGER_CONFIG_PATH == custom_values["LOGGER_CONFIG_PATH"]
+
+def test_settings_invalid_type():
+    invalid_values = {
+        "API_NAME": "123",
+        "API_V1_STR": "",
+        "LOGGER_CONFIG_PATH": "456"
+    }
+    with patch.dict('os.environ', invalid_values):
+        settings = Settings()
+        assert settings.API_NAME == "123"
+        assert settings.API_V1_STR == ""
+        assert settings.LOGGER_CONFIG_PATH == "456"

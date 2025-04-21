@@ -538,7 +538,7 @@ def run_each_pytest_function_individually(
         try:
             while retry_count < max_retries and not passed:
                 full_test_code = f"{initial_template}\n\n{test_case}\n"
-                logger.info("Hello World - b4 full_test_code \n {full_test_code}")
+                logger.info(f"Hello World - b4 full_test_code \n {full_test_code}")
                 full_test_code = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, full_test_code, temperature)
                 formatted_test_case_output=f"\nTEST CASE {idx} Retry {retry_count}\n---------------\n{full_test_code}\n---------------"
                 logger.info(formatted_test_case_output)
