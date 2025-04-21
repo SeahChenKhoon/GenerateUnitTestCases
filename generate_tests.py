@@ -462,18 +462,14 @@ def extract_unique_imports(provider, model_arg, llm_get_import_prompt, test_code
 
 
 def resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, requirements_txt, temperature):
-    logger.info(f"Hello World 1")
     formatted_prompt = llm_resolve_prompt.format(
         test_case=test_case,
         test_case_error=test_case_error,
         requirements_txt=requirements_txt,
         source_code=source_code
     )
-    logger.info(f"Hello World 2")
-    logger.info(f"Hello World 3 - formatted_prompt")
-    logger.info(f"Hello World 4 - formatted_prompt - {formatted_prompt}")
-    logger.info(f"Hello World 5")
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
+    logger.info(f"Hello World - response - {response}")
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
 def generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature): 
