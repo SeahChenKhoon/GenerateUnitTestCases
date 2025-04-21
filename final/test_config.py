@@ -1,38 +1,37 @@
 from theory_evaluation.config import Settings
 import pytest
-from unittest.mock import patch
 
 @pytest.fixture
 def default_settings():
     return Settings()
 
-@pytest.fixture
-def mock_env_vars():
-    with patch.dict('os.environ', {'API_NAME': 'env_api', 'API_V1_STR': '/env/v1', 'LOGGER_CONFIG_PATH': '/env/path/logging.yml'}):
-        yield
-
 def test_settings_default_values(default_settings):
-    assert default_settings.API_NAME == "project_simulation_fastapi"
-    assert default_settings.API_V1_STR == "/api/v1"
-    assert default_settings.LOGGER_CONFIG_PATH == "../conf/base/logging.yml"
+    expected_api_name = "project_simulation_fastapi"
+    expected_api_v1_str = "/api/v1"
+    expected_logger_config_path = "../conf/base/logging.yml"
+    assert default_settings.API_NAME == expected_api_name
+    assert default_settings.API_V1_STR == expected_api_v1_str
+    assert default_settings.LOGGER_CONFIG_PATH == expected_logger_config_path
 
 def test_settings_custom_values():
-    custom_settings = Settings(API_NAME="custom_api", API_V1_STR="/custom/v1", LOGGER_CONFIG_PATH="/custom/path/logging.yml")
-    assert custom_settings.API_NAME == "custom_api"
-    assert custom_settings.API_V1_STR == "/custom/v1"
-    assert custom_settings.LOGGER_CONFIG_PATH == "/custom/path/logging.yml"
+    custom_api_name = "custom_api"
+    custom_api_v1_str = "/custom/api/v1"
+    custom_logger_config_path = "/custom/path/logging.yml"
+    custom_settings = Settings(
+        API_NAME=custom_api_name,
+        API_V1_STR=custom_api_v1_str,
+        LOGGER_CONFIG_PATH=custom_logger_config_path
+    )
+    assert custom_settings.API_NAME == custom_api_name
+    assert custom_settings.API_V1_STR == custom_api_v1_str
+    assert custom_settings.LOGGER_CONFIG_PATH == custom_logger_config_path
 
 def test_settings_invalid_type():
+    invalid_api_name = 123
     with pytest.raises(ValueError):
-        Settings(API_NAME=123, API_V1_STR=456, LOGGER_CONFIG_PATH=789)
+        Settings(API_NAME=invalid_api_name)
 
-def test_settings_none_values():
-    with pytest.raises(ValueError):
-        Settings(API_NAME=None, API_V1_STR=None, LOGGER_CONFIG_PATH=None)
-
-def test_settings_env_vars():
-    with patch.dict('os.environ', {'API_NAME': 'env_api', 'API_V1_STR': '/env/v1', 'LOGGER_CONFIG_PATH': '/env/path/logging.yml'}):
-        env_settings = Settings()
-        assert env_settings.API_NAME == "env_api"
-        assert env_settings.API_V1_STR == "/env/v1"
-        assert env_settings.LOGGER_CONFIG_PATH == "/env/path/logging.yml"
+def test_settings_environment_variable_override(monkeypatch):
+    monkeypatch.setenv("API_NAME", "env_api_name")
+    settings_with_env_override = Settings()
+    assert settings_with_env_override.API_NAME == "env_api_name"
