@@ -567,9 +567,7 @@ def run_each_pytest_function_individually(
             logger.exception(f"Exception occurred while processing test case {idx}: {e}")
 
     success_test_cases = initial_template + "\n" + success_test_cases
-    logger.info(f"Before Improvement\n{success_test_cases}")
     improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature)
-    logger.info(f"After Improvement\n{improved_test_case}")
     save_test_case_to_temp_file(improved_test_case, temp_file)
     passed, test_case_error = run_single_test_file(temp_file)
     if passed:

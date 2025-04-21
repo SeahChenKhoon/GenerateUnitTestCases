@@ -11,7 +11,7 @@ def default_settings():
 
 def test_settings_invalid_type():
     invalid_values = {
-        "API_NAME": 123,
+        'API_NAME': 123,
     }
     with patch.dict('os.environ', invalid_values):
         with pytest.raises(ValueError):
@@ -31,7 +31,7 @@ temp\temp.py:13: in test_settings_invalid_type
 E   NameError: name 'patch' is not defined
 =========================== short test summary info ===========================
 FAILED temp/temp.py::test_settings_invalid_type - NameError: name 'patch' is ...
-1 failed in 0.27s
+1 failed in 0.40s
 TEST CASE 3 Retry 1
 ---------------
 from pydantic_settings import BaseSettings
@@ -53,7 +53,7 @@ class Settings(BaseSettings):
 
 def test_settings_invalid_type():
     invalid_values = {
-        "API_NAME": 123,
+        'API_NAME': 123,
     }
     with patch.dict('os.environ', invalid_values):
         with pytest.raises(ValueError):
@@ -83,7 +83,7 @@ C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1946:
 E   TypeError: str expected, not int
 =========================== short test summary info ===========================
 FAILED temp/temp.py::test_settings_invalid_type - TypeError: str expected, no...
-1 failed in 0.42s
+1 failed in 0.31s
 TEST CASE 3 Retry 2
 ---------------
 from pydantic_settings import BaseSettings
@@ -105,7 +105,7 @@ class Settings(BaseSettings):
 
 def test_settings_invalid_type():
     invalid_values = {
-        "API_NAME": "123",  # Corrected to string
+        'API_NAME': '123',  # Changed to string to match expected type
     }
     with patch.dict('os.environ', invalid_values):
         with pytest.raises(ValueError):
@@ -125,4 +125,4 @@ temp\temp.py:23: in test_settings_invalid_type
 E   Failed: DID NOT RAISE <class 'ValueError'>
 =========================== short test summary info ===========================
 FAILED temp/temp.py::test_settings_invalid_type - Failed: DID NOT RAISE <clas...
-1 failed in 0.34s
+1 failed in 0.24s
