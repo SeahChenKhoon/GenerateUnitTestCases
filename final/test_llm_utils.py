@@ -1,40 +1,27 @@
-import os
 import yaml
+from theory_evaluation.llm_utils import initialise_settings
 import pytest
+from unittest.mock import mock_open, patch
 
 @pytest.fixture
-def mock_config_path(monkeypatch):
-    monkeypatch.setattr('os.path.exists', lambda path: True)
+def mock_open_fixture():
+    with patch("builtins.open", mock_open()) as mocked_open:
+        yield mocked_open
 
 @pytest.fixture
-def mock_yaml_load():
-    return {
-        'placeholder1': 'value1',
-        'placeholder2': 'value2'
-    }
+def yaml_load_fixture():
+    with patch("yaml.safe_load", return_value={}) as mocked_yaml_load:
+        yield mocked_yaml_load
 
-@pytest.fixture
-def mock_prompt_structure():
-    return "This is a test prompt with placeholders: {$placeholder1} and {$placeholder2}."
-
-@pytest.fixture
-def mock_llm_settings():
-    return {
-        'setting1': 'value1',
-        'setting2': 'value2'
-    }
-
-def test_initialise_prompt_success(mock_config_path, mock_yaml_load, mock_prompt_structure):
+def test_initialise_settings():
     agent = "test_agent"
-    config_yaml = yaml.dump(mock_yaml_load)
-    prompt_txt = mock_prompt_structure
+    settings_content = """
+    key1: value1
+    key2: value2
+    """
+    expected_output = {'key1': 'value1', 'key2': 'value2'}
 
-def test_initialise_prompt_file_not_found(mock_config_path):
-    agent = "non_existent_agent"
-
-def test_initialise_settings_success(mock_config_path, mock_llm_settings):
-    agent = "test_agent"
-    llm_settings_yaml = yaml.dump(mock_llm_settings)
-
-def test_initialise_settings_file_not_found(mock_config_path):
-    agent = "non_existent_agent"
+    with patch("builtins.open", mock_open(read_data=settings_content)):
+        with patch("yaml.safe_load", return_value=expected_output):
+            result = initialise_settings(agent)
+            assert result == expected_output
