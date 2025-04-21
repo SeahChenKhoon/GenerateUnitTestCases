@@ -67,23 +67,6 @@ def _initialize_llm(env_vars: dict) -> Tuple[Union[OpenAI, AzureOpenAI], str]:
 
 
 def _load_env_variables() -> Dict[str, Any]:
-    """
-    Loads required environment variables from a .env file and returns them
-    as a dictionary for use throughout the LLM test generation pipeline.
-
-    The returned dictionary includes values necessary for:
-        - LLM provider selection (OpenAI or Azure)
-        - Model configuration (model name, deployment ID, temperature)
-        - API keys and endpoints
-        - Prompt templates for test generation and refinement
-        - Directory paths for source files, test output, and error handling
-        - Python version context
-
-    Returns:
-        Dict[str, Any]: A dictionary of loaded environment variables where the
-                        keys are configuration labels and the values are the
-                        corresponding environment variable values as strings or None.
-    """
     load_dotenv(override=True)  # Load environment variables from .env file
     return {
         "llm_provider": os.getenv("LLM_PROVIDER"),
@@ -253,7 +236,7 @@ def strip_markdown_fences(text: str) -> str:
 
     return "\n".join(cleaned_lines)
 
-def get_chat_completion(provider: Any, model: str, prompt: str, temperature: float = 0.2) -> Any:
+def get_chat_completion(provider: Any, model: str, prompt: str, llm_temperature: float = 0.2) -> Any:
     """
     Sends a prompt to the chat model and returns the response.
 
@@ -261,7 +244,7 @@ def get_chat_completion(provider: Any, model: str, prompt: str, temperature: flo
         provider (Any): The provider instance with a chat.completions.create method.
         model (str): The model name to use.
         prompt (str): The user prompt to send.
-        temperature (float, optional): Sampling temperature. Defaults to 0.2.
+        llm_temperature (float, optional): Sampling llm_temperature. Defaults to 0.2.
 
     Returns:
         Any: The response object from the provider.
@@ -269,7 +252,7 @@ def get_chat_completion(provider: Any, model: str, prompt: str, temperature: flo
     return provider.chat.completions.create(
         model=model,
         messages=[{"role": "user", "content": prompt}],
-        temperature=temperature,
+        llm_temperature=llm_temperature,
     )
 
 
@@ -290,13 +273,13 @@ def _generate_unit_tests(
     llm_import_prompt: str,
     requirements_txt:str,
     python_version:str,
-    temperature: float,
+    llm_temperature: float,
     function_names: List[str],
     source_code: str,
     source_code_path: str
 ) -> str:
     logger.info(f"Generate Unit Test Case starts")
-    import_statements = extract_unique_imports(provider, model_arg, llm_import_prompt, source_code, temperature)
+    import_statements = extract_unique_imports(provider, model_arg, llm_import_prompt, source_code, llm_temperature)
     import_statements = update_relative_imports(import_statements, source_code_path)
     import_statements += "\n" + generate_import_statement(function_names, source_code_path)
 
@@ -309,7 +292,7 @@ def _generate_unit_tests(
 
     )
 
-    response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
+    response = get_chat_completion(provider, model_arg, formatted_prompt, llm_temperature)
     generated_test_code = strip_markdown_fences(response.choices[0].message.content.strip())
     return generated_test_code, import_statements
 
@@ -324,12 +307,12 @@ def save_test_file(source_dir: Path, test_dir: Path, original_path: Path, test_c
 
 
 def extract_test_cases_from_code(provider, model_arg, llm_test_cases_prompt, test_code, 
-                    temperature):
+                    llm_temperature):
     
     formatted_prompt = llm_test_cases_prompt.format(
         unit_test_file=test_code
     )
-    response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
+    response = get_chat_completion(provider, model_arg, formatted_prompt, llm_temperature)
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
 def extract_test_functions(code: str) -> List[str]:
@@ -373,34 +356,34 @@ def run_single_test_file(temp_path: Path) -> Tuple[bool, str]:
     passed = result.returncode == 0
     return passed, result.stdout.strip()
 
-def extract_unique_imports(provider, model_arg, llm_get_import_prompt, test_code, temperature):
+def extract_unique_imports(provider, model_arg, llm_get_import_prompt, test_code, llm_temperature):
     # Format the prompt using the provided template
     logger.info(f"Extract unique import start")
     formatted_prompt = llm_get_import_prompt.format(
         python_code=test_code
     )
     
-    response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
+    response = get_chat_completion(provider, model_arg, formatted_prompt, llm_temperature)
     logger.info(f"Extract unique import complete")
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
 
-def resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, requirements_txt, temperature):
+def resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, requirements_txt, llm_temperature):
     formatted_prompt = llm_resolve_prompt.format(
         test_case=test_case,
         test_case_error=test_case_error,
         requirements_txt=requirements_txt,
         source_code=source_code
     )
-    response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
+    response = get_chat_completion(provider, model_arg, formatted_prompt, llm_temperature)
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
-def generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature): 
+def generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, llm_temperature): 
     # Format the prompt using the provided template
     formatted_prompt = llm_test_improvement_prompt.format(
         test_code={success_test_cases}
     )
-    response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
+    response = get_chat_completion(provider, model_arg, formatted_prompt, llm_temperature)
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
 from pathlib import Path
@@ -410,17 +393,17 @@ logger = logging.getLogger(__name__)
 
     
 def extract_pytest_fixture(provider, model_arg, llm_pytest_fixture_prompt, test_code, 
-                    temperature):
+                    llm_temperature):
     formatted_prompt = llm_pytest_fixture_prompt.format(
         unit_test_file=test_code
     )
-    response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
+    response = get_chat_completion(provider, model_arg, formatted_prompt, llm_temperature)
     return strip_markdown_fences(response.choices[0].message.content.strip())
     
 def run_each_pytest_function_individually(
     provider,
     model_arg,
-    temperature,
+    llm_temperature,
     python_version,
     requirements_txt,
     llm_resolve_prompt,
@@ -438,8 +421,8 @@ def run_each_pytest_function_individually(
     passed_count = 0
     
     # Extract each test function body individually
-    pytest_fixture = extract_pytest_fixture(provider, model_arg, llm_pytest_fixture_prompt, test_code, temperature)
-    test_cases_str = extract_test_cases_from_code(provider, model_arg, llm_test_cases_prompt, test_code, temperature)
+    pytest_fixture = extract_pytest_fixture(provider, model_arg, llm_pytest_fixture_prompt, test_code, llm_temperature)
+    test_cases_str = extract_test_cases_from_code(provider, model_arg, llm_test_cases_prompt, test_code, llm_temperature)
     test_cases = extract_test_functions(test_cases_str)
 
     total_test_case = len(test_cases)
@@ -473,7 +456,7 @@ def run_each_pytest_function_individually(
                 
                 full_test_code = f"{initial_template}\n{test_case}\n"
                 logger.info(f"Hello World - before full_test_code \n{full_test_code}")
-                full_test_code = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, full_test_code, temperature)
+                full_test_code = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, full_test_code, llm_temperature)
                 logger.info(f"Hello World - after full_test_code \n{full_test_code}")
                 formatted_test_case_output=f"\nTEST CASE {idx} Retry {retry_count}\n---------------\n{full_test_code}\n---------------"
                 
@@ -488,7 +471,7 @@ def run_each_pytest_function_individually(
                     test_case_error_message=f"Test Error -\n{test_case_error}\n" 
                     logger.info(test_case_error_message)
                     unit_test_failure += f"{formatted_test_case_output}\n{full_test_code}\n{formatted_test_result}\n{test_case_error_message}"
-                    test_case = resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, requirements_txt, temperature)
+                    test_case = resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, requirements_txt, llm_temperature)
                 retry_count += 1
             if passed:
                 success_test_cases += "\n" + test_case + "\n"
@@ -501,7 +484,7 @@ def run_each_pytest_function_individually(
             logger.exception(f"Exception occurred while processing test case {idx}: {e}")
 
     success_test_cases = initial_template + "\n" + success_test_cases
-    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature)
+    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, llm_temperature)
     save_test_case_to_temp_file(improved_test_case, temp_file)
     passed, test_case_error = run_single_test_file(temp_file)
     if passed:
@@ -526,14 +509,14 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
         if not function_names:
             logger.warning(f"No public functions found in {source_code_path}. Skipping test generation.\n")
             return
-        temperature=float(env_vars["temperature"])
+        llm_temperature=float(env_vars["llm_temperature"])
         python_version=env_vars["python_version"]
         test_code, import_statements = _generate_unit_tests(
             provider=client,
             model_arg=model_arg,
             llm_test_prompt=env_vars["llm_test_prompt"],
             llm_import_prompt=env_vars["llm_import_prompt"],
-            temperature=temperature,
+            llm_temperature=llm_temperature,
             python_version=python_version,
             requirements_txt=env_vars["requirements_txt"],
             function_names=function_names,
@@ -549,7 +532,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
                     test_code
                 )
 
-            test_code, test_file_failure, total_test_case, passed_count = run_each_pytest_function_individually(client, model_arg, temperature, 
+            test_code, test_file_failure, total_test_case, passed_count = run_each_pytest_function_individually(client, model_arg, llm_temperature, 
                                                               python_version,env_vars["requirements_txt"],
                                                               env_vars["llm_resolve_prompt"], env_vars["llm_new_import_prompt"], env_vars["llm_pytest_fixture_prompt"],
                                                               env_vars["llm_test_cases_prompt"], env_vars["llm_test_improvement_prompt"], 
