@@ -1,85 +1,64 @@
 
-TEST CASE 2 Retry 0
+TEST CASE 1 Retry 0
 ---------------
-import os
-import re
 import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 import pytest
 
-@pytest.fixture
-def mock_config_path():
-    return "./theory_evaluation/evaluator/prompts"
-
-@pytest.fixture
-def mock_prompt_file_content():
-    return "This is a prompt with a {$placeholder}."
-
-@pytest.fixture
-def mock_config_values():
-    return {"placeholder": "value"}
-
-@pytest.fixture
-def mock_llm_settings():
-    return {"setting1": "value1", "setting2": "value2"}
-
-def test_initialise_prompt_file_not_found(mock_config_path):
-    agent = "non_existent_agent"
-    with patch("builtins.open", side_effect=FileNotFoundError):
-        result = initialise_prompt(agent)
-        assert result is None
-
+def test_initialise_prompt(agent, config_data, prompt_data, expected_output):
+    config_yaml = yaml.dump(config_data)
+    mock_files = {
+        f"./theory_evaluation/evaluator/prompts/{agent}/config.yaml": config_yaml,
+        f"./theory_evaluation/evaluator/prompts/{agent}/prompt.txt": prompt_data
+    }
 ---------------
-TEST CASE 2 Retry 0 - Result - Failed
+TEST CASE 1 Retry 0 - Result - Failed
 Test Error -
 c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\unit_test_env\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-F                                                                        [100%]
-================================== FAILURES ===================================
-____________________ test_initialise_prompt_file_not_found ____________________
-temp\temp.py:25: in test_initialise_prompt_file_not_found
-    with patch("builtins.open", side_effect=FileNotFoundError):
-E   NameError: name 'patch' is not defined
+E                                                                        [100%]
+=================================== ERRORS ====================================
+__________________ ERROR at setup of test_initialise_prompt ___________________
+file C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py, line 4
+  def test_initialise_prompt(agent, config_data, prompt_data, expected_output):
+E       fixture 'agent' not found
+>       available fixtures: _session_event_loop, anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, doctest_namespace, event_loop, event_loop_policy, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, temp/temp.py::<event_loop>, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, unused_tcp_port, unused_tcp_port_factory, unused_udp_port, unused_udp_port_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:4
 =========================== short test summary info ===========================
-FAILED temp/temp.py::test_initialise_prompt_file_not_found - NameError: name ...
-1 failed in 0.11s
-TEST CASE 2 Retry 1
+ERROR temp/temp.py::test_initialise_prompt
+1 error in 0.13s
+TEST CASE 1 Retry 1
 ---------------
-import os
-import re
 import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+from your_module import initialise_prompt
 import pytest
 
-@pytest.fixture
-def mock_config_path():
-    return "./theory_evaluation/evaluator/prompts"
+@pytest.mark.parametrize("agent, config_data, prompt_data, expected_output", [
+    ("agent1", {"key1": "value1"}, "Hello {$key1}", "Hello value1"),
+    ("agent2", {"key2": "value2"}, "Welcome {$key2}", "Welcome value2"),
+])
+def test_initialise_prompt(agent, config_data, prompt_data, expected_output, monkeypatch):
+    config_yaml = yaml.dump(config_data)
+    mock_files = {
+        f"./theory_evaluation/evaluator/prompts/{agent}/config.yaml": config_yaml,
+        f"./theory_evaluation/evaluator/prompts/{agent}/prompt.txt": prompt_data
+    }
 
-@pytest.fixture
-def mock_prompt_file_content():
-    return "This is a prompt with a {$placeholder}."
+    def mock_open(file, mode='r', *args, **kwargs):
+        if file in mock_files:
+            return mock_files[file]
+        else:
+            raise FileNotFoundError(f"No such file or directory: '{file}'")
 
-@pytest.fixture
-def mock_config_values():
-    return {"placeholder": "value"}
+    monkeypatch.setattr("builtins.open", mock_open)
 
-@pytest.fixture
-def mock_llm_settings():
-    return {"setting1": "value1", "setting2": "value2"}
-
-from unittest.mock import patch
-from your_module import initialise_prompt
-
-def test_initialise_prompt_file_not_found():
-    agent = "non_existent_agent"
-    with patch("builtins.open", side_effect=FileNotFoundError):
-        result = initialise_prompt(agent)
-        assert result is None
-
+    result = initialise_prompt(agent)
+    assert result == expected_output
 ---------------
-TEST CASE 2 Retry 1 - Result - Failed
+TEST CASE 1 Retry 1 - Result - Failed
 Test Error -
 c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\unit_test_env\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
@@ -93,48 +72,43 @@ Hint: make sure your test modules/packages have valid Python names.
 Traceback:
 C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
     return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:24: in <module>
+temp\temp.py:2: in <module>
     from your_module import initialise_prompt
 E   ModuleNotFoundError: No module named 'your_module'
 =========================== short test summary info ===========================
 ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.22s
-TEST CASE 2 Retry 2
+1 error in 0.24s
+TEST CASE 1 Retry 2
 ---------------
-import os
-import re
 import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 import pytest
-
-@pytest.fixture
-def mock_config_path():
-    return "./theory_evaluation/evaluator/prompts"
-
-@pytest.fixture
-def mock_prompt_file_content():
-    return "This is a prompt with a {$placeholder}."
-
-@pytest.fixture
-def mock_config_values():
-    return {"placeholder": "value"}
-
-@pytest.fixture
-def mock_llm_settings():
-    return {"setting1": "value1", "setting2": "value2"}
-
+from io import StringIO
 from unittest.mock import patch
 from your_module import initialise_prompt
 
-def test_initialise_prompt_file_not_found():
-    agent = "non_existent_agent"
-    with patch("builtins.open", side_effect=FileNotFoundError):
-        result = initialise_prompt(agent)
-        assert result is None
+@pytest.mark.parametrize("agent, config_data, prompt_data, expected_output", [
+    ("agent1", {"key1": "value1"}, "Hello {$key1}", "Hello value1"),
+    ("agent2", {"key2": "value2"}, "Welcome {$key2}", "Welcome value2"),
+])
+def test_initialise_prompt(agent, config_data, prompt_data, expected_output):
+    config_yaml = yaml.dump(config_data)
+    mock_files = {
+        f"./theory_evaluation/evaluator/prompts/{agent}/config.yaml": config_yaml,
+        f"./theory_evaluation/evaluator/prompts/{agent}/prompt.txt": prompt_data
+    }
 
+    def mock_file_open(file, mode='r', *args, **kwargs):
+        if file in mock_files:
+            return StringIO(mock_files[file])
+        else:
+            raise FileNotFoundError(f"No such file or directory: '{file}'")
+
+    with patch("builtins.open", mock_file_open):
+        result = initialise_prompt(agent)
+        assert result == expected_output
 ---------------
-TEST CASE 2 Retry 2 - Result - Failed
+TEST CASE 1 Retry 2 - Result - Failed
 Test Error -
 c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\unit_test_env\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
@@ -148,46 +122,76 @@ Hint: make sure your test modules/packages have valid Python names.
 Traceback:
 C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
     return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:24: in <module>
+temp\temp.py:5: in <module>
     from your_module import initialise_prompt
 E   ModuleNotFoundError: No module named 'your_module'
 =========================== short test summary info ===========================
 ERROR temp/temp.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.16s
+1 error in 0.28s
 
-TEST CASE 5 Retry 0
+TEST CASE 3 Retry 0
 ---------------
-import os
-import re
 import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+from theory_evaluation.llm_utils import initialise_settings
+
+def test_initialise_settings(agent, settings_data, expected_output):
+    settings_yaml = yaml.dump(settings_data)
+    mock_files = {
+        f"./theory_evaluation/evaluator/prompts/{agent}/llm_settings.yaml": settings_yaml
+    }
+---------------
+TEST CASE 3 Retry 0 - Result - Failed
+Test Error -
+c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\unit_test_env\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+E                                                                        [100%]
+=================================== ERRORS ====================================
+_________________ ERROR at setup of test_initialise_settings __________________
+file C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py, line 4
+  def test_initialise_settings(agent, settings_data, expected_output):
+E       fixture 'agent' not found
+>       available fixtures: _session_event_loop, anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, doctest_namespace, event_loop, event_loop_policy, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, temp/temp.py::<event_loop>, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, unused_tcp_port, unused_tcp_port_factory, unused_udp_port, unused_udp_port_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py:4
+=========================== short test summary info ===========================
+ERROR temp/temp.py::test_initialise_settings
+1 error in 0.13s
+TEST CASE 3 Retry 1
+---------------
+import yaml
 import pytest
 
-@pytest.fixture
-def mock_config_path():
-    return "./theory_evaluation/evaluator/prompts"
+def test_initialise_settings(monkeypatch):
+    agent = "test_agent"
+    settings_data = {
+        "setting1": "value1",
+        "setting2": "value2"
+    }
+    expected_output = settings_data
 
-@pytest.fixture
-def mock_prompt_file_content():
-    return "This is a prompt with a {$placeholder}."
+    settings_yaml = yaml.dump(settings_data)
+    mock_files = {
+        f"./theory_evaluation/evaluator/prompts/{agent}/llm_settings.yaml": settings_yaml
+    }
 
-@pytest.fixture
-def mock_config_values():
-    return {"placeholder": "value"}
+    def mock_open(file, *args, **kwargs):
+        if file in mock_files:
+            return mock_files[file]
+        else:
+            raise FileNotFoundError(f"No such file: '{file}'")
 
-@pytest.fixture
-def mock_llm_settings():
-    return {"setting1": "value1", "setting2": "value2"}
+    monkeypatch.setattr("builtins.open", lambda file, *args, **kwargs: mock_open(file, *args, **kwargs))
 
-def test_initialise_settings_file_not_found(mock_config_path):
-    agent = "non_existent_agent"
-    with patch("builtins.open", side_effect=FileNotFoundError):
-        result = initialise_settings(agent)
-        assert result is None
+    from your_module import initialise_settings
 
+    result = initialise_settings(agent)
+    assert result == expected_output
 ---------------
-TEST CASE 5 Retry 0 - Result - Failed
+TEST CASE 3 Retry 1 - Result - Failed
 Test Error -
 c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\unit_test_env\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
@@ -195,278 +199,57 @@ The event loop scope for asynchronous fixtures will default to the fixture cachi
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
 F                                                                        [100%]
 ================================== FAILURES ===================================
-___________________ test_initialise_settings_file_not_found ___________________
-temp\temp.py:25: in test_initialise_settings_file_not_found
-    with patch("builtins.open", side_effect=FileNotFoundError):
-E   NameError: name 'patch' is not defined
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_initialise_settings_file_not_found - NameError: nam...
-1 failed in 0.19s
-TEST CASE 5 Retry 1
----------------
-import os
-import re
-import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
-import pytest
-
-@pytest.fixture
-def mock_config_path():
-    return "./theory_evaluation/evaluator/prompts"
-
-@pytest.fixture
-def mock_prompt_file_content():
-    return "This is a prompt with a {$placeholder}."
-
-@pytest.fixture
-def mock_config_values():
-    return {"placeholder": "value"}
-
-@pytest.fixture
-def mock_llm_settings():
-    return {"setting1": "value1", "setting2": "value2"}
-
-from unittest.mock import patch
-from your_module import initialise_settings
-
-def test_initialise_settings_file_not_found():
-    agent = "non_existent_agent"
-    with patch("builtins.open", side_effect=FileNotFoundError):
-        result = initialise_settings(agent)
-        assert result is None
-
----------------
-TEST CASE 5 Retry 1 - Result - Failed
-Test Error -
-c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\unit_test_env\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
-The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
-
-  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-
-=================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:24: in <module>
+__________________________ test_initialise_settings ___________________________
+temp\temp.py:25: in test_initialise_settings
     from your_module import initialise_settings
 E   ModuleNotFoundError: No module named 'your_module'
 =========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.19s
-TEST CASE 5 Retry 2
----------------
-import os
-import re
-import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
-import pytest
-
-@pytest.fixture
-def mock_config_path():
-    return "./theory_evaluation/evaluator/prompts"
-
-@pytest.fixture
-def mock_prompt_file_content():
-    return "This is a prompt with a {$placeholder}."
-
-@pytest.fixture
-def mock_config_values():
-    return {"placeholder": "value"}
-
-@pytest.fixture
-def mock_llm_settings():
-    return {"setting1": "value1", "setting2": "value2"}
-
-from unittest.mock import patch
-from your_module import initialise_settings
-
-def test_initialise_settings_file_not_found():
-    agent = "non_existent_agent"
-    with patch("builtins.open", side_effect=FileNotFoundError):
-        result = initialise_settings(agent)
-        assert result is None
-
----------------
-TEST CASE 5 Retry 2 - Result - Failed
-Test Error -
-c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\unit_test_env\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
-The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
-
-  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-
-=================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:24: in <module>
-    from your_module import initialise_settings
-E   ModuleNotFoundError: No module named 'your_module'
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.17s
-
-TEST CASE 6 Retry 0
----------------
-import os
-import re
-import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
-import pytest
-
-@pytest.fixture
-def mock_config_path():
-    return "./theory_evaluation/evaluator/prompts"
-
-@pytest.fixture
-def mock_prompt_file_content():
-    return "This is a prompt with a {$placeholder}."
-
-@pytest.fixture
-def mock_config_values():
-    return {"placeholder": "value"}
-
-@pytest.fixture
-def mock_llm_settings():
-    return {"setting1": "value1", "setting2": "value2"}
-
-def test_initialise_settings_invalid_yaml(mock_config_path):
-    agent = "test_agent"
-    with patch("builtins.open", mock_open(read_data="invalid_yaml")):
-        with patch("yaml.safe_load", side_effect=yaml.YAMLError):
-            result = initialise_settings(agent)
-            assert result is None
-
----------------
-TEST CASE 6 Retry 0 - Result - Failed
-Test Error -
-c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\unit_test_env\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
-The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
-
-  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-F                                                                        [100%]
-================================== FAILURES ===================================
-____________________ test_initialise_settings_invalid_yaml ____________________
-temp\temp.py:25: in test_initialise_settings_invalid_yaml
-    with patch("builtins.open", mock_open(read_data="invalid_yaml")):
-E   NameError: name 'patch' is not defined
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_initialise_settings_invalid_yaml - NameError: name ...
-1 failed in 0.13s
-TEST CASE 6 Retry 1
----------------
-import os
-import re
-import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
-import pytest
-
-@pytest.fixture
-def mock_config_path():
-    return "./theory_evaluation/evaluator/prompts"
-
-@pytest.fixture
-def mock_prompt_file_content():
-    return "This is a prompt with a {$placeholder}."
-
-@pytest.fixture
-def mock_config_values():
-    return {"placeholder": "value"}
-
-@pytest.fixture
-def mock_llm_settings():
-    return {"setting1": "value1", "setting2": "value2"}
-
-import pytest
-from unittest.mock import patch, mock_open
-import yaml
-from your_module import initialise_settings
-
-def test_initialise_settings_invalid_yaml():
-    agent = "test_agent"
-    with patch("builtins.open", mock_open(read_data="invalid_yaml")):
-        with patch("yaml.safe_load", side_effect=yaml.YAMLError):
-            result = initialise_settings(agent)
-            assert result is None
-
----------------
-TEST CASE 6 Retry 1 - Result - Failed
-Test Error -
-c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\unit_test_env\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
-The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
-
-  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-
-=================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:26: in <module>
-    from your_module import initialise_settings
-E   ModuleNotFoundError: No module named 'your_module'
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.23s
-TEST CASE 6 Retry 2
----------------
-import os
-import re
-import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
-import pytest
-
-@pytest.fixture
-def mock_config_path():
-    return "./theory_evaluation/evaluator/prompts"
-
-@pytest.fixture
-def mock_prompt_file_content():
-    return "This is a prompt with a {$placeholder}."
-
-@pytest.fixture
-def mock_config_values():
-    return {"placeholder": "value"}
-
-@pytest.fixture
-def mock_llm_settings():
-    return {"setting1": "value1", "setting2": "value2"}
-
-import pytest
-from unittest.mock import patch, mock_open
-import yaml
-
-def test_initialise_settings_invalid_yaml():
-    agent = "test_agent"
-    with patch("builtins.open", mock_open(read_data="invalid_yaml")):
-        with patch("yaml.safe_load", side_effect=yaml.YAMLError):
-            from __main__ import initialise_settings
-            result = initialise_settings(agent)
-            assert result is None
-
----------------
-TEST CASE 6 Retry 2 - Result - Failed
-Test Error -
-c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\unit_test_env\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
-The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
-
-  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-F                                                                        [100%]
-================================== FAILURES ===================================
-____________________ test_initialise_settings_invalid_yaml ____________________
-temp\temp.py:31: in test_initialise_settings_invalid_yaml
-    from __main__ import initialise_settings
-E   ImportError: cannot import name 'initialise_settings' from '__main__' (C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\unit_test_env\Scripts\pytest.exe\__main__.py)
-=========================== short test summary info ===========================
-FAILED temp/temp.py::test_initialise_settings_invalid_yaml - ImportError: can...
+FAILED temp/temp.py::test_initialise_settings - ModuleNotFoundError: No modul...
 1 failed in 0.20s
+TEST CASE 3 Retry 2
+---------------
+import yaml
+from theory_evaluation.llm_utils import initialise_settings
+import pytest
+
+def test_initialise_settings(monkeypatch):
+    agent = "test_agent"
+    settings_data = {
+        "setting1": "value1",
+        "setting2": "value2"
+    }
+    expected_output = settings_data
+
+    settings_yaml = yaml.dump(settings_data)
+    mock_files = {
+        f"./theory_evaluation/evaluator/prompts/{agent}/llm_settings.yaml": settings_yaml
+    }
+
+    def mock_open(file, *args, **kwargs):
+        if file in mock_files:
+            return mock_files[file]
+        else:
+            raise FileNotFoundError(f"No such file: '{file}'")
+
+    monkeypatch.setattr("builtins.open", lambda file, *args, **kwargs: mock_open(file, *args, **kwargs))
+
+    result = initialise_settings(agent)
+    assert result == expected_output
+---------------
+TEST CASE 3 Retry 2 - Result - Failed
+Test Error -
+c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\unit_test_env\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+__________________________ test_initialise_settings ___________________________
+temp\temp.py:27: in test_initialise_settings
+    assert result == expected_output
+E   AssertionError: assert None == {'setting1': 'value1', 'setting2': 'value2'}
+---------------------------- Captured stdout call -----------------------------
+'str' object does not support the context manager protocol: No configuration path to the llm settings given.
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_initialise_settings - AssertionError: assert None =...
+1 failed in 0.22s

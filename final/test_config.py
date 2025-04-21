@@ -1,6 +1,31 @@
+from pydantic_settings import BaseSettings
+from theory_evaluation.config import SETTINGS, Settings
 import pytest
-import os
-from unittest.mock import patch
+
+
+from pydantic_settings import BaseSettings
+from theory_evaluation.config import SETTINGS, Settings
+import pytest
+
+
+def test_settings_default_values():
+    settings = Settings()
+    assert settings.API_NAME == "project_simulation_fastapi"
+    assert settings.API_V1_STR == "/api/v1"
+    assert settings.LOGGER_CONFIG_PATH == "../conf/base/logging.yml"
+
+def test_settings_custom_values():
+    custom_values = {
+        "API_NAME": "custom_api",
+        "API_V1_STR": "/custom/api/v1",
+        "LOGGER_CONFIG_PATH": "/custom/path/logging.yml"
+    }
+    settings = Settings(**custom_values)
+    assert settings.API_NAME == custom_values["API_NAME"]
+    assert settings.API_V1_STR == custom_values["API_V1_STR"]
+    assert settings.LOGGER_CONFIG_PATH == custom_values["LOGGER_CONFIG_PATH"]
+
+import pytest
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
@@ -8,38 +33,10 @@ class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
     LOGGER_CONFIG_PATH: str = "../conf/base/logging.yml"
 
-@pytest.fixture
-def default_settings():
-    return Settings()
-
-def test_settings_default_values(default_settings):
-    expected_api_name = "project_simulation_fastapi"
-    expected_api_v1_str = "/api/v1"
-    expected_logger_config_path = "../conf/base/logging.yml"
-    actual_api_name = default_settings.API_NAME
-    actual_api_v1_str = default_settings.API_V1_STR
-    actual_logger_config_path = default_settings.LOGGER_CONFIG_PATH
-    assert actual_api_name == expected_api_name, "API_NAME does not match the expected default value"
-    assert actual_api_v1_str == expected_api_v1_str, "API_V1_STR does not match the expected default value"
-    assert actual_logger_config_path == expected_logger_config_path, "LOGGER_CONFIG_PATH does not match the expected default value"
-
-def test_settings_override_values():
-    override_values = {
-        "API_NAME": "custom_api_name",
-        "API_V1_STR": "/custom/api/v1",
-        "LOGGER_CONFIG_PATH": "/custom/path/logging.yml"
-    }
-    with patch.dict(os.environ, override_values):
-        overridden_settings = Settings()
-    assert overridden_settings.API_NAME == override_values["API_NAME"], "API_NAME does not match the overridden value"
-    assert overridden_settings.API_V1_STR == override_values["API_V1_STR"], "API_V1_STR does not match the overridden value"
-    assert overridden_settings.LOGGER_CONFIG_PATH == override_values["LOGGER_CONFIG_PATH"], "LOGGER_CONFIG_PATH does not match the overridden value"
-
-def test_settings_invalid_type():
-    invalid_values = {
-        "API_NAME": 123,
-        "API_V1_STR": None,
-        "LOGGER_CONFIG_PATH": []
-    }
+def test_settings_invalid_values():
     with pytest.raises(ValueError):
-        Settings(**invalid_values)
+        Settings(API_NAME=123)  # Invalid type for API_NAME
+    with pytest.raises(ValueError):
+        Settings(API_V1_STR=[])  # Invalid type for API_V1_STR
+    with pytest.raises(ValueError):
+        Settings(LOGGER_CONFIG_PATH=None)  # Invalid type for LOGGER_CONFIG_PATH
