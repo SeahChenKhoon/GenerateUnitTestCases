@@ -556,7 +556,7 @@ def run_each_pytest_function_individually(
                 else:
                     test_case_error_message=f"Test Error -\n{test_case_error}" 
                     logger.info(test_case_error_message)
-                    unit_test_failure += f"{formatted_test_case_output}\n{full_test_code}\nformatted_test_result}\n{test_case_error_message}"
+                    unit_test_failure += f"{formatted_test_case_output}\n{full_test_code}\n{formatted_test_result}\n{test_case_error_message}"
                     test_case = resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, requirements_txt, temperature)
                 retry_count += 1
             if passed:
