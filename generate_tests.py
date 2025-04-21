@@ -476,7 +476,6 @@ def generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt
     formatted_prompt = llm_test_improvement_prompt.format(
         test_code={success_test_cases}
     )
-    logger.info(f"Hello world I am improving!")
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
@@ -522,10 +521,10 @@ def run_each_pytest_function_individually(
     total_test_case = len(test_cases)
     logger.info(f"Number of test case to process - {total_test_case}")
 
-    if "pytest" in test_code and "import pytest" not in import_statements:
-        import_statements += "\nimport pytest"
-    else:
-        logger.info(f"Verify No pytest in test_code - \n{test_code}")
+    # if "pytest" in test_code and "import pytest" not in import_statements:
+    #     import_statements += "\nimport pytest"
+    # else:
+    #     logger.info(f"Verify No pytest in test_code - \n{test_code}")
 
     success_test_cases = f"{import_statements}\n\n{pytest_fixture}"
     test_file_failure= f""
@@ -539,6 +538,7 @@ def run_each_pytest_function_individually(
         try:
             while retry_count < max_retries and not passed:
                 full_test_code = f"{initial_template}\n\n{test_case}\n"
+                logger.info("Hello World - b4 full_test_code \n {full_test_code}")
                 full_test_code = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, full_test_code, temperature)
                 formatted_test_case_output=f"\nTEST CASE {idx} Retry {retry_count}\n---------------\n{full_test_code}\n---------------"
                 logger.info(formatted_test_case_output)
