@@ -471,7 +471,6 @@ def resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_c
         source_code=source_code
     )
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
-    logger.info("Hello World - resolve_unit_test -\n{resolve_unit_test}")
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
 def generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature): 
@@ -555,7 +554,6 @@ def run_each_pytest_function_individually(
                     test_case_error_message=f"Test Error - {test_case_error}" 
                     logger.info(test_case_error_message)
                     unit_test_failure += f"{formatted_test_case_output}\n{formatted_test_result}\n{test_case_error_message}"
-                    logger.info(f"Hello World - requirements.txt -\n{requirements_txt}")
                     test_case = resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, requirements_txt, temperature)
                 retry_count += 1
             if passed:

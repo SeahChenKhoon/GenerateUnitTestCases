@@ -16,14 +16,14 @@ import uuid
 from theory_evaluation.models import Base, ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
 import pytest
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def db_engine():
-    engine = create_engine('sqlite:///:memory:')
+    engine = create_engine(DATABASE_URL)
     Base.metadata.create_all(engine)
     yield engine
-    engine.dispose()
+    Base.metadata.drop_all(engine)
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def db_session(db_engine):
     connection = db_engine.connect()
     transaction = connection.begin()
@@ -51,14 +51,14 @@ import uuid
 from theory_evaluation.models import Base, ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
 import pytest
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def db_engine():
-    engine = create_engine('sqlite:///:memory:')
+    engine = create_engine(DATABASE_URL)
     Base.metadata.create_all(engine)
     yield engine
-    engine.dispose()
+    Base.metadata.drop_all(engine)
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def db_session(db_engine):
     connection = db_engine.connect()
     transaction = connection.begin()
