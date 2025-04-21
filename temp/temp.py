@@ -13,37 +13,55 @@ from sqlalchemy import (
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql import func
 import uuid
-from theory_evaluation.models import Base, ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
+from theory_evaluation.models import Base, UserInfo, UserRepo
 import pytest
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.exc import IntegrityError
 
-Base = declarative_base()
+@pytest.fixture(scope="module")
+def engine():
+    return create_engine(TEST_DATABASE_URL)
 
-class Curriculum(Base):
-    __tablename__ = "curriculum"
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, nullable=False)
-    question = Column(Text, unique=True, nullable=False)
-    marking_scheme = Column(Text, nullable=False)
-    model_answer = Column(Text, nullable=False)
-    timestamp = Column(TIMESTAMP(timezone=True), server_default=func.now())
-
-@pytest.fixture(scope='module')
-def test_db():
-    engine = create_engine('sqlite:///:memory:')
+@pytest.fixture(scope="function")
+def session(engine):
     Base.metadata.create_all(engine)
     Session = sessionmaker(bind=engine)
     session = Session()
     yield session
+    session.rollback()
     session.close()
+    Base.metadata.drop_all(engine)
 
-def test_curriculum_creation(test_db):
-    curriculum = Curriculum(
-        question="What is Python?",
-        marking_scheme="Correctness",
-        model_answer="Python is a programming language."
+def test_user_repo_unique_constraint(session):
+    user_info = UserInfo(
+        first_name="Alice",
+        last_name="Johnson",
+        email="alice.johnson@example.com",
+        github_username="alicejohnson",
+        payment_date=None,
+        current_duration=0,
+        course_duration=10,
+        end_date=None,
+        status=1
     )
-    test_db.add(curriculum)
-    test_db.commit()
-    retrieved_curriculum = test_db.query(Curriculum).filter_by(question="What is Python?").first()
-    assert retrieved_curriculum is not None
-    assert retrieved_curriculum.model_answer == "Python is a programming language."
+    session.add(user_info)
+    session.commit()
+    user_repo1 = UserRepo(
+        user_id=user_info.id,
+        psid=1,
+        github_username="alicejohnson",
+        repo_name="repo1",
+        github_url="http://github.com/alicejohnson/repo1"
+    )
+    user_repo2 = UserRepo(
+        user_id=user_info.id,
+        psid=2,
+        github_username="alicejohnson",
+        repo_name="repo1",
+        github_url="http://github.com/alicejohnson/repo2"
+    )
+    session.add(user_repo1)
+    session.commit()
+    with pytest.raises(IntegrityError):
+        session.add(user_repo2)
+        session.commit()

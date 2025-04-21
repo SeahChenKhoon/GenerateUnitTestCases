@@ -1,39 +1,31 @@
 from pydantic_settings import BaseSettings
 from theory_evaluation.config import SETTINGS, Settings
-import os
+import pytest
 from unittest.mock import patch
 
-def test_settings_default_values():
-    settings = Settings()
-    assert settings.API_NAME == "project_simulation_fastapi"
-    assert settings.API_V1_STR == "/api/v1"
-    assert settings.LOGGER_CONFIG_PATH == "../conf/base/logging.yml"
+@pytest.fixture
+def default_settings():
+    return Settings()
 
-def test_settings_override_values():
-    with patch.dict('os.environ', {
-        'API_NAME': 'custom_api_name',
-        'API_V1_STR': '/custom/api/v1',
-        'LOGGER_CONFIG_PATH': '/custom/path/logging.yml'
-    }):
-        settings = Settings()
-        assert settings.API_NAME == "custom_api_name"
-        assert settings.API_V1_STR == "/custom/api/v1"
-        assert settings.LOGGER_CONFIG_PATH == "/custom/path/logging.yml"
+def test_settings_default_values(default_settings):
+    api_name = default_settings.API_NAME
+    api_v1_str = default_settings.API_V1_STR
+    logger_config_path = default_settings.LOGGER_CONFIG_PATH
+    assert api_name == "project_simulation_fastapi"
+    assert api_v1_str == "/api/v1"
+    assert logger_config_path == "../conf/base/logging.yml"
 
-def test_settings_partial_override():
-    env_vars = {
-        'API_NAME': 'custom_api_name',
-        'API_V1_STR': '/custom/api/v1',
-        'LOGGER_CONFIG_PATH': '/custom/path/logging.yml'
+def test_settings_custom_values():
+    custom_values = {
+        "API_NAME": "custom_api_name",
+        "API_V1_STR": "/custom/api/v1",
+        "LOGGER_CONFIG_PATH": "/custom/path/logging.yml"
     }
-    expected_values = {
-        'API_NAME': 'custom_api_name',
-        'API_V1_STR': '/custom/api/v1',
-        'LOGGER_CONFIG_PATH': '/custom/path/logging.yml'
-    }
-    
-    with patch.dict(os.environ, env_vars):
-        settings = Settings()
-        assert settings.API_NAME == expected_values['API_NAME']
-        assert settings.API_V1_STR == expected_values['API_V1_STR']
-        assert settings.LOGGER_CONFIG_PATH == expected_values['LOGGER_CONFIG_PATH']
+    with patch.dict('os.environ', custom_values):
+        custom_settings = Settings()
+    api_name = custom_settings.API_NAME
+    api_v1_str = custom_settings.API_V1_STR
+    logger_config_path = custom_settings.LOGGER_CONFIG_PATH
+    assert api_name == "custom_api_name"
+    assert api_v1_str == "/custom/api/v1"
+    assert logger_config_path == "/custom/path/logging.yml"
