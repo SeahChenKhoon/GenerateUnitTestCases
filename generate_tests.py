@@ -252,7 +252,7 @@ def get_chat_completion(provider: Any, model: str, prompt: str, llm_temperature:
     return provider.chat.completions.create(
         model=model,
         messages=[{"role": "user", "content": prompt}],
-        llm_temperature=llm_temperature,
+        temperature=llm_temperature,
     )
 
 
