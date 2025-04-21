@@ -537,12 +537,15 @@ def run_each_pytest_function_individually(
         initial_template = f"{import_statements}\n\n{pytest_fixture}"
         try:
             while retry_count < max_retries and not passed:
+                formatted_test_case_output=f"\nStart Processing TEST CASE {idx} Retry {retry_count}"
+                logger.info(formatted_test_case_output)
+                
                 full_test_code = f"{initial_template}\n\n{test_case}\n"
                 logger.info(f"Hello World - before full_test_code \n{full_test_code}")
                 full_test_code = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, full_test_code, temperature)
                 logger.info(f"Hello World - after full_test_code \n{full_test_code}")
                 formatted_test_case_output=f"\nTEST CASE {idx} Retry {retry_count}\n---------------\n{full_test_code}\n---------------"
-                logger.info(formatted_test_case_output)
+                
                 save_test_case_to_temp_file(full_test_code, temp_file)
                 passed, test_case_error = run_single_test_file(temp_file)
                 formatted_test_result=f"TEST CASE {idx} Retry {retry_count} - Result - {'Passed' if passed == 1 else 'Failed'}"
@@ -553,7 +556,7 @@ def run_each_pytest_function_individually(
                 else:
                     test_case_error_message=f"Test Error -\n{test_case_error}" 
                     logger.info(test_case_error_message)
-                    unit_test_failure += f"{formatted_test_case_output}\n{formatted_test_result}\n{test_case_error_message}"
+                    unit_test_failure += f"{formatted_test_case_output}\n{full_test_code}\nformatted_test_result}\n{test_case_error_message}"
                     test_case = resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, requirements_txt, temperature)
                 retry_count += 1
             if passed:

@@ -1,39 +1,30 @@
-from pydantic_settings import BaseSettings
 from theory_evaluation.config import SETTINGS, Settings
-
-@pytest.fixture
-def default_settings():
-    return Settings()
-from pydantic_settings import BaseSettings
-from theory_evaluation.config import SETTINGS, Settings
-
-@pytest.fixture
-def default_settings():
-    return Settings()
 import pytest
-from your_module import Settings
+from pydantic_settings import BaseSettings
 
-@pytest.fixture
-def default_settings():
-    return Settings()
+class Settings(BaseSettings):
+    API_NAME: str = "project_simulation_fastapi"
+    API_V1_STR: str = "/api/v1"
+    LOGGER_CONFIG_PATH: str = "../conf/base/logging.yml"
 
-def test_settings_default_values(default_settings):
+def test_settings_default_values():
     expected_api_name = "project_simulation_fastapi"
     expected_api_v1_str = "/api/v1"
     expected_logger_config_path = "../conf/base/logging.yml"
-    settings = default_settings
-    assert settings.API_NAME == expected_api_name
-    assert settings.API_V1_STR == expected_api_v1_str
-    assert settings.LOGGER_CONFIG_PATH == expected_logger_config_path
 
 def test_settings_custom_values():
     custom_values = {
-        'API_NAME': 'custom_api',
-        'API_V1_STR': '/custom/v1',
-        'LOGGER_CONFIG_PATH': '/custom/path/logging.yml'
+        "API_NAME": "custom_api",
+        "API_V1_STR": "/custom/v1",
+        "LOGGER_CONFIG_PATH": "/custom/path/logging.yml"
     }
-    with patch.dict('os.environ', custom_values):
-        custom_settings = Settings()
-    assert custom_settings.API_NAME == custom_values['API_NAME']
-    assert custom_settings.API_V1_STR == custom_values['API_V1_STR']
-    assert custom_settings.LOGGER_CONFIG_PATH == custom_values['LOGGER_CONFIG_PATH']
+
+@pytest.mark.parametrize("env_var, value", [
+    ("API_NAME", "custom_api_name"),
+    ("API_V1_STR", "/custom/api/v1"),
+    ("LOGGER_CONFIG_PATH", "/custom/path/logging.yml"),
+])
+def test_settings_edge_cases(monkeypatch, env_var, value):
+    monkeypatch.setenv(env_var, value)
+    settings = Settings()
+    assert getattr(settings, env_var) == value
