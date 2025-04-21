@@ -1,32 +1,35 @@
 
-TEST CASE 4 Retry 0
+TEST CASE 1 Retry 0
 ---------------
-import yaml
+import os
 from unittest.mock import patch, mock_open
-from theory_evaluation.llm_utils import initialise_settings
+from theory_evaluation.llm_utils import initialise_prompt
 
 @pytest.fixture
 def mock_config_path():
-    with patch("your_module.os.path.exists", return_value=True):
-        yield
+    return "./theory_evaluation/evaluator/prompts"
 
 @pytest.fixture
-def mock_open_yaml():
-    m = mock_open(read_data="key: value")
-    with patch("builtins.open", m):
-        yield m
+def mock_prompt_file_content():
+    return "This is a prompt with a {$placeholder}."
 
 @pytest.fixture
-def mock_yaml_safe_load():
-    with patch("your_module.yaml.safe_load", return_value={"setting": "value"}):
-        yield
+def mock_config_file_content():
+    return """
+    placeholder: "value"
+    """
 
-def test_initialise_settings_normal_behavior(mock_open_yaml, mock_yaml_safe_load, mock_config_path):
+def test_initialise_prompt_success(mock_config_path, mock_prompt_file_content, mock_config_file_content):
     agent = "test_agent"
-    result = initialise_settings(agent)
-    assert result == {"setting": "value"}
+    with patch("builtins.open", mock_open(read_data=mock_config_file_content)) as mock_file:
+        with patch("builtins.open", mock_open(read_data=mock_prompt_file_content)) as mock_prompt_file:
+            with patch("os.path.exists", return_value=True):
+                result = initialise_prompt(agent)
+                assert result == "This is a prompt with a value."
+                mock_file.assert_called_with(f"{mock_config_path}/{agent}/config.yaml")
+                mock_prompt_file.assert_called_with(f"{mock_config_path}/{agent}/prompt.txt", "r")
 ---------------
-TEST CASE 4 Retry 0 - Result - Failed
+TEST CASE 1 Retry 0 - Result - Failed
 Test Error -
 c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\unit_test_env\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
@@ -41,449 +44,295 @@ E   NameError: name 'pytest' is not defined
 =========================== short test summary info ===========================
 ERROR temp/temp.py - NameError: name 'pytest' is not defined
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.31s
-TEST CASE 4 Retry 1
+1 error in 0.25s
+TEST CASE 1 Retry 1
 ---------------
 import os
-from theory_evaluation.llm_utils import initialise_settings
-import pytest
-from unittest.mock import patch, mock_open
-
-@pytest.fixture
-def mock_config_path():
-    with patch("your_module.os.path.exists", return_value=True):
-        yield
-
-@pytest.fixture
-def mock_open_yaml():
-    m = mock_open(read_data="key: value")
-    with patch("builtins.open", m):
-        yield m
-
-@pytest.fixture
-def mock_yaml_safe_load():
-    with patch("your_module.yaml.safe_load", return_value={"setting": "value"}):
-        yield
-
-def test_initialise_settings_normal_behavior(mock_open_yaml, mock_yaml_safe_load):
-    agent = "test_agent"
-    result = initialise_settings(agent)
-    assert result == {"setting": "value"}
----------------
-TEST CASE 4 Retry 1 - Result - Failed
-Test Error -
-c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\unit_test_env\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
-The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
-
-  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-E                                                                        [100%]
-=================================== ERRORS ====================================
-_________ ERROR at setup of test_initialise_settings_normal_behavior __________
-temp\temp.py:19: in mock_yaml_safe_load
-    with patch("your_module.yaml.safe_load", return_value={"setting": "value"}):
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1479: in __enter__
-    self.target = self.getter()
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\pkgutil.py:513: in resolve_name
-    mod = importlib.import_module(modname)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-<frozen importlib._bootstrap>:1387: in _gcd_import
-    ???
-<frozen importlib._bootstrap>:1360: in _find_and_load
-    ???
-<frozen importlib._bootstrap>:1324: in _find_and_load_unlocked
-    ???
-E   ModuleNotFoundError: No module named 'your_module'
-=========================== short test summary info ===========================
-ERROR temp/temp.py::test_initialise_settings_normal_behavior - ModuleNotFound...
-1 error in 0.23s
-TEST CASE 4 Retry 2
----------------
-import os
-from theory_evaluation.llm_utils import initialise_settings
-import pytest
-from unittest.mock import patch, mock_open
-
-@pytest.fixture
-def mock_config_path():
-    with patch("your_module.os.path.exists", return_value=True):
-        yield
-
-@pytest.fixture
-def mock_open_yaml():
-    m = mock_open(read_data="key: value")
-    with patch("builtins.open", m):
-        yield m
-
-@pytest.fixture
-def mock_open_prompt():
-    m = mock_open(read_data="Hello, {$key}!")
-    with patch("builtins.open", m):
-        yield m
-
-@pytest.fixture
-def mock_yaml_load():
-    with patch("your_module.yaml.load", return_value={"key": "value"}):
-        yield
-
-@pytest.fixture
-def mock_yaml_safe_load():
-    with patch("your_module.yaml.safe_load", return_value={"setting": "value"}):
-        yield
-
-def test_initialise_settings_normal_behavior(mock_open_yaml, mock_yaml_safe_load):
-    agent = "test_agent"
-    result = initialise_settings(agent)
-    assert result == {"setting": "value"}
----------------
-TEST CASE 4 Retry 2 - Result - Failed
-Test Error -
-c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\unit_test_env\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
-The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
-
-  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-E                                                                        [100%]
-=================================== ERRORS ====================================
-_________ ERROR at setup of test_initialise_settings_normal_behavior __________
-temp\temp.py:30: in mock_yaml_safe_load
-    with patch("your_module.yaml.safe_load", return_value={"setting": "value"}):
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1479: in __enter__
-    self.target = self.getter()
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\pkgutil.py:513: in resolve_name
-    mod = importlib.import_module(modname)
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-<frozen importlib._bootstrap>:1387: in _gcd_import
-    ???
-<frozen importlib._bootstrap>:1360: in _find_and_load
-    ???
-<frozen importlib._bootstrap>:1324: in _find_and_load_unlocked
-    ???
-E   ModuleNotFoundError: No module named 'your_module'
-=========================== short test summary info ===========================
-ERROR temp/temp.py::test_initialise_settings_normal_behavior - ModuleNotFound...
-1 error in 0.30s
-
-TEST CASE 5 Retry 0
----------------
-import os
-from theory_evaluation.llm_utils import initialise_settings
-
-@pytest.fixture
-def mock_config_path():
-    with patch("your_module.os.path.exists", return_value=True):
-        yield
-
-def test_initialise_settings_file_not_found(mock_config_path):
-    agent = "non_existent_agent"
-    with patch("builtins.open", side_effect=FileNotFoundError):
-        result = initialise_settings(agent)
-    assert result is None
----------------
-TEST CASE 5 Retry 0 - Result - Failed
-Test Error -
-c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\unit_test_env\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
-The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
-
-  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-
-=================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:4: in <module>
-    @pytest.fixture
-E   NameError: name 'pytest' is not defined
-=========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.30s
-TEST CASE 5 Retry 1
----------------
-import pytest
-from unittest.mock import patch, mock_open
-from your_module import initialise_settings
-
-@pytest.fixture
-def mock_config_path():
-    with patch("your_module.os.path.exists", return_value=True):
-        yield
-
-@pytest.fixture
-def mock_open_yaml():
-    m = mock_open(read_data="key: value")
-    with patch("builtins.open", m):
-        yield m
-
-@pytest.fixture
-def mock_open_prompt():
-    m = mock_open(read_data="Hello, {$key}!")
-    with patch("builtins.open", m):
-        yield m
-
-@pytest.fixture
-def mock_yaml_load():
-    with patch("your_module.yaml.load", return_value={"key": "value"}):
-        yield
-
-@pytest.fixture
-def mock_yaml_safe_load():
-    with patch("your_module.yaml.safe_load", return_value={"setting": "value"}):
-        yield
-
-def test_initialise_settings_file_not_found():
-    agent = "non_existent_agent"
-    with patch("builtins.open", side_effect=FileNotFoundError):
-        result = initialise_settings(agent)
-    assert result is None
----------------
-TEST CASE 5 Retry 1 - Result - Failed
-Test Error -
-c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\unit_test_env\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
-The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
-
-  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-
-=================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:3: in <module>
-    from your_module import initialise_settings
-E   ModuleNotFoundError: No module named 'your_module'
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.21s
-TEST CASE 5 Retry 2
----------------
-import pytest
-from unittest.mock import patch, mock_open
-from your_module import initialise_settings
-
-@pytest.fixture
-def mock_config_path():
-    with patch("your_module.os.path.exists", return_value=True):
-        yield
-
-@pytest.fixture
-def mock_open_yaml():
-    m = mock_open(read_data="key: value")
-    with patch("builtins.open", m):
-        yield m
-
-@pytest.fixture
-def mock_open_prompt():
-    m = mock_open(read_data="Hello, {$key}!")
-    with patch("builtins.open", m):
-        yield m
-
-@pytest.fixture
-def mock_yaml_load():
-    with patch("your_module.yaml.load", return_value={"key": "value"}):
-        yield
-
-@pytest.fixture
-def mock_yaml_safe_load():
-    with patch("your_module.yaml.safe_load", return_value={"setting": "value"}):
-        yield
-
-def test_initialise_settings_file_not_found():
-    agent = "non_existent_agent"
-    with patch("builtins.open", side_effect=FileNotFoundError):
-        result = initialise_settings(agent)
-    assert result is None
----------------
-TEST CASE 5 Retry 2 - Result - Failed
-Test Error -
-c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\unit_test_env\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
-The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
-
-  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-
-=================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:3: in <module>
-    from your_module import initialise_settings
-E   ModuleNotFoundError: No module named 'your_module'
-=========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.17s
-
-TEST CASE 6 Retry 0
----------------
-import yaml
-from unittest.mock import patch, mock_open
-from theory_evaluation.llm_utils import initialise_settings
-
-@pytest.fixture
-def mock_config_path():
-    with patch("your_module.os.path.exists", return_value=True):
-        yield
-
-@pytest.fixture
-def mock_open_yaml():
-    m = mock_open(read_data="key: value")
-    with patch("builtins.open", m):
-        yield m
-
-@pytest.fixture
-def mock_yaml_safe_load():
-    with patch("your_module.yaml.safe_load", return_value={"setting": "value"}):
-        yield
-
-def test_initialise_settings_invalid_yaml(mock_open_yaml, mock_config_path):
-    agent = "test_agent"
-    with patch("your_module.yaml.safe_load", side_effect=yaml.YAMLError):
-        result = initialise_settings(agent)
-    assert result is None
----------------
-TEST CASE 6 Retry 0 - Result - Failed
-Test Error -
-c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\unit_test_env\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
-The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
-
-  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-
-=================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-temp\temp.py:5: in <module>
-    @pytest.fixture
-E   NameError: name 'pytest' is not defined
-=========================== short test summary info ===========================
-ERROR temp/temp.py - NameError: name 'pytest' is not defined
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.24s
-TEST CASE 6 Retry 1
----------------
-import os
+import re
 import yaml
 import pytest
 from unittest.mock import patch, mock_open
-from your_module import initialise_settings
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 
 @pytest.fixture
 def mock_config_path():
-    with patch("your_module.os.path.exists", return_value=True):
-        yield
+    return "./theory_evaluation/evaluator/prompts"
 
 @pytest.fixture
-def mock_open_yaml():
-    m = mock_open(read_data="key: value")
-    with patch("builtins.open", m):
-        yield m
+def mock_prompt_file_content():
+    return "This is a prompt with a {$placeholder}."
 
 @pytest.fixture
-def mock_open_prompt():
-    m = mock_open(read_data="Hello, {$key}!")
-    with patch("builtins.open", m):
-        yield m
+def mock_config_file_content():
+    return """
+    placeholder: "value"
+    """
 
 @pytest.fixture
-def mock_yaml_load():
-    with patch("your_module.yaml.load", return_value={"key": "value"}):
-        yield
+def mock_llm_settings_content():
+    return """
+    setting1: "value1"
+    setting2: "value2"
+    """
 
-@pytest.fixture
-def mock_yaml_safe_load():
-    with patch("your_module.yaml.safe_load", return_value={"setting": "value"}):
-        yield
-
-def test_initialise_settings_invalid_yaml():
+def test_initialise_prompt_success():
     agent = "test_agent"
-    with patch("your_module.yaml.safe_load", side_effect=yaml.YAMLError):
-        result = initialise_settings(agent)
-    assert result is None
+    mock_config_path = "./theory_evaluation/evaluator/prompts"
+    mock_prompt_file_content = "This is a prompt with a {$value}."
+    mock_config_file_content = "value: value"
+
+    with patch("builtins.open", mock_open(read_data=mock_config_file_content)) as mock_file:
+        with patch("builtins.open", mock_open(read_data=mock_prompt_file_content)) as mock_prompt_file:
+            result = initialise_prompt(agent)
+            assert result == "This is a prompt with a value."
+            mock_file.assert_called_with(f"{mock_config_path}/{agent}/config.yaml")
+            mock_prompt_file.assert_called_with(f"{mock_config_path}/{agent}/prompt.txt", "r")
 ---------------
-TEST CASE 6 Retry 1 - Result - Failed
+TEST CASE 1 Retry 1 - Result - Failed
 Test Error -
 c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\unit_test_env\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-
-=================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:5: in <module>
-    from your_module import initialise_settings
-E   ModuleNotFoundError: No module named 'your_module'
+F                                                                        [100%]
+================================== FAILURES ===================================
+_______________________ test_initialise_prompt_success ________________________
+temp\temp.py:38: in test_initialise_prompt_success
+    assert result == "This is a prompt with a value."
+E   AssertionError: assert None == 'This is a prompt with a value.'
+---------------------------- Captured stdout call -----------------------------
+string indices must be integers, not 'str': No configuration path to the prompt given.
 =========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.24s
-TEST CASE 6 Retry 2
+FAILED temp/temp.py::test_initialise_prompt_success - AssertionError: assert ...
+1 failed in 0.24s
+TEST CASE 1 Retry 2
+---------------
+import os
+import re
+import yaml
+import pytest
+from unittest.mock import patch, mock_open
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+
+@pytest.fixture
+def mock_config_path():
+    return "./theory_evaluation/evaluator/prompts"
+
+@pytest.fixture
+def mock_prompt_file_content():
+    return "This is a prompt with a {$placeholder}."
+
+@pytest.fixture
+def mock_config_file_content():
+    return """
+    placeholder: "value"
+    """
+
+@pytest.fixture
+def mock_llm_settings_content():
+    return """
+    setting1: "value1"
+    setting2: "value2"
+    """
+
+def test_initialise_prompt_success():
+    agent = "test_agent"
+    mock_config_path = "./theory_evaluation/evaluator/prompts"
+    mock_prompt_file_content = "This is a prompt with a {$value}."
+    mock_config_file_content = "value: value"
+
+    with patch("builtins.open", mock_open(read_data=mock_prompt_file_content)) as mock_prompt_file:
+        with patch("builtins.open", mock_open(read_data=mock_config_file_content)) as mock_file:
+            result = initialise_prompt(agent)
+            assert result == "This is a prompt with a value."
+            mock_file.assert_any_call(f"{mock_config_path}/{agent}/config.yaml")
+            mock_prompt_file.assert_any_call(f"{mock_config_path}/{agent}/prompt.txt", "r")
+---------------
+TEST CASE 1 Retry 2 - Result - Failed
+Test Error -
+c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\unit_test_env\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+_______________________ test_initialise_prompt_success ________________________
+temp\temp.py:38: in test_initialise_prompt_success
+    assert result == "This is a prompt with a value."
+E   AssertionError: assert 'value: value' == 'This is a pr...with a value.'
+E     
+E     - This is a prompt with a value.
+E     + value: value
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_initialise_prompt_success - AssertionError: assert ...
+1 failed in 0.25s
+
+TEST CASE 2 Retry 0
 ---------------
 import os
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt
-import pytest
 from unittest.mock import patch, mock_open
-from yaml import YAMLError
-from your_module import initialise_settings
+import pytest
 
 @pytest.fixture
 def mock_config_path():
-    with patch("your_module.os.path.exists", return_value=True):
-        yield
+    return "./theory_evaluation/evaluator/prompts"
 
 @pytest.fixture
-def mock_open_yaml():
-    m = mock_open(read_data="key: value")
-    with patch("builtins.open", m):
-        yield m
+def mock_prompt_file_content():
+    return "This is a prompt with a {$placeholder}."
 
-@pytest.fixture
-def mock_open_prompt():
-    m = mock_open(read_data="Hello, {$key}!")
-    with patch("builtins.open", m):
-        yield m
-
-@pytest.fixture
-def mock_yaml_load():
-    with patch("your_module.yaml.load", return_value={"key": "value"}):
-        yield
-
-@pytest.fixture
-def mock_yaml_safe_load():
-    with patch("your_module.yaml.safe_load", return_value={"setting": "value"}):
-        yield
-
-def test_initialise_settings_invalid_yaml():
+def test_initialise_prompt_missing_placeholder(mock_config_path, mock_prompt_file_content):
     agent = "test_agent"
-    with patch("yaml.safe_load", side_effect=YAMLError):
-        result = initialise_settings(agent)
-    assert result is None
+    incomplete_config_content = """
+    another_placeholder: "value"
+    """
+    with patch("builtins.open", mock_open(read_data=incomplete_config_content)) as mock_file:
+        with patch("builtins.open", mock_open(read_data=mock_prompt_file_content)) as mock_prompt_file:
+            with patch("os.path.exists", return_value=True):
+                result = initialise_prompt(agent)
+                assert result == "This is a prompt with a {$placeholder}."
+                mock_file.assert_called_with(f"{mock_config_path}/{agent}/config.yaml")
+                mock_prompt_file.assert_called_with(f"{mock_config_path}/{agent}/prompt.txt", "r")
 ---------------
-TEST CASE 6 Retry 2 - Result - Failed
+TEST CASE 2 Retry 0 - Result - Failed
 Test Error -
 c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\unit_test_env\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
 
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
-
-=================================== ERRORS ====================================
-________________________ ERROR collecting temp/temp.py ________________________
-ImportError while importing test module 'C:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\temp\temp.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py:88: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-temp\temp.py:7: in <module>
-    from your_module import initialise_settings
-E   ModuleNotFoundError: No module named 'your_module'
+F                                                                        [100%]
+================================== FAILURES ===================================
+_________________ test_initialise_prompt_missing_placeholder __________________
+temp\temp.py:24: in test_initialise_prompt_missing_placeholder
+    assert result == "This is a prompt with a {$placeholder}."
+E   AssertionError: assert None == 'This is a prompt with a {$placeholder}.'
+---------------------------- Captured stdout call -----------------------------
+string indices must be integers, not 'str': No configuration path to the prompt given.
 =========================== short test summary info ===========================
-ERROR temp/temp.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-1 error in 0.25s
+FAILED temp/temp.py::test_initialise_prompt_missing_placeholder - AssertionEr...
+1 failed in 0.25s
+TEST CASE 2 Retry 1
+---------------
+import os
+import pytest
+from unittest.mock import patch, mock_open
+from theory_evaluation.llm_utils import initialise_prompt
+
+@pytest.fixture
+def mock_config_path():
+    return "./theory_evaluation/evaluator/prompts"
+
+@pytest.fixture
+def mock_prompt_file_content():
+    return "This is a prompt with a {$placeholder}."
+
+@pytest.fixture
+def mock_config_file_content():
+    return """
+    placeholder: "value"
+    """
+
+@pytest.fixture
+def mock_llm_settings_content():
+    return """
+    setting1: "value1"
+    setting2: "value2"
+    """
+
+def test_initialise_prompt_missing_placeholder():
+    agent = "test_agent"
+    mock_config_path = "./theory_evaluation/evaluator/prompts"
+    incomplete_config_content = """
+    another_placeholder: "value"
+    """
+    mock_prompt_file_content = "This is a prompt with a {$placeholder}."
+    
+    with patch("builtins.open", mock_open(read_data=incomplete_config_content)) as mock_file:
+        with patch("builtins.open", mock_open(read_data=mock_prompt_file_content)) as mock_prompt_file:
+            with patch("os.path.exists", return_value=True):
+                result = initialise_prompt(agent)
+                assert result == "This is a prompt with a {$placeholder}."
+                mock_file.assert_any_call(f"{mock_config_path}/{agent}/config.yaml")
+                mock_prompt_file.assert_any_call(f"{mock_config_path}/{agent}/prompt.txt", "r")
+---------------
+TEST CASE 2 Retry 1 - Result - Failed
+Test Error -
+c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\unit_test_env\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+_________________ test_initialise_prompt_missing_placeholder __________________
+temp\temp.py:39: in test_initialise_prompt_missing_placeholder
+    assert result == "This is a prompt with a {$placeholder}."
+E   AssertionError: assert None == 'This is a prompt with a {$placeholder}.'
+---------------------------- Captured stdout call -----------------------------
+string indices must be integers, not 'str': No configuration path to the prompt given.
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_initialise_prompt_missing_placeholder - AssertionEr...
+1 failed in 0.23s
+TEST CASE 2 Retry 2
+---------------
+import os
+import re
+import yaml
+import pytest
+from unittest.mock import patch, mock_open
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+
+@pytest.fixture
+def mock_config_path():
+    return "./theory_evaluation/evaluator/prompts"
+
+@pytest.fixture
+def mock_prompt_file_content():
+    return "This is a prompt with a {$placeholder}."
+
+@pytest.fixture
+def mock_config_file_content():
+    return """
+    placeholder: "value"
+    """
+
+@pytest.fixture
+def mock_llm_settings_content():
+    return """
+    setting1: "value1"
+    setting2: "value2"
+    """
+
+def test_initialise_prompt_missing_placeholder():
+    agent = "test_agent"
+    mock_config_path = "./theory_evaluation/evaluator/prompts"
+    incomplete_config_content = """
+    another_placeholder: "value"
+    """
+    mock_prompt_file_content = "This is a prompt with a {$placeholder}."
+    
+    with patch("builtins.open", mock_open(read_data=incomplete_config_content)) as mock_file:
+        with patch("builtins.open", mock_open(read_data=mock_prompt_file_content)) as mock_prompt_file:
+            result = initialise_prompt(agent)
+            assert result == "This is a prompt with a {$placeholder}."
+            mock_file.assert_any_call(f"{mock_config_path}/{agent}/config.yaml")
+            mock_prompt_file.assert_any_call(f"{mock_config_path}/{agent}/prompt.txt", "r")
+---------------
+TEST CASE 2 Retry 2 - Result - Failed
+Test Error -
+c:\ChenKhoon\JupyterNotebook\GenerateUnitTestCases\unit_test_env\Lib\site-packages\pytest_asyncio\plugin.py:217: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+F                                                                        [100%]
+================================== FAILURES ===================================
+_________________ test_initialise_prompt_missing_placeholder __________________
+temp\temp.py:40: in test_initialise_prompt_missing_placeholder
+    assert result == "This is a prompt with a {$placeholder}."
+E   AssertionError: assert None == 'This is a prompt with a {$placeholder}.'
+---------------------------- Captured stdout call -----------------------------
+string indices must be integers, not 'str': No configuration path to the prompt given.
+=========================== short test summary info ===========================
+FAILED temp/temp.py::test_initialise_prompt_missing_placeholder - AssertionEr...
+1 failed in 0.21s
