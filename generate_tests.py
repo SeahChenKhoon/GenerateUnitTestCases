@@ -61,7 +61,7 @@ def _initialize_llm(env_vars: dict) -> Tuple[Union[OpenAI, AzureOpenAI], str]:
     model_arg = _get_model_arguments(
         provider=provider,
         model_name=env_vars.get("model_name", ""),
-        deployment_id=env_vars.get("azure_deployment_id", "")
+        azure_deployment_id=env_vars.get("azure_deployment_id", "")
     )
     return client, model_arg
 
