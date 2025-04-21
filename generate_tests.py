@@ -61,7 +61,7 @@ def _initialize_llm(env_vars: dict) -> Tuple[Union[OpenAI, AzureOpenAI], str]:
     model_arg = _get_model_arguments(
         provider=provider,
         model_name=env_vars.get("model_name", ""),
-        deployment_id=env_vars.get("deployment_id", "")
+        deployment_id=env_vars.get("azure_deployment_id", "")
     )
     return client, model_arg
 
@@ -85,55 +85,30 @@ def _load_env_variables() -> Dict[str, Any]:
                         corresponding environment variable values as strings or None.
     """
     load_dotenv(override=True)  # Load environment variables from .env file
-
-    # return {
-    #     "llm_provider": os.getenv("LLM_PROVIDER"),
-    #     "openai_api_key": os.getenv("OPENAI_API_KEY"),
-    #     "azure_openai_endpoint": os.getenv("AZURE_OPENAI_ENDPOINT"),
-    #     "azure_openai_key": os.getenv("AZURE_OPENAI_KEY"),
-    #     "deployment_id": os.getenv("AZURE_DEPLOYMENT_ID"),
-    #     "api_version": os.getenv("AZURE_API_VERSION"),        
-    #     "src_dir": os.getenv("SOURCE_DIR"),
-    #     "tests_dir": os.getenv("GENERATED_TESTS_DIR"),
-    #     "final_dir": os.getenv("FINALIZED_TESTS_DIR"),
-    #     "temp_file": os.getenv("TEMP_TEST_FILE"),
-    #     "err_dir": os.getenv("FAILED_TESTS_DIR"),
-    #     "model_name": os.getenv("MODEL_NAME"),
-    #     "python_version": os.getenv("PYTHON_VERSION"),
-    #     "llm_test_prompt": os.getenv("LLM_TEST_PROMPT"),
-    #     "temperature": os.getenv("LLM_TEMPERATURE"),
-    #     "llm_import_prompt": os.getenv("LLM_IMPORT_PROMPT"),
-    #     "llm_new_import_prompt": os.getenv("LLM_UNIQUE_IMPORT_PROMPT"),
-    #     "llm_resolve_prompt": os.getenv("LLM_RESOLVE_PROMPT"),
-    #     "llm_pytest_fixture_prompt": os.getenv("LLM_PYTEST_FIXTURE_PROMPT"),
-    #     "llm_test_cases_prompt": os.getenv("LLM_TEST_CASES_PROMPT"),
-    #     "llm_test_improvement_prompt": os.getenv("LLM_CLEANUP_PROMPT"),
-    #     "requirements_txt":Path("./requirements.txt").read_text(encoding="utf-8")
-    # }
     return {
-    "llm_provider": os.getenv("LLM_PROVIDER"),
-    "openai_api_key": os.getenv("OPENAI_API_KEY"),
-    "azure_openai_endpoint": os.getenv("AZURE_OPENAI_ENDPOINT"),
-    "azure_openai_key": os.getenv("AZURE_OPENAI_KEY"),
-    "azure_deployment_id": os.getenv("AZURE_DEPLOYMENT_ID"),
-    "azure_api_version": os.getenv("AZURE_API_VERSION"),        
-    "source_dir": os.getenv("SOURCE_DIR"),
-    "generated_tests_dir": os.getenv("GENERATED_TESTS_DIR"),
-    "finalized_tests_dir": os.getenv("FINALIZED_TESTS_DIR"),
-    "temp_test_file": os.getenv("TEMP_TEST_FILE"),
-    "failed_tests_dir": os.getenv("FAILED_TESTS_DIR"),
-    "model_name": os.getenv("MODEL_NAME"),
-    "python_version": os.getenv("PYTHON_VERSION"),
-    "llm_temperature": os.getenv("LLM_TEMPERATURE"),
-    "llm_test_prompt": os.getenv("LLM_TEST_PROMPT"),
-    "llm_import_prompt": os.getenv("LLM_IMPORT_PROMPT"),
-    "llm_unique_import_prompt": os.getenv("LLM_UNIQUE_IMPORT_PROMPT"),
-    "llm_resolve_prompt": os.getenv("LLM_RESOLVE_PROMPT"),
-    "llm_pytest_fixture_prompt": os.getenv("LLM_PYTEST_FIXTURE_PROMPT"),
-    "llm_test_cases_prompt": os.getenv("LLM_TEST_CASES_PROMPT"),
-    "llm_cleanup_prompt": os.getenv("LLM_CLEANUP_PROMPT"),
-    "requirements_txt": Path("./requirements.txt").read_text(encoding="utf-8")
-}
+        "llm_provider": os.getenv("LLM_PROVIDER"),
+        "openai_api_key": os.getenv("OPENAI_API_KEY"),
+        "azure_openai_endpoint": os.getenv("AZURE_OPENAI_ENDPOINT"),
+        "azure_openai_key": os.getenv("AZURE_OPENAI_KEY"),
+        "azure_deployment_id": os.getenv("AZURE_DEPLOYMENT_ID"),
+        "azure_api_version": os.getenv("AZURE_API_VERSION"),        
+        "source_dir": os.getenv("SOURCE_DIR"),
+        "generated_tests_dir": os.getenv("GENERATED_TESTS_DIR"),
+        "finalized_tests_dir": os.getenv("FINALIZED_TESTS_DIR"),
+        "temp_test_file": os.getenv("TEMP_TEST_FILE"),
+        "failed_tests_dir": os.getenv("FAILED_TESTS_DIR"),
+        "model_name": os.getenv("MODEL_NAME"),
+        "python_version": os.getenv("PYTHON_VERSION"),
+        "llm_temperature": os.getenv("LLM_TEMPERATURE"),
+        "llm_test_prompt": os.getenv("LLM_TEST_PROMPT"),
+        "llm_import_prompt": os.getenv("LLM_IMPORT_PROMPT"),
+        "llm_unique_import_prompt": os.getenv("LLM_UNIQUE_IMPORT_PROMPT"),
+        "llm_resolve_prompt": os.getenv("LLM_RESOLVE_PROMPT"),
+        "llm_pytest_fixture_prompt": os.getenv("LLM_PYTEST_FIXTURE_PROMPT"),
+        "llm_test_cases_prompt": os.getenv("LLM_TEST_CASES_PROMPT"),
+        "llm_cleanup_prompt": os.getenv("LLM_CLEANUP_PROMPT"),
+        "requirements_txt": Path("./requirements.txt").read_text(encoding="utf-8")
+    }
 
 def _get_llm_client(provider: str) -> Union[OpenAI, AzureOpenAI]:
     """
@@ -179,28 +154,13 @@ def _get_llm_client(provider: str) -> Union[OpenAI, AzureOpenAI]:
     raise ValueError(f"Unsupported provider: '{provider}'. Expected 'openai' or 'azure'.")
 
 
-def _get_model_arguments(provider: str, model_name: str = "", deployment_id: str = "") -> str:
-    """
-    Returns the appropriate model argument based on the LLM provider.
-
-    Args:
-        provider (str): The name of the LLM provider. Accepted values are "openai" or "azure".
-        model_name (str, optional): The model name to use for OpenAI. Required if provider is "openai".
-        deployment_id (str, optional): The deployment ID to use for Azure OpenAI. Required if provider is "azure".
-
-    Returns:
-        str: The selected model argument (either the model name or deployment ID).
-
-    Raises:
-        ValueError: If the required argument for the given provider is missing,
-                    or if the provider is unsupported.
-    """
+def _get_model_arguments(provider: str, model_name: str = "", azure_deployment_id: str = "") -> str:
     provider = provider.lower()
 
     if provider == "azure":
-        if not deployment_id:
-            raise ValueError("deployment_id must be provided for Azure OpenAI")
-        return deployment_id
+        if not azure_deployment_id:
+            raise ValueError("azure_deployment_id must be provided for Azure OpenAI")
+        return azure_deployment_id
 
     if provider == "openai":
         if not model_name:
