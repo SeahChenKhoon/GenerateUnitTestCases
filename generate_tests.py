@@ -525,6 +525,14 @@ def run_each_pytest_function_individually(
         import_statements += "\nimport pytest"
         logger.info(f"Import pytest manually.")
 
+    if "patch" in test_code and "import patch" not in import_statements:
+        import_statements += "\nfrom unittest.mock import patch"
+        logger.info(f"Import patch manually.")
+
+    if "mock_open" in test_code and "import mock_open" not in import_statements:
+        import_statements += "\nfrom unittest.mock import mock_open"
+        logger.info(f"Import mock_open manually.")
+
     success_test_cases = f"{import_statements}\n\n{pytest_fixture}"
     test_file_failure= f""
 

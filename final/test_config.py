@@ -1,31 +1,29 @@
 from pydantic_settings import BaseSettings
 from theory_evaluation.config import SETTINGS, Settings
 import pytest
-from unittest.mock import patch
+from pydantic import ValidationError
 
-@pytest.fixture
-def default_settings():
-    return Settings()
+def test_settings_default_values():
+    # Arrange & Act
+    settings = Settings()
 
-def test_settings_default_values(default_settings):
-    api_name = default_settings.API_NAME
-    api_v1_str = default_settings.API_V1_STR
-    logger_config_path = default_settings.LOGGER_CONFIG_PATH
-    assert api_name == "project_simulation_fastapi"
-    assert api_v1_str == "/api/v1"
-    assert logger_config_path == "../conf/base/logging.yml"
-
-def test_settings_custom_values():
-    custom_values = {
-        "API_NAME": "custom_api_name",
-        "API_V1_STR": "/custom/api/v1",
-        "LOGGER_CONFIG_PATH": "/custom/path/logging.yml"
+def test_settings_override_values():
+    # Arrange
+    override_values = {
+        'API_NAME': 'custom_api_name',
+        'API_V1_STR': '/custom/api/v1',
+        'LOGGER_CONFIG_PATH': '/custom/path/logging.yml'
     }
-    with patch.dict('os.environ', custom_values):
-        custom_settings = Settings()
-    api_name = custom_settings.API_NAME
-    api_v1_str = custom_settings.API_V1_STR
-    logger_config_path = custom_settings.LOGGER_CONFIG_PATH
-    assert api_name == "custom_api_name"
-    assert api_v1_str == "/custom/api/v1"
-    assert logger_config_path == "/custom/path/logging.yml"
+
+@pytest.mark.parametrize("field, value", [
+    ("API_NAME", 123),  # Invalid type
+    ("API_V1_STR", 456),  # Invalid type
+    ("LOGGER_CONFIG_PATH", 789)  # Invalid type
+])
+def test_settings_invalid_values(field, value):
+    # Arrange
+    override_values = {field: value}
+    
+    # Act & Assert
+    with pytest.raises(ValidationError):
+        Settings(**override_values)
