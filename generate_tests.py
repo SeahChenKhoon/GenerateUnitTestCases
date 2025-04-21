@@ -314,20 +314,8 @@ def _generate_unit_tests(
     return generated_test_code, import_statements
 
 
-def save_test_file(src_dir: Path, test_dir: Path, original_path: Path, test_code: str) -> Path:
-    """
-    Saves the generated test code to the appropriate location in the tests directory.
-
-    Args:
-        src_dir (Path): The root source directory.
-        test_dir (Path): The root tests directory where test files are saved.
-        original_path (Path): The path to the original source file.
-        test_code (str): The generated test code as a string.
-
-    Returns:
-        Path: The path to the saved test file.
-    """
-    relative_path = original_path.relative_to(src_dir)
+def save_test_file(source_dir: Path, test_dir: Path, original_path: Path, test_code: str) -> Path:
+    relative_path = original_path.relative_to(source_dir)
     test_path = test_dir / relative_path
     test_path = test_path.with_name(f"test_{test_path.name}")
     test_path.parent.mkdir(parents=True, exist_ok=True)
@@ -555,7 +543,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
 
         if test_code:
             save_test_file(
-                    Path(env_vars["src_dir"]),
+                    Path(env_vars["source_dir"]),
                     Path(env_vars["tests_dir"]),
                     source_code_path,
                     test_code
@@ -569,7 +557,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
 
             if test_code:
                 save_test_file(
-                        Path(env_vars["src_dir"]),
+                        Path(env_vars["source_dir"]),
                         Path(env_vars["final_dir"]),
                         source_code_path,
                         test_code
@@ -577,7 +565,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
                 
             if test_file_failure:
                 save_test_file(
-                        Path(env_vars["src_dir"]),
+                        Path(env_vars["source_dir"]),
                         Path(env_vars["err_dir"]),
                         source_code_path,
                         test_file_failure
@@ -614,7 +602,7 @@ def main() -> NoReturn:
         logger.info("Initializing environment, LLM, and source discovery...")
         env_vars = _load_env_variables()
         client, model_arg = _initialize_llm(env_vars)
-        source_code_files = _get_python_files(env_vars["src_dir"])
+        source_code_files = _get_python_files(env_vars["source_dir"])
         logger.info("Initialization complete.")
     except Exception as e:
         logger.error(f"Initialization failed: {e}")
