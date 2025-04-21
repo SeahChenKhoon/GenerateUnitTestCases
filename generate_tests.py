@@ -469,7 +469,7 @@ def resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_c
         source_code=source_code
     )
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
-    logger.info(f"Hello World - response - {response}")
+    logger.info(f"Hello World - response - {strip_markdown_fences(response.choices[0].message.content.strip())}")
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
 def generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, temperature): 
