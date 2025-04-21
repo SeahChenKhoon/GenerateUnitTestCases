@@ -375,7 +375,6 @@ def _generate_unit_tests(
 
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
     generated_test_code = strip_markdown_fences(response.choices[0].message.content.strip())
-    logger.info(f"Generate Unit Test Case complete -\n{formatted_prompt}")
     return generated_test_code, import_statements
 
 
@@ -470,6 +469,7 @@ def resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_c
         requirements_txt=requirements_txt,
         source_code=source_code
     )
+    logger.info("Hello World - formatted_prompt -\n{formatted_prompt}")
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
