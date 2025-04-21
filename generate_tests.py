@@ -534,7 +534,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
 
             test_code, test_file_failure, total_test_case, passed_count = run_each_pytest_function_individually(client, model_arg, llm_temperature, 
                                                               python_version,env_vars["requirements_txt"],
-                                                              env_vars["llm_resolve_prompt"], env_vars["llm_new_import_prompt"], env_vars["llm_pytest_fixture_prompt"],
+                                                              env_vars["llm_resolve_prompt"], env_vars["llm_unique_import_prompt"], env_vars["llm_pytest_fixture_prompt"],
                                                               env_vars["llm_test_cases_prompt"], env_vars["llm_test_improvement_prompt"], 
                                                               import_statements, source_code, test_code, Path(env_vars["temp_file"]))
 
