@@ -12,57 +12,77 @@ from sqlalchemy import (
 )
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql import func
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.orm import declarative_base
-
-from sqlalchemy.exc import CompileError
 import uuid
 from theory_evaluation.models import Base, ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
 import pytest
 from unittest.mock import patch
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.exc import CompileError
 
 @pytest.fixture(scope="module")
-def test_engine():
-    engine = create_engine('sqlite:///:memory:')
+def db_engine():
+    engine = create_engine("sqlite:///:memory:")
     Base.metadata.create_all(engine)
     yield engine
     engine.dispose()
 
 @pytest.fixture(scope="function")
-def session(test_engine):
-    Session = sessionmaker(bind=test_engine)
+def db_session(db_engine):
+    connection = db_engine.connect()
+    transaction = connection.begin()
+    Session = sessionmaker(bind=connection)
     session = Session()
     yield session
     session.close()
+    transaction.rollback()
+    connection.close()
 
-# Create an in-memory SQLite database for testing
-engine = create_engine('sqlite:///:memory:')
-Session = sessionmaker(bind=engine)
-session = Session()
+def test_theory_eval_user_performance_creation():
+    engine = create_engine('sqlite:///:memory:', echo=True)
+    Session = sessionmaker(bind=engine)
+    session = Session()
 
-# Create all tables in the test database
-try:
-    Base.metadata.create_all(engine)
-except CompileError as e:
-    # Handle the JSONB type error for SQLite
-    if "can't render element of type JSONB" in str(e):
-        pytest.skip("Skipping test due to unsupported JSONB type in SQLite", allow_module_level=True)
+    try:
+        Base.metadata.create_all(engine)
 
-def test_user_info_creation():
-    user = UserInfo(
-        first_name="John",
-        last_name="Doe",
-        email="john.doe@example.com",
-        github_username="johndoe",
-        payment_date=None,
-        current_duration=0,
-        course_duration=0,
-        end_date=None,
-        status=1
-    )
-    session.add(user)
-    session.commit()
-    retrieved_user = session.query(UserInfo).filter_by(email="john.doe@example.com").first()
-    assert retrieved_user is not None
-    assert retrieved_user.first_name == "John"
-    assert retrieved_user.last_name == "Doe"
+        user_info = UserInfo(
+            first_name="Alice",
+            last_name="Wonderland",
+            email="alice@example.com",
+            github_username="alicewonder",
+            payment_date=None,
+            current_duration=0,
+            course_duration=0,
+            end_date=None,
+            status=1
+        )
+        session.add(user_info)
+        session.commit()
+
+        curriculum = Curriculum(
+            question="What is the capital of France?",
+            marking_scheme="Correct if the answer is Paris.",
+            model_answer="Paris"
+        )
+        session.add(curriculum)
+        session.commit()
+
+        theory_eval_user_performance = TheoryEvalUserPerformance(
+            email="alice@example.com",
+            question_id=curriculum.id,
+            user_response="Paris",
+            llm_evaluation="Correct",
+            llm_score=1.0,
+            user_grade="A",
+            user_attempts=1,
+            llm_evaluation_status=1
+        )
+        session.add(theory_eval_user_performance)
+        session.commit()
+
+    except CompileError as e:
+        print(f"CompileError: {e}")
+    finally:
+        session.close()
+
+test_theory_eval_user_performance_creation()

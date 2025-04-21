@@ -1,5 +1,5 @@
 from pydantic_settings import BaseSettings
-from theory_evaluation.config import Settings
+from theory_evaluation.config import SETTINGS, Settings
 import pytest
 from unittest.mock import patch
 
@@ -12,35 +12,30 @@ def test_settings_default_values(default_settings):
     expected_api_v1_str = "/api/v1"
     expected_logger_config_path = "../conf/base/logging.yml"
     settings = default_settings
-    assert settings.API_NAME == expected_api_name
-    assert settings.API_V1_STR == expected_api_v1_str
-    assert settings.LOGGER_CONFIG_PATH == expected_logger_config_path
+    assert settings.API_NAME == expected_api_name, "API_NAME does not match the default value"
+    assert settings.API_V1_STR == expected_api_v1_str, "API_V1_STR does not match the default value"
+    assert settings.LOGGER_CONFIG_PATH == expected_logger_config_path, "LOGGER_CONFIG_PATH does not match the default value"
 
 def test_settings_custom_values():
     custom_values = {
-        "API_NAME": "custom_api_name",
+        "API_NAME": "custom_api",
         "API_V1_STR": "/custom/api/v1",
         "LOGGER_CONFIG_PATH": "/custom/path/logging.yml"
     }
     with patch.dict('os.environ', custom_values):
-        settings = Settings()
-    assert settings.API_NAME == custom_values["API_NAME"]
-    assert settings.API_V1_STR == custom_values["API_V1_STR"]
-    assert settings.LOGGER_CONFIG_PATH == custom_values["LOGGER_CONFIG_PATH"]
-
-class Settings(BaseSettings):
-    API_NAME: str = "project_simulation_fastapi"
-    API_V1_STR: str = "/api/v1"
-    LOGGER_CONFIG_PATH: str = "../conf/base/logging.yml"
+        custom_settings = Settings()
+    assert custom_settings.API_NAME == custom_values["API_NAME"], "API_NAME does not match the custom value"
+    assert custom_settings.API_V1_STR == custom_values["API_V1_STR"], "API_V1_STR does not match the custom value"
+    assert custom_settings.LOGGER_CONFIG_PATH == custom_values["LOGGER_CONFIG_PATH"], "LOGGER_CONFIG_PATH does not match the custom value"
 
 def test_settings_invalid_type():
     invalid_values = {
         "API_NAME": "123",
-        "API_V1_STR": "",
-        "LOGGER_CONFIG_PATH": "456"
+        "API_V1_STR": "456",
+        "LOGGER_CONFIG_PATH": "789"
     }
     with patch.dict('os.environ', invalid_values):
         settings = Settings()
         assert settings.API_NAME == "123"
-        assert settings.API_V1_STR == ""
-        assert settings.LOGGER_CONFIG_PATH == "456"
+        assert settings.API_V1_STR == "456"
+        assert settings.LOGGER_CONFIG_PATH == "789"

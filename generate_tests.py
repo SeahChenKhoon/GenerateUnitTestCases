@@ -4,9 +4,7 @@ import os
 import sys
 import re
 import ast
-import contextlib
 import subprocess
-import tempfile
 from tabulate import tabulate
 import pandas as pd 
 from openai import OpenAI, AzureOpenAI
@@ -66,29 +64,6 @@ def _initialize_llm(env_vars: dict) -> Tuple[Union[OpenAI, AzureOpenAI], str]:
         deployment_id=env_vars.get("deployment_id", "")
     )
     return client, model_arg
-
-
-
-
-def _stage_test_directory(tests_dir: str) -> None:
-    """
-    Stages the specified test directory using Git.
-
-    Args:
-        tests_dir (str): The path to the test directory to stage (e.g., via 'git add').
-
-    Returns:
-        None
-
-    Logs:
-        - Info message if staging is successful.
-        - Error message if Git staging fails due to a subprocess error.
-    """
-    try:
-        subprocess.run(["git", "add", tests_dir], check=True)
-        logger.info(f"Staged test directory: {tests_dir}")
-    except subprocess.CalledProcessError as e:
-        logger.error(f"Failed to stage tests directory: {e}")
 
 
 def _load_env_variables() -> Dict[str, Any]:
@@ -258,37 +233,6 @@ def update_relative_imports(code: str, file_path: str) -> str:
         return f"from {absolute_import} import {imported_name}"
     logger.info(f"Update relative import complete")
     return pattern.sub(replacer, code)
-
-
-def extract_import_statements(code: str, file_path:str) -> List[str]:
-    """
-    Extracts and returns all import statements from the given Python source code,
-    with relative imports converted to absolute imports based on the file path.
-
-    Args:
-        code (str): The Python source code as a string.
-        file_path (str): The path to the Python file from which the code was extracted.
-
-    Returns:
-        List[str]: A list of formatted import statements, with relative imports updated
-        to absolute paths using `update_relative_imports`.
-
-    Notes:
-        - If the code contains a syntax error, an empty list is returned.
-        - Only top-level and nested `import` or `from ... import ...` statements are extracted.
-    """
-    try:
-        tree = ast.parse(code)
-    except SyntaxError:
-        return []  # or handle parsing errors if needed
-    imports = []
-    for node in ast.walk(tree):
-        if isinstance(node, (ast.Import, ast.ImportFrom)):
-            # Get the exact source text for the import node
-            stmt = ast.get_source_segment(code, node)
-            if stmt is not None:
-                imports.append(update_relative_imports(stmt,file_path))
-    return imports
 
 
 def strip_markdown_fences(text: str) -> str:
@@ -657,15 +601,11 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
 
 def main() -> NoReturn:
     try:
-        logger.info("Loading environment variables start")
+        logger.info("Initializing environment, LLM, and source discovery...")
         env_vars = _load_env_variables()
-        logger.info("Loading environment variables completes")
-        logger.info("Initialising of LLM start")
         client, model_arg = _initialize_llm(env_vars)
-        logger.info("Initialising of LLM completes")
-        logger.info("Getting python file starts")
         source_code_files = _get_python_files(env_vars["src_dir"])
-        logger.info("Getting python file completes")
+        logger.info("Initialization complete.")
     except Exception as e:
         logger.error(f"Initialization failed: {e}")
         raise
@@ -680,7 +620,7 @@ def main() -> NoReturn:
         "percentage_passed (%)": (passed_count / total_test_case * 100) if total_test_case > 0 else 0.0
         })
     test_stats_df = pd.DataFrame(test_stats)
-    test_stats_df.index = test_stats_df.index + 1
+    # test_stats_df.index = test_stats_df.index + 1
     logger.info(test_stats_df.head())
     
     logger.info("\n" + tabulate(test_stats_df, headers='keys', tablefmt='grid'))
