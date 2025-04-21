@@ -1,13 +1,9 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, Column, Integer, String, TIMESTAMP
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import (
-    Column,
-    Integer,
-    String,
-    TIMESTAMP,
-)
+from datetime import datetime
 import pytest
+from sqlalchemy.exc import IntegrityError
 
 Base = declarative_base()
 
@@ -24,23 +20,12 @@ class UserInfo(Base):
     end_date = Column(TIMESTAMP(timezone=True))
     status = Column(Integer)
 
-@pytest.fixture(scope="module")
-def db_engine():
+@pytest.fixture
+def db_session():
     engine = create_engine('sqlite:///:memory:')
     Base.metadata.create_all(engine)
-    return engine
-
-@pytest.fixture(scope="function")
-def db_session(db_engine):
-    connection = db_engine.connect()
-    transaction = connection.begin()
-    session = sessionmaker(bind=connection)()
-
-    yield session
-
-    session.close()
-    transaction.rollback()
-    connection.close()
+    Session = sessionmaker(bind=engine)
+    return Session()
 
 def test_user_info_creation(db_session):
     user = UserInfo(
@@ -48,18 +33,50 @@ def test_user_info_creation(db_session):
         last_name="Doe",
         email="john.doe@example.com",
         github_username="johndoe",
-        payment_date=None,
-        current_duration=0,
-        course_duration=0,
-        end_date=None,
+        payment_date=datetime.now(),
+        current_duration=5,
+        course_duration=10,
+        end_date=datetime.now(),
         status=1
     )
     db_session.add(user)
     db_session.commit()
+
+    queried_user = db_session.query(UserInfo).filter_by(email="john.doe@example.com").first()
+    assert queried_user is not None
+    assert queried_user.first_name == "John"
+    assert queried_user.last_name == "Doe"
+    assert queried_user.github_username == "johndoe"
+    assert queried_user.current_duration == 5
+    assert queried_user.course_duration == 10
+    assert queried_user.status == 1
+
+def test_user_info_unique_email_constraint(db_session):
+    user1 = UserInfo(
+        first_name="Jane",
+        last_name="Doe",
+        email="jane.doe@example.com",
+        github_username="janedoe",
+        payment_date=datetime.now(),
+        current_duration=5,
+        course_duration=10,
+        end_date=datetime.now(),
+        status=1
+    )
+    user2 = UserInfo(
+        first_name="Janet",
+        last_name="Smith",
+        email="jane.doe@example.com",
+        github_username="janetsmith",
+        payment_date=datetime.now(),
+        current_duration=5,
+        course_duration=10,
+        end_date=datetime.now(),
+        status=1
+    )
+    db_session.add(user1)
+    db_session.commit()
     
-    retrieved_user = db_session.query(UserInfo).filter_by(email="john.doe@example.com").first()
-    assert retrieved_user is not None
-    assert retrieved_user.first_name == "John"
-    assert retrieved_user.last_name == "Doe"
-    assert retrieved_user.github_username == "johndoe"
-    assert retrieved_user.status == 1
+    db_session.add(user2)
+    with pytest.raises(IntegrityError):
+        db_session.commit()

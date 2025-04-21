@@ -476,7 +476,7 @@ def generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt
     formatted_prompt = llm_test_improvement_prompt.format(
         test_code={success_test_cases}
     )
-
+    logger.info(f"Hello world I am improving!")
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
