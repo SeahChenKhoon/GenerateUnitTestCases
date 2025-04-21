@@ -471,6 +471,7 @@ def resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_c
     )
     logger.info(f"Hello World 2")
     logger.info(f"Hello World 3 - formatted_prompt -\n{formatted_prompt}")
+    logger.info(f"Hello World 4")
     response = get_chat_completion(provider, model_arg, formatted_prompt, temperature)
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
