@@ -527,7 +527,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
         if test_code:
             save_test_file(
                     Path(env_vars["source_dir"]),
-                    Path(env_vars["tests_dir"]),
+                    Path(env_vars["temp_test_file"]),
                     source_code_path,
                     test_code
                 )
