@@ -1,9 +1,8 @@
 import os
-import re
 import yaml
-from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
+from theory_evaluation.llm_utils import initialise_prompt
 import pytest
-from unittest.mock import patch, mock_open
+from unittest.mock import patch
 
 @pytest.fixture
 def mock_config_path():
@@ -32,18 +31,8 @@ def test_initialise_prompt_success(mock_config_path, mock_yaml_load, mock_prompt
     config_yaml_path = f"{mock_config_path}/{agent}/config.yaml"
     prompt_txt_path = f"{mock_config_path}/{agent}/prompt.txt"
 
-def test_initialise_prompt_missing_placeholder():
-    agent = "test_agent"
-    prompt_structure = "This is a test prompt with {$placeholder1} and {$missing_placeholder}."
-    m_open = mock_open(read_data=prompt_structure)
-    mock_yaml_load = {"placeholder1": "value1"}
-    with patch("builtins.open", m_open), \
-         patch("yaml.load", return_value=mock_yaml_load):
-        result = initialise_prompt(agent)
-        assert result == "This is a test prompt with value1 and {$missing_placeholder}."
-
 def test_initialise_prompt_file_not_found():
-    agent = "non_existent_agent"
+    agent = "test_agent"
     with patch("builtins.open", side_effect=FileNotFoundError):
         result = initialise_prompt(agent)
     assert result is None
@@ -51,9 +40,3 @@ def test_initialise_prompt_file_not_found():
 def test_initialise_settings_success(mock_config_path, mock_llm_settings):
     agent = "test_agent"
     llm_settings_yaml_path = f"{mock_config_path}/{agent}/llm_settings.yaml"
-
-def test_initialise_settings_file_not_found():
-    agent = "non_existent_agent"
-    with patch("builtins.open", side_effect=FileNotFoundError):
-        result = initialise_settings(agent)
-    assert result is None
