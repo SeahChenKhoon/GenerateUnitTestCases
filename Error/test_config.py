@@ -13,7 +13,7 @@ def test_settings_invalid_type():
     invalid_values = {
         "API_NAME": 123,
         "API_V1_STR": None,
-        "LOGGER_CONFIG_PATH": []
+        "LOGGER_CONFIG_PATH": 456
     }
     with patch.dict('os.environ', invalid_values):
         with pytest.raises(ValueError):
@@ -34,7 +34,7 @@ temp\temp.py:15: in test_settings_invalid_type
 E   NameError: name 'patch' is not defined
 =========================== short test summary info ===========================
 FAILED temp/temp.py::test_settings_invalid_type - NameError: name 'patch' is ...
-1 failed in 0.32s
+1 failed in 0.31s
 TEST CASE 3 Retry 1
 ---------------
 from pydantic_settings import BaseSettings
@@ -58,7 +58,7 @@ def test_settings_invalid_type():
     invalid_values = {
         "API_NAME": 123,
         "API_V1_STR": None,
-        "LOGGER_CONFIG_PATH": []
+        "LOGGER_CONFIG_PATH": 456
     }
     with patch.dict('os.environ', invalid_values):
         with pytest.raises(ValueError):
@@ -89,7 +89,7 @@ C:\Users\User\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1946:
 E   TypeError: str expected, not int
 =========================== short test summary info ===========================
 FAILED temp/temp.py::test_settings_invalid_type - TypeError: str expected, no...
-1 failed in 0.30s
+1 failed in 0.34s
 TEST CASE 3 Retry 2
 ---------------
 from pydantic_settings import BaseSettings
@@ -101,6 +101,7 @@ def default_settings():
     return Settings()
 
 import pytest
+from unittest.mock import patch
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
@@ -110,12 +111,13 @@ class Settings(BaseSettings):
 
 def test_settings_invalid_type():
     invalid_values = {
-        "API_NAME": "123",  # Changed to string
-        "API_V1_STR": "",   # Changed to string
-        "LOGGER_CONFIG_PATH": ""  # Changed to string
+        "API_NAME": "123",
+        "API_V1_STR": "",
+        "LOGGER_CONFIG_PATH": "456"
     }
-    with pytest.raises(ValueError):
-        Settings(**invalid_values)
+    with patch.dict('os.environ', invalid_values):
+        with pytest.raises(ValueError):
+            Settings()
 
 ---------------
 TEST CASE 3 Retry 2 - Result - Failed
@@ -127,9 +129,9 @@ The event loop scope for asynchronous fixtures will default to the fixture cachi
 F                                                                        [100%]
 ================================== FAILURES ===================================
 _________________________ test_settings_invalid_type __________________________
-temp\temp.py:23: in test_settings_invalid_type
+temp\temp.py:25: in test_settings_invalid_type
     with pytest.raises(ValueError):
 E   Failed: DID NOT RAISE <class 'ValueError'>
 =========================== short test summary info ===========================
 FAILED temp/temp.py::test_settings_invalid_type - Failed: DID NOT RAISE <clas...
-1 failed in 0.28s
+1 failed in 0.44s
