@@ -521,10 +521,9 @@ def run_each_pytest_function_individually(
     total_test_case = len(test_cases)
     logger.info(f"Number of test case to process - {total_test_case}")
 
-    # if "pytest" in test_code and "import pytest" not in import_statements:
-    #     import_statements += "\nimport pytest"
-    # else:
-    #     logger.info(f"Verify No pytest in test_code - \n{test_code}")
+    if "pytest" in test_code and "import pytest" not in import_statements:
+        import_statements += "\nimport pytest"
+        logger.info(f"Import pytest manually.")
 
     success_test_cases = f"{import_statements}\n\n{pytest_fixture}"
     test_file_failure= f""
@@ -534,13 +533,13 @@ def run_each_pytest_function_individually(
         retry_count = 0
         max_retries = 3
         unit_test_failure = ""
-        initial_template = f"{import_statements}\n\n{pytest_fixture}"
+        initial_template = f"{import_statements}\n{pytest_fixture}"
         try:
             while retry_count < max_retries and not passed:
                 formatted_test_case_output=f"\nStart Processing TEST CASE {idx} Retry {retry_count}"
                 logger.info(formatted_test_case_output)
                 
-                full_test_code = f"{initial_template}\n\n{test_case}\n"
+                full_test_code = f"{initial_template}\n{test_case}\n"
                 logger.info(f"Hello World - before full_test_code \n{full_test_code}")
                 full_test_code = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, full_test_code, temperature)
                 logger.info(f"Hello World - after full_test_code \n{full_test_code}")
