@@ -378,9 +378,9 @@ def resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_c
     response = get_chat_completion(provider, model_arg, formatted_prompt, llm_temperature)
     return strip_markdown_fences(response.choices[0].message.content.strip())
 
-def generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, llm_temperature): 
+def generate_improved_test_case(provider, model_arg, llm_cleanup_prompt, success_test_cases, llm_temperature): 
     # Format the prompt using the provided template
-    formatted_prompt = llm_test_improvement_prompt.format(
+    formatted_prompt = llm_cleanup_prompt.format(
         test_code={success_test_cases}
     )
     response = get_chat_completion(provider, model_arg, formatted_prompt, llm_temperature)
@@ -410,7 +410,7 @@ def run_each_pytest_function_individually(
     llm_new_import_prompt, 
     llm_pytest_fixture_prompt,
     llm_test_cases_prompt,
-    llm_test_improvement_prompt, 
+    llm_cleanup_prompt, 
     import_statements,
     source_code: str,
     test_code: str,
@@ -456,7 +456,7 @@ def run_each_pytest_function_individually(
                 
                 full_test_code = f"{initial_template}\n{test_case}\n"
                 logger.info(f"Hello World - before full_test_code \n{full_test_code}")
-                full_test_code = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, full_test_code, llm_temperature)
+                full_test_code = generate_improved_test_case(provider, model_arg, llm_cleanup_prompt, full_test_code, llm_temperature)
                 logger.info(f"Hello World - after full_test_code \n{full_test_code}")
                 formatted_test_case_output=f"\nTEST CASE {idx} Retry {retry_count}\n---------------\n{full_test_code}\n---------------"
                 
@@ -484,7 +484,7 @@ def run_each_pytest_function_individually(
             logger.exception(f"Exception occurred while processing test case {idx}: {e}")
 
     success_test_cases = initial_template + "\n" + success_test_cases
-    improved_test_case = generate_improved_test_case(provider, model_arg, llm_test_improvement_prompt, success_test_cases, llm_temperature)
+    improved_test_case = generate_improved_test_case(provider, model_arg, llm_cleanup_prompt, success_test_cases, llm_temperature)
     save_test_case_to_temp_file(improved_test_case, temp_file)
     passed, test_case_error = run_single_test_file(temp_file)
     if passed:
@@ -535,7 +535,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
             test_code, test_file_failure, total_test_case, passed_count = run_each_pytest_function_individually(client, model_arg, llm_temperature, 
                                                               python_version,env_vars["requirements_txt"],
                                                               env_vars["llm_resolve_prompt"], env_vars["llm_unique_import_prompt"], env_vars["llm_pytest_fixture_prompt"],
-                                                              env_vars["llm_test_cases_prompt"], env_vars["llm_test_improvement_prompt"], 
+                                                              env_vars["llm_test_cases_prompt"], env_vars["llm_cleanup_prompt"], 
                                                               import_statements, source_code, test_code, Path(env_vars["temp_file"]))
 
             if test_code:
