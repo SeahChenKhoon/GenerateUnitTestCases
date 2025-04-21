@@ -69,39 +69,71 @@ def _initialize_llm(env_vars: dict) -> Tuple[Union[OpenAI, AzureOpenAI], str]:
 def _load_env_variables() -> Dict[str, Any]:
     """
     Loads required environment variables from a .env file and returns them
-    as a dictionary.
+    as a dictionary for use throughout the LLM test generation pipeline.
+
+    The returned dictionary includes values necessary for:
+        - LLM provider selection (OpenAI or Azure)
+        - Model configuration (model name, deployment ID, temperature)
+        - API keys and endpoints
+        - Prompt templates for test generation and refinement
+        - Directory paths for source files, test output, and error handling
+        - Python version context
 
     Returns:
-        Dict[str, Optional[str]]: A dictionary containing environment variable
-        values for OpenAI API key, source directory, tests directory, and model name.
+        Dict[str, Any]: A dictionary of loaded environment variables where the
+                        keys are configuration labels and the values are the
+                        corresponding environment variable values as strings or None.
     """
     load_dotenv(override=True)  # Load environment variables from .env file
 
+    # return {
+    #     "llm_provider": os.getenv("LLM_PROVIDER"),
+    #     "openai_api_key": os.getenv("OPENAI_API_KEY"),
+    #     "azure_openai_endpoint": os.getenv("AZURE_OPENAI_ENDPOINT"),
+    #     "azure_openai_key": os.getenv("AZURE_OPENAI_KEY"),
+    #     "deployment_id": os.getenv("AZURE_DEPLOYMENT_ID"),
+    #     "api_version": os.getenv("AZURE_API_VERSION"),        
+    #     "src_dir": os.getenv("SOURCE_DIR"),
+    #     "tests_dir": os.getenv("GENERATED_TESTS_DIR"),
+    #     "final_dir": os.getenv("FINALIZED_TESTS_DIR"),
+    #     "temp_file": os.getenv("TEMP_TEST_FILE"),
+    #     "err_dir": os.getenv("FAILED_TESTS_DIR"),
+    #     "model_name": os.getenv("MODEL_NAME"),
+    #     "python_version": os.getenv("PYTHON_VERSION"),
+    #     "llm_test_prompt": os.getenv("LLM_TEST_PROMPT"),
+    #     "temperature": os.getenv("LLM_TEMPERATURE"),
+    #     "llm_import_prompt": os.getenv("LLM_IMPORT_PROMPT"),
+    #     "llm_new_import_prompt": os.getenv("LLM_UNIQUE_IMPORT_PROMPT"),
+    #     "llm_resolve_prompt": os.getenv("LLM_RESOLVE_PROMPT"),
+    #     "llm_pytest_fixture_prompt": os.getenv("LLM_PYTEST_FIXTURE_PROMPT"),
+    #     "llm_test_cases_prompt": os.getenv("LLM_TEST_CASES_PROMPT"),
+    #     "llm_test_improvement_prompt": os.getenv("LLM_CLEANUP_PROMPT"),
+    #     "requirements_txt":Path("./requirements.txt").read_text(encoding="utf-8")
+    # }
     return {
-        "llm_provider": os.getenv("LLM_PROVIDER"),
-        "openai_api_key": os.getenv("OPENAI_API_KEY"),
-        "azure_openai_endpoint": os.getenv("AZURE_OPENAI_ENDPOINT"),
-        "azure_openai_key": os.getenv("AZURE_OPENAI_KEY"),
-        "deployment_id": os.getenv("DEPLOYMENT_ID"),
-        "api_version": os.getenv("API_VERSION"),        
-        "src_dir": os.getenv("SRC_DIR"),
-        "tests_dir": os.getenv("TESTS_DIR"),
-        "final_dir": os.getenv("FINAL_DIR"),
-        "temp_file": os.getenv("TEMP_FILE"),
-        "err_dir": os.getenv("ERR_DIR"),
-        "model_name": os.getenv("MODEL_NAME"),
-        "python_version": os.getenv("PYTHON_VERSION"),
-        "llm_test_prompt": os.getenv("LLM_TEST_PROMPT"),
-        "temperature": os.getenv("TEMPERATURE"),
-        "llm_import_prompt": os.getenv("LLM_IMPORT_PROMPT"),
-        "llm_new_import_prompt": os.getenv("LLM_NEW_IMPORT_PROMPT"),
-        "llm_resolve_prompt": os.getenv("LLM_RESOLVE_PROMPT"),
-        "llm_pytest_fixture_prompt": os.getenv("LLM_PYTEST_FIXTURE_PROMPT"),
-        "llm_test_cases_prompt": os.getenv("LLM_TEST_CASES_PROMPT"),
-        "llm_test_improvement_prompt": os.getenv("LLM_TEST_IMPROVEMENT_PROMPT"),
-        
-    }
-
+    "llm_provider": os.getenv("LLM_PROVIDER"),
+    "openai_api_key": os.getenv("OPENAI_API_KEY"),
+    "azure_openai_endpoint": os.getenv("AZURE_OPENAI_ENDPOINT"),
+    "azure_openai_key": os.getenv("AZURE_OPENAI_KEY"),
+    "azure_deployment_id": os.getenv("AZURE_DEPLOYMENT_ID"),
+    "azure_api_version": os.getenv("AZURE_API_VERSION"),        
+    "source_dir": os.getenv("SOURCE_DIR"),
+    "generated_tests_dir": os.getenv("GENERATED_TESTS_DIR"),
+    "finalized_tests_dir": os.getenv("FINALIZED_TESTS_DIR"),
+    "temp_test_file": os.getenv("TEMP_TEST_FILE"),
+    "failed_tests_dir": os.getenv("FAILED_TESTS_DIR"),
+    "model_name": os.getenv("MODEL_NAME"),
+    "python_version": os.getenv("PYTHON_VERSION"),
+    "llm_temperature": os.getenv("LLM_TEMPERATURE"),
+    "llm_test_prompt": os.getenv("LLM_TEST_PROMPT"),
+    "llm_import_prompt": os.getenv("LLM_IMPORT_PROMPT"),
+    "llm_unique_import_prompt": os.getenv("LLM_UNIQUE_IMPORT_PROMPT"),
+    "llm_resolve_prompt": os.getenv("LLM_RESOLVE_PROMPT"),
+    "llm_pytest_fixture_prompt": os.getenv("LLM_PYTEST_FIXTURE_PROMPT"),
+    "llm_test_cases_prompt": os.getenv("LLM_TEST_CASES_PROMPT"),
+    "llm_cleanup_prompt": os.getenv("LLM_CLEANUP_PROMPT"),
+    "requirements_txt": Path("./requirements.txt").read_text(encoding="utf-8")
+}
 
 def _get_llm_client(provider: str) -> Union[OpenAI, AzureOpenAI]:
     """
@@ -540,7 +572,6 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
 
     try:
         source_code = source_code_path.read_text(encoding="utf-8")
-        requirements_txt=Path("./requirements.txt").read_text(encoding="utf-8")
         logger.info(f"Extraction of function and class start")
         function_names = extract_function_class_and_factory_assignments(source_code)
         logger.info(f"extraction of function and class complete")
@@ -556,7 +587,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
             llm_import_prompt=env_vars["llm_import_prompt"],
             temperature=temperature,
             python_version=python_version,
-            requirements_txt=requirements_txt,
+            requirements_txt=env_vars["requirements_txt"],
             function_names=function_names,
             source_code=source_code,
             source_code_path=str(source_code_path)
@@ -571,7 +602,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
                 )
 
             test_code, test_file_failure, total_test_case, passed_count = run_each_pytest_function_individually(client, model_arg, temperature, 
-                                                              python_version,requirements_txt,
+                                                              python_version,env_vars["requirements_txt"],
                                                               env_vars["llm_resolve_prompt"], env_vars["llm_new_import_prompt"], env_vars["llm_pytest_fixture_prompt"],
                                                               env_vars["llm_test_cases_prompt"], env_vars["llm_test_improvement_prompt"], 
                                                               import_statements, source_code, test_code, Path(env_vars["temp_file"]))
@@ -600,6 +631,25 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
 
 
 def main() -> NoReturn:
+    """
+    Main entry point for the test generation and evaluation pipeline.
+
+    This function performs the following steps:
+        1. Loads environment variables from the .env file.
+        2. Initializes the appropriate LLM client (OpenAI or Azure).
+        3. Recursively finds all Python source files in the configured source directory.
+        4. For each source file:
+            - Extracts public functions/classes.
+            - Generates and evaluates unit test cases using an LLM.
+            - Aggregates and logs test pass statistics.
+        5. Logs a tabulated summary of the results using `tabulate`.
+
+    Raises:
+        Exception: If environment initialization or LLM setup fails.
+
+    Returns:
+        NoReturn: This function does not return; it completes by logging and possibly calling `sys.exit`.
+    """
     try:
         logger.info("Initializing environment, LLM, and source discovery...")
         env_vars = _load_env_variables()
@@ -611,17 +661,17 @@ def main() -> NoReturn:
         raise
 
     test_stats = []
-    for source_code_path in source_code_files:
-        passed_count, total_test_case  = _process_file(source_code_path, client, model_arg, env_vars)
+    for path in source_code_files:
+        passed_count, total_test_case  = _process_file(path, client, model_arg, env_vars)
         test_stats.append({
-        "filename": source_code_path,
+        "filename": path,
         "total_test_cases_passed": passed_count,
         "total_test_cases": total_test_case,
         "percentage_passed (%)": (passed_count / total_test_case * 100) if total_test_case > 0 else 0.0
         })
     test_stats_df = pd.DataFrame(test_stats)
     # test_stats_df.index = test_stats_df.index + 1
-    logger.info(test_stats_df.head())
+    # logger.info(test_stats_df.head())
     
     logger.info("\n" + tabulate(test_stats_df, headers='keys', tablefmt='grid'))
 

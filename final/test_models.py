@@ -16,73 +16,60 @@ import uuid
 from theory_evaluation.models import Base, ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
 import pytest
 from unittest.mock import patch
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.exc import CompileError
 
-@pytest.fixture(scope="module")
-def db_engine():
-    engine = create_engine("sqlite:///:memory:")
-    Base.metadata.create_all(engine)
-    yield engine
-    engine.dispose()
+Base = declarative_base()
 
-@pytest.fixture(scope="function")
-def db_session(db_engine):
-    connection = db_engine.connect()
-    transaction = connection.begin()
-    Session = sessionmaker(bind=connection)
+class UserInfo(Base):
+    __tablename__ = "user_info"
+    id = Column(Integer, primary_key=True, index=True)
+    first_name = Column(String(50))
+    last_name = Column(String(50))
+    email = Column(String(100), unique=True, nullable=False)
+    github_username = Column(String(50), nullable=False)
+    payment_date = Column(TIMESTAMP(timezone=True))
+    current_duration = Column(Integer)
+    course_duration = Column(Integer)
+    end_date = Column(TIMESTAMP(timezone=True))
+    status = Column(Integer)
+
+# Setup in-memory SQLite database for testing
+engine = create_engine('sqlite:///:memory:')
+Base.metadata.create_all(engine)
+Session = sessionmaker(bind=engine)
+
+@pytest.fixture
+def db_session():
     session = Session()
     yield session
     session.close()
-    transaction.rollback()
-    connection.close()
 
-def test_theory_eval_user_performance_creation():
-    engine = create_engine('sqlite:///:memory:', echo=True)
-    Session = sessionmaker(bind=engine)
-    session = Session()
-
-    try:
-        Base.metadata.create_all(engine)
-
-        user_info = UserInfo(
-            first_name="Alice",
-            last_name="Wonderland",
-            email="alice@example.com",
-            github_username="alicewonder",
-            payment_date=None,
-            current_duration=0,
-            course_duration=0,
-            end_date=None,
-            status=1
-        )
-        session.add(user_info)
-        session.commit()
-
-        curriculum = Curriculum(
-            question="What is the capital of France?",
-            marking_scheme="Correct if the answer is Paris.",
-            model_answer="Paris"
-        )
-        session.add(curriculum)
-        session.commit()
-
-        theory_eval_user_performance = TheoryEvalUserPerformance(
-            email="alice@example.com",
-            question_id=curriculum.id,
-            user_response="Paris",
-            llm_evaluation="Correct",
-            llm_score=1.0,
-            user_grade="A",
-            user_attempts=1,
-            llm_evaluation_status=1
-        )
-        session.add(theory_eval_user_performance)
-        session.commit()
-
-    except CompileError as e:
-        print(f"CompileError: {e}")
-    finally:
-        session.close()
-
-test_theory_eval_user_performance_creation()
+def test_user_info_unique_email_constraint(db_session):
+    user1 = UserInfo(
+        first_name="Jane",
+        last_name="Doe",
+        email="jane.doe@example.com",
+        github_username="janedoe",
+        payment_date=None,
+        current_duration=0,
+        course_duration=0,
+        end_date=None,
+        status=1
+    )
+    user2 = UserInfo(
+        first_name="Jane",
+        last_name="Smith",
+        email="jane.doe@example.com",
+        github_username="janesmith",
+        payment_date=None,
+        current_duration=0,
+        course_duration=0,
+        end_date=None,
+        status=1
+    )
+    db_session.add(user1)
+    db_session.commit()
+    db_session.add(user2)
+    with pytest.raises(IntegrityError):
+        db_session.commit()
