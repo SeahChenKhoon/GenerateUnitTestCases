@@ -414,7 +414,7 @@ def run_each_pytest_function_individually(
     import_statements,
     source_code: str,
     test_code: str,
-    temp_file: Path
+    temp_test_file: Path
 ):
     logger.info(f"run_each_pytest_function_individually start")
     initial_template = ""
@@ -460,8 +460,8 @@ def run_each_pytest_function_individually(
                 logger.info(f"Hello World - after full_test_code \n{full_test_code}")
                 formatted_test_case_output=f"\nTEST CASE {idx} Retry {retry_count}\n---------------\n{full_test_code}\n---------------"
                 
-                save_test_case_to_temp_file(full_test_code, temp_file)
-                passed, test_case_error = run_single_test_file(temp_file)
+                save_test_case_to_temp_file(full_test_code, temp_test_file)
+                passed, test_case_error = run_single_test_file(temp_test_file)
                 formatted_test_result=f"TEST CASE {idx} Retry {retry_count} - Result - {'Passed\n' if passed == 1 else 'Failed'}"
                 logger.info(formatted_test_result)
                 if passed:
@@ -485,8 +485,8 @@ def run_each_pytest_function_individually(
 
     success_test_cases = initial_template + "\n" + success_test_cases
     improved_test_case = generate_improved_test_case(provider, model_arg, llm_cleanup_prompt, success_test_cases, llm_temperature)
-    save_test_case_to_temp_file(improved_test_case, temp_file)
-    passed, test_case_error = run_single_test_file(temp_file)
+    save_test_case_to_temp_file(improved_test_case, temp_test_file)
+    passed, test_case_error = run_single_test_file(temp_test_file)
     if passed:
         logger.info(f"Improvement of test cases processed successfully")
         return_test_cases = improved_test_case
@@ -536,7 +536,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
                                                               python_version,env_vars["requirements_txt"],
                                                               env_vars["llm_resolve_prompt"], env_vars["llm_unique_import_prompt"], env_vars["llm_pytest_fixture_prompt"],
                                                               env_vars["llm_test_cases_prompt"], env_vars["llm_cleanup_prompt"], 
-                                                              import_statements, source_code, test_code, Path(env_vars["temp_file"]))
+                                                              import_statements, source_code, test_code, Path(env_vars["temp_test_file"]))
 
             if test_code:
                 save_test_file(
