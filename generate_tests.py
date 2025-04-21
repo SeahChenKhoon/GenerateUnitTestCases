@@ -462,7 +462,7 @@ def extract_unique_imports(provider, model_arg, llm_get_import_prompt, test_code
 
 
 def resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, requirements_txt, temperature):
-    # Format the prompt using the provided template
+    logger.info(f"Hello World")
     formatted_prompt = llm_resolve_prompt.format(
         test_case=test_case,
         test_case_error=test_case_error,
@@ -551,7 +551,7 @@ def run_each_pytest_function_individually(
                     unit_test_failure=""
                     passed_count += 1
                 else:
-                    test_case_error_message=f"Test Error - {test_case_error}" 
+                    test_case_error_message=f"Test Error -\n{test_case_error}" 
                     logger.info(test_case_error_message)
                     unit_test_failure += f"{formatted_test_case_output}\n{formatted_test_result}\n{test_case_error_message}"
                     test_case = resolve_unit_test(provider, model_arg, llm_resolve_prompt, test_case, test_case_error, source_code, requirements_txt, temperature)
