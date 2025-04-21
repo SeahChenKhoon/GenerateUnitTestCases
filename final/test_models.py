@@ -1,6 +1,6 @@
-from sqlalchemy import Column, Integer, String, TIMESTAMP, create_engine, ForeignKey, UniqueConstraint
+from sqlalchemy import create_engine, Column, Integer, String, TIMESTAMP, ForeignKey, UniqueConstraint, Text, func
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy.exc import IntegrityError
 import pytest
 
@@ -34,22 +34,40 @@ class UserRepo(Base):
 engine = create_engine('sqlite:///:memory:')
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
-db_session = Session()
 
-def test_user_repo_unique_constraint():
+@pytest.fixture
+def db_session():
+    session = Session()
+    yield session
+    session.close()
+
+def test_user_repo_unique_constraint(db_session):
+    user = UserInfo(
+        first_name="Alice",
+        last_name="Doe",
+        email="alice.doe@example.com",
+        github_username="alicedoe",
+        payment_date=None,
+        current_duration=5,
+        course_duration=10,
+        end_date=None,
+        status=1
+    )
+    db_session.add(user)
+    db_session.commit()
     user_repo1 = UserRepo(
-        user_id=1,
+        user_id=user.id,
         psid=1,
-        github_username="uniqueuser",
-        repo_name="uniquerepo",
-        github_url="http://github.com/uniqueuser/uniquerepo"
+        github_username="alicedoe",
+        repo_name="repo1",
+        github_url="http://github.com/alicedoe/repo1"
     )
     user_repo2 = UserRepo(
-        user_id=2,
+        user_id=user.id,
         psid=2,
-        github_username="uniqueuser",
-        repo_name="uniquerepo",
-        github_url="http://github.com/uniqueuser/uniquerepo2"
+        github_username="alicedoe",
+        repo_name="repo1",
+        github_url="http://github.com/alicedoe/repo2"
     )
     db_session.add(user_repo1)
     db_session.commit()

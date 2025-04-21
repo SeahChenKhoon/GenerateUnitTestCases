@@ -22,24 +22,16 @@ def test_circle_area_negative_radius():
     # Arrange
     radius = -5.0
 
-def test_circle_area_none_radius():
-    # Arrange
-    radius = None
-
-def test_circle_area_unexpected_type_radius():
-    # Arrange
-    radius = "five"
-
 def test_circle_circumference_positive_radius():
     # Arrange
     radius = 5.0
     expected_circumference = 2 * math.pi * radius
     
     # Act
-    actual_circumference = circle_circumference(radius)
+    result = circle_circumference(radius)
     
     # Assert
-    assert actual_circumference == expected_circumference
+    assert result == expected_circumference
 
 def test_circle_circumference_zero_radius():
     # Arrange
@@ -49,11 +41,3 @@ def test_circle_circumference_zero_radius():
 def test_circle_circumference_negative_radius():
     # Arrange
     radius = -5.0
-
-def test_circle_circumference_none_radius():
-    # Arrange
-    radius = None
-
-def test_circle_circumference_unexpected_type_radius():
-    # Arrange
-    radius = "five"
