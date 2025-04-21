@@ -1,54 +1,46 @@
-from sqlalchemy.dialects.postgresql import JSONB, UUID
-from sqlalchemy import (
-    Column,
-    Integer,
-    String,
-    TIMESTAMP,
-    create_engine,
-    Float,
-    ForeignKey,
-    Text,
-    UniqueConstraint,
-)
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.sql import func
-import uuid
-from theory_evaluation.models import Base, ConsultantChat, CurrentUserTable, Curriculum, MentorChat, Projects, SprintIssues, TheoryEvalUserPerformance, UserInfo, UserRepo, UserScoreLog
+import os
+import re
+import yaml
+from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 import pytest
 
-@pytest.fixture(scope='module')
-def db_session():
-    engine = create_engine('sqlite:///:memory:')
-    Base.metadata.create_all(engine)
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    yield session
-    session.close()
+@pytest.fixture
+def mock_config_path():
+    return "./theory_evaluation/evaluator/prompts"
 
-from sqlalchemy.dialects.sqlite import JSON
-import pytest
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from your_module_name import Base, Projects  # Replace 'your_module_name' with the actual module name
+@pytest.fixture
+def mock_agent():
+    return "test_agent"
 
-# Adjust the Projects model to use JSON instead of JSONB for SQLite compatibility
-Projects.__table__.columns.problem_statement.type = JSON()
+@pytest.fixture
+def mock_prompt_structure():
+    return "This is a test prompt with a placeholder: {$placeholder}"
 
-# Setup the database engine and session
-engine = create_engine('sqlite:///:memory:')
-Base.metadata.create_all(engine)
-Session = sessionmaker(bind=engine)
-db_session = Session()
+@pytest.fixture
+def mock_config_values():
+    return {"placeholder": "value"}
 
-def test_projects_creation():
-    project = Projects(
-        repo_name="test_repo",
-        problem_statement={"key": "value"},
-        bloblink="http://example.com/blob",
-        mini_project_flag=1
-    )
-    db_session.add(project)
-    db_session.commit()
-    retrieved_project = db_session.query(Projects).filter_by(repo_name="test_repo").first()
-    assert retrieved_project is not None
-    assert retrieved_project.problem_statement == {"key": "value"}
+@pytest.fixture
+def mock_llm_settings():
+    return {"setting1": "value1", "setting2": "value2"}
+
+import os
+import re
+import yaml
+from unittest.mock import patch, mock_open
+
+def test_initialise_prompt_success():
+    mock_config_path = "./theory_evaluation/evaluator/prompts"
+    mock_agent = "test_agent"
+    mock_prompt_structure = "This is a test prompt with a placeholder: {$placeholder}"
+    mock_config_values = {"placeholder": "value"}
+    
+    mock_yaml_content = yaml.dump(mock_config_values)
+    with patch("builtins.open", mock_open(read_data=mock_yaml_content)) as mock_file:
+        with patch("yaml.load", return_value=mock_config_values):
+            with patch("re.finditer", return_value=[re.Match]):
+                with patch("re.sub", return_value=mock_prompt_structure.replace("{$placeholder}", "value")):
+                    result = initialise_prompt(mock_agent)
+                    mock_file.assert_any_call(f"{mock_config_path}/{mock_agent}/config.yaml")
+                    mock_file.assert_any_call(f"{mock_config_path}/{mock_agent}/prompt.txt", "r")
+                    assert result == "This is a test prompt with a placeholder: value"
