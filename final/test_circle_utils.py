@@ -6,6 +6,12 @@ def test_circle_area_positive_radius():
     # Arrange
     radius = 5.0
     expected_area = math.pi * radius ** 2
+    
+    # Act
+    result = circle_area(radius)
+    
+    # Assert
+    assert result == expected_area
 
 def test_circle_area_zero_radius():
     # Arrange
@@ -24,6 +30,12 @@ def test_circle_circumference_positive_radius():
     # Arrange
     radius = 5.0
     expected_circumference = 2 * math.pi * radius
+    
+    # Act
+    result = circle_circumference(radius)
+    
+    # Assert
+    assert result == expected_circumference
 
 def test_circle_circumference_zero_radius():
     # Arrange

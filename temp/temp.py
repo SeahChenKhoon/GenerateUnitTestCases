@@ -25,21 +25,30 @@ def db_session():
     yield session
     session.close()
 
-def test_user_info_creation(db_session):
-    user = UserInfo(
-        first_name="John",
-        last_name="Doe",
-        email="john.doe@example.com",
-        github_username="johndoe",
-        payment_date=None,
-        current_duration=10,
-        course_duration=20,
-        end_date=None,
-        status=1
+from sqlalchemy.dialects.sqlite import JSON
+import pytest
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from your_module_name import Base, Projects  # Replace 'your_module_name' with the actual module name
+
+# Adjust the Projects model to use JSON instead of JSONB for SQLite compatibility
+Projects.__table__.columns.problem_statement.type = JSON()
+
+# Setup the database engine and session
+engine = create_engine('sqlite:///:memory:')
+Base.metadata.create_all(engine)
+Session = sessionmaker(bind=engine)
+db_session = Session()
+
+def test_projects_creation():
+    project = Projects(
+        repo_name="test_repo",
+        problem_statement={"key": "value"},
+        bloblink="http://example.com/blob",
+        mini_project_flag=1
     )
-    db_session.add(user)
+    db_session.add(project)
     db_session.commit()
-    retrieved_user = db_session.query(UserInfo).filter_by(email="john.doe@example.com").first()
-    assert retrieved_user is not None
-    assert retrieved_user.first_name == "John"
-    assert retrieved_user.last_name == "Doe"
+    retrieved_project = db_session.query(Projects).filter_by(repo_name="test_repo").first()
+    assert retrieved_project is not None
+    assert retrieved_project.problem_statement == {"key": "value"}
