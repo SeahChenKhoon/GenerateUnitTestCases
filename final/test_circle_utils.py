@@ -11,9 +11,9 @@ def test_circle_area_with_zero_radius():
     radius = 0.0
     expected_area = 0.0
 
-def test_circle_area_with_negative_radius():
+def test_circle_area_with_negative_radius_raises_value_error():
     # Arrange
-    radius = -5.0
+    radius = -1.0
 
 def test_circle_circumference_with_positive_radius():
     # Arrange
@@ -25,6 +25,6 @@ def test_circle_circumference_with_zero_radius():
     radius = 0.0
     expected_circumference = 0.0
 
-def test_circle_circumference_with_negative_radius():
+def test_circle_circumference_with_negative_radius_raises_value_error():
     # Arrange
-    radius = -5.0
+    radius = -1.0
