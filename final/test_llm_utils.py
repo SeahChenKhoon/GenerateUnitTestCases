@@ -7,59 +7,54 @@ from unittest.mock import patch, mock_open
 
 @pytest.fixture
 def mock_config_path():
-    return "./theory_evaluation/evaluator/prompts"
+    with patch("your_module.config_path", "./theory_evaluation/evaluator/prompts"):
+        yield
 
 @pytest.fixture
 def mock_yaml_load():
-    with patch('yaml.load') as mock_load:
+    with patch("yaml.load") as mock_load:
         yield mock_load
 
 @pytest.fixture
 def mock_yaml_safe_load():
-    with patch('yaml.safe_load') as mock_safe_load:
+    with patch("yaml.safe_load") as mock_safe_load:
         yield mock_safe_load
 
-def test_initialise_prompt_success():
-    agent = "test_agent"
-    config_values = {'key1': 'value1', 'key2': 'value2'}
-    prompt_structure = "This is a prompt with {$key1} and {$key2}."
+@pytest.fixture
+def mock_open_file():
+    with patch("builtins.open", mock_open(read_data="prompt with {$placeholder}")) as mock_file:
+        yield mock_file
 
-    with patch('builtins.open', mock_open(read_data=prompt_structure)), \
-         patch('yaml.load', return_value=config_values):
-        result = initialise_prompt(agent)
-        assert result == "This is a prompt with value1 and value2."
+def test_initialise_prompt_success():
+    with patch("builtins.open", mock_open(read_data="prompt with {$placeholder}")) as mock_file:
+        with patch("yaml.load", return_value={"placeholder": "value"}):
+            result = initialise_prompt("agent_name")
+            assert result == "prompt with value"
+            mock_file.assert_called_with("./theory_evaluation/evaluator/prompts/agent_name/prompt.txt", "r")
 
 def test_initialise_prompt_missing_placeholder():
-    agent = "test_agent"
-    config_values = {'key1': 'value1'}
-    prompt_structure = "This is a prompt with {$key1} and {$key2}."
+    with patch("builtins.open", mock_open(read_data="prompt with {$placeholder}")) as mock_file:
+        with patch("yaml.load", return_value={}):
+            result = initialise_prompt("agent_name")
+            assert result == "prompt with {$placeholder}"
+            mock_file.assert_called_with("./theory_evaluation/evaluator/prompts/agent_name/prompt.txt", "r")
 
-    with patch('builtins.open', mock_open(read_data=prompt_structure)), \
-         patch('yaml.load', return_value=config_values):
-        result = initialise_prompt(agent)
-        expected_result = "This is a prompt with value1 and {$key2}."
-        assert result == expected_result
-
-def test_initialise_prompt_file_not_found(mock_config_path):
-    agent = "non_existent_agent"
-
-def test_initialise_prompt_invalid_yaml(mock_config_path):
-    agent = "test_agent"
+def test_initialise_prompt_file_not_found():
+    with patch("builtins.open", mock_open()) as mock_file:
+        mock_file.side_effect = FileNotFoundError
+        result = initialise_prompt("non_existent_agent")
+        assert result is None
 
 def test_initialise_settings_success():
-    agent = "test_agent"
-    settings_data = {'setting1': 'value1', 'setting2': 'value2'}
-    mock_file_data = yaml.dump(settings_data)
-    
-    with patch('builtins.open', mock_open(read_data=mock_file_data)) as mock_file:
-        with patch('yaml.safe_load', return_value=settings_data) as mock_safe_load:
-            result = initialise_settings(agent)
-            assert result == settings_data
-            mock_safe_load.assert_called_once()
-            mock_file.assert_called_once_with('./theory_evaluation/evaluator/prompts/test_agent/llm_settings.yaml')
+    with patch("builtins.open", mock_open(read_data="key: value")) as mock_file:
+        with patch("yaml.safe_load", return_value={"key": "value"}) as mock_yaml_safe_load:
+            result = initialise_settings("agent_name")
+            assert result == {"key": "value"}
+            mock_file.assert_called_once_with("./theory_evaluation/evaluator/prompts/agent_name/llm_settings.yaml")
+            mock_yaml_safe_load.assert_called_once()
 
-def test_initialise_settings_file_not_found(mock_config_path):
-    agent = "non_existent_agent"
-
-def test_initialise_settings_invalid_yaml(mock_config_path):
-    agent = "test_agent"
+def test_initialise_settings_file_not_found():
+    with patch("builtins.open", mock_open()) as mock_file:
+        mock_file.side_effect = FileNotFoundError
+        result = initialise_settings("non_existent_agent")
+        assert result is None
