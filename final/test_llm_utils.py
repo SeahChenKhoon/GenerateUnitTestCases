@@ -1,70 +1,62 @@
-import os
 import yaml
 from theory_evaluation.llm_utils import initialise_prompt, initialise_settings
 import pytest
 from unittest.mock import patch, mock_open
 
 @pytest.fixture
-def mock_config_path(monkeypatch):
-    monkeypatch.setattr('os.environ', {'CONFIG_PATH': './theory_evaluation/evaluator/prompts'})
+def mock_config_path():
+    return "./theory_evaluation/evaluator/prompts"
 
 @pytest.fixture
-def mock_yaml_load():
-    with patch('yaml.load') as mock_load:
-        yield mock_load
+def mock_agent():
+    return "test_agent"
 
 @pytest.fixture
-def mock_yaml_safe_load():
-    with patch('yaml.safe_load') as mock_safe_load:
-        yield mock_safe_load
+def mock_prompt_structure():
+    return "Hello, {$name}! Welcome to {$place}."
 
 @pytest.fixture
-def mock_open_file():
-    with patch('builtins.open', mock_open(read_data="Sample prompt with {$placeholder}")) as mock_file:
-        yield mock_file
+def mock_config_values():
+    return {
+        "name": "Alice",
+        "place": "Wonderland"
+    }
+
+@pytest.fixture
+def mock_llm_settings():
+    return {
+        "model": "gpt-3",
+        "temperature": 0.7
+    }
 
 def test_initialise_prompt_success():
-    with patch('builtins.open', mock_open(read_data="Sample prompt with {$placeholder}")) as mock_file:
-        with patch('yaml.load', return_value={'placeholder': 'value'}):
-            result = initialise_prompt('agent_name')
-            assert result == "Sample prompt with value"
+    mock_config_path = "./theory_evaluation/evaluator/prompts"
+    mock_agent = "short_discussion"
+    mock_prompt_structure = "Hello, {$name}! Welcome to {$place}."
+    mock_config_values = {"name": "Alice", "place": "Wonderland"}
 
-def test_initialise_prompt_missing_placeholder():
-    with patch('builtins.open', mock_open(read_data="Sample prompt with {$placeholder}")) as mock_file:
-        with patch('yaml.load', return_value={}) as mock_yaml_load:
-            result = initialise_prompt("agent_name")
-            assert result == "Sample prompt with {$placeholder}"
-            mock_file.assert_any_call("./theory_evaluation/evaluator/prompts/agent_name/prompt.txt", "r")
-            mock_yaml_load.assert_called_once()
-
-def test_initialise_prompt_file_not_found():
-    with patch('builtins.open', mock_open(read_data="Sample prompt with {$placeholder}")) as mock_file:
-        mock_file.side_effect = FileNotFoundError
-        result = initialise_prompt("non_existent_agent")
-        assert result is None
-
-def test_initialise_prompt_invalid_yaml():
-    with patch('builtins.open', mock_open(read_data="Sample prompt with {$placeholder}")) as mock_file:
-        with patch('yaml.load', side_effect=yaml.YAMLError):
-            result = initialise_prompt("agent_name")
-            assert result is None
+    with patch("builtins.open", mock_open(read_data=mock_prompt_structure)) as mock_file:
+        with patch("yaml.load", return_value=mock_config_values):
+            result = initialise_prompt(mock_agent)
+            expected_prompt = "Hello, Alice! Welcome to Wonderland."
+            assert result == expected_prompt
+            mock_file.assert_any_call(f"{mock_config_path}/{mock_agent}/config.yaml")
+            mock_file.assert_any_call(f"{mock_config_path}/{mock_agent}/prompt.txt", "r")
 
 def test_initialise_settings_success():
-    with patch('builtins.open', mock_open(read_data="key: value")) as mock_file:
-        with patch('yaml.safe_load', return_value={'key': 'value'}) as mock_yaml_safe_load:
-            result = initialise_settings('agent_name')
-            assert result == {'key': 'value'}
-            mock_file.assert_called_once_with('./theory_evaluation/evaluator/prompts/agent_name/llm_settings.yaml')
-            mock_yaml_safe_load.assert_called_once()
-
-def test_initialise_settings_file_not_found():
-    with patch('builtins.open', mock_open()) as mock_file:
-        mock_file.side_effect = FileNotFoundError
-        result = initialise_settings("non_existent_agent")
-        assert result is None
+    mock_config_path = "./theory_evaluation/evaluator/prompts"
+    mock_agent = "refactor_code"
+    mock_llm_settings = {"key": "value"}
+    
+    with patch("builtins.open", mock_open(read_data=yaml.dump(mock_llm_settings))) as mock_file:
+        with patch("yaml.safe_load", return_value=mock_llm_settings):
+            result = initialise_settings(mock_agent)
+            assert result == mock_llm_settings
+            mock_file.assert_called_once_with(f"{mock_config_path}/{mock_agent}/llm_settings.yaml")
 
 def test_initialise_settings_invalid_yaml():
-    with patch('builtins.open', mock_open(read_data="invalid_yaml")) as mock_file:
-        with patch('yaml.safe_load', side_effect=yaml.YAMLError):
-            result = initialise_settings("some_agent")
+    mock_agent = "test_agent"
+    with patch("builtins.open", mock_open(read_data="invalid_yaml")):
+        with patch("yaml.safe_load", side_effect=yaml.YAMLError):
+            result = initialise_settings(mock_agent)
             assert result is None
