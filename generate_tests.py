@@ -536,7 +536,7 @@ def _process_file(source_code_path: Path, client: Union[OpenAI, AzureOpenAI], mo
                                                               python_version,env_vars["requirements_txt"],
                                                               env_vars["llm_resolve_prompt"], env_vars["llm_unique_import_prompt"], env_vars["llm_pytest_fixture_prompt"],
                                                               env_vars["llm_test_cases_prompt"], env_vars["llm_cleanup_prompt"], 
-                                                              import_statements, source_code, test_code, Path(env_vars["temp_test_file"]))
+                                                              import_statements, source_code, test_code, Path(env_vars["generated_tests_dir"]))
 
             if test_code:
                 save_test_file(
